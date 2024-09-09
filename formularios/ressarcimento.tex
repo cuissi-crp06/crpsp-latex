@@ -1,0 +1,77 @@
+\documentclass[openright, oneside, a4paper, article, brazil]{abntex2}
+\usepackage{formularios}
+\newlength{\doisbox}
+    \setlength{\doisbox}{4em}
+% --------- %
+% Metadados %
+% --------- %
+\hypersetup{%
+    colorlinks=false,
+    allbordercolors=white,
+    pdftitle = {Formulário de ressarcimento},
+    pdfauthor = {Conselho Regional de Psicologia de São Paulo},
+    pdfsubject = {Ressarcimento de valores},
+}
+\title{Formulário de ressarcimento}
+\author{Conselho Regional de Psicologia de São Paulo}
+% --------- %
+% DOCUMENTO %
+% --------- %
+\begin{document}
+\pagestyle{crp}
+\centering
+\Form
+\setasuspacing{\DoubleSpacing}
+\section{Formulário de ressarcimento}%
+
+\raggedright
+\preenctext{sede}{19.5em}{Sede/subsede: }\hfill \preenctext{numero_crp}{10em}{Inscrição no CRP~SP nº: }\\
+
+\preenctext{nome}{37em}{Nome da/do profissional: \hfill}\\
+\preenctext{nome2}{\linewidth}{}
+\vspace{-0.6\baselineskip}
+
+Data do pagamento: \dataabrev{1}
+\vspace{0.5\baselineskip}
+
+\preenctext{motivo}{37em}{Motivo do ressarcimento: \hfill}\\
+\preenctext{motivo2}{\linewidth}{}\\
+\preenctext{motivo3}{\linewidth}{}\\
+\preenctext{motivo4}{\linewidth}{}\\
+\preenctext{motivo5}{\linewidth}{}\\
+\preenctext{valores}{35em}{Valores a serem ressarcidos: \hfill}\\
+\preenctext{valores2}{\linewidth}{}
+\preenctext{valores3}{\linewidth}{}\\
+\preenctext{valores4}{\linewidth}{}\\
+
+
+\subsection{Dados para ressarcimento}
+
+
+\preenctext{banco}{26em}{Banco: } \hfill%
+\preenctext{agencia}{6em}{Ag. } \hfill%
+\preenctext{conta}{6em}{Conta: }\\%
+\preenctext{tipo_conta}{16em}{Tipo de conta (poupança, conta corrente etc.): }
+\vspace{\baselineskip}
+
+\begin{framed}
+    \begin{minipage}[t]{\boxlarg}
+        \hfill{\null}
+    \end{minipage}%
+    \begin{minipage}[t]{\textwidth-\doisbox}
+        \small\centering\setasuspacing{\SingleSpacing}
+        É obrigatório o envio da(s) cópia(s) do(s) boleto(s) e do(s) comprovante(s) de pagamento(s).
+        \vspace{\baselineskip}
+
+        Se a solicitação se referir a pagamentos em duplicidade, devem constar os comprovantes dos dois \\(ou mais) pagamentos.
+        \vspace{\baselineskip}
+    \end{minipage}
+\end{framed}
+\vspace{2\baselineskip}
+
+\textbf{Enviado por:}
+\vfill\small
+
+\rule{24em}{0.4pt}\hfill Data: \dataabrev{2}\\
+Assinatura
+\end{document}

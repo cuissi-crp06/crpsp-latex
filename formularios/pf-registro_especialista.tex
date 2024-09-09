@@ -1,0 +1,181 @@
+\documentclass[openright, oneside, a4paper, article, brazil]{abntex2}
+\usepackage[no-math]{fontspec}
+\setmainfont{NewJune}[
+	UprightFont = *-Regular,
+	BoldFont=*-Bold,
+	ItalicFont=*-Regular-Italic,
+	BoldItalicFont=*-Bold-Italic,
+]
+\setsansfont{NewJune}[
+	UprightFont = *-Regular,
+	BoldFont=*-Bold,
+	ItalicFont=*-Regular-Italic,
+	BoldItalicFont=*-Bold-Italic,]
+\fontsize{12pt}{18pt}
+\usepackage[rgb]{xcolor}
+\usepackage%[
+	%bookmarks=true, 
+	%bookmarksopen=true
+	%]
+	{hyperref}
+\hypersetup{%
+	colorlinks=false, 
+	allbordercolors=white,
+	pdftitle = {Requerimento de registro de especialista},
+	pdfauthor = {Conselho Regional de Psicologia de São Paulo},
+	pdfsubject = {Registro de especialista},
+	pdfkeywords = {%
+		CRP, 
+		registro,
+		especialista,
+        }%
+	}
+\renewcommand\LayoutCheckField[2]{#2#1}
+\fboxsep=0pt
+\newcommand{\caixasel}[1]{\raisebox{-6pt}{\fbox{\CheckBox[name=#1,bordercolor=black]{\null}}}}
+\usepackage{sectionbreak}
+\usepackage[%
+    a4paper,
+    left = 1.5cm, right = 2cm, top = 4cm, bottom = 2cm,
+    headheight = 3.5cm,
+    headsep = \baselineskip,
+    ]%
+{geometry}
+\usepackage{graphicx}
+\usepackage{microtype}
+\usepackage{ragged2e}
+\usepackage{lastpage}
+\usepackage{xhfill}
+    \makepagestyle{crp}
+    \makeoddhead{crp}{}{\includegraphics[height = 2cm]{logo-crp.png}}{}
+	\makeoddfoot{crp}{}{\thepage/\pageref{LastPage}}{}
+\renewcommand{\section}{\centering}
+\renewcommand{\subsection}{\centering\bfseries}
+\renewcommand{\subsubsection}{\itshape}
+%\OnehalfSpacing
+\DoubleSpacing
+%\nonzeroparskip
+%\setlength{\parskip}{\baselineskip}
+%\usepackage{enumitem,amssymb}
+ %   \newlist{todolist}{itemize}{2}
+  %  \setlist[todolist]{label=$\square$}
+% Metadados
+\title{Requerimento de registro de especialista}
+\author{Conselho Regional de Psicologia de São Paulo}
+%
+\begin{document}
+\pagestyle{crp}
+\centering
+\Form
+\section{REQUERIMENTO DE REGISTRO DE ESPECIALISTA}%
+\addcontentsline{toc}{section}{Requerimento de registro de especialista}
+\vspace{\baselineskip}
+
+\textbf{Exma./Exmo. Presidenta/e do Conselho Regional de Psicologia do Estado de São Paulo (CRP~SP)}
+\vspace{2\baselineskip}
+
+\normalfont
+\justifying
+\noindent
+\TextField[name=nome, width=47.5em, bordercolor=gray, color=black, backgroundcolor=white, height=14pt]{Eu, } \hfill{}, \\%
+\TextField[name=numero_crp,width=10em, bordercolor=gray, color=black, height=14pt]{CRP SP nº} , %
+venho requerer o \textbf{registro profissional de especialista em Psicologia}, na \TextField[name=especialidade, width=28em, bordercolor=gray, color=black, height=14pt]{especialidade de} , juntando, para tanto, a documentação mencionada neste requerimento.
+\vspace{2\baselineskip}
+
+\subsection{Assinale apenas UMA das três situações abaixo:}
+\vspace{\baselineskip}
+\normalfont
+
+\begin{minipage}[t]{0.05\textwidth}
+    \caixasel{esp1}
+\end{minipage}%
+\begin{minipage}[t]{0.95\textwidth}
+	Concluí \textbf{curso de especialização} (pós-graduação \textit{lato sensu} em IES credenciada pelo MEC ou órgãos competentes) e apresento diploma/certificado, histórico escolar com ato legal de credenciamento da instituição, identificação completa do curso de especialização, período de realização, duração total e especificação da carga horária; e, para comprovar experiência de, no mínimo, 2 (dois) anos na especialidade, apresento os documentos assinalados a seguir;
+\end{minipage}
+    \vspace*{\baselineskip}
+
+    \begin{minipage}[t]{0.05\textwidth}
+        \caixasel{esp2}
+    \end{minipage}%
+    \begin{minipage}[t]{0.95\textwidth}
+    fui aprovada/o em \textbf{concurso de provas e títulos do CFP}, apresento homologação do resultado e, para comprovar experiência de, no mínimo, 2 (dois) anos na especialidade, apresento os documentos assinalados a seguir;
+\end{minipage}
+    \vspace*{\baselineskip}
+
+    \begin{minipage}[t]{0.05\textwidth}
+        \caixasel{esp3}
+    \end{minipage}%
+    \begin{minipage}[t]{0.95\textwidth}
+	concluí \textbf{curso de especialização} (pós-graduação \textit{lato sensu} em IES credenciada pelo MEC ou órgãos competentes) conforme Resolução CFP nº~013/07 (documento comprobatório de \textbf{conclusão até 1/1/2023}) e apresento diploma/certificado, histórico escolar com ato legal de credenciamento da instituição, identificação completa do curso de especialização, período de realização, duração total e especificação da carga horária; e, para comprovar experiência de, no mínimo, 2 (dois) anos na especialidade, apresento os documentos assinalados a seguir.
+\end{minipage}
+
+%\vspace{\fill}
+\clearpage
+%\vspace{\baselineskip}
+\subsection{Especifique abaixo a modalidade laboral de comprovação profissional}
+\vspace{\baselineskip}
+\normalfont
+
+\begin{minipage}{\textwidth}
+    \centering
+\underline{Na modalidade laboral de empregada/o (CLT)}
+\end{minipage}
+\vspace{0.5\baselineskip}
+
+\normalfont
+\begin{minipage}[t]{0.05\textwidth}
+    \caixasel{clt1}
+\end{minipage}%
+\begin{minipage}[t]{0.95\textwidth}
+	\textbf{Declaração da/o empregadora/empregador} constando identificação da/o empregadora/empregador, endereço completo, CNPJ da empresa, função que exerci com descrição das atividades e período e assinatura de responsável legal com nome completo, cargo e CPF;
+\end{minipage}
+    \vspace*{0.5\baselineskip}
+
+\begin{minipage}[t]{0.05\textwidth}
+    \caixasel{clt2}
+\end{minipage}%
+\begin{minipage}[t]{0.95\textwidth}
+	\textbf{comprovação da atividade de supervisora/or de estágio na especialidade}, em curso regular de graduação e pós-graduação em Psicologia credenciados pelo MEC (Resolução CNE/CES nº 01/2018) ou órgãos competentes, com o período, o programa e a ementa disciplinar do estágio, ratificada pela/o responsável direta/o do curso e acompanhada do programa da disciplina de estágio e o documento de credenciamento da IES junto ao MEC.
+\end{minipage}
+    \vspace*{\baselineskip}
+
+    \begin{minipage}{\textwidth}
+        \centering
+\underline{Na modalidade laboral de estatutária/o (funcionária/o pública/o)}
+\end{minipage}
+\vspace{0.25\baselineskip}
+
+\normalfont
+\begin{minipage}[t]{0.05\textwidth}
+    \caixasel{est1}
+\end{minipage}%
+\begin{minipage}[t]{0.95\textwidth}
+	\textbf{Portaria ou documento público} contendo a nomeação;
+\end{minipage}
+   \vspace*{0.25\baselineskip}
+
+\begin{minipage}[t]{0.05\textwidth}
+    \caixasel{est2}
+\end{minipage}%
+\begin{minipage}[t]{0.95\textwidth}
+	\textbf{declaração da/o empregadora/empregador} constando descrição das atividades e período de trabalho;
+\end{minipage}
+    \vspace*{0.25\baselineskip}
+
+\begin{minipage}[t]{0.05\textwidth}
+    \caixasel{est3}
+\end{minipage}%
+\begin{minipage}[t]{0.95\textwidth}
+	\textbf{comprovação da atividade de supervisora/or de estágio na especialidade}, em curso regular de graduação e pós-graduação em Psicologia credenciados pelo MEC (Resolução CNE/CES nº 01/2018) ou órgãos competentes, com o período, o programa e a ementa disciplinar do estágio, ratificada pela/o responsável direta/o do curso e acompanhada do programa da disciplina de estágio e o documento de credenciamento da IES junto ao MEC.
+\end{minipage}
+
+\vspace{2\baselineskip}
+
+\raggedright\TextField[name=dia, width=3em, bordercolor=gray, color=black, backgroundcolor=white, height=14pt]{São Paulo, } \TextField[name=mes, width=10em, bordercolor=gray, color=black, backgroundcolor=white, height=14pt]{ de } \TextField[name=ano, width=5em, bordercolor=gray, color=black, backgroundcolor=white, height=14pt]{ de } .
+\vspace*{3\baselineskip}
+
+\centering
+\rule{24em}{0.4pt}\\
+Assinatura
+
+\end{document}
