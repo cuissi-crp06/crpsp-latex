@@ -6,7 +6,11 @@ Requerimentos e outros formulários — **em desenvolvimento**
 
 [Formulários](formularios.sty)
 
-Estilos e macros para a criação de formulários.
+Pacote com estilos e macros para a criação de formulários.
+
+[Formulário-base](formulario-base.tex)
+
+Formulário com exemplos para ser utilizado como base.
 
 ### Formulários para pessoas físicas
 
