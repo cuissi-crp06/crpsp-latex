@@ -1,12 +1,15 @@
-\documentclass[brazil]{abntex2}
+\documentclass[twoside,openright,9pt]{memoir}
 \usepackage{livros_crp}
+\makeatletter
+\newcommand{\psize}{\f@size}
+\makeatother
 %
 \begin{document}
 \frontmatter
 \pagestyle{pretext}
 \include{capitulos/0-apresentacao}
-\clearpage
 %
+\cleartorecto
 \color{crp1}\tableofcontents*
 \clearpage
 %

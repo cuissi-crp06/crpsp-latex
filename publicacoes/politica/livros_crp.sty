@@ -34,20 +34,20 @@
 % ----------- %
 % DIAGRAMAÇÃO %
 % ----------- %
-\usepackage{sectionbreak}
-%\usepackage{leading}
-%\leading{14.4pt}
 \usepackage{lastpage}
-\usepackage{ragged2e}
-\semiisopage
-\checkandfixthelayout
+%\usepackage{ragged2e}
+\setstocksize{230mm}{140mm}
+\setpagebl{230mm}{140mm}{*}
+\setlrmarginsandblock{25mm}{20mm}{*}
+\setulmarginsandblock{20mm}{25mm}{*}
+\setheadfoot{5mm}{5mm}
+\checkandfixthelayout[fixed]
 \nonzeroparskip
 \raggedbottom
 \newcommand*{\setasuspacing}[1]{%
     \let\AsuSpacing#1
     \AsuSpacing}
 \setasuspacing{\OnehalfSpacing}
-%\renewcommand\LayoutCheckField[2]{#2#1}
 \usepackage{calc}
 \newlength{\boxlarg}
 \setlength{\boxlarg}{2em}
@@ -55,12 +55,12 @@
 \setlength{\virgula}{0.5em}
 \setsecnumdepth{subparagraph}
 \maxsecnumdepth{subparagraph}
-\setsecheadstyle{\LARGE\bfseries\color{crp1}}
+\setsecheadstyle{\Large\bfseries\color{crp1}}
 \setaftersecskip{\baselineskip}
-\setsubsecheadstyle{\Large\bfseries\color{crp1}}
+\setsubsecheadstyle{\large\bfseries\color{crp1}}
 \setaftersubsecskip{\baselineskip}
-\setsubsubsecheadstyle{\large\itshape\color{crp1}}
-\setparaheadstyle{\normalsize\color{crp1}}
+\setsubsubsecheadstyle{\large\color{crp1}}
+\setparaheadstyle{\normalsize\itshape\color{crp1}}
 \setafterparaskip{\baselineskip}
 \setsubparaheadstyle{\normalsize\color{crp1}}
 \setaftersubparaskip{\baselineskip}
@@ -111,13 +111,14 @@
 \makeheadrule{crp}{\textwidth}{\normalrulethickness}
 \makeevenhead{crp}{\color{crp2}\thepage}{}{\color{crp2}\itshape\leftmark}
 \makeoddhead{crp}{\color{crp2}\itshape\rightmark}{}{\color{crp2}\thepage}
+\makeoddfoot{plain}{}{}{}
 \makeatletter
 \renewcommand{\hangsecnum}{%
 	\def\@seccntformat##1{%
 		\makebox[0pt][r]{%
 			\color{crp2}%
-			\csname the##1\endcsname
-			\quad
+			\csname the##1\endcsname\hspace*{0.5\virgula}
+			%
 		}%
 	}%
 }
@@ -125,6 +126,7 @@
 \setsechook{\hangsecnum}
 \setsubsechook{\hangsecnum}
 \AtBeginDocument{\addtocontents{toc}{\protect\thispagestyle{empty}}}
+\AtBeginDocument{\addtocontents{chapter}{\protect\thispagestyle{empty}}}
 %
 \makepagestyle{pretext}
 \makeoddhead{pretext}{}{}{}
@@ -148,6 +150,7 @@
 	pdfpagemode=FullScreen,
 }
 \urlstyle{same}
+\usepackage{url}
 % -------------- %
 % NOVOS COMANDOS %
 % -------------- %
