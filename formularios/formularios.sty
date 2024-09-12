@@ -53,6 +53,8 @@
 \setlength{\boxlarg}{2em}
 \newlength{\virgula}
 \setlength{\virgula}{0.5em}
+\newlength{\fimdelinha}
+\setlength{\fimdelinha}{\textwidth-1.5\boxlarg}
 \setsecnumdepth{none}
 \maxsecnumdepth{none}
 \setsecheadstyle{\Large\bfseries\color{crp1}\MakeUppercase}
@@ -70,12 +72,13 @@
 \newcommand{\caixasel}[2]{\centering\raisebox{-2pt}{\fbox{\CheckBox[name=#2,bordercolor=black, height=#1pt, width=#1pt]{\null}}}}
 \newcommand{\preenctext}[4]{\noindent\TextField[name=#2, width=#3, bordercolor=gray, color=black, backgroundcolor=white, height=#1pt]{#4}}
 \newcommand{\dataabrev}[2]{%
-    \preenctext{#1}{dia{#2}}{3em}{\null} / %
-    \preenctext{#1}{mes{#2}}{3em}{\null} / %
-    \preenctext{#1}{ano{#2}}{4em}{\null}%
+    \preenctext{#1}{dia{#2}}{2em}{\null} / %
+    \preenctext{#1}{mes{#2}}{2em}{\null} / %
+    \preenctext{#1}{ano{#2}}{3em}{\null}%
 }
 \newcommand{\dataextenso}[1]{%
 \raggedright%
-\TextField[name=diaext{#1}, width=3em, bordercolor=gray, color=black, backgroundcolor=white, height=14pt]{São Paulo, }%
-\TextField[name=mesext{#1}, width=10em, bordercolor=gray, color=black, backgroundcolor=white, height=14pt]{ de } %
-\TextField[name=anoext{#1}, width=5em, bordercolor=gray, color=black, backgroundcolor=white, height=14pt]{ de } .}
+\preenctext{14}{cidade}{18em}{\null}
+\preenctext{14}{diaext#1}{3em}{ , }
+\preenctext{14}{mesext#1}{8em}{ de }
+\preenctext{14}{anoext#1}{4em}{ de } .}
