@@ -1,0 +1,19 @@
+\babel@toc {brazil}{}\relax 
+\thispagestyle {empty}
+\contentsline {section}{Visão}{iv}{section*.4}%
+\contentsline {section}{Valores}{iv}{section*.5}%
+\contentsline {part}{Serviços à\\\textbf {pessoa fisica}}{1}{section*.9}%
+\contentsline {chapter}{Inscrição profissional de pessoa física}{3}{chapter*.10}%
+\contentsline {section}{O que é?}{3}{section*.11}%
+\contentsline {section}{Quem deve se inscrever?}{3}{section*.12}%
+\contentsline {section}{Como solicitar o serviço?}{3}{section*.13}%
+\contentsline {section}{Que informações ou documentos são necessários?}{3}{section*.14}%
+\contentsline {section}{Quais são as etapas para a realização desse serviço?}{3}{section*.15}%
+\contentsline {section}{Quanto custa?}{4}{section*.16}%
+\contentsline {section}{Quanto tempo leva?}{4}{section*.17}%
+\contentsline {section}{Como ter acesso ao atual \textit {status} do serviço?}{4}{section*.18}%
+\contentsline {section}{Legislação relacionada}{4}{section*.19}%
+\contentsline {section}{Serviços correlatos}{4}{section*.20}%
+\contentsline {part}{Serviços à\\\textbf {pessoa jurídica}}{5}{section*.22}%
+\contentsline {part}{Serviços de\\\textbf {orientação e fiscalização}}{7}{section*.24}%
+\contentsline {part}{Formulários}{9}{section*.26}%

@@ -27,11 +27,11 @@
 \centering
 \Form
 \section{Comunicação de falta, atraso ou saída antecipada}%
-\vfill
+%%\vfill
 \setasuspacing{\DoubleSpacing}\justifying
 
 \preenctext{14}{nome}{32.5em}{Nome: } \hfill \preenctext{14}{registro}{8em}{reg. nº : }
-\vfill
+%%\vfill
 
 \setasuspacing{\SingleSpacing}
 \begin{framed}%
@@ -64,11 +64,16 @@
         \preenctext{12}{saida-tarde}{6em}{Saída tarde: }
     \end{minipage}%
 \end{framed}
-\vspace{\baselineskip}
+%\vspace{\baselineskip}
 
 \setasuspacing{\DoubleSpacing}
-\preenctext{14}{motivo}{45em}{Motivo: \hfill}
+\begin{framed}
+    \centering\vspace*{-3ex}
+\subsubsection{Motivo}
+%\preenctext{14}{motivo}{45em}{\textcolor{crp1}{\textbf{Motivo: \hfill}}}
+\preenctext{14}{motivo1}{\linewidth}{}
 \preenctext{14}{motivo2}{\linewidth}{}
+\end{framed}
 
 \begin{framed}
 \begin{minipage}{0.5\linewidth}
@@ -79,7 +84,7 @@
  %   \raisebox{-2pt}{\fbox{%
             \CheckBox[%
                 name=autorizado-sim,
-                %bordercolor=black,
+                bordercolor=black,
                 height=12pt,
                 width=12pt]
             { Sim}\\
@@ -87,7 +92,7 @@
  %   \raisebox{-2pt}{\fbox{%
             \CheckBox[%
                 name=autorizado-nao,
-                %bordercolor=black,
+                bordercolor=black,
                 height=12pt,
                 width=12pt]
             { Não}
@@ -101,7 +106,7 @@
 %    \raisebox{-2pt}{\fbox{%
             \CheckBox[%
                 name=autorizado-sim,
-                %bordercolor=black,
+                bordercolor=black,
                 height=12pt,
                 width=12pt]
             { Sim}\\
@@ -109,14 +114,14 @@
  %   \raisebox{-2pt}{\fbox{%
             \CheckBox[%
                 name=autorizado-nao,
-                %bordercolor=black,
+                bordercolor=black,
                 height=12pt,
                 width=12pt]
             { Não}
  %       }}
 \end{minipage}
 \end{framed}
-\vfill
+%\vfill
 
 %\dataextenso{1}
 %\vspace{2\baselineskip}
@@ -127,29 +132,51 @@
 %\vspace{\baselineskip}
 %
 \begin{framed}
+    \centering\vspace*{-3ex}
 \subsection{Instruções à seção de Pessoal}
 
 \CheckBox[%
 name=abonar,
-%bordercolor=black,
+bordercolor=black,
 height=12pt,
 width=12pt]
 { Abonar}\hfill
 \CheckBox[%
 name=descontar,
-%bordercolor=black,
+bordercolor=black,
 height=12pt,
 width=12pt]
 { Descontar dias/horas}\hfill
 \CheckBox[%
 name=descontar+dsr,
-%bordercolor=black,
+bordercolor=black,
 height=12pt,
 width=12pt]
 { Descontar dias/horas + D.S.R.}
-\vspace{\baselineskip}
+\vspace{0.5\baselineskip}
 
-\preenctext{14}{obs}{40em}{Obs.: \hfill}
+\justifying%
+\preenctext{14}{obs}{45em}{Obs.: \hfill}
 \end{framed}
-\vfill
+
+\noindent
+\begin{minipage}{0.5\linewidth}
+    \vspace*{2\baselineskip}\centering
+    \rule{0.8\linewidth}{0.4pt}\\
+    \tiny Trabalhadora/or 
+    \vspace*{2\baselineskip}
+
+    \rule{0.8\linewidth}{0.4pt}\\
+    \tiny Superiora/or imediata/o
+\end{minipage}%
+\begin{minipage}{0.5\linewidth}
+    \vspace*{2\baselineskip}\centering
+    \rule{0.8\linewidth}{0.4pt}\\
+    \tiny Gerência 
+    \vspace*{2\baselineskip}
+
+    \rule{0.8\linewidth}{0.4pt}\\
+    \tiny Diretoria
+\end{minipage}
+%\vfill
 \end{document}

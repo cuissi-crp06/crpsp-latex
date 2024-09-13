@@ -1,7 +1,7 @@
-This is LuaHBTeX, Version 1.18.0 (TeX Live 2024)  (format=lualatex 2024.8.23)  13 SEP 2024 10:06
+This is LuaHBTeX, Version 1.18.0 (TeX Live 2024)  (format=lualatex 2024.8.23)  13 SEP 2024 13:03
  restricted system commands enabled.
-**representacao.tex
-(./representacao.tex
+**falta-atraso.tex
+(./falta-atraso.tex
 LaTeX2e <2024-06-01> patch level 2
 L3 programming layer <2024-07-20>
 Lua module: luaotfload 2024-02-14 3.28 Lua based OpenType font support
@@ -957,52 +957,52 @@ Package: ragged2e 2023/06/22 v3.6 ragged2e Package
 \virgula=\skip275
 \fimdelinha=\skip276
 )
-Package hyperref Info: Option `colorlinks' set `false' on input line 16.
+Package hyperref Info: Option `colorlinks' set `false' on input line 19.
 
-(./representacao.aux)
-\openout1 = representacao.aux
+(./falta-atraso.aux)
+\openout1 = falta-atraso.aux
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 22.
-LaTeX Font Info:    ... okay on input line 22.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 22.
-LaTeX Font Info:    ... okay on input line 22.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 22.
-LaTeX Font Info:    ... okay on input line 22.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 22.
-LaTeX Font Info:    ... okay on input line 22.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 22.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 25.
+LaTeX Font Info:    ... okay on input line 25.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 25.
+LaTeX Font Info:    ... okay on input line 25.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 25.
+LaTeX Font Info:    ... okay on input line 25.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 25.
+LaTeX Font Info:    ... okay on input line 25.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 25.
 LaTeX Font Info:    Trying to load font information for TS1+cmr on input line 2
-2.
+5.
  (c:/texlive/2024/texmf-dist/tex/latex/base/ts1cmr.fd
 File: ts1cmr.fd 2023/04/13 v2.5m Standard LaTeX font definitions
 )
-LaTeX Font Info:    ... okay on input line 22.
-LaTeX Font Info:    Checking defaults for TU/lmr/m/n on input line 22.
-LaTeX Font Info:    ... okay on input line 22.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 22.
-LaTeX Font Info:    ... okay on input line 22.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 22.
-LaTeX Font Info:    ... okay on input line 22.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 22.
-LaTeX Font Info:    ... okay on input line 22.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 22.
-LaTeX Font Info:    ... okay on input line 22.
-Package hyperref Info: Link coloring OFF on input line 22.
+LaTeX Font Info:    ... okay on input line 25.
+LaTeX Font Info:    Checking defaults for TU/lmr/m/n on input line 25.
+LaTeX Font Info:    ... okay on input line 25.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 25.
+LaTeX Font Info:    ... okay on input line 25.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 25.
+LaTeX Font Info:    ... okay on input line 25.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 25.
+LaTeX Font Info:    ... okay on input line 25.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 25.
+LaTeX Font Info:    ... okay on input line 25.
+Package hyperref Info: Link coloring OFF on input line 25.
 \myptabbox=\box60
 \myptabboxwidth=\skip277
-LaTeX Info: Redefining \microtypecontext on input line 22.
-Package microtype Info: Applying patch `item' on input line 22.
-Package microtype Info: Applying patch `toc' on input line 22.
-Package microtype Info: Applying patch `eqnum' on input line 22.
-Package microtype Info: Applying patch `footnote' on input line 22.
-Package microtype Info: Applying patch `verbatim' on input line 22.
+LaTeX Info: Redefining \microtypecontext on input line 25.
+Package microtype Info: Applying patch `item' on input line 25.
+Package microtype Info: Applying patch `toc' on input line 25.
+Package microtype Info: Applying patch `eqnum' on input line 25.
+Package microtype Info: Applying patch `footnote' on input line 25.
+Package microtype Info: Applying patch `verbatim' on input line 25.
 Package microtype Info: Generating PDF output.
 Package microtype Info: Character protrusion enabled (level 2).
 Package microtype Info: Using default protrusion set `alltext'.
 Package microtype Info: Automatic font expansion enabled (level 2),
 (microtype)             stretch: 20, shrink: 20, step: 1, non-selected.
 Package microtype Info: Using default expansion set `alltext-nott'.
-LaTeX Info: Redefining \showhyphens on input line 22.
+LaTeX Info: Redefining \showhyphens on input line 25.
 Package microtype Info: No adjustment of tracking.
 Package microtype Info: No adjustment of spacing.
 Package microtype Info: No adjustment of kerning.
@@ -1349,76 +1349,66 @@ e
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-LaTeX Font Info:    Trying to load font information for U+pzd on input line 26.
+LaTeX Font Info:    Trying to load font information for U+pzd on input line 29.
 
 (c:/texlive/2024/texmf-dist/tex/latex/psnfss/upzd.fd
 File: upzd.fd 2001/06/04 font definitions for U/pzd.
 ){c:/texlive/2024/texmf-var/fonts/map/pdftex/updmap/pdftex.map}
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 55.
-
 (c:/texlive/2024/texmf-dist/tex/latex/microtype/mt-cmr.cfg
 File: mt-cmr.cfg 2013/05/19 v2.2 microtype config. file: Computer Modern Roman 
 (RS)
 )
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <7> on input line 59.
+(Font)              <8> on input line 56.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <5> on input line 59.
+(Font)              <6> on input line 56.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <5> on input line 56.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <7> on input line 100.
+
+Overfull \hbox (15.0pt too wide) in paragraph at lines 79--123
+[]$[]$$[]$ 
+ []
 
 
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 79.
 
-
-
-<logo-crp.png, id=45, 378.213pt x 148.8762pt>
+<logo-crp.png, id=47, 378.213pt x 148.8762pt>
 File: logo-crp.png Graphic file (type png)
 <use logo-crp.png>
-Package luatex.def Info: logo-crp.png  used on input line 95.
+Package luatex.def Info: logo-crp.png  used on input line 182.
 (luatex.def)             Requested size: 144.565pt x 56.9055pt.
 [1
 
-<./logo-crp.png>]
-
-File: logo-crp.png Graphic file (type png)
-<use logo-crp.png>
-Package luatex.def Info: logo-crp.png  used on input line 108.
-(luatex.def)             Requested size: 144.565pt x 56.9055pt.
-[2] 
+<./logo-crp.png>] 
 enddocument/afterlastpage: lastpage setting LastPage.
-(./representacao.aux)
+(./falta-atraso.aux)
  ***********
 LaTeX2e <2024-06-01> patch level 2
 L3 programming layer <2020/03/25>
  ***********
-
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
 )
 
 Here is how much of LuaTeX's memory you used:
- 20113 strings out of 475910
+ 20132 strings out of 475910
  125236,1977958 words of node,token memory allocated
- 1288 words of node memory still in use:
-   4 hlist, 1 vlist, 1 rule, 1 local_par, 4 glue, 3 kern, 1 penalty, 3 glyph, 11
- attribute, 211 glue_spec, 6 attribute_list, 2 write nodes
-   avail lists: 1:2,2:875,3:502,4:52,5:370,6:87,7:4311,8:1,9:766,10:12,11:360
- 42400 multiletter control sequences out of 65536+600000
- 43 fonts using 2353799 bytes
- 99i,14n,105p,1009b,537s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 1236 words of node memory still in use:
+   3 hlist, 1 vlist, 1 rule, 2 glue, 3 kern, 1 glyph, 9 attribute, 211 glue_spec
+, 5 attribute_list, 2 write nodes
+   avail lists: 1:2,2:1449,3:714,4:78,5:405,6:153,7:3065,8:1,9:1250,10:31,11:154
+
+ 42416 multiletter control sequences out of 65536+600000
+ 49 fonts using 2727239 bytes
+ 99i,14n,105p,1008b,568s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
 warning  (pdf backend): unreferenced destination with name 'section*.1'
-<c:/Users/angelo.cuissi/AppData/Local/Microsoft/Windows/Fonts/NewJune-Regular-It
-alic.otf><c:/Users/angelo.cuissi/AppData/Local/Microsoft/Windows/Fonts/NewJune-B
-old.otf><c:/Users/angelo.cuissi/AppData/Local/Microsoft/Windows/Fonts/NewJune-Re
-gular.otf><c:/texlive/2024/texmf-dist/fonts/type1/urw/zapfding/uzdr.pfb>
-Output written on representacao.pdf (2 pages, 136032 bytes).
+<c:/Users/angelo.cuissi/AppData/Local/Microsoft/Windows/Fonts/NewJune-Bold.otf><
+c:/Users/angelo.cuissi/AppData/Local/Microsoft/Windows/Fonts/NewJune-Regular.otf
+><c:/texlive/2024/texmf-dist/fonts/type1/urw/zapfding/uzdr.pfb>
+Output written on falta-atraso.pdf (1 page, 133244 bytes).
 
-PDF statistics: 102 PDF objects out of 1000 (max. 8388607)
- 82 compressed objects within 1 object stream
- 6 named destinations out of 1000 (max. 131072)
- 67 words of extra memory for PDF output out of 10000 (max. 100000000)
+PDF statistics: 111 PDF objects out of 1000 (max. 8388607)
+ 95 compressed objects within 1 object stream
+ 11 named destinations out of 1000 (max. 131072)
+ 115 words of extra memory for PDF output out of 10000 (max. 100000000)
 
