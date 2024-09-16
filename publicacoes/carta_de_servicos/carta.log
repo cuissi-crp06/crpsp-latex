@@ -1,4 +1,4 @@
-This is LuaHBTeX, Version 1.18.0 (TeX Live 2024)  (format=lualatex 2024.8.23)  13 SEP 2024 14:01
+This is LuaHBTeX, Version 1.18.0 (TeX Live 2024)  (format=lualatex 2024.8.23)  16 SEP 2024 13:55
  restricted system commands enabled.
 **carta.tex
 (./carta.tex
@@ -791,22 +791,22 @@ Package: ragged2e 2023/06/22 v3.6 ragged2e Package
 )
 
 ******************************************************
-Stock height and width: 794.96999pt by 614.295pt
+Stock height and width: 845.04684pt by 597.50787pt
 Top and edge trims: 0pt and 0pt
-Page height and width: 794.96999pt by 614.295pt
-Text height and width: 598pt by 409pt
-Spine and edge margins: 68.25499pt and 136.50998pt
-Upper and lower margins: 68.25499pt and 128.715pt
+Page height and width: 845.04684pt by 597.50787pt
+Text height and width: 646pt by 398pt
+Spine and edge margins: 66.38976pt and 132.77951pt
+Upper and lower margins: 66.38976pt and 132.65709pt
 Headheight and headsep: 12pt and 18.06749pt
 Footskip: 25.29494pt
 Columnsep and columnseprule: 10pt and 0pt
-Marginparsep and marginparwidth: 7pt and 122.50998pt
-Sidecapsep and sidecapwidth: 7pt and 128pt
-Sidebarhsep and sidebarwidth: 7pt and 128pt
+Marginparsep and marginparwidth: 7pt and 118.77951pt
+Sidecapsep and sidecapwidth: 7pt and 63pt
+Sidebarhsep and sidebarwidth: 7pt and 63pt
 Sidebarvsep and sidebartopsep: 12pt and 0pt
-Sidebarheight: 548.39996pt
-Sidefoothsep and sidefootwidth: 7pt and 128pt
-Sidefootvsep and sidefootheight: 12pt and 548.39996pt
+Sidebarheight: 596.39996pt
+Sidefoothsep and sidefootwidth: 7pt and 63pt
+Sidefootvsep and sidefootheight: 12pt and 596.39996pt
 ******************************************************
 
 \boxlarg=\skip266
@@ -926,17 +926,26 @@ Package: memhfixc 2023/09/10 v1.22 hyperref package fixes for memoir class
 \c@memhycontfloat=\count349
 \c@Hpagenote=\count350
 )
-Package hyperref Info: Option `colorlinks' set `true' on input line 147.
+Package hyperref Info: Option `colorlinks' set `true' on input line 149.
 )
 Package hyperref Info: Option `colorlinks' set `true' on input line 42.
-
-
-LaTeX Warning: Unused global option(s):
-    [onesidea4paper].
-
-No file carta.aux.
-
+ (./carta.aux
+(./paratextos/folhaderosto.aux) (./capitulos/pretext-apresentacao.aux)
+(./capitulos/pretext-o-crp-sp.aux) (./capitulos/pretext-psicologia-como.aux)
+(./capitulos/pf-inscricao.aux) (./capitulos/pf-cip.aux)
+(./capitulos/pf-inscricao_definitiva.aux) (./capitulos/pf-prorroga_diploma.aux) (./capitulos/pf-2-via.aux) (./capitulos/pf-especialista.aux)
+(./capitulos/pf-secundaria.aux) (./capitulos/pf-transferencia.aux)
+(./capitulos/pf-cancelamento.aux) (./capitulos/pf-reativacao.aux)
+(./capitulos/pf-ressarcimento.aux) (./capitulos/pf-isencao.aux)
+(./capitulos/pf-declaracoes.aux) (./capitulos/pj-inscricao.aux)
+(./capitulos/pj-licenca.aux) (./capitulos/pj-alteracao.aux)
+(./capitulos/pj-cancelamento.aux) (./capitulos/pj-isencao.aux)
+(./capitulos/pj-rt.aux) (./capitulos/pj-baixa_rt.aux)
+(./capitulos/of-publicacoes.aux) (./capitulos/of-codigo_de_etica.aux)
+(./capitulos/of-legislacao.aux) (./capitulos/of-queixa.aux)
+(./capitulos/of-representacao.aux) (./capitulos/of-orientacao_pj.aux))
 \openout1 = carta.aux
+
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 48.
 LaTeX Font Info:    ... okay on input line 48.
 LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 48.
@@ -948,6 +957,7 @@ LaTeX Font Info:    ... okay on input line 48.
 LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 48.
 LaTeX Font Info:    Trying to load font information for TS1+cmr on input line 4
 8.
+
 (c:/texlive/2024/texmf-dist/tex/latex/base/ts1cmr.fd
 File: ts1cmr.fd 2023/04/13 v2.5m Standard LaTeX font definitions
 )
@@ -1300,18 +1310,16 @@ Package: lscape 2020/05/28 v3.02 Landscape Pages (DPC)
 Package pdflscape Info: Auto-detected driver: pdftex on input line 81.
 ))
 Package hyperref Info: Link coloring ON on input line 48.
+ (./carta.out)
+(./carta.out)
 \@outlinefile=\write4
 
 \openout4 = carta.out
+ (./paratextos/olho.tex)
 
-(./paratextos/olho.tex)
+[1
 
-LaTeX Font Info:    Font shape `TU/NewJune(0)/m/sl' in size <10> not available
-(Font)              Font shape `TU/NewJune(0)/m/it' tried instead on input line
- 53.
-[1{c:/texlive/2024/texmf-var/fonts/map/pdftex/updmap/pdftex.map}
-
-]
+{c:/texlive/2024/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
 (./paratextos/creditos_institucionais.tex)
 
 [2
@@ -1344,30 +1352,42 @@ LaTeX Font Info:    Font shape `TU/NewJune(0)/m/sl' in size <10> not available
 
 
 
-]
+])
 
-[3])
-
-[4]
+[3]
 \openout2 = capitulos/pretext-psicologia-como.aux
  (./capitulos/pretext-psicologia-como.tex)
+
+[4
+
+
+
+
+] (./carta.toc (c:/texlive/2024/texmf-dist/tex/latex/microtype/mt-cmr.cfg
+File: mt-cmr.cfg 2013/05/19 v2.2 microtype config. file: Computer Modern Roman 
+(RS)
+)
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <7> on input line 3.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <5> on input line 3.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <10.95> on input line 6.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <8> on input line 6.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <6> on input line 6.
+
 
 [5
 
 
+])
 
-
-]
-No file carta.toc.
-
-
-[6
-
-
-]
+[6]
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\\' on input line 72.
+(hyperref)                removing `\\' on input line 75.
 
 
 
@@ -1377,514 +1397,457 @@ warning  (pdf backend): ignoring duplicate destination with the name 'page.1'
 
 
 ]
-
-
-warning  (pdf backend): ignoring duplicate destination with the name 'page.2'
-[2]
 \openout2 = capitulos/pf-inscricao.aux
  (./capitulos/pf-inscricao.tex
 
 
+warning  (pdf backend): ignoring duplicate destination with the name 'page.2'
+[2
+
+
+])
+
+
 warning  (pdf backend): ignoring duplicate destination with the name 'page.3'
-[3
-
-
-]
-
-LaTeX Warning: Reference `chap:pf-cip' on page 4 undefined on input line 64.
-
-)
+[3]
+\openout2 = capitulos/pf-cip.aux
+ (./capitulos/pf-cip.tex
 
 
 warning  (pdf backend): ignoring duplicate destination with the name 'page.4'
-[4]
-\openout2 = capitulos/pf-cip.aux
- (./capitulos/pf-cip.tex)
-
-[5
+[4
 
 
 
 
-]
+])
+
+[5]
 \openout2 = capitulos/pf-inscricao_definitiva.aux
- (./capitulos/pf-inscricao_definitiva.tex
+ (./capitulos/pf-inscricao_definitiva.tex)
 
 [6
 
 
 
 
-])
-
-[7]
+]
 \openout2 = capitulos/pf-prorroga_diploma.aux
+ (./capitulos/pf-prorroga_diploma.tex)
 
-No file capitulos/pf-prorroga_diploma.tex.
+[7
 
+
+
+
+]
 \openout2 = capitulos/pf-2-via.aux
-(./capitulos/pf-2-via.tex
+ (./capitulos/pf-2-via.tex)
 
 [8
 
 
 
 
-
-
-
-])
-
-[9]
+]
 \openout2 = capitulos/pf-especialista.aux
- (./capitulos/pf-especialista.tex
+ (./capitulos/pf-especialista.tex)
+
+[9
+
+
+
+
+]
+\openout2 = capitulos/pf-secundaria.aux
+ (./capitulos/pf-secundaria.tex)
 
 [10
 
 
 
 
-])
+]
+\openout2 = capitulos/pf-transferencia.aux
+ (./capitulos/pf-transferencia.tex)
 
-[11]
-\openout2 = capitulos/pf-secundaria.aux
- (./capitulos/pf-secundaria.tex
+[11
+
+
+
+
+]
+\openout2 = capitulos/pf-cancelamento.aux
+ (./capitulos/pf-cancelamento.TEX)
 
 [12
 
 
 
 
-])
+]
+\openout2 = capitulos/pf-reativacao.aux
+ (./capitulos/pf-reativacao.tex)
 
-[13]
-\openout2 = capitulos/pf-transferencia.aux
- (./capitulos/pf-transferencia.tex
+[13
+
+
+
+
+]
+\openout2 = capitulos/pf-ressarcimento.aux
+ (./capitulos/pf-ressarcimento.tex)
 
 [14
 
 
 
 
-])
+]
+\openout2 = capitulos/pf-isencao.aux
+ (./capitulos/pf-isencao.tex)
 
-[15]
-\openout2 = capitulos/pf-cancelamento.aux
- (./capitulos/pf-cancelamento.TEX
+[15
+
+
+
+
+]
+\openout2 = capitulos/pf-declaracoes.aux
+ (./capitulos/pf-declaracoes.tex)
 
 [16
 
 
 
 
-])
+]
 
-[17]
-\openout2 = capitulos/pf-reativacao.aux
- (./capitulos/pf-reativacao.tex
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `\\' on input line 93.
+
+
+
+[17
+
+
+
+]
+\openout2 = capitulos/pj-inscricao.aux
+ (./capitulos/pj-inscricao.tex)
 
 [18
 
 
+]
+\openout2 = capitulos/pj-licenca.aux
+ (./capitulos/pj-licenca.tex)
+
+[19
 
 
-])
 
-[19]
-\openout2 = capitulos/pf-ressarcimento.aux
- (./capitulos/pf-ressarcimento.tex
+
+]
+\openout2 = capitulos/pj-alteracao.aux
+ (./capitulos/pj-alteracao.tex)
 
 [20
 
 
 
 
-])
+]
+\openout2 = capitulos/pj-cancelamento.aux
+ (./capitulos/pj-cancelamento.tex)
 
-[21]
-\openout2 = capitulos/pf-isencao.aux
- (./capitulos/pf-isencao.tex
+[21
+
+
+
+
+]
+\openout2 = capitulos/pj-isencao.aux
+ (./capitulos/pj-isencao.tex)
 
 [22
 
 
 
 
-])
+]
+\openout2 = capitulos/pj-rt.aux
+ (./capitulos/pj-rt.tex)
 
-[23]
-\openout2 = capitulos/pf-declaracoes.aux
- (./capitulos/pf-declaracoes.tex
+[23
+
+
+
+
+]
+\openout2 = capitulos/pj-baixa_rt.aux
+ (./capitulos/pj-baixa_rt.tex)
 
 [24
 
 
 
 
-])
+]
 
-[25]
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `\\' on input line 105.
+
+
+
+[25
+
+
+
+]
+\openout2 = capitulos/of-publicacoes.aux
+ (./capitulos/of-publicacoes.tex)
 
 [26
 
 
+]
+\openout2 = capitulos/of-codigo_de_etica.aux
+ (./capitulos/of-codigo_de_etica.tex)
+
+[27
+
+
+
 
 ]
+\openout2 = capitulos/of-legislacao.aux
+ (./capitulos/of-legislacao.tex)
 
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\\' on input line 90.
+[28
 
 
 
-[27]
 
-[28]
-\openout2 = capitulos/pj-inscricao.aux
- (./capitulos/pj-inscricao.tex)
+]
+\openout2 = capitulos/of-queixa.aux
+ (./capitulos/of-queixa.tex)
 
 [29
 
 
+
+
 ]
-\openout2 = capitulos/pj-licenca.aux
- (./capitulos/pj-licenca.tex
+\openout2 = capitulos/of-representacao.aux
+ (./capitulos/of-representacao.tex)
 
 [30
 
 
 
 
-])
+]
+\openout2 = capitulos/of-orientacao_pj.aux
+ (./capitulos/of-orientacao_pj.tex)
 
-[31]
-\openout2 = capitulos/pj-alteracao.aux
- (./capitulos/pj-alteracao.tex
+[31
+
+
+
+
+]
 
 [32
 
 
 
 
-])
-
-[33]
-\openout2 = capitulos/pj-cancelamento.aux
- (./capitulos/pj-cancelamento.tex
-
-[34
-
-
-
-
-])
-
-[35]
-\openout2 = capitulos/pj-isencao.aux
- (./capitulos/pj-isencao.tex
-
-[36
-
-
-
-
-])
-
-[37]
-\openout2 = capitulos/pj-rt.aux
- (./capitulos/pj-rt.tex
-
-[38
-
-
-
-
-])
-
-[39]
-\openout2 = capitulos/pj-baixa_rt.aux
- (./capitulos/pj-baixa_rt.tex
-
-[40
-
-
-
-
-])
-
-[41]
-
-[42
-
-
-
 ]
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\\' on input line 102.
-
-
-
-[43]
-
-[44]
-\openout2 = capitulos/of-publicacoes.aux
- (./capitulos/of-publicacoes.tex)
-
-[45
-
-
-]
-\openout2 = capitulos/of-codigo_de_etica.aux
- (./capitulos/of-codigo_de_etica.tex
-
-[46
-
-
-
-
-])
-
-[47]
-\openout2 = capitulos/of-legislacao.aux
- (./capitulos/of-legislacao.tex
-
-[48
-
-
-
-
-])
-
-[49]
-\openout2 = capitulos/of-queixa.aux
- (./capitulos/of-queixa.tex
-
-[50
-
-
-
-
-])
-
-[51]
-\openout2 = capitulos/of-representacao.aux
- (./capitulos/of-representacao.tex
-
-[52
-
-
-
-
-])
-
-[53]
-\openout2 = capitulos/of-orientacao_pj.aux
- (./capitulos/of-orientacao_pj.tex
-
-[54
-
-
-
-
-])
-
-[55]
-
-[56
-
-
-
-]
-
-[57
-
-]
-
-[58]
-<formularios/pf-registro_especialista.pdf, id=345, 597.50829pt x 845.04709pt>
+<formularios/pf-registro_especialista.pdf, id=410, 597.50829pt x 845.04709pt>
 File: formularios/pf-registro_especialista.pdf Graphic file (type pdf)
 <use formularios/pf-registro_especialista.pdf>
 Package luatex.def Info: formularios/pf-registro_especialista.pdf  used on inpu
-t line 118.
+t line 121.
 (luatex.def)             Requested size: 597.50682pt x 845.04503pt.
 File: formularios/pf-registro_especialista.pdf Graphic file (type pdf)
 <use formularios/pf-registro_especialista.pdf>
 Package luatex.def Info: formularios/pf-registro_especialista.pdf  used on inpu
-t line 118.
+t line 121.
 (luatex.def)             Requested size: 597.50682pt x 845.04503pt.
-<formularios/pf-registro_especialista.pdf, id=348, page=1, 597.50829pt x 845.04
+<formularios/pf-registro_especialista.pdf, id=413, page=1, 597.50829pt x 845.04
 709pt>
 File: formularios/pf-registro_especialista.pdf Graphic file (type pdf)
 <use formularios/pf-registro_especialista.pdf, page 1>
 Package luatex.def Info: formularios/pf-registro_especialista.pdf , page1 used 
-on input line 118.
+on input line 121.
 (luatex.def)             Requested size: 597.50682pt x 845.04503pt.
 File: formularios/pf-registro_especialista.pdf Graphic file (type pdf)
 <use formularios/pf-registro_especialista.pdf, page 1>
 Package luatex.def Info: formularios/pf-registro_especialista.pdf , page1 used 
-on input line 118.
+on input line 121.
 (luatex.def)             Requested size: 597.50682pt x 845.04503pt.
 File: formularios/pf-registro_especialista.pdf Graphic file (type pdf)
 <use formularios/pf-registro_especialista.pdf, page 1>
 Package luatex.def Info: formularios/pf-registro_especialista.pdf , page1 used 
-on input line 118.
+on input line 121.
 (luatex.def)             Requested size: 597.50682pt x 845.04503pt.
 
 
 File: formularios/pf-registro_especialista.pdf Graphic file (type pdf)
 <use formularios/pf-registro_especialista.pdf, page 1>
 Package luatex.def Info: formularios/pf-registro_especialista.pdf , page1 used 
-on input line 118.
+on input line 121.
 (luatex.def)             Requested size: 597.50682pt x 845.04503pt.
-[59
+[33
 
 <./formularios/pf-registro_especialista.pdf>]
-<formularios/pj-termo_rt.pdf, id=376, 597.50829pt x 845.04709pt>
+<formularios/pj-termo_rt.pdf, id=441, 597.50829pt x 845.04709pt>
 File: formularios/pj-termo_rt.pdf Graphic file (type pdf)
 <use formularios/pj-termo_rt.pdf>
-Package luatex.def Info: formularios/pj-termo_rt.pdf  used on input line 119.
+Package luatex.def Info: formularios/pj-termo_rt.pdf  used on input line 122.
 (luatex.def)             Requested size: 597.50682pt x 845.04503pt.
 File: formularios/pj-termo_rt.pdf Graphic file (type pdf)
 <use formularios/pj-termo_rt.pdf>
-Package luatex.def Info: formularios/pj-termo_rt.pdf  used on input line 119.
+Package luatex.def Info: formularios/pj-termo_rt.pdf  used on input line 122.
 (luatex.def)             Requested size: 597.50682pt x 845.04503pt.
-<formularios/pj-termo_rt.pdf, id=379, page=1, 597.50829pt x 845.04709pt>
+<formularios/pj-termo_rt.pdf, id=444, page=1, 597.50829pt x 845.04709pt>
 File: formularios/pj-termo_rt.pdf Graphic file (type pdf)
 <use formularios/pj-termo_rt.pdf, page 1>
 Package luatex.def Info: formularios/pj-termo_rt.pdf , page1 used on input line
- 119.
-(luatex.def)             Requested size: 597.50682pt x 845.04503pt.
-File: formularios/pj-termo_rt.pdf Graphic file (type pdf)
-<use formularios/pj-termo_rt.pdf, page 1>
-Package luatex.def Info: formularios/pj-termo_rt.pdf , page1 used on input line
- 119.
+ 122.
 (luatex.def)             Requested size: 597.50682pt x 845.04503pt.
 File: formularios/pj-termo_rt.pdf Graphic file (type pdf)
 <use formularios/pj-termo_rt.pdf, page 1>
 Package luatex.def Info: formularios/pj-termo_rt.pdf , page1 used on input line
- 119.
+ 122.
+(luatex.def)             Requested size: 597.50682pt x 845.04503pt.
+File: formularios/pj-termo_rt.pdf Graphic file (type pdf)
+<use formularios/pj-termo_rt.pdf, page 1>
+Package luatex.def Info: formularios/pj-termo_rt.pdf , page1 used on input line
+ 122.
 (luatex.def)             Requested size: 597.50682pt x 845.04503pt.
 
 
 File: formularios/pj-termo_rt.pdf Graphic file (type pdf)
 <use formularios/pj-termo_rt.pdf, page 1>
 Package luatex.def Info: formularios/pj-termo_rt.pdf , page1 used on input line
- 119.
+ 122.
 (luatex.def)             Requested size: 597.50682pt x 845.04503pt.
-[60
+[34
 
 <./formularios/pj-termo_rt.pdf>]
-<formularios/declaracao_institucional.pdf, id=400, 597.50829pt x 845.04709pt>
+<formularios/declaracao_institucional.pdf, id=465, 597.50829pt x 845.04709pt>
 File: formularios/declaracao_institucional.pdf Graphic file (type pdf)
 <use formularios/declaracao_institucional.pdf>
 Package luatex.def Info: formularios/declaracao_institucional.pdf  used on inpu
-t line 120.
+t line 123.
 (luatex.def)             Requested size: 597.50682pt x 845.04503pt.
 File: formularios/declaracao_institucional.pdf Graphic file (type pdf)
 <use formularios/declaracao_institucional.pdf>
 Package luatex.def Info: formularios/declaracao_institucional.pdf  used on inpu
-t line 120.
+t line 123.
 (luatex.def)             Requested size: 597.50682pt x 845.04503pt.
-<formularios/declaracao_institucional.pdf, id=403, page=1, 597.50829pt x 845.04
+<formularios/declaracao_institucional.pdf, id=468, page=1, 597.50829pt x 845.04
 709pt>
 File: formularios/declaracao_institucional.pdf Graphic file (type pdf)
 <use formularios/declaracao_institucional.pdf, page 1>
 Package luatex.def Info: formularios/declaracao_institucional.pdf , page1 used 
-on input line 120.
+on input line 123.
 (luatex.def)             Requested size: 597.50682pt x 845.04503pt.
 File: formularios/declaracao_institucional.pdf Graphic file (type pdf)
 <use formularios/declaracao_institucional.pdf, page 1>
 Package luatex.def Info: formularios/declaracao_institucional.pdf , page1 used 
-on input line 120.
+on input line 123.
 (luatex.def)             Requested size: 597.50682pt x 845.04503pt.
 File: formularios/declaracao_institucional.pdf Graphic file (type pdf)
 <use formularios/declaracao_institucional.pdf, page 1>
 Package luatex.def Info: formularios/declaracao_institucional.pdf , page1 used 
-on input line 120.
+on input line 123.
 (luatex.def)             Requested size: 597.50682pt x 845.04503pt.
 
 
 File: formularios/declaracao_institucional.pdf Graphic file (type pdf)
 <use formularios/declaracao_institucional.pdf, page 1>
 Package luatex.def Info: formularios/declaracao_institucional.pdf , page1 used 
-on input line 120.
+on input line 123.
 (luatex.def)             Requested size: 597.50682pt x 845.04503pt.
-[61
+[35
 
 <./formularios/declaracao_institucional.pdf>]
-<formularios/pj-cancelamento-alteracao.pdf, id=423, 597.50829pt x 845.04709pt>
+<formularios/pj-cancelamento-alteracao.pdf, id=487, 597.50829pt x 845.04709pt>
 File: formularios/pj-cancelamento-alteracao.pdf Graphic file (type pdf)
 <use formularios/pj-cancelamento-alteracao.pdf>
 Package luatex.def Info: formularios/pj-cancelamento-alteracao.pdf  used on inp
-ut line 121.
+ut line 124.
 (luatex.def)             Requested size: 597.50682pt x 845.04503pt.
 File: formularios/pj-cancelamento-alteracao.pdf Graphic file (type pdf)
 <use formularios/pj-cancelamento-alteracao.pdf>
 Package luatex.def Info: formularios/pj-cancelamento-alteracao.pdf  used on inp
-ut line 121.
+ut line 124.
 (luatex.def)             Requested size: 597.50682pt x 845.04503pt.
-<formularios/pj-cancelamento-alteracao.pdf, id=426, page=1, 597.50829pt x 845.0
+<formularios/pj-cancelamento-alteracao.pdf, id=490, page=1, 597.50829pt x 845.0
 4709pt>
 File: formularios/pj-cancelamento-alteracao.pdf Graphic file (type pdf)
 <use formularios/pj-cancelamento-alteracao.pdf, page 1>
 Package luatex.def Info: formularios/pj-cancelamento-alteracao.pdf , page1 used
- on input line 121.
+ on input line 124.
 (luatex.def)             Requested size: 597.50682pt x 845.04503pt.
 File: formularios/pj-cancelamento-alteracao.pdf Graphic file (type pdf)
 <use formularios/pj-cancelamento-alteracao.pdf, page 1>
 Package luatex.def Info: formularios/pj-cancelamento-alteracao.pdf , page1 used
- on input line 121.
+ on input line 124.
 (luatex.def)             Requested size: 597.50682pt x 845.04503pt.
 File: formularios/pj-cancelamento-alteracao.pdf Graphic file (type pdf)
 <use formularios/pj-cancelamento-alteracao.pdf, page 1>
 Package luatex.def Info: formularios/pj-cancelamento-alteracao.pdf , page1 used
- on input line 121.
+ on input line 124.
 (luatex.def)             Requested size: 597.50682pt x 845.04503pt.
 
 
 File: formularios/pj-cancelamento-alteracao.pdf Graphic file (type pdf)
 <use formularios/pj-cancelamento-alteracao.pdf, page 1>
 Package luatex.def Info: formularios/pj-cancelamento-alteracao.pdf , page1 used
- on input line 121.
+ on input line 124.
 (luatex.def)             Requested size: 597.50682pt x 845.04503pt.
-[62
+[36
 
 <./formularios/pj-cancelamento-alteracao.pdf>]
-<formularios/representacao.pdf, id=455, 597.50829pt x 845.04709pt>
+<formularios/representacao.pdf, id=518, 597.50829pt x 845.04709pt>
 File: formularios/representacao.pdf Graphic file (type pdf)
 <use formularios/representacao.pdf>
-Package luatex.def Info: formularios/representacao.pdf  used on input line 122.
+Package luatex.def Info: formularios/representacao.pdf  used on input line 125.
 
 (luatex.def)             Requested size: 597.50682pt x 845.04503pt.
 File: formularios/representacao.pdf Graphic file (type pdf)
 <use formularios/representacao.pdf>
-Package luatex.def Info: formularios/representacao.pdf  used on input line 122.
+Package luatex.def Info: formularios/representacao.pdf  used on input line 125.
 
 (luatex.def)             Requested size: 597.50682pt x 845.04503pt.
-<formularios/representacao.pdf, id=458, page=1, 597.50829pt x 845.04709pt>
+<formularios/representacao.pdf, id=521, page=1, 597.50829pt x 845.04709pt>
 File: formularios/representacao.pdf Graphic file (type pdf)
 <use formularios/representacao.pdf, page 1>
 Package luatex.def Info: formularios/representacao.pdf , page1 used on input li
-ne 122.
+ne 125.
 (luatex.def)             Requested size: 597.50682pt x 845.04503pt.
 File: formularios/representacao.pdf Graphic file (type pdf)
 <use formularios/representacao.pdf, page 1>
 Package luatex.def Info: formularios/representacao.pdf , page1 used on input li
-ne 122.
+ne 125.
 (luatex.def)             Requested size: 597.50682pt x 845.04503pt.
 File: formularios/representacao.pdf Graphic file (type pdf)
 <use formularios/representacao.pdf, page 1>
 Package luatex.def Info: formularios/representacao.pdf , page1 used on input li
-ne 122.
+ne 125.
 (luatex.def)             Requested size: 597.50682pt x 845.04503pt.
 
 
 File: formularios/representacao.pdf Graphic file (type pdf)
 <use formularios/representacao.pdf, page 1>
 Package luatex.def Info: formularios/representacao.pdf , page1 used on input li
-ne 122.
+ne 125.
 (luatex.def)             Requested size: 597.50682pt x 845.04503pt.
-[63
+[37
 
 <./formularios/representacao.pdf>]
 \tf@toc=\write5
@@ -1915,43 +1878,31 @@ L3 programming layer <2020/03/25>
  ***********
 
 
-LaTeX Warning: There were undefined references.
-
-
 LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
 
-
-Package rerunfilecheck Warning: File `carta.out' has changed.
-(rerunfilecheck)                Rerun to get outlines right
-(rerunfilecheck)                or use package `bookmark'.
-
-Package rerunfilecheck Info: Checksums for `carta.out':
-(rerunfilecheck)             Before: <no file>
-(rerunfilecheck)             After:  3F5A6C8AC8BE02142E558FAE3726B503;9395.
-
-Package lastpage Warning: Rerun to get the references right on input line 123.
-
+Package rerunfilecheck Info: File `carta.out' has not changed.
+(rerunfilecheck)             Checksum: 946138EC8FC92DA502D7466B10DB75C9;7979.
 )
 
 Here is how much of LuaTeX's memory you used:
- 20575 strings out of 475910
+ 20972 strings out of 475910
  125240,1977958 words of node,token memory allocated
- 1305 words of node memory still in use:
-   5 hlist, 1 vlist, 1 rule, 1 local_par, 7 glue, 3 kern, 1 penalty, 3 glyph, 11
- attribute, 208 glue_spec, 7 attribute_list, 2 write nodes
-   avail lists: 1:2,2:882,3:229,4:138,5:229,6:97,7:4215,8:1,9:323,10:10,11:450
- 42212 multiletter control sequences out of 65536+600000
- 43 fonts using 2084807 bytes
- 85i,17n,105p,1001b,495s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 1353 words of node memory still in use:
+   5 hlist, 1 vlist, 1 rule, 1 local_par, 7 glue, 3 kern, 1 penalty, 3 glyph, 19
+ attribute, 208 glue_spec, 11 attribute_list, 2 write, 4 pdf_action nodes
+   avail lists: 1:2,2:1099,3:273,4:179,5:277,6:81,7:4215,8:1,9:385,10:9,11:450
+ 42410 multiletter control sequences out of 65536+600000
+ 61 fonts using 3227991 bytes
+ 85i,17n,105p,1001b,508s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <c:/Users/angelo.cuissi/AppData/Local/Microsoft/Windows/Fonts/NewJune-Bold-Itali
 c.otf><c:/Users/angelo.cuissi/AppData/Local/Microsoft/Windows/Fonts/NewJune-Regu
 lar-Italic.otf><c:/Users/angelo.cuissi/AppData/Local/Microsoft/Windows/Fonts/New
-June-Bold.otf><c:/Users/angelo.cuissi/AppData/Local/Microsoft/Windows/Fonts/NewJ
-une-Regular.otf>
-Output written on carta.pdf (73 pages, 577063 bytes).
+June-Regular.otf><c:/Users/angelo.cuissi/AppData/Local/Microsoft/Windows/Fonts/N
+ewJune-Bold.otf>
+Output written on carta.pdf (47 pages, 584126 bytes).
 
-PDF statistics: 519 PDF objects out of 1000 (max. 8388607)
- 361 compressed objects within 4 object streams
- 124 named destinations out of 1000 (max. 131072)
- 1 words of extra memory for PDF output out of 10000 (max. 100000000)
+PDF statistics: 584 PDF objects out of 1000 (max. 8388607)
+ 451 compressed objects within 5 object streams
+ 112 named destinations out of 1000 (max. 131072)
+ 265 words of extra memory for PDF output out of 10000 (max. 100000000)
 

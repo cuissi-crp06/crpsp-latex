@@ -1,7 +1,7 @@
 \documentclass[%
     oneside,
-    a4paper
-    ]{memoir}
+    a4paper,
+]{memoir}
 \usepackage{livros_crp}
 % --------- %
 % Metadados %
@@ -46,6 +46,7 @@
 % DOCUMENTO %
 % --------- %
 \begin{document}
+\pagestyle{empty}
 % ---------------------- %
 % Elementos pré-textuais %
 % ---------------------- %
@@ -55,13 +56,14 @@
 \include{paratextos/folhaderosto.tex}
 \input{paratextos/creditos_tecnicos.tex}
 \frontmatter
+\pagestyle{plain}
 \include{capitulos/pretext-apresentacao}
 \include{capitulos/pretext-o-crp-sp}
 \include{capitulos/pretext-psicologia-como}
 % ------- %
 % Sumário
 % ------- %
-\tableofcontents*
+\tableofcontents*\label{sumario}
 % ------------------ %
 % Elementos textuais
 % ------------------ %
@@ -69,6 +71,7 @@
 % -- %
 % PF %
 % -- %
+\pagestyle{crp}
 \part{Serviços à\\\textbf{pessoa fisica}}
 %
 \include{capitulos/pf-inscricao}

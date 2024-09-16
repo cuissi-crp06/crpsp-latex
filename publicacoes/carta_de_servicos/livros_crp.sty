@@ -53,6 +53,8 @@
 \setlength{\virgula}{0.5em}
 \setsecnumdepth{none}
 \maxsecnumdepth{none}
+\usepackage{tocvsec2}
+\setcounter{tocdepth}{0}
 \setsecheadstyle{\LARGE\bfseries\color{crp1}}
 \setaftersecskip{\baselineskip}
 \setsubsecheadstyle{\Large\bfseries\color{crp1}}
@@ -186,3 +188,10 @@
     ]
     {formularios/#1}
 }
+% --------------------- %
+% Voltar para o sumário %
+% --------------------- %
+%\newcommand{sumario}{%
+%\vfill\raggedleft
+%\hyperref[sumario]{Voltar para o sumário}
+%}
