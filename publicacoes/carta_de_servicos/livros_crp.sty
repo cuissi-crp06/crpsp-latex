@@ -31,6 +31,7 @@
 \fboxsep=0pt
 \usepackage{framed}
 \usepackage{xhfill}
+\usepackage{tcolorbox}
 % ----------- %
 % DIAGRAMAÇÃO %
 % ----------- %
@@ -191,7 +192,12 @@
 % --------------------- %
 % Voltar para o sumário %
 % --------------------- %
-%\newcommand{sumario}{%
-%\vfill\raggedleft
-%\hyperref[sumario]{Voltar para o sumário}
-%}
+\newcommand{\sumario}{%
+\vfill
+\begin{flushright}
+	\begin{tcolorbox}[width=14.5em, colback={crp2}, colframe={crp1}, halign lower = flush center]
+	\hyperref[sumario]{\small\textcolor{white}{\textbf{VOLTAR PARA O SUMÁRIO}}}
+	\end{tcolorbox}
+
+\end{flushright}
+}

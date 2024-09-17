@@ -12,7 +12,7 @@
 \contentsline {section}{Quais são as etapas para a realização desse serviço?}{2}{section*.15}%
 \contentsline {section}{Quanto custa?}{3}{section*.16}%
 \contentsline {section}{Quanto tempo leva?}{3}{section*.17}%
-\contentsline {section}{Como ter acesso ao atual \textit {status} do serviço?}{3}{section*.18}%
+\contentsline {section}{Como ter acesso ao atual \emph {status} do serviço?}{3}{section*.18}%
 \contentsline {section}{Legislação relacionada}{3}{section*.19}%
 \contentsline {section}{Serviços correlatos}{3}{section*.20}%
 \contentsline {chapter}{Entrega da carteira de identidade profissional (CIP)}{4}{chapter*.21}%
@@ -26,29 +26,90 @@
 \contentsline {section}{Legislação relacionada}{5}{section*.29}%
 \contentsline {section}{Serviços correlatos}{5}{section*.30}%
 \contentsline {chapter}{Alteração de inscrição provisória para definitiva}{6}{chapter*.31}%
-\contentsline {chapter}{Prorrogação do prazo de entrega do diploma}{7}{chapter*.32}%
-\contentsline {chapter}{Emissão de 2ª via de CIP}{8}{chapter*.33}%
-\contentsline {chapter}{Solicitação de registro de especialista}{9}{chapter*.34}%
-\contentsline {chapter}{Inscrição secundária}{10}{chapter*.35}%
-\contentsline {chapter}{Transferência do registro profissional}{11}{chapter*.36}%
-\contentsline {chapter}{Cancelamento de registro profissional}{12}{chapter*.37}%
-\contentsline {chapter}{Reativação de registro profissional}{13}{chapter*.38}%
-\contentsline {chapter}{Ressarcimento de pagamento}{14}{chapter*.39}%
-\contentsline {chapter}{Solicitação de isenção e interrupção temporária de anuidades}{15}{chapter*.40}%
-\contentsline {chapter}{Emissão de declarações}{16}{chapter*.41}%
-\contentsline {part}{Serviços à\\\textbf {pessoa jurídica}}{17}{section*.43}%
-\contentsline {chapter}{Inscrição profissional de pessoa jurídica}{18}{chapter*.44}%
-\contentsline {chapter}{Renovação do certificado de licença}{19}{chapter*.45}%
-\contentsline {chapter}{Alteração contratual}{20}{chapter*.46}%
-\contentsline {chapter}{Cancelamento de inscrição}{21}{chapter*.47}%
-\contentsline {chapter}{Solicitação de isenção de anuidade}{22}{chapter*.48}%
-\contentsline {chapter}{Alteração, substituição e/ou inclusão de Responsável Técnica/o}{23}{chapter*.49}%
-\contentsline {chapter}{Baixa de responsabilidade técnica}{24}{chapter*.50}%
-\contentsline {part}{Serviços de\\\textbf {orientação e fiscalização}}{25}{section*.52}%
-\contentsline {chapter}{Acesso às publicações orientativas}{26}{chapter*.53}%
-\contentsline {chapter}{Orientações sobre o Código de Ética e legislação profissional}{27}{chapter*.54}%
-\contentsline {chapter}{Consulta de legislação profissional}{28}{chapter*.55}%
-\contentsline {chapter}{Apresentação de queixa}{29}{chapter*.56}%
-\contentsline {chapter}{Representação}{30}{chapter*.57}%
-\contentsline {chapter}{Orientação/fiscalização de pessoas jurídicas recém-inscritas}{31}{chapter*.58}%
-\contentsline {part}{Formulários}{32}{section*.60}%
+\contentsline {section}{O que é?}{6}{section*.32}%
+\contentsline {section}{Quem pode utilizar esse serviço?}{6}{section*.33}%
+\contentsline {subsection}{Como solicitar o serviço?}{6}{section*.34}%
+\contentsline {subsection}{Que informações ou documentos são necessários?}{6}{section*.35}%
+\contentsline {subsection}{Quais são as etapas para a realização desse serviço?}{6}{section*.36}%
+\contentsline {subsection}{Quanto custa?}{7}{section*.37}%
+\contentsline {subsection}{Quanto tempo leva?}{7}{section*.38}%
+\contentsline {subsection}{Como ter acesso ao atual \emph {status} do serviço?}{7}{section*.39}%
+\contentsline {section}{Legislação relacionada}{7}{section*.40}%
+\contentsline {section}{Serviços correlatos}{7}{section*.41}%
+\contentsline {chapter}{Prorrogação do prazo de entrega do diploma}{8}{chapter*.42}%
+\contentsline {section}{O que é?}{8}{section*.43}%
+\contentsline {section}{Quem pode utilizar esse serviço?}{8}{section*.44}%
+\contentsline {section}{Como solicitar o serviço?}{8}{section*.45}%
+\contentsline {section}{Que informações ou documentos são necessários?}{8}{section*.46}%
+\contentsline {section}{Quais são as etapas para a realização desse serviço?}{8}{section*.47}%
+\contentsline {subsection}{Se a/o psicóloga/o apresenta o diploma no prazo de seis meses}{8}{section*.48}%
+\contentsline {subsection}{Se a/o psicóloga/o não apresenta o diploma no prazo de seis meses}{9}{section*.49}%
+\contentsline {section}{Quanto custa?}{9}{section*.50}%
+\contentsline {section}{Quanto tempo leva?}{9}{section*.51}%
+\contentsline {section}{Como ter acesso ao atual \emph {status} do serviço?}{9}{section*.52}%
+\contentsline {section}{Legislação relacionada}{9}{section*.53}%
+\contentsline {section}{Serviços correlatos}{9}{section*.54}%
+\contentsline {chapter}{Emissão de 2ª via de CIP}{10}{chapter*.55}%
+\contentsline {section}{O que é?}{10}{section*.56}%
+\contentsline {section}{Quem pode utilizar esse serviço?}{10}{section*.57}%
+\contentsline {section}{Como solicitar o serviço?}{10}{section*.58}%
+\contentsline {section}{Que informações ou documentos são necessários?}{10}{section*.59}%
+\contentsline {section}{Quais são as etapas para a realização desse serviço?}{10}{section*.60}%
+\contentsline {section}{Quanto custa?}{11}{section*.61}%
+\contentsline {section}{Quanto tempo leva?}{11}{section*.62}%
+\contentsline {section}{Legislação relacionada}{11}{section*.63}%
+\contentsline {section}{Serviços correlatos}{11}{section*.64}%
+\contentsline {chapter}{Solicitação de registro de especialista}{12}{chapter*.65}%
+\contentsline {section}{O que é?}{12}{section*.66}%
+\contentsline {section}{Quem pode utilizar esse serviço?}{12}{section*.67}%
+\contentsline {section}{Como solicitar o serviço?}{12}{section*.68}%
+\contentsline {section}{Que informações ou documentos são necessários?}{13}{section*.69}%
+\contentsline {section}{Quais são as etapas para a realização desse serviço?}{13}{section*.70}%
+\contentsline {section}{Quanto custa?}{13}{section*.71}%
+\contentsline {section}{Quanto tempo leva?}{13}{section*.72}%
+\contentsline {section}{Como ter acesso ao atual \emph {status} do serviço?}{13}{section*.73}%
+\contentsline {section}{Legislação relacionada}{14}{section*.74}%
+\contentsline {section}{Serviços correlatos}{14}{section*.75}%
+\contentsline {chapter}{Inscrição secundária}{15}{chapter*.76}%
+\contentsline {section}{O que é?}{15}{section*.77}%
+\contentsline {section}{Quem pode utilizar esse serviço?}{15}{section*.78}%
+\contentsline {section}{Como solicitar o serviço?}{15}{section*.79}%
+\contentsline {section}{Que informações ou documentos são necessários?}{15}{section*.80}%
+\contentsline {section}{Quais são as etapas para a realização desse serviço?}{16}{section*.81}%
+\contentsline {section}{Quanto custa?}{16}{section*.82}%
+\contentsline {section}{Quanto tempo leva?}{16}{section*.83}%
+\contentsline {section}{Como ter acesso ao atual \emph {status} do serviço?}{16}{section*.84}%
+\contentsline {section}{Legislação relacionada}{16}{section*.85}%
+\contentsline {section}{Serviços correlatos}{16}{section*.86}%
+\contentsline {chapter}{Transferência do registro profissional}{17}{chapter*.87}%
+\contentsline {section}{O que é?}{17}{section*.88}%
+\contentsline {section}{Quem pode utilizar esse serviço?}{17}{section*.89}%
+\contentsline {section}{Como solicitar o serviço?}{17}{section*.90}%
+\contentsline {section}{Que informações ou documentos são necessários?}{17}{section*.91}%
+\contentsline {section}{Quais são as etapas para a realização desse serviço?}{17}{section*.92}%
+\contentsline {section}{Quanto custa?}{18}{section*.93}%
+\contentsline {section}{Quanto tempo leva?}{18}{section*.94}%
+\contentsline {section}{Como ter acesso ao atual \emph {status} do serviço?}{18}{section*.95}%
+\contentsline {section}{Legislação relacionada}{18}{section*.96}%
+\contentsline {section}{Serviços correlatos}{18}{section*.97}%
+\contentsline {chapter}{Cancelamento do registro profissional}{19}{chapter*.98}%
+\contentsline {chapter}{Reativação de registro profissional}{20}{chapter*.99}%
+\contentsline {chapter}{Ressarcimento de pagamento}{21}{chapter*.100}%
+\contentsline {chapter}{Solicitação de isenção e interrupção temporária de anuidades}{22}{chapter*.101}%
+\contentsline {chapter}{Emissão de declarações}{23}{chapter*.102}%
+\contentsline {part}{Serviços à\\\textbf {pessoa jurídica}}{24}{section*.104}%
+\contentsline {chapter}{Inscrição profissional de pessoa jurídica}{25}{chapter*.105}%
+\contentsline {chapter}{Renovação do certificado de licença}{26}{chapter*.106}%
+\contentsline {chapter}{Alteração contratual}{27}{chapter*.107}%
+\contentsline {chapter}{Cancelamento de inscrição}{28}{chapter*.108}%
+\contentsline {chapter}{Solicitação de isenção de anuidade}{29}{chapter*.109}%
+\contentsline {chapter}{Alteração, substituição e/ou inclusão de Responsável Técnica/o}{30}{chapter*.110}%
+\contentsline {chapter}{Baixa de responsabilidade técnica}{31}{chapter*.111}%
+\contentsline {part}{Serviços de\\\textbf {orientação e fiscalização}}{32}{section*.113}%
+\contentsline {chapter}{Acesso às publicações orientativas}{33}{chapter*.114}%
+\contentsline {chapter}{Orientações sobre o Código de Ética e legislação profissional}{34}{chapter*.115}%
+\contentsline {chapter}{Consulta de legislação profissional}{35}{chapter*.116}%
+\contentsline {chapter}{Apresentação de queixa}{36}{chapter*.117}%
+\contentsline {chapter}{Representação}{37}{chapter*.118}%
+\contentsline {chapter}{Orientação/fiscalização de pessoas jurídicas recém-inscritas}{38}{chapter*.119}%
+\contentsline {part}{Formulários}{39}{section*.121}%
