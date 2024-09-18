@@ -1,7 +1,7 @@
-This is LuaHBTeX, Version 1.18.0 (TeX Live 2024)  (format=lualatex 2024.8.23)  18 SEP 2024 12:06
+This is LuaHBTeX, Version 1.18.0 (TeX Live 2024)  (format=lualatex 2024.8.23)  18 SEP 2024 12:09
  restricted system commands enabled.
-**isencao-saude.tex
-(./isencao-saude.tex
+**pf-isencao-saude.tex
+(./pf-isencao-saude.tex
 LaTeX2e <2024-06-01> patch level 2
 L3 programming layer <2024-07-20>
 Lua module: luaotfload 2024-02-14 3.28 Lua based OpenType font support
@@ -962,9 +962,9 @@ Package hyperref Info: Option `colorlinks' set `false' on input line 16.
 \nomeda=\skip277
 \nome=\skip278
 
-(./isencao-saude.aux)
-\openout1 = isencao-saude.aux
+No file pf-isencao-saude.aux.
 
+\openout1 = pf-isencao-saude.aux
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 26.
 LaTeX Font Info:    ... okay on input line 26.
 LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 26.
@@ -976,7 +976,7 @@ LaTeX Font Info:    ... okay on input line 26.
 LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 26.
 LaTeX Font Info:    Trying to load font information for TS1+cmr on input line 2
 6.
- (c:/texlive/2024/texmf-dist/tex/latex/base/ts1cmr.fd
+(c:/texlive/2024/texmf-dist/tex/latex/base/ts1cmr.fd
 File: ts1cmr.fd 2023/04/13 v2.5m Standard LaTeX font definitions
 )
 LaTeX Font Info:    ... okay on input line 26.
@@ -1363,6 +1363,9 @@ File: logo-crp.png Graphic file (type png)
 <use logo-crp.png>
 Package luatex.def Info: logo-crp.png  used on input line 75.
 (luatex.def)             Requested size: 144.565pt x 56.9055pt.
+
+LaTeX Warning: Reference `LastPage' on page 1 undefined on input line 75.
+
 [1
 
 
@@ -1432,15 +1435,28 @@ File: logo-crp.png Graphic file (type png)
 <use logo-crp.png>
 Package luatex.def Info: logo-crp.png  used on input line 138.
 (luatex.def)             Requested size: 144.565pt x 56.9055pt.
+
+LaTeX Warning: Reference `LastPage' on page 2 undefined on input line 138.
+
 [2
 
 ] 
 enddocument/afterlastpage: lastpage setting LastPage.
-(./isencao-saude.aux)
+(./pf-isencao-saude.aux)
  ***********
 LaTeX2e <2024-06-01> patch level 2
 L3 programming layer <2020/03/25>
  ***********
+
+
+LaTeX Warning: There were undefined references.
+
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
+
+Package lastpage Warning: Rerun to get the references right on input line 138.
+
 )
 (\end occurred inside a group at level 2)
 
@@ -1449,23 +1465,23 @@ L3 programming layer <2020/03/25>
 ### bottom level
 
 Here is how much of LuaTeX's memory you used:
- 20139 strings out of 475910
+ 20135 strings out of 475910
  125236,1977958 words of node,token memory allocated
  1510 words of node memory still in use:
    6 hlist, 1 vlist, 3 rule, 1 local_par, 5 glue, 4 kern, 1 penalty, 3 glyph, 17
  attribute, 241 glue_spec, 9 attribute_list, 2 write, 1 pdf_action nodes
-   avail lists: 1:1,2:980,3:419,4:109,5:285,6:86,7:3659,8:2,9:771,10:11,11:330
- 42412 multiletter control sequences out of 65536+600000
- 43 fonts using 2353799 bytes
- 99i,14n,105p,1009b,715s stack positions out of 10000i,1000n,20000p,200000b,200000s
+   avail lists: 1:1,2:980,3:416,4:109,5:285,6:85,7:3662,8:2,9:771,10:11,11:330
+ 42413 multiletter control sequences out of 65536+600000
+ 44 fonts using 2392367 bytes
+ 99i,14n,105p,1012b,715s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <c:/Users/angelo.cuissi/AppData/Local/Microsoft/Windows/Fonts/NewJune-Regular-It
 alic.otf><c:/Users/angelo.cuissi/AppData/Local/Microsoft/Windows/Fonts/NewJune-B
 old.otf><c:/Users/angelo.cuissi/AppData/Local/Microsoft/Windows/Fonts/NewJune-Re
 gular.otf><c:/texlive/2024/texmf-dist/fonts/type1/urw/zapfding/uzdr.pfb>
-Output written on isencao-saude.pdf (2 pages, 138390 bytes).
+Output written on pf-isencao-saude.pdf (2 pages, 138477 bytes).
 
-PDF statistics: 129 PDF objects out of 1000 (max. 8388607)
- 108 compressed objects within 2 object streams
+PDF statistics: 127 PDF objects out of 1000 (max. 8388607)
+ 106 compressed objects within 2 object streams
  20 named destinations out of 1000 (max. 131072)
  99 words of extra memory for PDF output out of 10000 (max. 100000000)
 

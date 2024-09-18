@@ -1,0 +1,138 @@
+\documentclass[openright, oneside, a4paper, article, brazil]{abntex2}
+\usepackage{formularios}
+% --------- %
+% Metadados %
+% --------- %
+\hypersetup{%
+	colorlinks=false,
+	allbordercolors=white,
+	pdftitle = {Análise — Isenção de anuidade por questões de saúde},
+	pdfauthor = {Conselho Regional de Psicologia de São Paulo},
+	pdfsubject = {Isenção de anuidade},
+	pdfkeywords = {%
+		Isenção de anuidade,
+		saúde,
+	}%
+}
+\newlength{\nomeda}
+	\settowidth{\nomeda}{Nome da/o psicóloga/o: }
+\newlength{\nome}
+	\setlength{\nome}{\textwidth-\nomeda-0.5em}
+\title{Análise — Isenção de anuidade por questões de saúde}
+\author{Conselho Regional de Psicologia de São Paulo}
+% --------- %
+% DOCUMENTO %
+% --------- %
+\begin{document}
+\pagestyle{crp}
+\centering
+\Form
+\section*{ANÁLISE --- ISENÇÃO DE ANUIDADE POR QUESTÕES DE SAÚDE}%
+% -------------------------- %
+% Identificação/qualificação %
+% -------------------------- %
+\vfill
+\setasuspacing{\OnehalfSpacing}
+% Define espaçamento duplo para que as caixas de texto não fiquem sobrepostas
+\justifying
+\preenctext{14}{nome}{\nome}{Nome da/o psicóloga/o: \hfill}
+\vspace{\baselineskip}
+
+\preenctext{14}{crp}{8em}{Nº de inscrição no CRP~SP: } \hfill Data de inscrição: \dataabrev{14}{1}
+\vspace{\baselineskip}
+
+Situação da inscrição:\hspace{1em} \caixasel{14}{ativa} ativa;\hspace{1em} \caixasel{14}{cancelada} cancelada.
+\vfill
+
+\justifying
+\subsection{Solicita isenção das anuidades}
+
+\begin{enumerate}
+	\item \preenctext{14}{anuidade1}{47em}{\hfill}
+	\item \preenctext{14}{anuidade2}{47em}{\hfill}
+	\item \preenctext{14}{anuidade3}{47em}{\hfill}
+	\item \preenctext{14}{anuidade4}{47em}{\hfill}
+	\item \preenctext{14}{anuidade5}{47em}{\hfill}
+\end{enumerate}
+\vfill
+
+\subsection{Documentos recebidos}
+
+\begin{enumerate}
+	\item \preenctext{14}{documento1}{47em}{\hfill}
+	\item \preenctext{14}{documento2}{47em}{\hfill}
+	\item \preenctext{14}{documento3}{47em}{\hfill}
+	\item \preenctext{14}{documento4}{47em}{\hfill}
+	\item \preenctext{14}{documento5}{47em}{\hfill}
+\end{enumerate}
+\vfill
+
+\setasuspacing{\OnehalfSpace}\justifying
+\begin{framed}
+	\noindent\small Obs.: de acordo com o \href{https://transparencia.cfp.org.br/wp-content/uploads/sites/7/2020/05/Manual-de-Procedimentos-Administrativos-e-Financeiro-CFP-RES-20.2018.pdf}{\textcolor{crp1}{\textit{Manual de procedimentos administrativos, financeiros e contábeis do Sistema Conselhos de Psicologia}}}, ``A Diretoria do Conselho Regional deverá decidir em 30 (trinta) dias, cabendo recurso ao Plenário, no prazo de 20 (vinte) dias, se indeferido o pedido [\textit{de interrupção temporária do pagamento das anuidades}]. Não havendo deliberação pela Diretoria, decorridos 30 (trinta) dias do recebimento do pedido, a interrupção temporária será considerada aprovada'' (Norma 02, seção 5.4.2).
+\end{framed}
+\vfill
+\clearpage
+\setasuspacing{\DoubleSpace}\justifying
+\subsection{Parecer técnico}
+\preenctext{14}{parecer1}{\textwidth}{\null}
+\preenctext{14}{parecer2}{\textwidth}{\null}
+\preenctext{14}{parecer3}{\textwidth}{\null}
+\preenctext{14}{parecer4}{\textwidth}{\null}
+\preenctext{14}{parecer5}{\textwidth}{\null}
+%\vspace{0.5\baselineskip}
+
+\begin{framed}\noindent
+	\begin{minipage}{0.5\linewidth}{%
+			\subsection{Processo ético (PE)}
+			\begin{minipage}{\boxlarg}
+				\caixasel{14}{pe-sim}
+			\end{minipage}%
+			\begin{minipage}{\linewidth-\boxlarg}
+				Sim
+			\end{minipage}
+			\begin{minipage}{\boxlarg}
+				\caixasel{14}{pe-nao}
+			\end{minipage}%
+			\begin{minipage}{\linewidth-\boxlarg}
+				Não
+			\end{minipage}
+		}%
+	\end{minipage}%
+	\begin{minipage}{0.5\linewidth}{%
+		\subsection{Providências}
+		\begin{minipage}{\boxlarg}
+			\caixasel{14}{deferir}
+		\end{minipage}%
+		\begin{minipage}{\linewidth-\boxlarg}
+			Deferir
+		\end{minipage}
+		\begin{minipage}{\boxlarg}
+			\caixasel{14}{indeferir}
+		\end{minipage}%	
+		\begin{minipage}{\linewidth-\boxlarg}
+			Indeferir
+		\end{minipage}
+	}%
+	\end{minipage}
+\end{framed}
+
+\subsection{Deliberação}
+
+\preenctext{14}{deliberacao1}{\textwidth}{\null}
+\preenctext{14}{deliberacao2}{\textwidth}{\null}
+\preenctext{14}{deliberacao3}{\textwidth}{\null}
+\preenctext{14}{deliberacao4}{\textwidth}{\null}
+\preenctext{14}{deliberacao5}{\textwidth}{\null}
+
+\begin{flushright}
+	\preenctext{14}{responsavel-analise}{24em}{\null}\\
+	\footnotesize Responsável pela análise
+\end{flushright}
+\vspace*{4\baselineskip}
+\begin{center}
+	\rule{24em}{0.4pt}\\
+	\footnotesize Conselheira/o secretária/o
+\end{center}
+
+\end{document}

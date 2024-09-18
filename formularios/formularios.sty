@@ -66,6 +66,15 @@
 % Navegação & formulários %
 % ----------------------- %
 \usepackage{hyperref}
+\hypersetup{
+	colorlinks=true,
+	linkcolor=crp1,
+	filecolor=crp2,
+	urlcolor=crp1,
+	pdfpagemode=FullScreen,
+}
+\urlstyle{same}
+\usepackage{url}
 % -------------- %
 % Novos comandos %
 % -------------- %
@@ -77,8 +86,8 @@
     \preenctext{#1}{ano{#2}}{3em}{\null}%
 }
 \newcommand{\dataextenso}[1]{%
-\raggedright%
-\preenctext{14}{cidade}{18em}{\null}
-\preenctext{14}{diaext#1}{3em}{ , }
-\preenctext{14}{mesext#1}{8em}{ de }
-\preenctext{14}{anoext#1}{4em}{ de } .}
+    \raggedright%
+    \preenctext{14}{cidade}{18em}{\null}
+    \preenctext{14}{diaext#1}{3em}{ , }
+    \preenctext{14}{mesext#1}{8em}{ de }
+    \preenctext{14}{anoext#1}{4em}{ de } .}
