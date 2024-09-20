@@ -47,33 +47,35 @@
 % DOCUMENTO %
 % --------- %
 \begin{document}
-\pagestyle{empty}
+\pagestyle{pretext}
 % ---------------------- %
 % Elementos pré-textuais %
 % ---------------------- %
-\input{paratextos/olho.tex}
-\clearpage
-\input{paratextos/creditos_institucionais.tex}
+\include{paratextos/olho.tex}
+%\clearpage
+\include{paratextos/creditos_institucionais.tex}
 \include{paratextos/folhaderosto.tex}
-\input{paratextos/creditos_tecnicos.tex}
+\include{paratextos/creditos_tecnicos.tex}
 \frontmatter
-\pagestyle{plain}
+\pagestyle{crp}
 \include{capitulos/pretext-apresentacao}
 \include{capitulos/pretext-o-crp-sp}
 \include{capitulos/pretext-psicologia-como}
 % ------- %
-% Sumário
+% Sumário %
 % ------- %
+\pagestyle{pretext}
 \tableofcontents*\label{sumario}
 % ------------------ %
 % Elementos textuais
 % ------------------ %
 \mainmatter
+\pagestyle{crp}
 % -- %
 % PF %
 % -- %
-\pagestyle{crp}
-\part{Serviços à\\\textbf{pessoa fisica}}
+%\thispagestyle{empty}
+\part{Serviços à \\\textbf{pessoa física}}
 %
 \include{capitulos/pf-inscricao}
 \include{capitulos/pf-cip}
@@ -91,7 +93,8 @@
 % -- %
 % PJ
 % -- %
-\part{Serviços à\\\textbf{pessoa jurídica}}
+%\thispagestyle{empty}
+\part{Serviços à \\\textbf{pessoa jurídica}}
 %
 \include{capitulos/pj-inscricao}
 \include{capitulos/pj-licenca}
@@ -103,7 +106,8 @@
 % ------------------------- %
 % Orientação e fiscalização %
 % ------------------------- %
-\part{Serviços de\\\textbf{orientação e fiscalização}}
+%\thispagestyle{empty}
+\part{Serviços de \\\textbf{orientação e \\fiscalização}}
 %
 \include{capitulos/of-publicacoes}
 \include{capitulos/of-codigo_de_etica}
@@ -118,6 +122,7 @@
 % ----------- %
 % Formulários %
 % ----------- %
+%\thispagestyle{empty}
 \part{Formulários}
 \formulario{pf-registro_especialista.pdf}
 \formulario{pj-termo_rt.pdf}

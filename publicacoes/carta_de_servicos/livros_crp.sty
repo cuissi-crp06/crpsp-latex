@@ -57,6 +57,33 @@
 \maxsecnumdepth{none}
 \usepackage{tocvsec2}
 \setcounter{tocdepth}{0}
+%
+\makepagestyle{pretext}
+\makeoddhead{pretext}{}{}{}
+\makeoddfoot{pretext}{}{}{}
+\makeevenhead{pretext}{}{}{}
+\makeevenfoot{pretext}{}{}{}
+\aliaspagestyle{chapter}{pretext}
+\aliaspagestyle{part}{pretext}
+%
+\copypagestyle{crp}{headings}
+\makeheadfootruleprefix{crp}{\color{crp2}}{\color{crp2}}
+\makeheadrule{crp}{\textwidth}{\normalrulethickness}
+\makeevenhead{crp}{\color{crp2}\thepage}{}{\color{crp2}\itshape\leftmark}
+\makeoddhead{crp}{\color{crp2}\itshape\rightmark}{}{\color{crp2}\thepage}
+%
+\makeatletter
+\renewcommand{\hangsecnum}{%
+	\def\@seccntformat##1{%
+		\makebox[0pt][r]{%
+			\color{crp2}%
+			\csname the##1\endcsname
+			\quad
+		}%
+	}%
+}
+\makeatother
+%
 \setsecheadstyle{\LARGE\bfseries\color{crp1}}
 \setaftersecskip{\baselineskip}
 \setsubsecheadstyle{\Large\bfseries\color{crp1}}
@@ -66,6 +93,17 @@
 \setafterparaskip{\baselineskip}
 \setsubparaheadstyle{\normalsize\color{crp1}}
 \setaftersubparaskip{\baselineskip}
+%
+%\renewcommand{\part}{%
+ %   \thispagestyle{pretext}}%
+\renewcommand{\printparttitle}{\flushright\HUGE\bfseries\color{crp1}\thepart}
+\renewcommand{\beforepartskip}{\vspace*{\fill}}
+\renewcommand{\afterpartskip}{\vspace*{4\baselineskip}}
+\let\partold\part
+\RenewDocumentCommand{\part}{O{#2} m}
+{
+\partold[#1]{\MakeUppercase{#2}}
+}
 %
 \makeatletter
 \makechapterstyle{CRP}{%
@@ -108,32 +146,10 @@
 \addtopsmarks{headings}{}{
 	\createmark{chapter}{both}{shownumber}{}{. \ }
 }
-\copypagestyle{crp}{headings}
-\makeheadfootruleprefix{crp}{\color{crp2}}{\color{crp2}}
-\makeheadrule{crp}{\textwidth}{\normalrulethickness}
-\makeevenhead{crp}{\color{crp2}\thepage}{}{\color{crp2}\itshape\leftmark}
-\makeoddhead{crp}{\color{crp2}\itshape\rightmark}{}{\color{crp2}\thepage}
-\makeatletter
-\renewcommand{\hangsecnum}{%
-	\def\@seccntformat##1{%
-		\makebox[0pt][r]{%
-			\color{crp2}%
-			\csname the##1\endcsname
-			\quad
-		}%
-	}%
-}
-\makeatother
+%
 \setsechook{\hangsecnum}
 \setsubsechook{\hangsecnum}
 \AtBeginDocument{\addtocontents{toc}{\protect\thispagestyle{empty}}}
-%
-\makepagestyle{pretext}
-\makeoddhead{pretext}{}{}{}
-\makeoddfoot{pretext}{}{}{}
-\makeevenhead{pretext}{}{}{}
-\makeevenfoot{pretext}{}{}{}
-\aliaspagestyle{pretext}{chapter}
 %
 \chapterstyle{CRP}
 \nouppercaseheads

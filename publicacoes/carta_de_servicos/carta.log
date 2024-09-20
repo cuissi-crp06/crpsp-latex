@@ -1,4 +1,4 @@
-This is LuaHBTeX, Version 1.18.0 (TeX Live 2024)  (format=lualatex 2024.8.23)  18 SEP 2024 13:53
+This is LuaHBTeX, Version 1.18.0 (TeX Live 2024)  (format=lualatex 2024.8.23)  20 SEP 2024 13:31
  restricted system commands enabled.
 **carta.tex
 (./carta.tex
@@ -1226,24 +1226,14 @@ Package: memhfixc 2023/09/10 v1.22 hyperref package fixes for memoir class
 \c@memhycontfloat=\count373
 \c@Hpagenote=\count374
 )
-Package hyperref Info: Option `colorlinks' set `true' on input line 151.
+Package hyperref Info: Option `colorlinks' set `true' on input line 167.
 )
 Package hyperref Info: Option `colorlinks' set `true' on input line 43.
  (./carta.aux
-(./paratextos/folhaderosto.aux) (./capitulos/pretext-apresentacao.aux)
-(./capitulos/pretext-o-crp-sp.aux) (./capitulos/pretext-psicologia-como.aux)
-(./capitulos/pf-inscricao.aux) (./capitulos/pf-cip.aux)
-(./capitulos/pf-inscricao_definitiva.aux) (./capitulos/pf-prorroga_diploma.aux) (./capitulos/pf-2-via.aux) (./capitulos/pf-especialista.aux)
-(./capitulos/pf-secundaria.aux) (./capitulos/pf-transferencia.aux)
-(./capitulos/pf-cancelamento.aux) (./capitulos/pf-reativacao.aux)
-(./capitulos/pf-ressarcimento.aux) (./capitulos/pf-isencao.aux)
-(./capitulos/pf-declaracoes.aux) (./capitulos/pj-inscricao.aux)
-(./capitulos/pj-licenca.aux) (./capitulos/pj-alteracao.aux)
-(./capitulos/pj-cancelamento.aux) (./capitulos/pj-isencao.aux)
-(./capitulos/pj-rt.aux) (./capitulos/pj-baixa_rt.aux)
-(./capitulos/of-publicacoes.aux) (./capitulos/of-codigo_de_etica.aux)
-(./capitulos/of-legislacao.aux) (./capitulos/of-queixa.aux)
-(./capitulos/of-representacao.aux) (./capitulos/of-orientacao_pj.aux))
+(./paratextos/olho.aux) (./paratextos/creditos_institucionais.aux)
+(./paratextos/folhaderosto.aux) (./paratextos/creditos_tecnicos.aux)
+(./capitulos/pretext-apresentacao.aux) (./capitulos/pretext-o-crp-sp.aux)
+(./capitulos/pretext-psicologia-como.aux))
 \openout1 = carta.aux
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 49.
@@ -1615,14 +1605,21 @@ Package hyperref Info: Link coloring ON on input line 49.
 \@outlinefile=\write5
 
 \openout5 = carta.out
+
+\openout2 = paratextos/olho.aux
  (./paratextos/olho.tex)
 
 [1
 
+
 {c:/texlive/2024/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
+\openout2 = paratextos/creditos_institucionais.aux
+
 (./paratextos/creditos_institucionais.tex)
 
 [2
+
+
 
 ]
 \openout2 = paratextos/folhaderosto.aux
@@ -1630,9 +1627,14 @@ Package hyperref Info: Link coloring ON on input line 49.
 
 [3
 
-] (./paratextos/creditos_tecnicos.tex)
+
+
+]
+\openout2 = paratextos/creditos_tecnicos.aux
+ (./paratextos/creditos_tecnicos.tex)
 
 [4
+
 
 
 ]
@@ -1640,6 +1642,8 @@ Package hyperref Info: Link coloring ON on input line 49.
  (./capitulos/pretext-apresentacao.tex)
 
 [1
+
+
 
 
 
@@ -1687,7 +1691,7 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 [6]
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\\' on input line 76.
+(hyperref)                removing `\\' on input line 78.
 
 
 
@@ -1705,7 +1709,36 @@ warning  (pdf backend): ignoring duplicate destination with the name 'page.2'
 [2
 
 
-])
+]
+
+LaTeX Warning: Hyper reference `chap:pf-cip' on page 3 undefined on input line 
+64.
+
+
+LaTeX Warning: Hyper reference `chap:pf-inscricao_definitiva' on page 3 undefin
+ed on input line 65.
+
+
+LaTeX Warning: Hyper reference `chap:pf-secundaria' on page 3 undefined on inpu
+t line 66.
+
+
+LaTeX Warning: Hyper reference `chap:pf-transferencia' on page 3 undefined on i
+nput line 67.
+
+
+LaTeX Warning: Hyper reference `chap:pf-cancelamento' on page 3 undefined on in
+put line 68.
+
+
+LaTeX Warning: Hyper reference `chap:pf-prorroga_diploma' on page 3 undefined o
+n input line 69.
+
+
+LaTeX Warning: Hyper reference `chap:pf-isencao' on page 3 undefined on input l
+ine 70.
+
+)
 
 
 warning  (pdf backend): ignoring duplicate destination with the name 'page.3'
@@ -1720,7 +1753,12 @@ warning  (pdf backend): ignoring duplicate destination with the name 'page.4'
 
 
 
-])
+]
+
+LaTeX Warning: Hyper reference `chap:pf-inscricao' on page 5 undefined on input
+ line 88.
+
+)
 
 [5]
 \openout2 = capitulos/pf-inscricao_definitiva.aux
@@ -1731,7 +1769,16 @@ warning  (pdf backend): ignoring duplicate destination with the name 'page.4'
 
 
 
-])
+]
+
+LaTeX Warning: Hyper reference `chap:pf-inscricao' on page 7 undefined on input
+ line 67.
+
+
+LaTeX Warning: Hyper reference `chap:pf-cip' on page 7 undefined on input line 
+69.
+
+)
 
 [7]
 \openout2 = capitulos/pf-prorroga_diploma.aux
@@ -1747,7 +1794,20 @@ cip' on page 8 undefined on input line 39.
 
 
 
-])
+]
+
+LaTeX Warning: Hyper reference `chap:pf-cip' on page 9 undefined on input line 
+51.
+
+
+LaTeX Warning: Hyper reference `chap:pf-cip' on page 9 undefined on input line 
+84.
+
+
+LaTeX Warning: Hyper reference `chap:pf-inscricao_definitiva' on page 9 undefin
+ed on input line 86.
+
+)
 
 [9]
 \openout2 = capitulos/pf-2-via.aux
@@ -1758,7 +1818,12 @@ cip' on page 8 undefined on input line 39.
 
 
 
-])
+]
+
+LaTeX Warning: Hyper reference `chap:pf-cip' on page 11 undefined on input line
+ 76.
+
+)
 
 [11]
 \openout2 = capitulos/pf-especialista.aux
@@ -1779,7 +1844,12 @@ con-forme [][]Re-so-lu-ção CFP nº 23/2022[][].
 
 [13
 
-])
+]
+
+LaTeX Warning: Hyper reference `chap:pf-cip' on page 14 undefined on input line
+ 103.
+
+)
 
 [14
 
@@ -1792,7 +1862,16 @@ con-forme [][]Re-so-lu-ção CFP nº 23/2022[][].
 
 
 
-])
+]
+
+LaTeX Warning: Hyper reference `chap:pf-inscricao' on page 16 undefined on inpu
+t line 80.
+
+
+LaTeX Warning: Hyper reference `chap:pf-cip' on page 16 undefined on input line
+ 82.
+
+)
 
 [16]
 \openout2 = capitulos/pf-transferencia.aux
@@ -1803,7 +1882,12 @@ con-forme [][]Re-so-lu-ção CFP nº 23/2022[][].
 
 
 
-])
+]
+
+LaTeX Warning: Hyper reference `chap:pf-secundaria' on page 18 undefined on inp
+ut line 83.
+
+)
 
 [18]
 \openout2 = capitulos/pf-cancelamento.aux
@@ -1825,7 +1909,36 @@ con-forme [][]Re-so-lu-ção CFP nº 23/2022[][].
 
 
 
-])
+]
+
+LaTeX Warning: Hyper reference `chap:pf-cip' on page 22 undefined on input line
+ 62.
+
+
+LaTeX Warning: Hyper reference `chap:pf-inscricao_definitiva' on page 22 undefi
+ned on input line 63.
+
+
+LaTeX Warning: Hyper reference `chap:pf-secundaria' on page 22 undefined on inp
+ut line 64.
+
+
+LaTeX Warning: Hyper reference `chap:pf-transferencia' on page 22 undefined on 
+input line 65.
+
+
+LaTeX Warning: Hyper reference `chap:pf-cancelamento' on page 22 undefined on i
+nput line 66.
+
+
+LaTeX Warning: Hyper reference `chap:pf-prorroga_diploma' on page 22 undefined 
+on input line 67.
+
+
+LaTeX Warning: Hyper reference `chap:pf-isencao' on page 22 undefined on input 
+line 68.
+
+)
 
 [22]
 \openout2 = capitulos/pf-ressarcimento.aux
@@ -1836,7 +1949,12 @@ con-forme [][]Re-so-lu-ção CFP nº 23/2022[][].
 
 
 
-])
+]
+
+LaTeX Warning: Hyper reference `chap:pf-inscricao' on page 24 undefined on inpu
+t line 52.
+
+)
 
 [24]
 \openout2 = capitulos/pf-isencao.aux
@@ -1849,11 +1967,29 @@ con-forme [][]Re-so-lu-ção CFP nº 23/2022[][].
 
 ]
 
+LaTeX Warning: Hyper reference `chap:pf-inscricao' on page 26 undefined on inpu
+t line 72.
+
+
+
 [26])
 
 [27]
 \openout2 = capitulos/pf-declaracoes.aux
  (./capitulos/pf-declaracoes.tex
+
+LaTeX Warning: Hyper reference `chap:pf-cancelamento' on page 28 undefined on i
+nput line 9.
+
+
+LaTeX Warning: Hyper reference `chap:pf-especialista' on page 28 undefined on i
+nput line 10.
+
+
+LaTeX Warning: Hyper reference `chap:pj-alteracao' on page 28 undefined on inpu
+t line 11.
+
+
 
 [28
 
@@ -1864,14 +2000,19 @@ con-forme [][]Re-so-lu-ção CFP nº 23/2022[][].
 
 [29
 
-])
+]
+
+LaTeX Warning: Hyper reference `chap:pf-inscricao' on page 30 undefined on inpu
+t line 99.
+
+)
 
 [30
 
 ]
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\\' on input line 94.
+(hyperref)                removing `\\' on input line 97.
 
 
 
@@ -1881,23 +2022,61 @@ Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 
 ]
 \openout2 = capitulos/pj-inscricao.aux
- (./capitulos/pj-inscricao.tex)
+ (./capitulos/pj-inscricao.tex
+
+LaTeX Warning: Hyper reference `' on page 32 undefined on input line 22.
+
+
+LaTeX Warning: Hyper reference `' on page 32 undefined on input line 23.
+
+
+LaTeX Warning: Hyper reference `' on page 32 undefined on input line 24.
+
+
 
 [32
 
 
 ]
+
+LaTeX Warning: Hyper reference `chap:pj-alteracao' on page 33 undefined on inpu
+t line 59.
+
+
+LaTeX Warning: Hyper reference `chap:pj-licenca' on page 33 undefined on input 
+line 60.
+
+
+LaTeX Warning: Hyper reference `chap:pj-baixa_rt' on page 33 undefined on input
+ line 61.
+
+
+LaTeX Warning: Hyper reference `chap:pj-cancelamento' on page 33 undefined on i
+nput line 62.
+
+
+LaTeX Warning: Hyper reference `chap:pj-rt' on page 33 undefined on input line 
+63.
+
+
+LaTeX Warning: Hyper reference `chap:pj-isencao' on page 33 undefined on input 
+line 64.
+
+)
+
+[33]
 \openout2 = capitulos/pj-licenca.aux
- (./capitulos/pj-licenca.tex)
+ (./capitulos/pj-licenca.tex
 
-[33
-
-
+LaTeX Warning: Hyper reference `' on page 34 undefined on input line 19.
 
 
-]
-\openout2 = capitulos/pj-alteracao.aux
- (./capitulos/pj-alteracao.tex)
+LaTeX Warning: Hyper reference `' on page 34 undefined on input line 20.
+
+
+LaTeX Warning: Hyper reference `' on page 34 undefined on input line 21.
+
+
 
 [34
 
@@ -1905,17 +2084,25 @@ Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 
 
 ]
-\openout2 = capitulos/pj-cancelamento.aux
- (./capitulos/pj-cancelamento.tex)
 
-[35
+LaTeX Warning: Hyper reference `chap:pj-inscricao' on page 35 undefined on inpu
+t line 53.
+
+)
+
+[35]
+\openout2 = capitulos/pj-alteracao.aux
+ (./capitulos/pj-alteracao.tex
+
+LaTeX Warning: Hyper reference `' on page 36 undefined on input line 22.
 
 
+LaTeX Warning: Hyper reference `' on page 36 undefined on input line 23.
 
 
-]
-\openout2 = capitulos/pj-isencao.aux
- (./capitulos/pj-isencao.tex)
+LaTeX Warning: Hyper reference `' on page 36 undefined on input line 24.
+
+
 
 [36
 
@@ -1923,17 +2110,31 @@ Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 
 
 ]
-\openout2 = capitulos/pj-rt.aux
- (./capitulos/pj-rt.tex)
 
-[37
+LaTeX Warning: Hyper reference `chap:pj-inscricao' on page 37 undefined on inpu
+t line 57.
+
+)
+
+[37]
+\openout2 = capitulos/pj-cancelamento.aux
+ (./capitulos/pj-cancelamento.tex
+
+LaTeX Warning: Hyper reference `' on page 38 undefined on input line 22.
 
 
+LaTeX Warning: Hyper reference `' on page 38 undefined on input line 23.
 
 
-]
-\openout2 = capitulos/pj-baixa_rt.aux
- (./capitulos/pj-baixa_rt.tex)
+LaTeX Warning: Hyper reference `' on page 38 undefined on input line 31.
+
+
+LaTeX Warning: Hyper reference `' on page 38 undefined on input line 32.
+
+
+LaTeX Warning: Hyper reference `' on page 38 undefined on input line 33.
+
+
 
 [38
 
@@ -1942,12 +2143,96 @@ Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 
 ]
 
+LaTeX Warning: Hyper reference `chap:pj-inscricao' on page 39 undefined on inpu
+t line 66.
+
+)
+
+[39]
+\openout2 = capitulos/pj-isencao.aux
+ (./capitulos/pj-isencao.tex
+
+LaTeX Warning: Hyper reference `' on page 40 undefined on input line 21.
+
+
+LaTeX Warning: Hyper reference `' on page 40 undefined on input line 31.
+
+
+LaTeX Warning: Hyper reference `' on page 40 undefined on input line 32.
+
+
+
+[40
+
+
+
+
+]
+
+LaTeX Warning: Hyper reference `chap:pj-inscricao' on page 41 undefined on inpu
+t line 65.
+
+)
+
+[41]
+\openout2 = capitulos/pj-rt.aux
+ (./capitulos/pj-rt.tex
+
+LaTeX Warning: Hyper reference `' on page 42 undefined on input line 19.
+
+
+LaTeX Warning: Hyper reference `' on page 42 undefined on input line 20.
+
+
+
+[42
+
+
+
+
+]
+
+LaTeX Warning: Hyper reference `chap:pj-inscricao' on page 43 undefined on inpu
+t line 55.
+
+)
+
+[43]
+\openout2 = capitulos/pj-baixa_rt.aux
+ (./capitulos/pj-baixa_rt.tex
+
+LaTeX Warning: Hyper reference `' on page 44 undefined on input line 21.
+
+
+
+[44
+
+
+
+
+]
+
+LaTeX Warning: Hyper reference `chap:pj-inscricao' on page 45 undefined on inpu
+t line 61.
+
+
+LaTeX Warning: Hyper reference `chap:pj-rt' on page 45 undefined on input line 
+62.
+
+)
+
+[45]
+
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\\' on input line 106.
+(hyperref)                removing `\\' on input line 110.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `\\' on input line 110.
 
 
 
-[39
+[46
 
 
 
@@ -1955,14 +2240,14 @@ Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 \openout2 = capitulos/of-publicacoes.aux
  (./capitulos/of-publicacoes.tex)
 
-[40
+[47
 
 
 ]
 \openout2 = capitulos/of-codigo_de_etica.aux
  (./capitulos/of-codigo_de_etica.tex)
 
-[41
+[48
 
 
 
@@ -1971,7 +2256,7 @@ Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 \openout2 = capitulos/of-legislacao.aux
  (./capitulos/of-legislacao.tex)
 
-[42
+[49
 
 
 
@@ -1980,7 +2265,7 @@ Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 \openout2 = capitulos/of-queixa.aux
  (./capitulos/of-queixa.tex)
 
-[43
+[50
 
 
 
@@ -1989,7 +2274,7 @@ Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 \openout2 = capitulos/of-representacao.aux
  (./capitulos/of-representacao.tex)
 
-[44
+[51
 
 
 
@@ -1998,203 +2283,204 @@ Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 \openout2 = capitulos/of-orientacao_pj.aux
  (./capitulos/of-orientacao_pj.tex)
 
-[45
+[52
 
 
 
 
 ]
-
-[46
-
-
-
-
-]
-<formularios/pf-registro_especialista.pdf, id=789, 597.50829pt x 845.04709pt>
+<formularios/pf-registro_especialista.pdf, id=835, 597.50829pt x 845.04709pt>
 File: formularios/pf-registro_especialista.pdf Graphic file (type pdf)
 <use formularios/pf-registro_especialista.pdf>
 Package luatex.def Info: formularios/pf-registro_especialista.pdf  used on inpu
-t line 122.
+t line 127.
 (luatex.def)             Requested size: 597.50682pt x 845.04503pt.
 File: formularios/pf-registro_especialista.pdf Graphic file (type pdf)
 <use formularios/pf-registro_especialista.pdf>
 Package luatex.def Info: formularios/pf-registro_especialista.pdf  used on inpu
-t line 122.
+t line 127.
 (luatex.def)             Requested size: 597.50682pt x 845.04503pt.
-<formularios/pf-registro_especialista.pdf, id=792, page=1, 597.50829pt x 845.04
+<formularios/pf-registro_especialista.pdf, id=838, page=1, 597.50829pt x 845.04
 709pt>
 File: formularios/pf-registro_especialista.pdf Graphic file (type pdf)
 <use formularios/pf-registro_especialista.pdf, page 1>
 Package luatex.def Info: formularios/pf-registro_especialista.pdf , page1 used 
-on input line 122.
+on input line 127.
+(luatex.def)             Requested size: 597.50682pt x 845.04503pt.
+
+
+[53
+
+
+
+
+]
+File: formularios/pf-registro_especialista.pdf Graphic file (type pdf)
+<use formularios/pf-registro_especialista.pdf, page 1>
+Package luatex.def Info: formularios/pf-registro_especialista.pdf , page1 used 
+on input line 127.
 (luatex.def)             Requested size: 597.50682pt x 845.04503pt.
 File: formularios/pf-registro_especialista.pdf Graphic file (type pdf)
 <use formularios/pf-registro_especialista.pdf, page 1>
 Package luatex.def Info: formularios/pf-registro_especialista.pdf , page1 used 
-on input line 122.
-(luatex.def)             Requested size: 597.50682pt x 845.04503pt.
-File: formularios/pf-registro_especialista.pdf Graphic file (type pdf)
-<use formularios/pf-registro_especialista.pdf, page 1>
-Package luatex.def Info: formularios/pf-registro_especialista.pdf , page1 used 
-on input line 122.
+on input line 127.
 (luatex.def)             Requested size: 597.50682pt x 845.04503pt.
 
 
 File: formularios/pf-registro_especialista.pdf Graphic file (type pdf)
 <use formularios/pf-registro_especialista.pdf, page 1>
 Package luatex.def Info: formularios/pf-registro_especialista.pdf , page1 used 
-on input line 122.
+on input line 127.
 (luatex.def)             Requested size: 597.50682pt x 845.04503pt.
-[47
+[54
 
 <./formularios/pf-registro_especialista.pdf>]
-<formularios/pj-termo_rt.pdf, id=820, 597.50829pt x 845.04709pt>
+<formularios/pj-termo_rt.pdf, id=871, 597.50829pt x 845.04709pt>
 File: formularios/pj-termo_rt.pdf Graphic file (type pdf)
 <use formularios/pj-termo_rt.pdf>
-Package luatex.def Info: formularios/pj-termo_rt.pdf  used on input line 123.
+Package luatex.def Info: formularios/pj-termo_rt.pdf  used on input line 128.
 (luatex.def)             Requested size: 597.50682pt x 845.04503pt.
 File: formularios/pj-termo_rt.pdf Graphic file (type pdf)
 <use formularios/pj-termo_rt.pdf>
-Package luatex.def Info: formularios/pj-termo_rt.pdf  used on input line 123.
+Package luatex.def Info: formularios/pj-termo_rt.pdf  used on input line 128.
 (luatex.def)             Requested size: 597.50682pt x 845.04503pt.
-<formularios/pj-termo_rt.pdf, id=823, page=1, 597.50829pt x 845.04709pt>
+<formularios/pj-termo_rt.pdf, id=874, page=1, 597.50829pt x 845.04709pt>
 File: formularios/pj-termo_rt.pdf Graphic file (type pdf)
 <use formularios/pj-termo_rt.pdf, page 1>
 Package luatex.def Info: formularios/pj-termo_rt.pdf , page1 used on input line
- 123.
-(luatex.def)             Requested size: 597.50682pt x 845.04503pt.
-File: formularios/pj-termo_rt.pdf Graphic file (type pdf)
-<use formularios/pj-termo_rt.pdf, page 1>
-Package luatex.def Info: formularios/pj-termo_rt.pdf , page1 used on input line
- 123.
+ 128.
 (luatex.def)             Requested size: 597.50682pt x 845.04503pt.
 File: formularios/pj-termo_rt.pdf Graphic file (type pdf)
 <use formularios/pj-termo_rt.pdf, page 1>
 Package luatex.def Info: formularios/pj-termo_rt.pdf , page1 used on input line
- 123.
+ 128.
+(luatex.def)             Requested size: 597.50682pt x 845.04503pt.
+File: formularios/pj-termo_rt.pdf Graphic file (type pdf)
+<use formularios/pj-termo_rt.pdf, page 1>
+Package luatex.def Info: formularios/pj-termo_rt.pdf , page1 used on input line
+ 128.
 (luatex.def)             Requested size: 597.50682pt x 845.04503pt.
 
 
 File: formularios/pj-termo_rt.pdf Graphic file (type pdf)
 <use formularios/pj-termo_rt.pdf, page 1>
 Package luatex.def Info: formularios/pj-termo_rt.pdf , page1 used on input line
- 123.
+ 128.
 (luatex.def)             Requested size: 597.50682pt x 845.04503pt.
-[48
+[55
 
 <./formularios/pj-termo_rt.pdf>]
-<formularios/declaracao_institucional.pdf, id=845, 597.50829pt x 845.04709pt>
+<formularios/declaracao_institucional.pdf, id=895, 597.50829pt x 845.04709pt>
 File: formularios/declaracao_institucional.pdf Graphic file (type pdf)
 <use formularios/declaracao_institucional.pdf>
 Package luatex.def Info: formularios/declaracao_institucional.pdf  used on inpu
-t line 124.
+t line 129.
 (luatex.def)             Requested size: 597.50682pt x 845.04503pt.
 File: formularios/declaracao_institucional.pdf Graphic file (type pdf)
 <use formularios/declaracao_institucional.pdf>
 Package luatex.def Info: formularios/declaracao_institucional.pdf  used on inpu
-t line 124.
+t line 129.
 (luatex.def)             Requested size: 597.50682pt x 845.04503pt.
-<formularios/declaracao_institucional.pdf, id=848, page=1, 597.50829pt x 845.04
+<formularios/declaracao_institucional.pdf, id=898, page=1, 597.50829pt x 845.04
 709pt>
 File: formularios/declaracao_institucional.pdf Graphic file (type pdf)
 <use formularios/declaracao_institucional.pdf, page 1>
 Package luatex.def Info: formularios/declaracao_institucional.pdf , page1 used 
-on input line 124.
+on input line 129.
 (luatex.def)             Requested size: 597.50682pt x 845.04503pt.
 File: formularios/declaracao_institucional.pdf Graphic file (type pdf)
 <use formularios/declaracao_institucional.pdf, page 1>
 Package luatex.def Info: formularios/declaracao_institucional.pdf , page1 used 
-on input line 124.
+on input line 129.
 (luatex.def)             Requested size: 597.50682pt x 845.04503pt.
 File: formularios/declaracao_institucional.pdf Graphic file (type pdf)
 <use formularios/declaracao_institucional.pdf, page 1>
 Package luatex.def Info: formularios/declaracao_institucional.pdf , page1 used 
-on input line 124.
+on input line 129.
 (luatex.def)             Requested size: 597.50682pt x 845.04503pt.
 
 
 File: formularios/declaracao_institucional.pdf Graphic file (type pdf)
 <use formularios/declaracao_institucional.pdf, page 1>
 Package luatex.def Info: formularios/declaracao_institucional.pdf , page1 used 
-on input line 124.
+on input line 129.
 (luatex.def)             Requested size: 597.50682pt x 845.04503pt.
-[49
+[56
 
 <./formularios/declaracao_institucional.pdf>]
-<formularios/pj-cancelamento-alteracao.pdf, id=867, 597.50829pt x 845.04709pt>
+<formularios/pj-cancelamento-alteracao.pdf, id=917, 597.50829pt x 845.04709pt>
 File: formularios/pj-cancelamento-alteracao.pdf Graphic file (type pdf)
 <use formularios/pj-cancelamento-alteracao.pdf>
 Package luatex.def Info: formularios/pj-cancelamento-alteracao.pdf  used on inp
-ut line 125.
+ut line 130.
 (luatex.def)             Requested size: 597.50682pt x 845.04503pt.
 File: formularios/pj-cancelamento-alteracao.pdf Graphic file (type pdf)
 <use formularios/pj-cancelamento-alteracao.pdf>
 Package luatex.def Info: formularios/pj-cancelamento-alteracao.pdf  used on inp
-ut line 125.
+ut line 130.
 (luatex.def)             Requested size: 597.50682pt x 845.04503pt.
-<formularios/pj-cancelamento-alteracao.pdf, id=870, page=1, 597.50829pt x 845.0
+<formularios/pj-cancelamento-alteracao.pdf, id=920, page=1, 597.50829pt x 845.0
 4709pt>
 File: formularios/pj-cancelamento-alteracao.pdf Graphic file (type pdf)
 <use formularios/pj-cancelamento-alteracao.pdf, page 1>
 Package luatex.def Info: formularios/pj-cancelamento-alteracao.pdf , page1 used
- on input line 125.
+ on input line 130.
 (luatex.def)             Requested size: 597.50682pt x 845.04503pt.
 File: formularios/pj-cancelamento-alteracao.pdf Graphic file (type pdf)
 <use formularios/pj-cancelamento-alteracao.pdf, page 1>
 Package luatex.def Info: formularios/pj-cancelamento-alteracao.pdf , page1 used
- on input line 125.
+ on input line 130.
 (luatex.def)             Requested size: 597.50682pt x 845.04503pt.
 File: formularios/pj-cancelamento-alteracao.pdf Graphic file (type pdf)
 <use formularios/pj-cancelamento-alteracao.pdf, page 1>
 Package luatex.def Info: formularios/pj-cancelamento-alteracao.pdf , page1 used
- on input line 125.
+ on input line 130.
 (luatex.def)             Requested size: 597.50682pt x 845.04503pt.
 
 
 File: formularios/pj-cancelamento-alteracao.pdf Graphic file (type pdf)
 <use formularios/pj-cancelamento-alteracao.pdf, page 1>
 Package luatex.def Info: formularios/pj-cancelamento-alteracao.pdf , page1 used
- on input line 125.
+ on input line 130.
 (luatex.def)             Requested size: 597.50682pt x 845.04503pt.
-[50
+[57
 
 <./formularios/pj-cancelamento-alteracao.pdf>]
-<formularios/representacao.pdf, id=898, 597.50829pt x 845.04709pt>
+<formularios/representacao.pdf, id=949, 597.50829pt x 845.04709pt>
 File: formularios/representacao.pdf Graphic file (type pdf)
 <use formularios/representacao.pdf>
-Package luatex.def Info: formularios/representacao.pdf  used on input line 126.
+Package luatex.def Info: formularios/representacao.pdf  used on input line 131.
 
 (luatex.def)             Requested size: 597.50682pt x 845.04503pt.
 File: formularios/representacao.pdf Graphic file (type pdf)
 <use formularios/representacao.pdf>
-Package luatex.def Info: formularios/representacao.pdf  used on input line 126.
+Package luatex.def Info: formularios/representacao.pdf  used on input line 131.
 
 (luatex.def)             Requested size: 597.50682pt x 845.04503pt.
-<formularios/representacao.pdf, id=901, page=1, 597.50829pt x 845.04709pt>
+<formularios/representacao.pdf, id=952, page=1, 597.50829pt x 845.04709pt>
 File: formularios/representacao.pdf Graphic file (type pdf)
 <use formularios/representacao.pdf, page 1>
 Package luatex.def Info: formularios/representacao.pdf , page1 used on input li
-ne 126.
+ne 131.
 (luatex.def)             Requested size: 597.50682pt x 845.04503pt.
 File: formularios/representacao.pdf Graphic file (type pdf)
 <use formularios/representacao.pdf, page 1>
 Package luatex.def Info: formularios/representacao.pdf , page1 used on input li
-ne 126.
+ne 131.
 (luatex.def)             Requested size: 597.50682pt x 845.04503pt.
 File: formularios/representacao.pdf Graphic file (type pdf)
 <use formularios/representacao.pdf, page 1>
 Package luatex.def Info: formularios/representacao.pdf , page1 used on input li
-ne 126.
+ne 131.
 (luatex.def)             Requested size: 597.50682pt x 845.04503pt.
 
 
 File: formularios/representacao.pdf Graphic file (type pdf)
 <use formularios/representacao.pdf, page 1>
 Package luatex.def Info: formularios/representacao.pdf , page1 used on input li
-ne 126.
+ne 131.
 (luatex.def)             Requested size: 597.50682pt x 845.04503pt.
-[51
+[58
 
 <./formularios/representacao.pdf>]
 \tf@toc=\write6
@@ -2203,7 +2489,7 @@ ne 126.
 
 
 enddocument/afterlastpage: lastpage setting LastPage.
-(./carta.aux (./paratextos/folhaderosto.aux)
+(./carta.aux (./paratextos/olho.aux) (./paratextos/creditos_institucionais.aux) (./paratextos/folhaderosto.aux) (./paratextos/creditos_tecnicos.aux)
 (./capitulos/pretext-apresentacao.aux) (./capitulos/pretext-o-crp-sp.aux)
 (./capitulos/pretext-psicologia-como.aux) (./capitulos/pf-inscricao.aux)
 (./capitulos/pf-cip.aux) (./capitulos/pf-inscricao_definitiva.aux)
@@ -2227,29 +2513,41 @@ L3 programming layer <2020/03/25>
 
 LaTeX Warning: There were undefined references.
 
-Package rerunfilecheck Info: File `carta.out' has not changed.
-(rerunfilecheck)             Checksum: B77456ED97937EC7E4C41870D3753BC7;8012.
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
+
+Package rerunfilecheck Warning: File `carta.out' has changed.
+(rerunfilecheck)                Rerun to get outlines right
+(rerunfilecheck)                or use package `bookmark'.
+
+Package rerunfilecheck Info: Checksums for `carta.out':
+(rerunfilecheck)             Before: F85EBCDBB87A6D3819FF64C89AA829F6;500
+(rerunfilecheck)             After:  260FB2DF1C36DEAF9A6889D88BDF9F54;8039.
+
+Package lastpage Warning: Rerun to get the references right on input line 132.
+
 )
 
 Here is how much of LuaTeX's memory you used:
- 33275 strings out of 475910
+ 33259 strings out of 475910
  125240,1977958 words of node,token memory allocated
- 1583 words of node memory still in use:
-   5 hlist, 1 vlist, 1 rule, 1 local_par, 7 glue, 4 kern, 1 penalty, 3 glyph, 57
- attribute, 208 glue_spec, 30 attribute_list, 3 write, 22 pdf_action nodes
-   avail lists: 1:2,2:1047,3:304,4:213,5:330,6:63,7:4996,8:1,9:387,10:9,11:569
- 54202 multiletter control sequences out of 65536+600000
- 64 fonts using 3343759 bytes
+ 1609 words of node memory still in use:
+   5 hlist, 1 vlist, 1 rule, 1 local_par, 8 glue, 3 kern, 1 penalty, 3 glyph, 61
+ attribute, 208 glue_spec, 32 attribute_list, 3 write, 24 pdf_action nodes
+   avail lists: 1:1,2:1039,3:290,4:185,5:362,6:73,7:4995,8:1,9:387,10:9,11:569
+ 54198 multiletter control sequences out of 65536+600000
+ 62 fonts using 3266559 bytes
  113i,17n,110p,1001b,687s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <c:/Users/angelo.cuissi/AppData/Local/Microsoft/Windows/Fonts/NewJune-Bold-Itali
 c.otf><c:/Users/angelo.cuissi/AppData/Local/Microsoft/Windows/Fonts/NewJune-Regu
 lar-Italic.otf><c:/Users/angelo.cuissi/AppData/Local/Microsoft/Windows/Fonts/New
 June-Regular.otf><c:/Users/angelo.cuissi/AppData/Local/Microsoft/Windows/Fonts/N
 ewJune-Bold.otf>
-Output written on carta.pdf (61 pages, 637331 bytes).
+Output written on carta.pdf (68 pages, 659340 bytes).
 
-PDF statistics: 970 PDF objects out of 1000 (max. 8388607)
- 819 compressed objects within 9 object streams
- 279 named destinations out of 1000 (max. 131072)
- 280 words of extra memory for PDF output out of 10000 (max. 100000000)
+PDF statistics: 1022 PDF objects out of 1200 (max. 8388607)
+ 864 compressed objects within 9 object streams
+ 378 named destinations out of 1000 (max. 131072)
+ 40 words of extra memory for PDF output out of 10000 (max. 100000000)
 

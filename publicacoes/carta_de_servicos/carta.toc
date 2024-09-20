@@ -3,7 +3,7 @@
 \contentsline {chapter}{Apresentação}{i}{chapter*.1}%
 \contentsline {chapter}{O CRP SP}{ii}{chapter*.2}%
 \contentsline {chapter}{Psicologia: como se estrutura e como se conecta}{iv}{chapter*.6}%
-\contentsline {part}{Serviços à\\\textbf {pessoa fisica}}{1}{section*.9}%
+\contentsline {part}{Serviços à \\\textbf {pessoa física}}{1}{section*.9}%
 \contentsline {chapter}{Inscrição profissional de pessoa física}{2}{chapter*.10}%
 \contentsline {section}{O que é?}{2}{section*.11}%
 \contentsline {section}{Quem deve se inscrever?}{2}{section*.12}%
@@ -158,19 +158,95 @@
 \contentsline {subsection}{No caso de solicitação via subsede}{29}{section*.161}%
 \contentsline {section}{Legislação relacionada}{30}{section*.162}%
 \contentsline {section}{Serviços correlatos}{30}{section*.163}%
-\contentsline {part}{Serviços à\\\textbf {pessoa jurídica}}{31}{section*.165}%
+\contentsline {part}{Serviços à \\\textbf {pessoa jurídica}}{31}{section*.165}%
 \contentsline {chapter}{Inscrição profissional de pessoa jurídica}{32}{chapter*.166}%
-\contentsline {chapter}{Renovação do certificado de licença}{33}{chapter*.167}%
-\contentsline {chapter}{Alteração contratual}{34}{chapter*.168}%
-\contentsline {chapter}{Cancelamento de inscrição}{35}{chapter*.169}%
-\contentsline {chapter}{Solicitação de isenção de anuidade}{36}{chapter*.170}%
-\contentsline {chapter}{Alteração, substituição e/ou inclusão de Responsável Técnica/o}{37}{chapter*.171}%
-\contentsline {chapter}{Baixa de responsabilidade técnica}{38}{chapter*.172}%
-\contentsline {part}{Serviços de\\\textbf {orientação e fiscalização}}{39}{section*.174}%
-\contentsline {chapter}{Acesso às publicações orientativas}{40}{chapter*.175}%
-\contentsline {chapter}{Orientações sobre o Código de Ética e legislação profissional}{41}{chapter*.176}%
-\contentsline {chapter}{Consulta de legislação profissional}{42}{chapter*.177}%
-\contentsline {chapter}{Apresentação de queixa}{43}{chapter*.178}%
-\contentsline {chapter}{Representação}{44}{chapter*.179}%
-\contentsline {chapter}{Orientação/fiscalização de pessoas jurídicas recém-inscritas}{45}{chapter*.180}%
-\contentsline {part}{Formulários}{46}{section*.182}%
+\contentsline {section}{O que é?}{32}{section*.167}%
+\contentsline {section}{Quem pode utilizar esse serviço?}{32}{section*.168}%
+\contentsline {section}{Como solicitar o serviço?}{32}{section*.169}%
+\contentsline {section}{Que informações ou documentos são necessários?}{32}{section*.170}%
+\contentsline {section}{Quais são as etapas para a realização desse serviço?}{32}{section*.171}%
+\contentsline {section}{Quanto custa?}{33}{section*.172}%
+\contentsline {section}{Quanto tempo leva?}{33}{section*.173}%
+\contentsline {section}{Como ter acesso ao atual \emph {status} do serviço?}{33}{section*.174}%
+\contentsline {section}{Legislação relacionada}{33}{section*.175}%
+\contentsline {section}{Serviços correlatos}{33}{section*.176}%
+\contentsline {chapter}{Renovação do certificado de licença}{34}{chapter*.177}%
+\contentsline {section}{O que é?}{34}{section*.178}%
+\contentsline {section}{Quem pode utilizar esse serviço?}{34}{section*.179}%
+\contentsline {section}{Como solicitar o serviço?}{34}{section*.180}%
+\contentsline {section}{Que informações ou documentos são necessários?}{34}{section*.181}%
+\contentsline {section}{Quais são as etapas para a realização desse serviço?}{34}{section*.182}%
+\contentsline {section}{Quanto custa?}{35}{section*.183}%
+\contentsline {section}{Quanto tempo leva?}{35}{section*.184}%
+\contentsline {section}{Como ter acesso ao atual \emph {status} do serviço?}{35}{section*.185}%
+\contentsline {section}{Legislação relacionada}{35}{section*.186}%
+\contentsline {section}{Serviços correlatos}{35}{section*.187}%
+\contentsline {chapter}{Alteração contratual}{36}{chapter*.188}%
+\contentsline {section}{O que é?}{36}{section*.189}%
+\contentsline {section}{Quem pode utilizar esse serviço?}{36}{section*.190}%
+\contentsline {section}{Como solicitar o serviço?}{36}{section*.191}%
+\contentsline {section}{Que informações ou documentos são necessários?}{36}{section*.192}%
+\contentsline {section}{Quais são as etapas para a realização desse serviço?}{36}{section*.193}%
+\contentsline {section}{Quanto custa?}{37}{section*.194}%
+\contentsline {section}{Quanto tempo leva?}{37}{section*.195}%
+\contentsline {section}{Como ter acesso ao atual \emph {status} do serviço?}{37}{section*.196}%
+\contentsline {section}{Legislação relacionada}{37}{section*.197}%
+\contentsline {section}{Serviços correlatos}{37}{section*.198}%
+\contentsline {chapter}{Cancelamento de inscrição}{38}{chapter*.199}%
+\contentsline {section}{O que é?}{38}{section*.200}%
+\contentsline {section}{Quem pode utilizar esse serviço?}{38}{section*.201}%
+\contentsline {section}{Como solicitar o serviço?}{38}{section*.202}%
+\contentsline {section}{Que informações ou documentos são necessários?}{38}{section*.203}%
+\contentsline {subsection}{Se cancelamento se der por encerramento das atividades da PJ}{38}{section*.204}%
+\contentsline {subsection}{No caso de cancelamento por exclusão dos serviços dePsicologia pelaPJ}{38}{section*.205}%
+\contentsline {section}{Quais são as etapas para a realização desse serviço?}{39}{section*.206}%
+\contentsline {section}{Quanto custa?}{39}{section*.207}%
+\contentsline {section}{Quanto tempo leva?}{39}{section*.208}%
+\contentsline {section}{Como ter acesso ao atual \emph {status} do serviço?}{39}{section*.209}%
+\contentsline {section}{Legislação relacionada}{39}{section*.210}%
+\contentsline {section}{Serviços correlatos}{39}{section*.211}%
+\contentsline {chapter}{Solicitação de isenção de anuidade}{40}{chapter*.212}%
+\contentsline {section}{O que é?}{40}{section*.213}%
+\contentsline {section}{Quem pode utilizar esse serviço?}{40}{section*.214}%
+\contentsline {section}{Como solicitar o serviço?}{40}{section*.215}%
+\contentsline {section}{Que informações ou documentos são necessários?}{40}{section*.216}%
+\contentsline {subsection}{No caso de pedido por inatividade:}{40}{section*.217}%
+\contentsline {subsection}{No caso de pedido por mudança de estado:}{40}{section*.218}%
+\contentsline {section}{Quais são as etapas para a realização desse serviço?}{41}{section*.219}%
+\contentsline {section}{Quanto custa?}{41}{section*.220}%
+\contentsline {section}{Quanto tempo leva?}{41}{section*.221}%
+\contentsline {section}{Como ter acesso ao atual \emph {status} do serviço?}{41}{section*.222}%
+\contentsline {section}{Legislação relacionada}{41}{section*.223}%
+\contentsline {section}{Serviços correlatos}{41}{section*.224}%
+\contentsline {chapter}{Alteração, substituição e/ou inclusão de Responsável Técnica/o}{42}{chapter*.225}%
+\contentsline {section}{O que é?}{42}{section*.226}%
+\contentsline {section}{Quem pode utilizar esse serviço?}{42}{section*.227}%
+\contentsline {section}{Como solicitar o serviço?}{42}{section*.228}%
+\contentsline {section}{Que informações ou documentos são necessários?}{42}{section*.229}%
+\contentsline {section}{Quais são as etapas para a realização desse serviço?}{42}{section*.230}%
+\contentsline {section}{Quanto custa?}{43}{section*.231}%
+\contentsline {section}{Quanto tempo leva?}{43}{section*.232}%
+\contentsline {section}{Como ter acesso ao atual \emph {status} do serviço?}{43}{section*.233}%
+\contentsline {section}{Legislação relacionada}{43}{section*.234}%
+\contentsline {section}{Serviços correlatos}{43}{section*.235}%
+\contentsline {chapter}{Baixa de responsabilidade técnica}{44}{chapter*.236}%
+\contentsline {section}{O que é?}{44}{section*.237}%
+\contentsline {section}{Quem pode utilizar esse serviço?}{44}{section*.238}%
+\contentsline {section}{Como solicitar o serviço?}{44}{section*.239}%
+\contentsline {section}{Que informações ou documentos são necessários?}{44}{section*.240}%
+\contentsline {subsection}{Psicóloga/o RT:}{44}{section*.241}%
+\contentsline {subsection}{Pessoa jurídica:}{44}{section*.242}%
+\contentsline {section}{Quais são as etapas para a realização desse serviço?}{44}{section*.243}%
+\contentsline {section}{Quanto custa?}{45}{section*.244}%
+\contentsline {section}{Quanto tempo leva?}{45}{section*.245}%
+\contentsline {section}{Como ter acesso ao atual \emph {status} do serviço?}{45}{section*.246}%
+\contentsline {section}{Legislação relacionada}{45}{section*.247}%
+\contentsline {section}{Serviços correlatos}{45}{section*.248}%
+\contentsline {part}{Serviços de \\\textbf {orientação e \\fiscalização}}{46}{section*.250}%
+\contentsline {chapter}{Acesso às publicações orientativas}{47}{chapter*.251}%
+\contentsline {chapter}{Orientações sobre o Código de Ética e legislação profissional}{48}{chapter*.252}%
+\contentsline {chapter}{Consulta de legislação profissional}{49}{chapter*.253}%
+\contentsline {chapter}{Apresentação de queixa}{50}{chapter*.254}%
+\contentsline {chapter}{Representação}{51}{chapter*.255}%
+\contentsline {chapter}{Orientação/fiscalização de pessoas jurídicas recém-inscritas}{52}{chapter*.256}%
+\contentsline {part}{Formulários}{53}{section*.258}%
