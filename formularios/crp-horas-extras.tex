@@ -1,0 +1,74 @@
+\documentclass[openright, oneside, a4paper, article, brazil]{abntex2}
+\usepackage{formularios}
+% --------- %
+% Metadados %
+% --------- %
+\hypersetup{%
+    colorlinks=false,
+    allbordercolors=white,
+    pdftitle = {Comunicação de horas extras},
+    pdfauthor = {Conselho Regional de Psicologia de São Paulo},
+    pdfsubject = {Horas extras},
+    pdfkeywords = {%
+            CRP,
+            RH,
+            horas extras
+        }%
+}
+\title{Comunicação de horas extras}
+\author{Conselho Regional de Psicologia de São Paulo}
+% --------- %
+% DOCUMENTO %
+% --------- %
+\begin{document}
+\pagestyle{crp}
+\centering
+\Form
+\section{Comunicação de horas extras}%
+%\vfill
+\setasuspacing{\DoubleSpacing}\justifying
+
+\preenctext{14}{nome}{40em}{Nome: \hfill}
+
+\begin{framed}
+    \begin{minipage}{0.38\linewidth }
+        Data: \dataabrev{14}{1}
+    \end{minipage}%
+    \begin{minipage}{0.23\linewidth}\noindent
+        Previsão:\\ \preenctext{14}{entrada-prevista}{5em}{das } h às \preenctext{14}{saida-prevista}{5em}{\null} h\\
+        Efetivo: \preenctext{14}{entrada-real}{5em}{das } h às \preenctext{14}{saida-real}{5em}{\null} h
+    \end{minipage}
+\end{framed}
+
+\setasuspacing{\DoubleSpacing}
+%\begin{framed}
+%    \centering\vspace*{-3ex}
+\subsection{Motivo}
+%\preenctext{14}{motivo}{45em}{\textcolor{crp1}{\textbf{Motivo: \hfill}}}
+\preenctext{14}{motivo1}{\linewidth}{}
+\preenctext{14}{motivo2}{\linewidth}{}
+\preenctext{14}{motivo3}{\linewidth}{}
+%\end{framed}
+
+\subsection{Autorizada/o?}
+
+\raggedright
+%   \raisebox{-2pt}{\fbox{%
+        \CheckBox[%
+            name=autorizado-sim,
+            bordercolor=black,
+            height=12pt,
+            width=12pt]
+        { Sim}\\
+%       }}\\
+%   \raisebox{-2pt}{\fbox{%
+        \CheckBox[%
+            name=autorizado-nao,
+            bordercolor=black,
+            height=12pt,
+            width=12pt]
+        { Não}
+
+
+
+\end{document}
