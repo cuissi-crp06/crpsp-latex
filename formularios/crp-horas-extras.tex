@@ -25,20 +25,22 @@
 \centering
 \Form
 \section{Comunicação de horas extras}%
-%\vfill
+\vfill
 \setasuspacing{\DoubleSpacing}\justifying
 
-\preenctext{14}{nome}{40em}{Nome: \hfill}
+\preenctext{14}{nome}{45em}{Nome: \hfill}
+\vfill
 
 \begin{framed}
-    \begin{minipage}{0.38\linewidth }
+    \begin{minipage}{0.4\textwidth }
         Data: \dataabrev{14}{1}
     \end{minipage}%
-    \begin{minipage}{0.23\linewidth}\noindent
-        Previsão:\\ \preenctext{14}{entrada-prevista}{5em}{das } h às \preenctext{14}{saida-prevista}{5em}{\null} h\\
+    \begin{minipage}{0.5\textwidth}
+        Previsão: \preenctext{14}{entrada-prevista}{5em}{das } h às \preenctext{14}{saida-prevista}{5em}{\null} h\\
         Efetivo: \preenctext{14}{entrada-real}{5em}{das } h às \preenctext{14}{saida-real}{5em}{\null} h
     \end{minipage}
 \end{framed}
+\vfill
 
 \setasuspacing{\DoubleSpacing}
 %\begin{framed}
@@ -68,7 +70,27 @@
             height=12pt,
             width=12pt]
         { Não}
+%\vspace{4\baselineskip}
 
+        \noindent
+\begin{minipage}{0.5\linewidth}
+    \vspace*{5\baselineskip}\centering
+    \rule{0.8\linewidth}{0.4pt}\\
+    \tiny Trabalhadora/or 
+    \vspace*{5\baselineskip}
 
+    \rule{0.8\linewidth}{0.4pt}\\
+    \tiny Superiora/or imediata/o
+    \vfill
+\end{minipage}%
+\begin{minipage}{0.5\linewidth}
+    \vspace*{5\baselineskip}\centering
+    \rule{0.8\linewidth}{0.4pt}\\
+    \tiny Gerência 
+    \vspace*{5\baselineskip}
 
+    \rule{0.8\linewidth}{0.4pt}\\
+    \tiny Diretoria
+    \vfill
+\end{minipage}
 \end{document}
