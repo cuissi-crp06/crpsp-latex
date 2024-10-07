@@ -1,7 +1,7 @@
-This is LuaHBTeX, Version 1.18.0 (TeX Live 2024)  (format=lualatex 2024.8.23)  7 OCT 2024 09:17
+This is LuaHBTeX, Version 1.18.0 (TeX Live 2024)  (format=lualatex 2024.8.23)  7 OCT 2024 09:42
  restricted system commands enabled.
-**pj-termo_rt.tex
-(./pj-termo_rt.tex
+**pj-declaracao_institucional.tex
+(./pj-declaracao_institucional.tex
 LaTeX2e <2024-06-01> patch level 2
 L3 programming layer <2024-07-20>
 Lua module: luaotfload 2024-02-14 3.28 Lua based OpenType font support
@@ -718,9 +718,12 @@ Sidefootvsep and sidefootheight: 12pt and 596.39996pt
 \ABNTEXsignwidth=\skip199
 \ABNTEXsignthickness=\skip256
 \ABNTEXsignskip=\skip257
-) (./formularios.sty
-Package: formularios 
+) (./form-sem-logo.sty
 
+LaTeX Warning: You have requested package `form-sem-logo',
+               but the package provides `formularios'.
+
+Package: formularios 
 (c:/texlive/2024/texmf-dist/tex/latex/fontspec/fontspec.sty
 Package: fontspec 2024/05/11 v2.9e Font selection for XeLaTeX and LuaLaTeX
 Lua module: fontspec 2024/05/11 2.9e Font selection for XeLaTeX and LuaLaTeX
@@ -956,12 +959,11 @@ Package: ragged2e 2023/06/22 v3.6 ragged2e Package
 \boxlarg=\skip274
 \virgula=\skip275
 \fimdelinha=\skip276
-Package hyperref Info: Option `colorlinks' set `true' on input line 75.
 )
 Package hyperref Info: Option `colorlinks' set `false' on input line 12.
 
-(./pj-termo_rt.aux)
-\openout1 = pj-termo_rt.aux
+(./pj-declaracao_institucional.aux)
+\openout1 = pj-declaracao_institucional.aux
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 18.
 LaTeX Font Info:    ... okay on input line 18.
@@ -974,7 +976,8 @@ LaTeX Font Info:    ... okay on input line 18.
 LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 18.
 LaTeX Font Info:    Trying to load font information for TS1+cmr on input line 1
 8.
- (c:/texlive/2024/texmf-dist/tex/latex/base/ts1cmr.fd
+
+(c:/texlive/2024/texmf-dist/tex/latex/base/ts1cmr.fd
 File: ts1cmr.fd 2023/04/13 v2.5m Standard LaTeX font definitions
 )
 LaTeX Font Info:    ... okay on input line 18.
@@ -1324,16 +1327,16 @@ e
 * layout: <same size as paper>
 * layoutoffset:(h,v)=(0.0pt,0.0pt)
 * modes: 
-* h-part:(L,W,R)=(42.67912pt, 497.92325pt, 56.9055pt)
-* v-part:(T,H,B)=(99.58464pt, 688.5567pt, 56.9055pt)
+* h-part:(L,W,R)=(113.81102pt, 426.79135pt, 56.9055pt)
+* v-part:(T,H,B)=(170.71652pt, 560.5193pt, 113.81102pt)
 * \paperwidth=597.50787pt
 * \paperheight=845.04684pt
-* \textwidth=497.92325pt
-* \textheight=688.5567pt
-* \oddsidemargin=-29.59087pt
-* \evensidemargin=-29.59087pt
-* \topmargin=-87.26999pt
-* \headheight=99.58464pt
+* \textwidth=426.79135pt
+* \textheight=560.5193pt
+* \oddsidemargin=41.54103pt
+* \evensidemargin=41.54103pt
+* \topmargin=-30.36449pt
+* \headheight=113.81102pt
 * \headsep=15.0pt
 * \topskip=10.0pt
 * \footskip=25.29494pt
@@ -1357,23 +1360,7 @@ File: upzd.fd 2001/06/04 font definitions for U/pzd.
 ){c:/texlive/2024/texmf-var/fonts/map/pdftex/updmap/pdftex.map}
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 30.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 31.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 36.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 37.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 37.
+(hyperref)                removing `subscript' on input line 24.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
@@ -1385,230 +1372,36 @@ Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 54.
+(hyperref)                removing `subscript' on input line 40.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 55.
+(hyperref)                removing `subscript' on input line 41.
 
 
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 56.
+Overfull \hbox (0.49174pt too wide) in paragraph at lines 34--45
+[] [][][][] \TU/NewJune(0)/m/n/10 , 
+ []
 
 
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 57.
+Overfull \hbox (0.49174pt too wide) in paragraph at lines 34--45
+[] [][][][] \TU/NewJune(0)/m/n/10 , 
+ []
 
 
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 58.
+Overfull \hbox (0.49174pt too wide) in paragraph at lines 34--45
+[] [][][][] \TU/NewJune(0)/m/n/10 , 
+ []
 
-(c:/texlive/2024/texmf-dist/tex/latex/microtype/mt-cmr.cfg
-File: mt-cmr.cfg 2013/05/19 v2.2 microtype config. file: Computer Modern Roman 
-(RS)
-)
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <7> on input line 65.
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <5> on input line 65.
 
 
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 67.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 67.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 67.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 67.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 67.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 67.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 68.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 68.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 68.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 68.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 68.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 68.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 69.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 69.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 69.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 69.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 69.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 69.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 70.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 70.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 70.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 70.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 70.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 70.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 71.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 71.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 71.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 71.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 71.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 71.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 72.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 72.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 72.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 72.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 72.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 72.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 80.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 80.
-
-
-
-<logo-crp.png, id=57, 378.213pt x 148.8762pt>
-File: logo-crp.png Graphic file (type png)
-<use logo-crp.png>
-Package luatex.def Info: logo-crp.png  used on input line 86.
-(luatex.def)             Requested size: 144.565pt x 56.9055pt.
 [1
 
-<./logo-crp.png>]
+]
 
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 95.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 96.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 104.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 105.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 106.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 115.
-
-
-
-File: logo-crp.png Graphic file (type png)
-<use logo-crp.png>
-Package luatex.def Info: logo-crp.png  used on input line 120.
-(luatex.def)             Requested size: 144.565pt x 56.9055pt.
-[2
-
-] 
+[2] 
 enddocument/afterlastpage: lastpage setting LastPage.
-(./pj-termo_rt.aux)
+(./pj-declaracao_institucional.aux)
  ***********
 LaTeX2e <2024-06-01> patch level 2
 L3 programming layer <2020/03/25>
@@ -1616,27 +1409,25 @@ L3 programming layer <2020/03/25>
 )
 
 Here is how much of LuaTeX's memory you used:
- 20129 strings out of 475910
+ 19997 strings out of 475910
  125236,1977958 words of node,token memory allocated
- 1236 words of node memory still in use:
-   3 hlist, 1 vlist, 1 rule, 2 glue, 3 kern, 1 glyph, 9 attribute, 211 glue_spec
-, 5 attribute_list, 2 write nodes
-   avail lists: 1:2,2:1361,3:566,4:94,5:224,6:133,7:3799,8:1,9:1084,10:16,11:250
-
- 42404 multiletter control sequences out of 65536+600000
- 42 fonts using 2315231 bytes
- 99i,14n,105p,1007b,555s stack positions out of 10000i,1000n,20000p,200000b,200000s
-
-warning  (pdf backend): unreferenced destination with name 'section*.4'
+ 1304 words of node memory still in use:
+   4 hlist, 1 vlist, 1 rule, 1 local_par, 4 glue, 4 kern, 1 penalty, 1 margin_ke
+rn, 4 glyph, 11 attribute, 211 glue_spec, 6 attribute_list, 2 write nodes
+   avail lists: 1:2,2:545,3:286,4:58,5:286,6:53,7:4522,8:1,9:467,10:13,11:546
+ 42286 multiletter control sequences out of 65536+600000
+ 31 fonts using 1654975 bytes
+ 99i,11n,105p,2932b,525s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
 warning  (pdf backend): unreferenced destination with name 'section*.1'
-<c:/Users/angelo.cuissi/AppData/Local/Microsoft/Windows/Fonts/NewJune-Bold.otf><
-c:/Users/angelo.cuissi/AppData/Local/Microsoft/Windows/Fonts/NewJune-Regular.otf
-><c:/texlive/2024/texmf-dist/fonts/type1/urw/zapfding/uzdr.pfb>
-Output written on pj-termo_rt.pdf (2 pages, 137182 bytes).
+<c:/Users/angelo.cuissi/AppData/Local/Microsoft/Windows/Fonts/NewJune-Regular-It
+alic.otf><c:/Users/angelo.cuissi/AppData/Local/Microsoft/Windows/Fonts/NewJune-B
+old.otf><c:/Users/angelo.cuissi/AppData/Local/Microsoft/Windows/Fonts/NewJune-Re
+gular.otf><c:/texlive/2024/texmf-dist/fonts/type1/urw/zapfding/uzdr.pfb>
+Output written on pj-declaracao_institucional.pdf (2 pages, 24487 bytes).
 
-PDF statistics: 139 PDF objects out of 1000 (max. 8388607)
- 121 compressed objects within 2 object streams
- 18 named destinations out of 1000 (max. 131072)
- 91 words of extra memory for PDF output out of 10000 (max. 100000000)
+PDF statistics: 85 PDF objects out of 1000 (max. 8388607)
+ 67 compressed objects within 1 object stream
+ 13 named destinations out of 1000 (max. 131072)
+ 59 words of extra memory for PDF output out of 10000 (max. 100000000)
 

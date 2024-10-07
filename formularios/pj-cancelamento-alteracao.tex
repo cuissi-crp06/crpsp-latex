@@ -33,15 +33,16 @@
 
 \preenctext{14}{denominacao}{38.5em}{Denominação social \hfill}\\%
 \preenctext{14}{denominacao2}{\linewidth}{}\\%
-\preenctext{14}{denominacao3}{\linewidth}{}\\%
+%\preenctext{14}{denominacao3}{\linewidth}{}\\%
 \preenctext{14}{nome_fantasia1}{41em}{Nome fantasia \hfill}\\%
 \preenctext{14}{nome_fantasia2}{\linewidth}{}\\%
-\preenctext{14}{endereço1}{39em}{Endereço completo \hfill}\\
-\preenctext{14}{endereco2}{21em}{\null } \hfill \preenctext{14}{bairro}{21em}{Bairro} \\%
-\preenctext{14}{CEP}{9em}{CEP \hfill} \hfill\preenctext{14}{municipio}{27em}{Município \hfill} \hfill \preenctext{14}{UF \hfill}{3em}{UF} \\%
-\preenctext{14}{tel_comercial}{15.5em}{Tel. c/DDD \hfill} \preenctext{14}{ramal}{4em}{Ramal \hfill} \preenctext{14}{fax}{15.5em}{Fax c/ DDD \hfill}\\%
-\preenctext{14}{tel_contador}{16em}{Tel. contador c/DDD \hfill} \hfill%
-\preenctext{14}{email}{18em}{\textit{e-mail }\hfill}%\vspace{0.4\baselineskip}
+\preenctext{14}{endereço1}{39em}{Endereço atual \hfill}\\
+\preenctext{14}{endereco2}{24em}{\null } \hfill \preenctext{14}{bairro}{21em}{Bairro} \\%
+\preenctext{14}{CEP}{9em}{CEP } \hfill\preenctext{14}{municipio}{27em}{Município } \hfill \preenctext{14}{UF }{3em}{UF }\\%
+\preenctext{14}{email}{18em}{\textit{e-mail} da empresa }\hfill \preenctext{14}{cel}{15.5em}{Cel. c/ DDD }\\
+\preenctext{14}{tel_comercial}{13em}{Tel. c/ DDD }\hfill \preenctext{14}{ramal}{2.5em}{Ramal }
+\preenctext{14}{tel_contador}{13em}{Tel. contador c/ DDD \hfill} \hfill%
+%\vspace{0.4\baselineskip}
 
 \setasuspacing{\SingleSpacing}\justifying\noindent
 \textbf{Vem respeitosamente requerer:}
@@ -69,12 +70,12 @@
                       \end{minipage}%
                       \begin{minipage}[t]{\linewidth-\boxlarg}
                           cópia autenticada desse distrato social; ou
-                      \end{minipage}\vspace{0.5ex}
+                     \end{minipage}\vspace{0.5ex}
                       \begin{minipage}[t]{\boxlarg}
-                          \raisebox{-2pt}{\fbox{\CheckBox[name=copia_baixa_CGC,bordercolor=black]{\null}}}
+                          \raisebox{-2pt}{\fbox{\CheckBox[name=copia_baixa_cnpj,bordercolor=black]{\null}}}
                       \end{minipage}%
                       \begin{minipage}[t]{\linewidth-\boxlarg}
-                          cópia de baixa do CGC da entidade; ou
+                          cópia de baixa do CNPJ da entidade; ou
                       \end{minipage}\vspace{0.5ex}
                       \begin{minipage}[t]{\boxlarg}
                           \raisebox{-2pt}{\fbox{\CheckBox[name=copia_baixa_prefeitura,bordercolor=black]{\null}}}
@@ -153,35 +154,50 @@
             \begin{minipage}[t]{\boxlarg}
                 \raisebox{-2pt}{\fbox{\CheckBox[name=alteracao_objetivo,bordercolor=black]{\null}}}
             \end{minipage}%
-            \begin{minipage}[t]{\linewidth-\boxlarg}
-                (1) alteração do objetivo social; ou
+            \begin{minipage}[t]{0.8\boxlarg}
+                (1)
+            \end{minipage}%
+            \begin{minipage}[t]{\linewidth-2\boxlarg}
+                alteração do objetivo social; ou
             \end{minipage}\vspace{0.5ex}
             \begin{minipage}[t]{\boxlarg}
                 \raisebox{-2pt}{\fbox{\CheckBox[name=alteracao_razao,bordercolor=black]{\null}}}
             \end{minipage}%
-            \begin{minipage}[t]{\linewidth-\boxlarg}
-                (2) alteração da razão social; ou
+            \begin{minipage}[t]{0.8\boxlarg}
+                (2)
+            \end{minipage}%
+            \begin{minipage}[t]{\linewidth-2\boxlarg}
+                alteração da razão social; ou
             \end{minipage}\vspace{0.5ex}
             \begin{minipage}[t]{\boxlarg}
                 \raisebox{-2pt}{\fbox{\CheckBox[name=alteracao_capital_social,bordercolor=black]{\null}}}
             \end{minipage}%
-            \begin{minipage}[t]{\linewidth-\boxlarg}
-                (3) aumento, atualização ou redistribuição do capital social;
+            \begin{minipage}[t]{0.8\boxlarg}
+                (3)
+            \end{minipage}%
+            \begin{minipage}[t]{\linewidth-2\boxlarg}
+                aumento, atualização ou redistribuição do capital social;
             \end{minipage}\vspace{0.5ex}
 
             \begin{minipage}[t]{\boxlarg}
                 \raisebox{-6.4pt}{\fbox{\CheckBox[name=_alteracao_sociasesocios,bordercolor=black]{\null}}}
             \end{minipage}%
-            \begin{minipage}[t]{\linewidth-\boxlarg}
-                (4) inclusão ou exclusão de sócios-proprietários, desde que não exclua a/o Responsável Técnica/o da entidade;
+            \begin{minipage}[t]{0.8\boxlarg}
+                (4)
+            \end{minipage}%
+            \begin{minipage}[t]{\linewidth-2\boxlarg}
+                inclusão ou exclusão de sócios-proprietários, desde que não exclua a/o Responsável Técnica/o da entidade;
             \end{minipage}
             \vspace{0.1ex}
 
             \begin{minipage}[t]{\boxlarg}
                 \raisebox{-2pt}{\fbox{\CheckBox[name=alteracao_endereco,bordercolor=black]{\null}}}
             \end{minipage}%
-            \begin{minipage}[t]{\linewidth-\boxlarg}
-                (5)  mudança de endereço.
+            \begin{minipage}[t]{0.8\boxlarg}
+                (5)
+            \end{minipage}%
+            \begin{minipage}[t]{\linewidth-2\boxlarg}
+                mudança de endereço.
             \end{minipage}
         \end{minipage}
         \vspace{\baselineskip}
@@ -249,41 +265,41 @@
 \rule{24em}{0.4pt}\\
 Assinatura
 \vspace{\baselineskip}
-\clearpage
-
-\subsection{A ser preenchido pelo CRP~SP}
-
-\preenctext{14}{guia}{8em}{Guia nº }\hfill%
-\dataabrev{14}{1}
-\vspace{1.62\baselineskip}
-
-\small\noindent
-Documentos e formulários conferidos no ato\hfill%
-\rule{20em}{0.4pt}\\
-\hfill Recepcionista/encarregada/o
-\vspace{\baselineskip}
-
-\hrule\vspace{\baselineskip}
-
-\normalsize\noindent\raggedright
-Documentação em ordem%
-\vspace{0.62\baselineskip}\small
-
-\preenctext{14}{local}{16em}{ } , %
-\dataabrev{14}{2} \hfill
-\rule{20em}{0.4pt}\\
-\hfill Unidade de Atendimento
-\vspace{\baselineskip}
-
-\hrule\vspace{\baselineskip}
-
-\normalsize
-Deferido em
-\dataabrev{14}{3} \hfill%
-\preenctext{14}{plenaria}{4em}{\null} Seção Plenária
-\vspace{1.5\baselineskip}\small
-
-\hfill\rule{20em}{0.4pt}\\
-\hfill Conselheira/o
-
+%\clearpage
+%
+%\subsection{A ser preenchido pelo CRP~SP}
+%
+%\preenctext{14}{guia}{8em}{Guia nº }\hfill%
+%\dataabrev{14}{1}
+%\vspace{1.62\baselineskip}
+%
+%\small\noindent
+%Documentos e formulários conferidos no ato\hfill%
+%\rule{20em}{0.4pt}\\
+%\hfill Recepcionista/encarregada/o
+%\vspace{\baselineskip}
+%
+%\hrule\vspace{\baselineskip}
+%
+%\normalsize\noindent\raggedright
+%Documentação em ordem%
+%\vspace{0.62\baselineskip}\small
+%
+%\preenctext{14}{local}{16em}{ } , %
+%\dataabrev{14}{2} \hfill
+%\rule{20em}{0.4pt}\\
+%\hfill Unidade de Atendimento
+%\vspace{\baselineskip}
+%
+%\hrule\vspace{\baselineskip}
+%
+%\normalsize
+%Deferido em
+%\dataabrev{14}{3} \hfill%
+%\preenctext{14}{plenaria}{4em}{\null} Seção Plenária
+%\vspace{1.5\baselineskip}\small
+%
+%\hfill\rule{20em}{0.4pt}\\
+%\hfill Conselheira/o
+%
 \end{document}
