@@ -1,4 +1,4 @@
-This is LuaHBTeX, Version 1.18.0 (TeX Live 2024)  (format=lualatex 2024.8.23)  7 OCT 2024 10:35
+This is LuaHBTeX, Version 1.18.0 (TeX Live 2024)  (format=lualatex 2024.8.23)  9 OCT 2024 17:50
  restricted system commands enabled.
 **pj-cancelamento-alteracao.tex
 (./pj-cancelamento-alteracao.tex
@@ -1382,165 +1382,134 @@ Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 69.
+(hyperref)                removing `subscript' on input line 70.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 69.
+(hyperref)                removing `subscript' on input line 76.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 75.
+(hyperref)                removing `subscript' on input line 82.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 75.
+(hyperref)                removing `subscript' on input line 82.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 81.
+(hyperref)                removing `subscript' on input line 104.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 81.
+(hyperref)                removing `subscript' on input line 104.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 92.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 92.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 103.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 103.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 120.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 131.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 131.
+(hyperref)                removing `subscript' on input line 122.
 
 
 
-<logo-crp.png, id=40, 378.213pt x 148.8762pt>
+<logo-crp.png, id=38, 378.213pt x 148.8762pt>
 File: logo-crp.png Graphic file (type png)
 <use logo-crp.png>
-Package luatex.def Info: logo-crp.png  used on input line 140.
+Package luatex.def Info: logo-crp.png  used on input line 142.
 (luatex.def)             Requested size: 144.565pt x 56.9055pt.
 [1
 
 <./logo-crp.png>]
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 155.
+(hyperref)                removing `subscript' on input line 157.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 164.
+(hyperref)                removing `subscript' on input line 166.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 173.
+(hyperref)                removing `subscript' on input line 175.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 173.
+(hyperref)                removing `subscript' on input line 175.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 154--181
+Underfull \hbox (badness 10000) in paragraph at lines 156--183
 [][][][]
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 154--181
+Underfull \hbox (badness 10000) in paragraph at lines 156--183
 [][][]
  []
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 183.
+(hyperref)                removing `subscript' on input line 185.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 183.
+(hyperref)                removing `subscript' on input line 185.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 194.
+(hyperref)                removing `subscript' on input line 196.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 217.
+(hyperref)                removing `subscript' on input line 207.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 217.
+(hyperref)                removing `subscript' on input line 207.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 195--215
+[][][][]
+ []
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 224.
+(hyperref)                removing `subscript' on input line 230.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 224.
+(hyperref)                removing `subscript' on input line 230.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 224.
+(hyperref)                removing `subscript' on input line 237.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 235.
+(hyperref)                removing `subscript' on input line 237.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 235.
+(hyperref)                removing `subscript' on input line 237.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 235.
+(hyperref)                removing `subscript' on input line 244.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 243.
+(hyperref)                removing `subscript' on input line 251.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 243.
+(hyperref)                removing `subscript' on input line 284.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 243.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 243.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 257.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 258.
+(hyperref)                removing `subscript' on input line 285.
 
 
 
 File: logo-crp.png Graphic file (type png)
 <use logo-crp.png>
-Package luatex.def Info: logo-crp.png  used on input line 305.
+Package luatex.def Info: logo-crp.png  used on input line 332.
 (luatex.def)             Requested size: 144.565pt x 56.9055pt.
 [2
 
@@ -1554,25 +1523,26 @@ L3 programming layer <2020/03/25>
 )
 
 Here is how much of LuaTeX's memory you used:
- 20006 strings out of 475910
+ 19996 strings out of 475910
  125236,1977958 words of node,token memory allocated
- 1288 words of node memory still in use:
-   4 hlist, 1 vlist, 1 rule, 1 local_par, 4 glue, 3 kern, 1 penalty, 3 glyph, 11
- attribute, 211 glue_spec, 6 attribute_list, 2 write nodes
-   avail lists: 1:3,2:1331,3:550,4:81,5:727,6:155,7:6276,8:1,9:1344,10:8,11:663
- 42293 multiletter control sequences out of 65536+600000
+ 1236 words of node memory still in use:
+   3 hlist, 1 vlist, 1 rule, 2 glue, 3 kern, 1 glyph, 9 attribute, 211 glue_spec
+, 5 attribute_list, 2 write nodes
+   avail lists: 1:2,2:1245,3:433,4:61,5:492,6:123,7:3416,8:1,9:1098,10:10,11:334
+
+ 42289 multiletter control sequences out of 65536+600000
  32 fonts using 1693607 bytes
- 99i,14n,105p,1033b,850s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 99i,14n,105p,1033b,706s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
 warning  (pdf backend): unreferenced destination with name 'section*.1'
 <c:/Users/angelo.cuissi/AppData/Local/Microsoft/Windows/Fonts/NewJune-Regular-It
 alic.otf><c:/Users/angelo.cuissi/AppData/Local/Microsoft/Windows/Fonts/NewJune-B
 old.otf><c:/Users/angelo.cuissi/AppData/Local/Microsoft/Windows/Fonts/NewJune-Re
 gular.otf><c:/texlive/2024/texmf-dist/fonts/type1/urw/zapfding/uzdr.pfb>
-Output written on pj-cancelamento-alteracao.pdf (2 pages, 139578 bytes).
+Output written on pj-cancelamento-alteracao.pdf (2 pages, 138855 bytes).
 
-PDF statistics: 111 PDF objects out of 1000 (max. 8388607)
- 91 compressed objects within 1 object stream
- 11 named destinations out of 1000 (max. 131072)
+PDF statistics: 104 PDF objects out of 1000 (max. 8388607)
+ 84 compressed objects within 1 object stream
+ 5 named destinations out of 1000 (max. 131072)
  59 words of extra memory for PDF output out of 10000 (max. 100000000)
 

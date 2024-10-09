@@ -1,4 +1,4 @@
-This is LuaHBTeX, Version 1.18.0 (TeX Live 2024)  (format=lualatex 2024.8.23)  7 OCT 2024 09:42
+This is LuaHBTeX, Version 1.18.0 (TeX Live 2024)  (format=lualatex 2024.8.23)  9 OCT 2024 17:04
  restricted system commands enabled.
 **pj-declaracao_institucional.tex
 (./pj-declaracao_institucional.tex
@@ -1360,7 +1360,11 @@ File: upzd.fd 2001/06/04 font definitions for U/pzd.
 ){c:/texlive/2024/texmf-var/fonts/map/pdftex/updmap/pdftex.map}
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 24.
+(hyperref)                removing `subscript' on input line 36.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `subscript' on input line 37.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
@@ -1371,25 +1375,17 @@ Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 (hyperref)                removing `subscript' on input line 39.
 
 
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 40.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 41.
-
-
-Overfull \hbox (0.49174pt too wide) in paragraph at lines 34--45
+Overfull \hbox (0.49174pt too wide) in paragraph at lines 32--43
 [] [][][][] \TU/NewJune(0)/m/n/10 , 
  []
 
 
-Overfull \hbox (0.49174pt too wide) in paragraph at lines 34--45
+Overfull \hbox (0.49174pt too wide) in paragraph at lines 32--43
 [] [][][][] \TU/NewJune(0)/m/n/10 , 
  []
 
 
-Overfull \hbox (0.49174pt too wide) in paragraph at lines 34--45
+Overfull \hbox (0.49174pt too wide) in paragraph at lines 32--43
 [] [][][][] \TU/NewJune(0)/m/n/10 , 
  []
 
@@ -1409,25 +1405,25 @@ L3 programming layer <2020/03/25>
 )
 
 Here is how much of LuaTeX's memory you used:
- 19997 strings out of 475910
+ 19998 strings out of 475910
  125236,1977958 words of node,token memory allocated
  1304 words of node memory still in use:
    4 hlist, 1 vlist, 1 rule, 1 local_par, 4 glue, 4 kern, 1 penalty, 1 margin_ke
 rn, 4 glyph, 11 attribute, 211 glue_spec, 6 attribute_list, 2 write nodes
-   avail lists: 1:2,2:545,3:286,4:58,5:286,6:53,7:4522,8:1,9:467,10:13,11:546
+   avail lists: 1:2,2:551,3:292,4:66,5:314,6:53,7:5243,8:1,9:473,10:13,11:639
  42286 multiletter control sequences out of 65536+600000
  31 fonts using 1654975 bytes
- 99i,11n,105p,2932b,525s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 99i,11n,105p,2932b,527s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
 warning  (pdf backend): unreferenced destination with name 'section*.1'
 <c:/Users/angelo.cuissi/AppData/Local/Microsoft/Windows/Fonts/NewJune-Regular-It
 alic.otf><c:/Users/angelo.cuissi/AppData/Local/Microsoft/Windows/Fonts/NewJune-B
 old.otf><c:/Users/angelo.cuissi/AppData/Local/Microsoft/Windows/Fonts/NewJune-Re
 gular.otf><c:/texlive/2024/texmf-dist/fonts/type1/urw/zapfding/uzdr.pfb>
-Output written on pj-declaracao_institucional.pdf (2 pages, 24487 bytes).
+Output written on pj-declaracao_institucional.pdf (2 pages, 24573 bytes).
 
 PDF statistics: 85 PDF objects out of 1000 (max. 8388607)
  67 compressed objects within 1 object stream
- 13 named destinations out of 1000 (max. 131072)
+ 14 named destinations out of 1000 (max. 131072)
  59 words of extra memory for PDF output out of 10000 (max. 100000000)
 
