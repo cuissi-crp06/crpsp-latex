@@ -40,9 +40,9 @@
 \preenctext{14}{endereco2}{24em}{\null } \hfill \preenctext{14}{bairro}{21em}{Bairro} \\%
 \preenctext{14}{CEP}{9em}{CEP } \hfill\preenctext{14}{municipio}{27em}{Município } \hfill \preenctext{14}{UF }{3em}{UF }\\%
 \preenctext{14}{email}{18em}{\textit{e-mail} da empresa }\hfill \preenctext{14}{cel}{15.5em}{Cel. c/ DDD }\\
-\preenctext{14}{tel_comercial}{13em}{Tel. c/ DDD }\hfill \preenctext{14}{ramal}{2.5em}{Ramal }
-\preenctext{14}{tel_contador}{13em}{Tel. contador c/ DDD \hfill} \hfill%
-%\vspace{0.4\baselineskip}
+\preenctext{14}{tel_comercial}{13em}{Tel. c/ DDD }\hfill \preenctext{14}{ramal}{2.5em}{Ramal }\hfill
+\preenctext{14}{tel_contador}{13em}{Tel. contador c/ DDD }%
+\vspace{0.62\baselineskip}
 
 \setasuspacing{\OnehalfSpacing}\justifying\noindent
 \textbf{Vem respeitosamente requerer:}
@@ -154,7 +154,7 @@
         \end{minipage}%
         \begin{minipage}[t]{\linewidth-\boxlarg}
             \begin{minipage}[t]{\boxlarg}
-                \raisebox{-2.4pt}{\fbox{\CheckBox[name=alteracao_objetivo,bordercolor=black]{\null}}}
+                \raisebox{-2.2pt}{\fbox{\CheckBox[name=alteracao_objetivo,bordercolor=black]{\null}}}
             \end{minipage}%
             \begin{minipage}[t]{0.8\boxlarg}
                 (1)
@@ -163,7 +163,7 @@
                 alteração do objeto social; ou
             \end{minipage}\vspace{0.5ex}
             \begin{minipage}[t]{\boxlarg}
-                \raisebox{-2.4pt}{\fbox{\CheckBox[name=alteracao_razao,bordercolor=black]{\null}}}
+                \raisebox{-2.2pt}{\fbox{\CheckBox[name=alteracao_razao,bordercolor=black]{\null}}}
             \end{minipage}%
             \begin{minipage}[t]{0.8\boxlarg}
                 (2)
@@ -180,20 +180,18 @@
             \begin{minipage}[t]{\linewidth-2\boxlarg}
                 aumento, atualização ou redistribuição do capital social;
             \end{minipage}\vspace{0.5ex}
-
             \begin{minipage}[t]{\boxlarg}
                 \raisebox{-8pt}{\fbox{\CheckBox[name=_alteracao_sociasesocios,bordercolor=black]{\null}}}
             \end{minipage}%
             \begin{minipage}[t]{0.8\boxlarg}
-                (4)
+                \raisebox{-6pt}{\mbox{(4)}}
             \end{minipage}%
             \begin{minipage}[t]{\linewidth-2\boxlarg}
-                inclusão ou exclusão de sósicas-proprietárias/sócios-proprietários, desde que não exclua a/o Responsável Técnica/o da entidade;
+                inclusão ou exclusão de sócias-proprietárias/sócios-proprietários, desde que não exclua a/o Responsável Técnica/o da entidade;
             \end{minipage}
             \vspace{0.1ex}
-
             \begin{minipage}[t]{\boxlarg}
-                \raisebox{-1.5pt}{\fbox{\CheckBox[name=alteracao_endereco,bordercolor=black]{\null}}}
+                \raisebox{-0.8pt}{\fbox{\CheckBox[name=alteracao_endereco,bordercolor=black]{\null}}}
             \end{minipage}%
             \begin{minipage}[t]{0.8\boxlarg}
                 (5)
@@ -201,10 +199,11 @@
             \begin{minipage}[t]{\linewidth-2\boxlarg}
                 mudança de endereço da PJ;
             \end{minipage}
-            \vspace{0.1ex}
+
+            \vspace{-0.2ex}
             \begin{minipage}[t]{\boxlarg}
                 %\vspace*{0.001pt}
-                \raisebox{-5pt}{\fbox{\CheckBox[name=alteracao_nome-endereco_socias,bordercolor=black]{\null}}}
+                \raisebox{-2.4pt}{\fbox{\CheckBox[name=alteracao_nome-endereco_socias,bordercolor=black]{\null}}}
             \end{minipage}%
             \begin{minipage}[t]{0.8\boxlarg}
                 (6)
@@ -222,10 +221,6 @@
             \hfill{\null}
         \end{minipage}%
         \begin{minipage}[t]{\linewidth-\boxlarg}
-%            \begin{enumerate}
-%                \item se a alteração contratual ora apresentada estiver devidamente registrada em cartório competente:
-%                      \vspace{-0.1\baselineskip}
-%
                       \begin{minipage}[t]{\boxlarg}
                           \raisebox{-2.2pt}{\fbox{\CheckBox[name=alteracao_apenas_registrada,bordercolor=black]{\null}}}
                       \end{minipage}%
@@ -234,10 +229,10 @@
                       \end{minipage}
 
                       \begin{minipage}[t]{\boxlarg}
-                          \raisebox{-8pt}{\fbox{\CheckBox[name=alteracao_apenas_registrada_termo,bordercolor=black]{\null}}}
+                          \raisebox{-2.2pt}{\fbox{\CheckBox[name=alteracao_apenas_registrada_termo,bordercolor=black]{\null}}}
                       \end{minipage}%
                       \begin{minipage}[t]{\linewidth-\boxlarg}
-                          termo de responsabilidade técnica da/o única/o psicóloga/o que assumirá esta condição (esse item apenas nos casos 1 ou 4) preenchido;
+                          termo de responsabilidade técnica preenchido;
                       \end{minipage}
 
                       \begin{minipage}[t]{\boxlarg}
@@ -248,50 +243,38 @@
                     \end{minipage}
 
                     \begin{minipage}[t]{\boxlarg}
-                        \raisebox{-10pt}{\fbox{\CheckBox[name=declaracao_institucional,bordercolor=black]{\null}}}
+                        \raisebox{-15pt}{\fbox{\CheckBox[name=declaracao_institucional,bordercolor=black]{\null}}}
                     \end{minipage}%
                     \begin{minipage}[t]{\linewidth-\boxlarg}
                         declaração institucional para garantia do amplo e livre exercício profissional por parte dos profissionais de Psicologia e Responsáveis Técnicas;os de Psicologia, de acordo com o Código de Ética Profissional da/o Psicóloga/o e legislação cabível preenchida.
                     \end{minipage}
                       \vspace{0.5\baselineskip}
 
-%                \item se a alteração contratual ora apresentada \textbf{não} estiver devidamente registrada em cartório competente:
-%                      \vspace{0.5\baselineskip}
-%
- %                     \begin{minipage}[t]{\boxlarg}
-%                          \raisebox{-6.4pt}{\fbox{\CheckBox[name=alteracao_apenas_nao_registrada,bordercolor=black]{\null}}}
-%                      \end{minipage}%
-%                      \begin{minipage}[t]{\linewidth-\boxlarg}
-%                          quatro vias desta alteração contratual com firmas reconhecidas; três serão devolvidas com o parecer deste Regional e uma anexada ao %prontuário;
-%                      \end{minipage}
-%                      \vspace{0.1ex}
-%
- %                     \begin{minipage}[t]{\boxlarg}
- %                         \raisebox{-6.4pt}{\fbox{\CheckBox[name=alteracao_apenas_nao_registrada_termo,bordercolor=black]{\null}}}
- %                     \end{minipage}%
- %                     \begin{minipage}[t]{\linewidth-\boxlarg}
- %                         termo de responsabilidade técnica da/o única/o psicóloga/o que assumirá esta condição (esse item apenas nos casos 1 ou 4).
- %                     \end{minipage}
- %           \end{enumerate}
         \end{minipage}
     \end{minipage}
 \end{framed}
-\vspace{2\baselineskip}\normalsize
+\normalsize
 
-\setasuspacing{\DoubleSpacing}\noindent A/o sócia-proprietária/sócio-proprietário abaixo caracterizado, que a seguir assina, afirma serem verdadeiros os dados aqui constantes.
-\vspace{2\baselineskip}
+\setasuspacing{\DoubleSpacing}A/o sócia-proprietária/sócio-proprietário abaixo caracterizado, que a seguir assina, afirma serem verdadeiros os dados aqui constantes.
+%\vspace{0.62\baselineskip}
 
-\preenctext{14}{nome_socia}{\linewidth}{Nome completo de uma/um das/dos sócias-proprietárias/sócios-proprietários: \\}
-\preenctext{14}{numero_crp}{9.5em}{CRP SP nº }
-
-\vspace{2\baselineskip}\raggedright
-\dataextenso{1}
+\noindent \textbf{Nomes completos das/dos sócias-proprietárias/sócios-proprietários:}
+\begin{enumerate}
+\item \preenctext{14}{socia1}{\fimdelinha}{\null\hfill}
+\item \preenctext{14}{socia2}{\fimdelinha}{\null\hfill}
+\item \preenctext{14}{socia3}{\fimdelinha}{\null\hfill}
+\item \preenctext{14}{socia4}{\fimdelinha}{\null\hfill}
+\end{enumerate}
+%\vspace{1\baselineskip}
+\raggedright\setasuspacing{\SingleSpacing}
+\dataextenso{1}\\
+%\small\hspace{8.5em}Local\hspace{10em}dia
 \vfill
 
 \centering
 \rule{24em}{0.4pt}\\
 Assinatura
-\vspace{\baselineskip}
+%\vspace{\baselineskip}
 %\clearpage
 %
 %\subsection{A ser preenchido pelo CRP~SP}
