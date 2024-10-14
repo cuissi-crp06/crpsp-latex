@@ -1,4 +1,4 @@
-This is LuaHBTeX, Version 1.18.0 (TeX Live 2024)  (format=lualatex 2024.8.23)  14 OCT 2024 11:15
+This is LuaHBTeX, Version 1.18.0 (TeX Live 2024)  (format=lualatex 2024.8.23)  14 OCT 2024 11:16
  restricted system commands enabled.
 **politica.tex
 (./politica.tex
@@ -1242,10 +1242,11 @@ Package: xstring 2023/08/22 v1.86 String manipulations (CT)
 \rightbarlength=\skip297
 )
 Package hyperref Info: Option `colorlinks' set `true' on input line 13.
-
-No file politica.aux.
-
+ (./politica.aux (./capitulos/0-apresentacao.aux) (./capitulos/1-intro.aux)
+(./capitulos/2-estrategicas.aux) (./capitulos/3-operacionais.aux)
+(./paginas/apendices.aux) (./capitulos/padroes.aux))
 \openout1 = politica.aux
+
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 17.
 LaTeX Font Info:    ... okay on input line 17.
 LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 17.
@@ -1257,6 +1258,7 @@ LaTeX Font Info:    ... okay on input line 17.
 LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 17.
 LaTeX Font Info:    Trying to load font information for TS1+cmr on input line 1
 7.
+
 (c:/texlive/2024/texmf-dist/tex/latex/base/ts1cmr.fd
 File: ts1cmr.fd 2023/04/13 v2.5m Standard LaTeX font definitions
 )
@@ -1632,14 +1634,6 @@ LaTeX Warning: Hyper reference `acro:crp06' on page 1 undefined on input line 2
 5.
 
 
-LaTeX Warning: Hyper reference `acro:crp' on page 1 undefined on input line 26.
-
-
-
-LaTeX Warning: Hyper reference `acro:crp' on page 1 undefined on input line 26.
-
-
-
 
 [1
 
@@ -1654,22 +1648,22 @@ LaTeX Warning: Hyper reference `acro:crp' on page 1 undefined on input line 26.
 [2
 
 
-]
-No file politica.toc.
-
+] (./politica.toc (c:/texlive/2024/texmf-dist/tex/latex/microtype/mt-cmr.cfg
+File: mt-cmr.cfg 2013/05/19 v2.2 microtype config. file: Computer Modern Roman 
+(RS)
+)
 
 [3
 
 
 
 ]
+
+[4])
+
+[5]
 \openout2 = capitulos/1-intro.aux
  (./capitulos/1-intro.tex
-
-LaTeX Warning: Reference `acessibilidade' on page 1 undefined on input line 21.
-
-
-
 
 
 warning  (pdf backend): ignoring duplicate destination with the name 'page.1'
@@ -1677,10 +1671,7 @@ warning  (pdf backend): ignoring duplicate destination with the name 'page.1'
 
 
 
-] (c:/texlive/2024/texmf-dist/tex/latex/microtype/mt-cmr.cfg
-File: mt-cmr.cfg 2013/05/19 v2.2 microtype config. file: Computer Modern Roman 
-(RS)
-)
+]
 
 
 warning  (pdf backend): ignoring duplicate destination with the name 'page.2'
@@ -1695,18 +1686,16 @@ LaTeX Font Warning: Font shape `TU/NewJune(0)/m/sc' undefined
 
 Package acronym Info: Label `acro:crp' newly defined as it shall be overridden
 although it is yet undefined on input line 155.
-
-Package acronym Warning: Acronym `crp' is not defined on input line 155.
-
-
-Package acronym Warning: Acronym `crp' is not defined on input line 155.
-
 )
 
+
+warning  (pdf backend): ignoring duplicate destination with the name 'page.4'
 [4]
 \openout2 = capitulos/2-estrategicas.aux
  (./capitulos/2-estrategicas.tex)
 
+
+warning  (pdf backend): ignoring duplicate destination with the name 'page.5'
 [5
 
 
@@ -1744,17 +1733,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 99--100
 
 
 
-])
-No file politica.gls-abr.
-
-Package glossaries-extra Warning: Glossary `abbreviations' is missing on input 
-line 53.
-
-Package microtype Info: Loading generic protrusion settings for font family
-(microtype)             `lmtt' (encoding: TU).
-(microtype)             For optimal results, create family-specific settings.
-(microtype)             See the microtype manual for details.
-
+]) (./politica.gls-abr)
 
 [13
 
@@ -1764,11 +1743,6 @@ Package microtype Info: Loading generic protrusion settings for font family
 ]
 \openout2 = capitulos/padroes.aux
  (./capitulos/padroes.tex
-
-LaTeX Warning: Reference `acessibilidade' on page 14 undefined on input line 33
-.
-
-
 
 [14
 
@@ -1829,38 +1803,27 @@ LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
 LaTeX Warning: There were undefined references.
 
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
-
-Package lastpage Warning: Rerun to get the references right on input line 56.
-
 )
 
 Here is how much of LuaTeX's memory you used:
- 30331 strings out of 475910
+ 30396 strings out of 475910
  125236,1977958 words of node,token memory allocated
- 1523 words of node memory still in use:
-   8 hlist, 2 vlist, 2 rule, 1 local_par, 9 glue, 4 kern, 1 penalty, 3 glyph, 25
- attribute, 228 glue_spec, 14 attribute_list, 4 write, 1 pdf_action nodes
-   avail lists: 1:2,2:1096,3:266,4:224,5:384,6:76,7:7941,8:2,9:355,10:14,11:1056
+ 1529 words of node memory still in use:
+   8 hlist, 2 vlist, 2 rule, 1 local_par, 9 glue, 4 kern, 1 penalty, 3 glyph, 27
+ attribute, 228 glue_spec, 15 attribute_list, 4 write, 1 pdf_action nodes
+   avail lists: 1:2,2:2376,3:510,4:224,5:594,6:158,7:7941,8:2,9:896,10:14,11:105
+6
+ 52151 multiletter control sequences out of 65536+600000
+ 64 fonts using 3460319 bytes
+ 121i,13n,114p,2396b,921s stack positions out of 10000i,1000n,20000p,200000b,200000s
+<c:/Users/angelo.cuissi/AppData/Local/Microsoft/Windows/Fonts/NewJune-Regular-It
+alic.otf><c:/Users/angelo.cuissi/AppData/Local/Microsoft/Windows/Fonts/NewJune-R
+egular.otf><c:/Users/angelo.cuissi/AppData/Local/Microsoft/Windows/Fonts/NewJune
+-Bold.otf>
+Output written on politica.pdf (23 pages, 79532 bytes).
 
- 52137 multiletter control sequences out of 65536+600000
- 60 fonts using 3299271 bytes
- 121i,13n,114p,2396b,917s stack positions out of 10000i,1000n,20000p,200000b,200000s
-
-warning  (pdf backend): unreferenced destination with name 'glo:idv'
-
-warning  (pdf backend): unreferenced destination with name 'glo:padronizacao'
-<c:/texlive/2024/texmf-dist/fonts/opentype/public/lm/lmmono10-regular.otf><c:/Us
-ers/angelo.cuissi/AppData/Local/Microsoft/Windows/Fonts/NewJune-Regular-Italic.o
-tf><c:/Users/angelo.cuissi/AppData/Local/Microsoft/Windows/Fonts/NewJune-Regular
-.otf><c:/Users/angelo.cuissi/AppData/Local/Microsoft/Windows/Fonts/NewJune-Bold.
-otf>
-Output written on politica.pdf (21 pages, 73550 bytes).
-
-PDF statistics: 706 PDF objects out of 1000 (max. 8388607)
- 664 compressed objects within 7 object streams
+PDF statistics: 838 PDF objects out of 1000 (max. 8388607)
+ 796 compressed objects within 8 object streams
  197 named destinations out of 1000 (max. 131072)
  977 words of extra memory for PDF output out of 10000 (max. 100000000)
 
