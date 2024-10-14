@@ -2,126 +2,127 @@
 \babel@toc {brazil}{}\relax 
 \thispagestyle {empty}
 \contentsline {chapter}{\chapternumberline {1}\MakeTextUppercase []{Introdução}}{1}{chapter.1}%
-\contentsline {section}{\numberline {1.1}Conceito de comunicação institucional}{1}{section.1.1}%
-\contentsline {section}{\numberline {1.2}Princípios institucionais}{1}{section.1.2}%
-\contentsline {subsection}{\numberline {1.2.1}Respeito e promoção dos Direitos Humanos}{1}{subsection.1.2.1}%
-\contentsline {subsubsection}{\numberline {1.2.1.1}Linguagem inclusiva}{1}{subsubsection.1.2.1.1}%
-\contentsline {subsubsection}{\numberline {1.2.1.2}Acessibilidade}{1}{subsubsection.1.2.1.2}%
-\contentsline {subsection}{\numberline {1.2.2}Efetivação de funções precípuas do Conselho Regional de Psicologia}{1}{subsection.1.2.2}%
-\contentsline {subsection}{\numberline {1.2.3}Princípios constitucionais aplicáveis à comunicação pública}{1}{subsection.1.2.3}%
-\contentsline {subsubsection}{\numberline {1.2.3.1}Legalidade}{2}{subsubsection.1.2.3.1}%
-\contentsline {subsubsection}{\numberline {1.2.3.2}Impessoalidade}{2}{subsubsection.1.2.3.2}%
-\contentsline {subsubsection}{\numberline {1.2.3.3}Moralidade}{3}{subsubsection.1.2.3.3}%
-\contentsline {subsubsection}{\numberline {1.2.3.4}Publicidade}{3}{subsubsection.1.2.3.4}%
-\contentsline {subsubsection}{\numberline {1.2.3.5}Eficiência}{3}{subsubsection.1.2.3.5}%
-\contentsline {section}{\numberline {1.3}Implementação e gestão desta Política}{3}{section.1.3}%
-\contentsline {subsection}{\numberline {1.3.1}Seções gerais}{3}{subsection.1.3.1}%
-\contentsline {subsubsection}{\numberline {1.3.1.1}Redação}{3}{subsubsection.1.3.1.1}%
-\contentsline {subsubsection}{\numberline {1.3.1.2}Audiovisual}{3}{subsubsection.1.3.1.2}%
-\contentsline {subsection}{\numberline {1.3.2}Editoração}{3}{subsection.1.3.2}%
-\contentsline {subsubsection}{\numberline {1.3.2.1}Revisão textual e de linguagem}{3}{subsubsection.1.3.2.1}%
-\contentsline {paragraph}{\numberline {1.3.2.1.1}Padrões editoriais}{3}{paragraph.1.3.2.1.1}%
-\contentsline {subsubsection}{\numberline {1.3.2.2}Diagramação}{3}{subsubsection.1.3.2.2}%
-\contentsline {subsubsection}{\numberline {1.3.2.3}Catalogação (ISBN)}{3}{subsubsection.1.3.2.3}%
-\contentsline {subsubsection}{\numberline {1.3.2.4}Preparação de produtos editoriais}{3}{subsubsection.1.3.2.4}%
-\contentsline {subsection}{\numberline {1.3.3}Produção gráfica}{4}{subsection.1.3.3}%
-\contentsline {subsection}{\numberline {1.3.4}Marketing}{4}{subsection.1.3.4}%
-\contentsline {subsubsection}{\numberline {1.3.4.1}Planos de comunicação integrada}{4}{subsubsection.1.3.4.1}%
-\contentsline {subsubsection}{\numberline {1.3.4.2}Identidade visual}{4}{subsubsection.1.3.4.2}%
-\contentsline {subsection}{\numberline {1.3.5}Comunicação externa}{4}{subsection.1.3.5}%
-\contentsline {subsubsection}{\numberline {1.3.5.1}Relacionamento com a imprensa}{4}{subsubsection.1.3.5.1}%
-\contentsline {subsubsection}{\numberline {1.3.5.2}Mídias sociais}{4}{subsubsection.1.3.5.2}%
-\contentsline {subsection}{\numberline {1.3.6}Eventos}{4}{subsection.1.3.6}%
-\contentsline {subsubsection}{\numberline {1.3.6.1}Eventos nos territórios}{4}{subsubsection.1.3.6.1}%
-\contentsline {chapter}{\chapternumberline {2}\MakeTextUppercase []{Diretrizes estratégicas}}{5}{chapter.2}%
-\contentsline {section}{\numberline {2.1}Histórico}{5}{section.2.1}%
-\contentsline {section}{\numberline {2.2}Objetivos}{5}{section.2.2}%
-\contentsline {section}{\numberline {2.3}Desafios e oportunidades}{5}{section.2.3}%
-\contentsline {subsection}{\numberline {2.3.1}População}{5}{subsection.2.3.1}%
-\contentsline {subsection}{\numberline {2.3.2}Atendimento a funções precípuas}{5}{subsection.2.3.2}%
-\contentsline {section}{\numberline {2.4}Imagem institucional}{5}{section.2.4}%
-\contentsline {subsection}{\numberline {2.4.1}Prevenção e gerenciamento de crises}{5}{subsection.2.4.1}%
-\contentsline {subsubsection}{\numberline {2.4.1.1}Temas sensíveis}{5}{subsubsection.2.4.1.1}%
-\contentsline {section}{\numberline {2.5}Avaliação e revisão de ações}{5}{section.2.5}%
-\contentsline {chapter}{\chapternumberline {3}\MakeTextUppercase []{Diretrizes operacionais}}{6}{chapter.3}%
-\contentsline {section}{\numberline {3.1}Estrutura da Coordenação de Comunicação}{6}{section.3.1}%
-\contentsline {subsection}{\numberline {3.1.1}Atribuições}{6}{subsection.3.1.1}%
-\contentsline {subsection}{\numberline {3.1.2}Responsabilidades sobre gestão e administração}{6}{subsection.3.1.2}%
-\contentsline {subsection}{\numberline {3.1.3}Recursos}{6}{subsection.3.1.3}%
-\contentsline {section}{\numberline {3.2}Processos e produtos comunicacionais}{6}{section.3.2}%
-\contentsline {subsection}{\numberline {3.2.1}Canais oficiais}{6}{subsection.3.2.1}%
-\contentsline {subsubsection}{\numberline {3.2.1.1}`Site' institucional}{6}{subsubsection.3.2.1.1}%
-\contentsline {subsubsection}{\numberline {3.2.1.2}Redes sociais}{6}{subsubsection.3.2.1.2}%
-\contentsline {subsection}{\numberline {3.2.2}Produtos fixos}{8}{subsection.3.2.2}%
-\contentsline {subsubsection}{\numberline {3.2.2.1}Produtos de circulação rápida}{8}{subsubsection.3.2.2.1}%
-\contentsline {paragraph}{\numberline {3.2.2.1.1}Psicologia em Ação}{8}{paragraph.3.2.2.1.1}%
-\contentsline {paragraph}{\numberline {3.2.2.1.2}CRP~SP Acontece}{8}{paragraph.3.2.2.1.2}%
-\contentsline {paragraph}{\numberline {3.2.2.1.3}CRP~SP Informa}{8}{paragraph.3.2.2.1.3}%
-\contentsline {paragraph}{\numberline {3.2.2.1.4}CRP~SP Debate (`lives')}{8}{paragraph.3.2.2.1.4}%
-\contentsline {paragraph}{\numberline {3.2.2.1.5}Calendário de Direitos Humanos}{9}{paragraph.3.2.2.1.5}%
-\contentsline {paragraph}{\numberline {3.2.2.1.6}CRP~SP na Mídia}{9}{paragraph.3.2.2.1.6}%
-\contentsline {paragraph}{\numberline {3.2.2.1.7}Publicações diárias}{9}{paragraph.3.2.2.1.7}%
-\contentsline {subsubsection}{\numberline {3.2.2.2}Produtos de circulação lenta}{9}{subsubsection.3.2.2.2}%
-\contentsline {paragraph}{\numberline {3.2.2.2.1}Jornal Psi}{9}{paragraph.3.2.2.2.1}%
-\contentsline {paragraph}{\numberline {3.2.2.2.2}Cadernos Temáticos}{9}{paragraph.3.2.2.2.2}%
-\contentsline {paragraph}{\numberline {3.2.2.2.3}Vídeos institucionais}{9}{paragraph.3.2.2.2.3}%
-\contentsline {subsection}{\numberline {3.2.3}Campanhas}{10}{subsection.3.2.3}%
-\contentsline {subsection}{\numberline {3.2.4}Eventos}{10}{subsection.3.2.4}%
-\contentsline {subsubsection}{\numberline {3.2.4.1}Atribuições das subsedes}{10}{subsubsection.3.2.4.1}%
-\contentsline {subsubsection}{\numberline {3.2.4.2}Fluxo de eventos}{10}{subsubsection.3.2.4.2}%
-\contentsline {paragraph}{\numberline {3.2.4.2.1}Requisição}{10}{paragraph.3.2.4.2.1}%
-\contentsline {paragraph}{\numberline {3.2.4.2.2}Produção}{10}{paragraph.3.2.4.2.2}%
-\contentsline {subsubsection}{\numberline {3.2.4.3}Cobertura e transmissão}{11}{subsubsection.3.2.4.3}%
-\contentsline {section}{\numberline {3.3}Gestão e proteção de dados}{11}{section.3.3}%
-\contentsline {subsection}{\numberline {3.3.1}Audiovisual}{11}{subsection.3.3.1}%
-\contentsline {subsubsection}{\numberline {3.3.1.1}Arquivamento}{11}{subsubsection.3.3.1.1}%
-\contentsline {part}{Apêndices}{12}{section*.7}%
+\contentsline {section}{\numberline {1.1}Estrutura de comunicação do CRP~SP}{1}{section.1.1}%
+\contentsline {section}{\numberline {1.2}Conceito de comunicação institucional}{1}{section.1.2}%
+\contentsline {section}{\numberline {1.3}Princípios institucionais}{1}{section.1.3}%
+\contentsline {subsection}{\numberline {1.3.1}Respeito e promoção dos Direitos Humanos}{1}{subsection.1.3.1}%
+\contentsline {subsubsection}{\numberline {1.3.1.1}Linguagem inclusiva}{1}{subsubsection.1.3.1.1}%
+\contentsline {subsubsection}{\numberline {1.3.1.2}Acessibilidade}{2}{subsubsection.1.3.1.2}%
+\contentsline {subsection}{\numberline {1.3.2}Efetivação de funções precípuas do Conselho Regional de Psicologia}{2}{subsection.1.3.2}%
+\contentsline {subsection}{\numberline {1.3.3}Princípios constitucionais aplicáveis à comunicação pública}{2}{subsection.1.3.3}%
+\contentsline {subsubsection}{\numberline {1.3.3.1}Legalidade}{2}{subsubsection.1.3.3.1}%
+\contentsline {subsubsection}{\numberline {1.3.3.2}Impessoalidade}{3}{subsubsection.1.3.3.2}%
+\contentsline {subsubsection}{\numberline {1.3.3.3}Moralidade}{3}{subsubsection.1.3.3.3}%
+\contentsline {subsubsection}{\numberline {1.3.3.4}Publicidade}{3}{subsubsection.1.3.3.4}%
+\contentsline {subsubsection}{\numberline {1.3.3.5}Eficiência}{3}{subsubsection.1.3.3.5}%
+\contentsline {section}{\numberline {1.4}Implementação e gestão desta Política}{3}{section.1.4}%
+\contentsline {subsection}{\numberline {1.4.1}Seções gerais}{3}{subsection.1.4.1}%
+\contentsline {subsubsection}{\numberline {1.4.1.1}Redação}{4}{subsubsection.1.4.1.1}%
+\contentsline {subsubsection}{\numberline {1.4.1.2}Audiovisual}{4}{subsubsection.1.4.1.2}%
+\contentsline {subsection}{\numberline {1.4.2}Editoração}{4}{subsection.1.4.2}%
+\contentsline {subsubsection}{\numberline {1.4.2.1}Revisão textual e de linguagem}{4}{subsubsection.1.4.2.1}%
+\contentsline {paragraph}{\numberline {1.4.2.1.1}Padrões editoriais}{4}{paragraph.1.4.2.1.1}%
+\contentsline {subsubsection}{\numberline {1.4.2.2}Diagramação}{4}{subsubsection.1.4.2.2}%
+\contentsline {subsubsection}{\numberline {1.4.2.3}Catalogação (ISBN)}{4}{subsubsection.1.4.2.3}%
+\contentsline {subsubsection}{\numberline {1.4.2.4}Preparação de produtos editoriais}{4}{subsubsection.1.4.2.4}%
+\contentsline {subsection}{\numberline {1.4.3}Produção gráfica}{4}{subsection.1.4.3}%
+\contentsline {subsection}{\numberline {1.4.4}Marketing}{5}{subsection.1.4.4}%
+\contentsline {subsubsection}{\numberline {1.4.4.1}Planos de comunicação integrada}{5}{subsubsection.1.4.4.1}%
+\contentsline {subsubsection}{\numberline {1.4.4.2}Identidade visual}{5}{subsubsection.1.4.4.2}%
+\contentsline {subsection}{\numberline {1.4.5}Comunicação externa}{5}{subsection.1.4.5}%
+\contentsline {subsubsection}{\numberline {1.4.5.1}Relacionamento com a imprensa}{5}{subsubsection.1.4.5.1}%
+\contentsline {subsubsection}{\numberline {1.4.5.2}Mídias sociais}{5}{subsubsection.1.4.5.2}%
+\contentsline {subsection}{\numberline {1.4.6}Eventos}{5}{subsection.1.4.6}%
+\contentsline {subsubsection}{\numberline {1.4.6.1}Eventos nos territórios}{5}{subsubsection.1.4.6.1}%
+\contentsline {chapter}{\chapternumberline {2}\MakeTextUppercase []{Diretrizes estratégicas}}{6}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Histórico}{6}{section.2.1}%
+\contentsline {section}{\numberline {2.2}Objetivos}{6}{section.2.2}%
+\contentsline {section}{\numberline {2.3}Desafios e oportunidades}{6}{section.2.3}%
+\contentsline {subsection}{\numberline {2.3.1}População}{6}{subsection.2.3.1}%
+\contentsline {subsection}{\numberline {2.3.2}Atendimento a funções precípuas}{6}{subsection.2.3.2}%
+\contentsline {section}{\numberline {2.4}Imagem institucional}{6}{section.2.4}%
+\contentsline {subsection}{\numberline {2.4.1}Prevenção e gerenciamento de crises}{6}{subsection.2.4.1}%
+\contentsline {subsubsection}{\numberline {2.4.1.1}Temas sensíveis}{6}{subsubsection.2.4.1.1}%
+\contentsline {section}{\numberline {2.5}Avaliação e revisão de ações}{6}{section.2.5}%
+\contentsline {chapter}{\chapternumberline {3}\MakeTextUppercase []{Diretrizes operacionais}}{7}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Estrutura da Coordenação de Comunicação}{7}{section.3.1}%
+\contentsline {subsection}{\numberline {3.1.1}Atribuições}{7}{subsection.3.1.1}%
+\contentsline {subsection}{\numberline {3.1.2}Responsabilidades sobre gestão e administração}{7}{subsection.3.1.2}%
+\contentsline {subsection}{\numberline {3.1.3}Recursos}{7}{subsection.3.1.3}%
+\contentsline {section}{\numberline {3.2}Processos e produtos comunicacionais}{7}{section.3.2}%
+\contentsline {subsection}{\numberline {3.2.1}Canais oficiais}{7}{subsection.3.2.1}%
+\contentsline {subsubsection}{\numberline {3.2.1.1}`Site' institucional}{7}{subsubsection.3.2.1.1}%
+\contentsline {subsubsection}{\numberline {3.2.1.2}Redes sociais}{7}{subsubsection.3.2.1.2}%
+\contentsline {subsection}{\numberline {3.2.2}Produtos fixos}{9}{subsection.3.2.2}%
+\contentsline {subsubsection}{\numberline {3.2.2.1}Produtos de circulação rápida}{9}{subsubsection.3.2.2.1}%
+\contentsline {paragraph}{\numberline {3.2.2.1.1}Psicologia em Ação}{9}{paragraph.3.2.2.1.1}%
+\contentsline {paragraph}{\numberline {3.2.2.1.2}CRP~SP Acontece}{9}{paragraph.3.2.2.1.2}%
+\contentsline {paragraph}{\numberline {3.2.2.1.3}CRP~SP Informa}{9}{paragraph.3.2.2.1.3}%
+\contentsline {paragraph}{\numberline {3.2.2.1.4}CRP~SP Debate (`lives')}{9}{paragraph.3.2.2.1.4}%
+\contentsline {paragraph}{\numberline {3.2.2.1.5}Calendário de Direitos Humanos}{10}{paragraph.3.2.2.1.5}%
+\contentsline {paragraph}{\numberline {3.2.2.1.6}CRP~SP na Mídia}{10}{paragraph.3.2.2.1.6}%
+\contentsline {paragraph}{\numberline {3.2.2.1.7}Publicações diárias}{10}{paragraph.3.2.2.1.7}%
+\contentsline {subsubsection}{\numberline {3.2.2.2}Produtos de circulação lenta}{10}{subsubsection.3.2.2.2}%
+\contentsline {paragraph}{\numberline {3.2.2.2.1}Jornal Psi}{10}{paragraph.3.2.2.2.1}%
+\contentsline {paragraph}{\numberline {3.2.2.2.2}Cadernos Temáticos}{10}{paragraph.3.2.2.2.2}%
+\contentsline {paragraph}{\numberline {3.2.2.2.3}Vídeos institucionais}{10}{paragraph.3.2.2.2.3}%
+\contentsline {subsection}{\numberline {3.2.3}Campanhas}{11}{subsection.3.2.3}%
+\contentsline {subsection}{\numberline {3.2.4}Eventos}{11}{subsection.3.2.4}%
+\contentsline {subsubsection}{\numberline {3.2.4.1}Atribuições das subsedes}{11}{subsubsection.3.2.4.1}%
+\contentsline {subsubsection}{\numberline {3.2.4.2}Fluxo de eventos}{11}{subsubsection.3.2.4.2}%
+\contentsline {paragraph}{\numberline {3.2.4.2.1}Requisição}{11}{paragraph.3.2.4.2.1}%
+\contentsline {paragraph}{\numberline {3.2.4.2.2}Produção}{11}{paragraph.3.2.4.2.2}%
+\contentsline {subsubsection}{\numberline {3.2.4.3}Cobertura e transmissão}{12}{subsubsection.3.2.4.3}%
+\contentsline {section}{\numberline {3.3}Gestão e proteção de dados}{12}{section.3.3}%
+\contentsline {subsection}{\numberline {3.3.1}Audiovisual}{12}{subsection.3.3.1}%
+\contentsline {subsubsection}{\numberline {3.3.1.1}Arquivamento}{12}{subsubsection.3.3.1.1}%
+\contentsline {part}{Apêndices}{13}{section*.12}%
 \vspace {\cftbeforechapterskip }
 \renewcommand *{\cftappendixname }{AP\^ENDICE \space }
-\contentsline {appendix}{\chapternumberline {A}\MakeTextUppercase []{Glossário}}{13}{appendix.A}%
-\contentsline {appendix}{\chapternumberline {B}\MakeTextUppercase []{Padronização e estilo}}{14}{appendix.B}%
-\contentsline {section}{\numberline {B.1}Figuras, tabelas e gráficos}{14}{section.B.1}%
-\contentsline {section}{\numberline {B.2}Titulação}{14}{section.B.2}%
-\contentsline {section}{\numberline {B.3}Paginação}{14}{section.B.3}%
-\contentsline {section}{\numberline {B.4}Destaque}{14}{section.B.4}%
-\contentsline {subsection}{\numberline {B.4.1}Negrito}{14}{subsection.B.4.1}%
-\contentsline {subsection}{\numberline {B.4.2}Citações}{14}{subsection.B.4.2}%
-\contentsline {subsubsection}{\numberline {B.4.2.1}Aspas duplas}{14}{subsubsection.B.4.2.1}%
-\contentsline {subsubsection}{\numberline {B.4.2.2}Aspas simples}{14}{subsubsection.B.4.2.2}%
-\contentsline {subsubsection}{\numberline {B.4.2.3}Recuos marginais}{15}{subsubsection.B.4.2.3}%
-\contentsline {subsection}{\numberline {B.4.3}Itálico}{15}{subsection.B.4.3}%
-\contentsline {section}{\numberline {B.5}Ortografia}{15}{section.B.5}%
-\contentsline {subsection}{\numberline {B.5.1}Maiúsculas e minúsculas}{15}{subsection.B.5.1}%
-\contentsline {subsubsection}{\numberline {B.5.1.1}Exceções}{15}{subsubsection.B.5.1.1}%
-\contentsline {paragraph}{\numberline {B.5.1.1.1}Áreas de estudo}{15}{paragraph.B.5.1.1.1}%
-\contentsline {paragraph}{\numberline {B.5.1.1.2}Títulos acadêmicos}{15}{paragraph.B.5.1.1.2}%
-\contentsline {subsection}{\numberline {B.5.2}Sinais gráficos}{15}{subsection.B.5.2}%
-\contentsline {subsubsection}{\numberline {B.5.2.1}Barra}{15}{subsubsection.B.5.2.1}%
-\contentsline {subsubsection}{\numberline {B.5.2.2}Hífen}{16}{subsubsection.B.5.2.2}%
-\contentsline {paragraph}{\numberline {B.5.2.2.1}Cargos}{16}{paragraph.B.5.2.2.1}%
-\contentsline {subsection}{\numberline {B.5.3}Parêntese}{16}{subsection.B.5.3}%
-\contentsline {subsection}{\numberline {B.5.4}Grafia oficial das comissões e produtos de comunicação do CRP~SP}{16}{subsection.B.5.4}%
-\contentsline {subsubsection}{\numberline {B.5.4.1}Conselho Regional de Psicologia da 6ª Região}{16}{subsubsection.B.5.4.1}%
-\contentsline {subsubsection}{\numberline {B.5.4.2}Comissões}{16}{subsubsection.B.5.4.2}%
-\contentsline {subsubsection}{\numberline {B.5.4.3}Produtos de comunicação}{16}{subsubsection.B.5.4.3}%
-\contentsline {section}{\numberline {B.6}Itens, alíneas, enumerações}{16}{section.B.6}%
-\contentsline {subsection}{\numberline {B.6.1}listas e enumerações}{16}{subsection.B.6.1}%
-\contentsline {subsubsection}{\numberline {B.6.1.1}Listas não numeradas}{16}{subsubsection.B.6.1.1}%
-\contentsline {subsubsection}{\numberline {B.6.1.2}Listas numeradas}{16}{subsubsection.B.6.1.2}%
-\contentsline {section}{\numberline {B.7}Numerais}{16}{section.B.7}%
-\contentsline {subsection}{\numberline {B.7.1}Cardinais e ordinais}{16}{subsection.B.7.1}%
-\contentsline {subsubsection}{\numberline {B.7.1.1}Ordinais}{16}{subsubsection.B.7.1.1}%
-\contentsline {subsection}{\numberline {B.7.2}Sinais matemáticos}{16}{subsection.B.7.2}%
-\contentsline {subsubsection}{\numberline {B.7.2.1}Oposição}{17}{subsubsection.B.7.2.1}%
-\contentsline {subsection}{\numberline {B.7.3}Numerais em leis, portarias, resoluções etc.}{17}{subsection.B.7.3}%
-\contentsline {subsection}{\numberline {B.7.4}Numerais com unidades de medida}{17}{subsection.B.7.4}%
-\contentsline {subsection}{\numberline {B.7.5}Chamadas de nota}{17}{subsection.B.7.5}%
-\contentsline {section}{\numberline {B.8}Siglas e abreviações}{17}{section.B.8}%
-\contentsline {subsection}{\numberline {B.8.1}Abreviações}{17}{subsection.B.8.1}%
-\contentsline {subsection}{\numberline {B.8.2}Siglas}{17}{subsection.B.8.2}%
-\contentsline {section}{\numberline {B.9}Gramática}{17}{section.B.9}%
-\contentsline {subsection}{\numberline {B.9.1}Plural}{17}{subsection.B.9.1}%
-\contentsline {section}{\numberline {B.10}Acessibilidade}{17}{section.B.10}%
-\contentsline {section}{\numberline {B.11}Toponímia}{18}{section.B.11}%
-\contentsline {subsection}{\numberline {B.11.1}Logradouros}{18}{subsection.B.11.1}%
-\contentsline {subsubsection}{\numberline {B.11.1.1}Estados}{18}{subsubsection.B.11.1.1}%
+\contentsline {appendix}{\chapternumberline {A}\MakeTextUppercase []{Glossário}}{14}{appendix.A}%
+\contentsline {appendix}{\chapternumberline {B}\MakeTextUppercase []{Padronização e estilo}}{15}{appendix.B}%
+\contentsline {section}{\numberline {B.1}Figuras, tabelas e gráficos}{15}{section.B.1}%
+\contentsline {section}{\numberline {B.2}Titulação}{15}{section.B.2}%
+\contentsline {section}{\numberline {B.3}Paginação}{15}{section.B.3}%
+\contentsline {section}{\numberline {B.4}Destaque}{15}{section.B.4}%
+\contentsline {subsection}{\numberline {B.4.1}Negrito}{15}{subsection.B.4.1}%
+\contentsline {subsection}{\numberline {B.4.2}Citações}{15}{subsection.B.4.2}%
+\contentsline {subsubsection}{\numberline {B.4.2.1}Aspas duplas}{15}{subsubsection.B.4.2.1}%
+\contentsline {subsubsection}{\numberline {B.4.2.2}Aspas simples}{15}{subsubsection.B.4.2.2}%
+\contentsline {subsubsection}{\numberline {B.4.2.3}Recuos marginais}{16}{subsubsection.B.4.2.3}%
+\contentsline {subsection}{\numberline {B.4.3}Itálico}{16}{subsection.B.4.3}%
+\contentsline {section}{\numberline {B.5}Ortografia}{16}{section.B.5}%
+\contentsline {subsection}{\numberline {B.5.1}Maiúsculas e minúsculas}{16}{subsection.B.5.1}%
+\contentsline {subsubsection}{\numberline {B.5.1.1}Exceções}{16}{subsubsection.B.5.1.1}%
+\contentsline {paragraph}{\numberline {B.5.1.1.1}Áreas de estudo}{16}{paragraph.B.5.1.1.1}%
+\contentsline {paragraph}{\numberline {B.5.1.1.2}Títulos acadêmicos}{16}{paragraph.B.5.1.1.2}%
+\contentsline {subsection}{\numberline {B.5.2}Sinais gráficos}{16}{subsection.B.5.2}%
+\contentsline {subsubsection}{\numberline {B.5.2.1}Barra}{16}{subsubsection.B.5.2.1}%
+\contentsline {subsubsection}{\numberline {B.5.2.2}Hífen}{17}{subsubsection.B.5.2.2}%
+\contentsline {paragraph}{\numberline {B.5.2.2.1}Cargos}{17}{paragraph.B.5.2.2.1}%
+\contentsline {subsection}{\numberline {B.5.3}Parêntese}{17}{subsection.B.5.3}%
+\contentsline {subsection}{\numberline {B.5.4}Grafia oficial das comissões e produtos de comunicação do CRP~SP}{17}{subsection.B.5.4}%
+\contentsline {subsubsection}{\numberline {B.5.4.1}Conselho Regional de Psicologia da 6ª Região}{17}{subsubsection.B.5.4.1}%
+\contentsline {subsubsection}{\numberline {B.5.4.2}Comissões}{17}{subsubsection.B.5.4.2}%
+\contentsline {subsubsection}{\numberline {B.5.4.3}Produtos de comunicação}{17}{subsubsection.B.5.4.3}%
+\contentsline {section}{\numberline {B.6}Itens, alíneas, enumerações}{17}{section.B.6}%
+\contentsline {subsection}{\numberline {B.6.1}listas e enumerações}{17}{subsection.B.6.1}%
+\contentsline {subsubsection}{\numberline {B.6.1.1}Listas não numeradas}{18}{subsubsection.B.6.1.1}%
+\contentsline {subsubsection}{\numberline {B.6.1.2}Listas numeradas}{18}{subsubsection.B.6.1.2}%
+\contentsline {section}{\numberline {B.7}Numerais}{18}{section.B.7}%
+\contentsline {subsection}{\numberline {B.7.1}Cardinais e ordinais}{18}{subsection.B.7.1}%
+\contentsline {subsubsection}{\numberline {B.7.1.1}Ordinais}{18}{subsubsection.B.7.1.1}%
+\contentsline {subsection}{\numberline {B.7.2}Sinais matemáticos}{18}{subsection.B.7.2}%
+\contentsline {subsubsection}{\numberline {B.7.2.1}Oposição}{18}{subsubsection.B.7.2.1}%
+\contentsline {subsection}{\numberline {B.7.3}Numerais em leis, portarias, resoluções etc.}{18}{subsection.B.7.3}%
+\contentsline {subsection}{\numberline {B.7.4}Numerais com unidades de medida}{18}{subsection.B.7.4}%
+\contentsline {subsection}{\numberline {B.7.5}Chamadas de nota}{18}{subsection.B.7.5}%
+\contentsline {section}{\numberline {B.8}Siglas e abreviações}{18}{section.B.8}%
+\contentsline {subsection}{\numberline {B.8.1}Abreviações}{18}{subsection.B.8.1}%
+\contentsline {subsection}{\numberline {B.8.2}Siglas}{18}{subsection.B.8.2}%
+\contentsline {section}{\numberline {B.9}Gramática}{18}{section.B.9}%
+\contentsline {subsection}{\numberline {B.9.1}Plural}{18}{subsection.B.9.1}%
+\contentsline {section}{\numberline {B.10}Acessibilidade}{19}{section.B.10}%
+\contentsline {section}{\numberline {B.11}Toponímia}{19}{section.B.11}%
+\contentsline {subsection}{\numberline {B.11.1}Logradouros}{19}{subsection.B.11.1}%
+\contentsline {subsubsection}{\numberline {B.11.1.1}Estados}{19}{subsubsection.B.11.1.1}%
