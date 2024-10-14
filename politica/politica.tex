@@ -1,0 +1,56 @@
+\documentclass[oneside, a4paper, 10pt, brazil]{abntex2}
+%\usepackage[brazil]{babel}
+\usepackage{livros_crp}
+% --------- %
+% Metadados %
+% --------- %
+\hypersetup{%
+	colorlinks=true,
+	allcolors={crp2},
+	allbordercolors=white,
+	pdftitle = {Política de Comunicação do CRP SP},
+	pdfauthor = {Conselho Regional de Psicologia de São Paulo},
+	}%
+\title{Carta de Serviços do CRP~SP}
+\author{Coordenação de Comunicação do CRP~SP}
+%
+\begin{document}
+\pretextual
+\pagestyle{pretext}
+\chapter*{Lista de siglas}
+\begin{acronym}
+	\acro{cdh}[CDH]{Comissão de Direitos Humanos}
+	\acro{comcom}[ComCom]{Comissão de Comunicação}
+	\acro{crepop}[Crepop]{Centro de referências políticas em Psicologia}
+	\acro{crp06}[CRP-06]{Conselho Regional de Psicologia da 6ª Região}
+	\acro{crp}[CRP~SP]{Conselho Regional de Psicologia de São Paulo}
+\end{acronym}
+\include{capitulos/0-apresentacao}
+\clearpage
+%
+\color{crp1}\tableofcontents*
+\clearpage
+%
+\color{black}
+\textual
+%
+\pagestyle{crp}
+\pagenumbering{arabic}
+%S\cftpagenumbersoff{chapter}
+\include{capitulos/1-intro}
+%\cftpagenumbersoff{chapter}
+\include{capitulos/2-estrategicas}
+%\cftpagenumbersoff{chapter}
+\include{capitulos/3-operacionais}
+%
+\postextual
+\pagestyle{pretext}
+\include{paginas/apendices}
+\begin{apendicesenv}
+	\pagestyle{crp}
+	\justifying
+\chapter{Glossário}
+\printglossary[title=""]
+\include{capitulos/padroes}
+\end{apendicesenv}
+\end{document}
