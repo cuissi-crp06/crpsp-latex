@@ -1,0 +1,71 @@
+<span id="chap:pf-inscricao"></span>
+= Inscrição profissional de pessoa física =
+
+<span id="o-que-é"></span>
+== O que é? ==
+
+É o registro necessário para a atuação profissional em Psicologia. O exercício profissional no estado de São Paulo estará autorizado após a geração do número de registro profissional.
+
+<span id="quem-deve-se-inscrever"></span>
+== Quem deve se inscrever? ==
+
+Profissionais graduadas/os em Psicologia, que tenham atuação no estado de São Paulo.
+
+<span id="como-solicitar-o-serviço"></span>
+== Como solicitar o serviço? ==
+
+Por meio do ''site'' do CRP SP, na guia [https://www.crpsp.org/pagina/view/308 Atendimento &gt; Pessoa Física].
+
+<span id="que-informações-ou-documentos-são-necessários"></span>
+== Que informações ou documentos são necessários? ==
+
+* Documento de identificação (RG, CNH etc.);
+* Cadastro de Pessoa Física (CPF);
+* certidão de quitação eleitoral;
+* comprovante ou declaração de endereço;
+* diploma de formação em Psicologia (frente e verso) ou certidão de colação de grau;
+* certidão de casamento ou de união estável;
+* comprovante de quitação com o serviço militar (para homens até 45 anos).
+
+<span id="quais-são-as-etapas-para-a-realização-desse-serviço"></span>
+== Quais são as etapas para a realização desse serviço? ==
+
+# A/O psicóloga/o realiza o requerimento de inscrição ''on-line'', pelo [https://www.crpsp.org/pagina/view/308 ''site'' do CRP SP];
+# o CRP SP faz a análise da documentação;
+# os boletos para pagamento da taxa de inscrição e da anuidade são emitidos;
+# após o pagamento das taxas, o registro é deferido e uma declaração para atuação profissional é disponibilizada.
+
+<span id="quanto-custa"></span>
+== Quanto custa? ==
+
+Os valores para 2024 ficaram estabelecidos assim:
+
+* pagamento à vista: R$ 575,60;
+* pagamento parcelado: 6 x R$ 95,93.
+
+<span id="quanto-tempo-leva"></span>
+== Quanto tempo leva? ==
+
+Até 30 dias.
+
+<span id="como-ter-acesso-ao-atual-status-do-serviço"></span>
+== Como ter acesso ao atual ''status'' do serviço? ==
+
+Ao se fazer a solicitação é gerada uma senha de acesso. Com essa senha, é possível acompanhar o ''status'' da solicitação ''on-line''.
+
+<span id="legislação-relacionada"></span>
+== Legislação relacionada ==
+
+* [https://atosoficiais.com.br/cfp/resolucao-administrativa-financeira-n-3-2007-institui-a-consolidacao-das-resolucoes-do-conselho-federal-de-psicologia Resolução CFP nº 03/2007] (Consolidação das Resoluções do Conselho Federal de Psicologia);
+* [https://transparencia.cfp.org.br/wp-content/uploads/sites/7/2020/05/Manual-de-Procedimentos-Administrativos-e-Financeiro-CFP-RES-20.2018.pdf [Resolução CFP nº 20/2018](https://atosoficiais.com.br/cfp/resolucao-administrativa-financeira-n-20-2018-altera-o-manual-de-procedimentos-administrativo-e-financeiro-do-sistema-conselhos-de-psicologia-anexo-da-resolucao-cfp-n-202018-a-resolucao-cfp-n-03-2007-a-resolucao-cfp-n-16-2019-e-da-outras-providencias)], que determina a revisão e ampliação do ''Manual de procedimentos administrativos e financeiros'' [https://transparencia.cfp.org.br/wp-content/uploads/sites/7/2020/05/Manual-de-Procedimentos-Administrativos-e-Financeiro-CFP-RES-20.2018.pdf (versão atualizada)].
+
+<span id="serviços-correlatos"></span>
+== Serviços correlatos ==
+
+* [[Entrega da carteira de identidade profissional (CIP)]];
+* [[alteração de inscrição provisória para definitiva]];
+* [[inscrição secundária]];
+* [[transferência do registro profissional]];
+* [[cancelamento da inscrição]];
+* [[prorrogação do prazo de entrega do diploma]];
+* [[solicitação de isenção de anuidade]].

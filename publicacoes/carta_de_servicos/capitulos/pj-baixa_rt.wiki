@@ -1,0 +1,65 @@
+<span id="chap:pj-baixa_rt"></span>
+= Baixa de responsabilidade técnica =
+
+<span id="o-que-é"></span>
+== O que é? ==
+
+Desligamento ou afastamento da/o psicóloga/o que exerce a função de Responsável Técnica/o da pessoa jurídica (PJ).
+
+<span id="quem-pode-utilizar-esse-serviço"></span>
+== Quem pode utilizar esse serviço? ==
+
+Pessoas jurídicas ou a/o psicóloga/o RT da empresa.
+
+<span id="como-solicitar-o-serviço"></span>
+== Como solicitar o serviço? ==
+
+Por ''e-mail''. Os procedimentos e os formulários estão disponíveis no ''site'' do CRP SP, na guia [https://www.crpsp.org/pagina/view/30 Atendimento/Pessoa jurídica].
+
+<span id="que-informações-ou-documentos-são-necessários"></span>
+== Que informações ou documentos são necessários? ==
+
+<span id="psicólogao-rt"></span>
+=== Psicóloga/o RT: ===
+
+* [[#|Formulário de declaração de desligamento de Responsável Técnica/o]] preenchido.
+
+<span id="pessoa-jurídica"></span>
+=== Pessoa jurídica: ===
+
+* Comunicar, dentro de 30 dias, a/o nova/o Responsável Técnica/o.
+
+É vedada a execução de serviços de Psicologia enquanto não houver a devida substituição.
+
+<span id="quais-são-as-etapas-para-a-realização-desse-serviço"></span>
+== Quais são as etapas para a realização desse serviço? ==
+
+# Envio da documentação necessária por ''e-mail'';
+# após verificação da documentação encaminhada, o CRP SP lançará/atualizará a informação no sistema;
+# a confirmação de retirada de RT é enviada para a/o profissional.
+
+<span id="quanto-custa"></span>
+== Quanto custa? ==
+
+Sem custo.
+
+<span id="quanto-tempo-leva"></span>
+== Quanto tempo leva? ==
+
+15 dias úteis.
+
+<span id="como-ter-acesso-ao-atual-status-do-serviço"></span>
+== Como ter acesso ao atual ''status'' do serviço? ==
+
+Aguardar o período previsto para o serviço. Consultas podem ser feitas por ''e-mail.''
+
+<span id="legislação-relacionada"></span>
+== Legislação relacionada ==
+
+* [https://atosoficiais.com.br/cfp/resolucao-administrativa-financeira-n-16-2019-altera-o-manual-de-procedimentos-administrativo-e-financeiro-do-sistema-conselhos-de-psicologia-anexo-da-resolucao-cfp-n-202018-a-resolucao-cfp-n-03-2007-a-resolucao-cfp-n-16-2019-e-da-outras-providencias Resolução CFP nº 16/2019], que normatiza o registro e o cadastro de pessoas jurídicas.
+
+<span id="serviços-correlatos"></span>
+== Serviços correlatos ==
+
+* [[Inscrição profissional de pessoa jurídica]];
+* [[alteração, substituição e/ou inclusão de Responsável Técnica/o]].
