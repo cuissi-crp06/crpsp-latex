@@ -2,6 +2,7 @@
 \semiisopage
 \usepackage{livros_crp}
 \usepackage{longtable}
+\usepackage{booktabs}
 \usepackage{array}
 \usepackage{makecell}
 \renewcommand\theadalign{cc}
@@ -13,7 +14,8 @@
 \author{Coordenação de Comunicação do CRP~SP}
 \date{\today}
 \begin{document}
-%\maketitle
+\pagestyle{crp}
+\maketitle
 
 O presente documento caracteriza a primeira etapa da fase de
 planejamento e apresenta os devidos estudos para a contratação de
@@ -151,22 +153,22 @@ matéria.
 %^	\footnotesize
 \begin{center}
 	\begin{tabular}{c c c c}
-%		\hrule
+		\toprule\noalign{}
 		\thead{Item} & \thead{Descrição/\\especificação} & \thead{Qtd. total\\estimada\\(12 meses)} & \thead{Unidade}   \\
 		\midrule\noalign{}
-		\makecell{\textbf{1}}    & \makecell{Criação de identidade visual}                    & 1                                       & \makecell{Unidade/\\manual} \\
-		\makecell{\textbf{2}}    & \makecell{Adaptação ou replicação\\de postagem (modelos)}   & \makecell{12}                                      & \makecell{Mensal} \\
-		\makecell{\textbf{3}}    & \makecell{Planejamento estratégico de\\ comunicação digital} & \makecell{1}                                       & \makecell{Unidade/\\relatório} \\
-		\makecell{\textbf{4}}    & \makecell{Análise e matriz estratégica }                   & \makecell{1}                                       & \makecell{Unidade/\\relatório}\\
-		\makecell{\textbf{5}}    & \makecell{Diagnóstico de conteúdo}                         & \makecell{1}                                       & \makecell{Unidade/\\relatório} \\
-		\makecell{\textbf{6}}    & \makecell{Treinamento de equipe}                         & \makecell{1}                                       & \makecell{Treinamento}\\
-		\makecell{\textbf{7}}    & \makecell{Planejamento de conteúdo}                        & \makecell{1}                                       & \makecell{Unidade/\\relatório} \\
-		\makecell{\textbf{8} }   & \makecell{Produção de conteúdo}                         & \makecell{12}                                      & \makecell{Mensal}\\
-		\makecell{\textbf{9}} & \makecell{Produção de vídeo\\(duração de até 2 minutos)}    & \makecell{12}                                      & \makecell{Mensal}\\
-		\makecell{\textbf{10}}   & \makecell{Produção de animação\\ (duração de até 2 minutos)} & \makecell{12 }                                     & \makecell{Mensal } \\
-		\makecell{\textbf{11}}   & \makecell{Monitoramento e emissão\\ de relatórios mensais}   & \makecell{12}                                      & \makecell{Mensal} \\
-		\makecell{\textbf{12}}   & \makecell{Relatório de\\ desempenho anual  }                 & \makecell{1}                                       & \makecell{Unidade/\\relatório}\\
-		\makecell{\textbf{13} }  & \makecell{Impulsionamento e\\ gestão de tráfego }            & \makecell{12}                                      & \makecell{Mensal}  \\
+		\makecell{\textbf{1}}    & \makecell{Criação de identidade visual}      & 1 & \makecell{Unidade/\\manual} \\
+		\makecell{\textbf{2}}    & \makecell{Adaptação ou replicação\\de postagem (modelos)}   & \makecell{12} & \makecell{Mensal} \\
+		\makecell{\textbf{3}}    & \makecell{Planejamento estratégico de\\ comunicação digital} & \makecell{1} & \makecell{Unidade/\\relatório} \\
+		\makecell{\textbf{4}}    & \makecell{Análise e matriz estratégica }     & \makecell{1} & \makecell{Unidade/\\relatório}\\
+		\makecell{\textbf{5}}    & \makecell{Diagnóstico de conteúdo} & \makecell{1} & \makecell{Unidade/\\relatório} \\
+		\makecell{\textbf{6}}    & \makecell{Treinamento de equipe} & \makecell{1} & \makecell{Treinamento}\\
+		\makecell{\textbf{7}}    & \makecell{Planejamento de conteúdo} & \makecell{1} & \makecell{Unidade/\\relatório} \\
+		\makecell{\textbf{8} }   & \makecell{Produção de conteúdo} & \makecell{12} & \makecell{Mensal}\\
+		\makecell{\textbf{9}} & \makecell{Produção de vídeo\\(duração de até 2 minutos)}    & \makecell{12} & \makecell{Mensal}\\
+		\makecell{\textbf{10}}   & \makecell{Produção de animação\\ (duração de até 2 minutos)} & \makecell{12 } & \makecell{Mensal } \\
+		\makecell{\textbf{11}}   & \makecell{Monitoramento e emissão\\ de relatórios mensais}   & \makecell{12} & \makecell{Mensal} \\
+		\makecell{\textbf{12}}   & \makecell{Relatório de\\ desempenho anual  }   & \makecell{1} & \makecell{Unidade/\\relatório}\\
+		\makecell{\textbf{13} }  & \makecell{Impulsionamento e\\ gestão de tráfego } & \makecell{12} & \makecell{Mensal}  \\
 		\bottomrule\noalign{}
 	\end{tabular}
 \end{center}
@@ -324,7 +326,7 @@ psicológica.
 %\begin{landscape}
 \chapter{Estimativa do preço da contratação}
 
-Estima-se que o valor seria \textbf{R\$ \ldots. isso é uma média de valores que obtivemos através de consulta de orçamento etc \ldots{}}
+Estima-se que o valor seria \textbf{R\$ 1.291.000,00}\ldots isso é uma média de valores que obtivemos através de consulta de orçamento etc \ldots{}
 
 Fizemos cotação de maneira formal com três empresas, conforme tabelas \ref{llyc} a \ref{fb}.
 
@@ -333,22 +335,22 @@ Fizemos cotação de maneira formal com três empresas, conforme tabelas \ref{ll
 		\caption{Razão social: LLYC --- Llorente \& Cuenca do Brasil Consultores de Comunicação Ltda. CNPJ: 09.429.171/0001-05.\label{llyc}}
 \begin{center}\footnotesize
 	\begin{tabular}{c c c c c c}
-		%		\hrule
+		\toprule\noalign{}
 		\thead{Item} & \thead{Descrição/\\especificação} & \thead{Qtd. total\\estimada\\(12 meses)} & \thead{Unidade} & \thead{Valor\\unitário} & \thead{Valor\\total}  \\
 		\midrule\noalign{}
-			\makecell{\textbf{1} }   & \makecell{Criação de\\ identidade visual}                    & \makecell{1}                                       & \makecell{Unidade/\\manual}    & \makecell{R\$ 25.500,00}            & \makecell{R\$ 25.500,00}         \\
-			\makecell{\textbf{2}}   & \makecell{Adaptação ou replicação\\de postagem (modelos)}   & \makecell{12}                                      & \makecell{Mensal}            & \makecell{R\$ 6.700,00}             & \makecell{R\$ 80.400,00}         \\
-			\makecell{\textbf{3}}    & \makecell{Planejamento estratégico\\ de comunicação digital} & 1                                       & \makecell{Unidade/\\relatório} & \makecell{R\$ 28.500,00}            & \makecell{R\$ 28.500,00}         \\
-			\makecell{\textbf{4}}    & \makecell{Análise e matriz estratégica}                    & \makecell{1 }                                      & \makecell{Unidade/\\relatório} & \makecell{R\$ 27.530,00}            & \makecell{R\$ 27.530,00}         \\
-			\makecell{\textbf{5}}    & \makecell{Diagnóstico de conteúdo}                         & \makecell{1}                                    & \makecell{Unidade/\\relatório} & \makecell{R\$ 31.850,00}            & \makecell{R\$ 31.850,00 }        \\
-			\makecell{\textbf{6}}    & \makecell{Treinamento de equipe}                           & \makecell{1}                                       & \makecell{Treinamento}               & \makecell{R\$ 25.000,00}            & \makecell{R\$ 25.000,00}         \\
-			\makecell{\textbf{7}}    & \makecell{Planejamento de conteúdo}                        & \makecell{1}                                       & \makecell{Unidade/\\relatório} & \makecell{R\$ 29.128,00}            &\makecell{ R\$ 29.128,00}         \\
-			\makecell{\textbf{8}}    & \makecell{Produção de conteúdo}                            & \makecell{12}                                      & \makecell{Mensal}            & \makecell{R\$ 13.560,00}            & R\$ 162.720,00        \\
-			\makecell{\textbf{9}}   & \makecell{Produção de vídeo\\(duração de até 2 minutos)}    & \makecell{12}                                      & \makecell{Mensal}            & \makecell{R\$ 12.250,00}            & \makecell{R\$ 147.000,00 }       \\
-			\makecell{\textbf{10}}   & \makecell{Produção de animação\\ (duração de até 2 minutos)} & \makecell{12}                                      & \makecell{Mensal}            & \makecell{R\$ 15.420,00}           & \makecell{R\$ 185.040,00}       \\
-			\makecell{\textbf{11}}   & \makecell{Monitoramento e emissão\\de relatórios mensais}   & \makecell{12}                                      & \makecell{Mensal}            & \makecell{R\$ 5.230,00}             & \makecell{R\$ 62.760,00}         \\
-			\makecell{\textbf{12}}   & \makecell{Relatório de desempenho anual}                  & \makecell{1}                                       & \makecell{Unidade/\\relatório} & \makecell{R\$ 12.972,00}            & \makecell{R\$ 12.972,00}         \\
-			\makecell{\textbf{13}}   & \makecell{Impulsionamento e gestão\\de tráfego}            & \makecell{12}                                      & \makecell{Mensal}            & \makecell{R\$ 5.000,00}             & \makecell{R\$ 60.000,00 }        \\
+			\makecell{\textbf{1} }   & \makecell{Criação de\\ identidade visual}      & \makecell{1} & \makecell{Unidade/\\manual}    & \makecell{R\$ 25.500,00} & \makecell{R\$ 25.500,00} \\
+			\makecell{\textbf{2}}   & \makecell{Adaptação ou replicação\\de postagem (modelos)}   & \makecell{12} & \makecell{Mensal} & \makecell{R\$ 6.700,00} & \makecell{R\$ 80.400,00} \\
+			\makecell{\textbf{3}}    & \makecell{Planejamento estratégico\\ de comunicação digital} & 1 & \makecell{Unidade/\\relatório} & \makecell{R\$ 28.500,00} & \makecell{R\$ 28.500,00} \\
+			\makecell{\textbf{4}}    & \makecell{Análise e matriz estratégica}      & \makecell{1 } & \makecell{Unidade/\\relatório} & \makecell{R\$ 27.530,00} & \makecell{R\$ 27.530,00} \\
+			\makecell{\textbf{5}}    & \makecell{Diagnóstico de conteúdo} & \makecell{1} & \makecell{Unidade/\\relatório} & \makecell{R\$ 31.850,00} & \makecell{R\$ 31.850,00 } \\
+			\makecell{\textbf{6}}    & \makecell{Treinamento de equipe} & \makecell{1} & \makecell{Treinamento} & \makecell{R\$ 25.000,00} & \makecell{R\$ 25.000,00} \\
+			\makecell{\textbf{7}}    & \makecell{Planejamento de conteúdo} & \makecell{1} & \makecell{Unidade/\\relatório} & \makecell{R\$ 29.128,00} &\makecell{ R\$ 29.128,00} \\
+			\makecell{\textbf{8}}    & \makecell{Produção de conteúdo} & \makecell{12} & \makecell{Mensal} & \makecell{R\$ 13.560,00} & R\$ 162.720,00 \\
+			\makecell{\textbf{9}}   & \makecell{Produção de vídeo\\(duração de até 2 minutos)}    & \makecell{12} & \makecell{Mensal} & \makecell{R\$ 12.250,00} & \makecell{R\$ 147.000,00 } \\
+			\makecell{\textbf{10}}   & \makecell{Produção de animação\\ (duração de até 2 minutos)} & \makecell{12} & \makecell{Mensal} & \makecell{R\$ 15.420,00} & \makecell{R\$ 185.040,00} \\
+			\makecell{\textbf{11}}   & \makecell{Monitoramento e emissão\\de relatórios mensais}   & \makecell{12} & \makecell{Mensal} & \makecell{R\$ 5.230,00} & \makecell{R\$ 62.760,00} \\
+			\makecell{\textbf{12}}   & \makecell{Relatório de desempenho anual}    & \makecell{1} & \makecell{Unidade/\\relatório} & \makecell{R\$ 12.972,00} & \makecell{R\$ 12.972,00} \\
+			\makecell{\textbf{13}}   & \makecell{Impulsionamento e gestão\\de tráfego} & \makecell{12} & \makecell{Mensal} & \makecell{R\$ 5.000,00} & \makecell{R\$ 60.000,00 } \\
 						\midrule\noalign{}
 			& & & &\makecell{\textbf{Valor total}} &\makecell{\textbf{R\$ 790.560,00}}\\
 \bottomrule\noalign{}
@@ -363,22 +365,22 @@ Fizemos cotação de maneira formal com três empresas, conforme tabelas \ref{ll
 		\caption{Razão social: JG Comunicações Brasil Ltda. --- Jeffrey Group. CNPJ:~46.504.820/0001-11.\label{jg}}
 \begin{center}\footnotesize
 	\begin{tabular}{c c c c c c}
-		%		\hrule
+		\toprule\noalign{}
 		\thead{Item} & \thead{Descrição/\\especificação} & \thead{Qtd. total\\estimada\\(12 meses)} & \thead{Unidade} & \thead{Valor\\unitário} & \thead{Valor\\total}  \\
 		\midrule\noalign{}
-		\makecell{\textbf{1} }   & \makecell{Criação de\\ identidade visual}                    & \makecell{1}                                       & \makecell{Unidade/\\manual}    & \makecell{R\$ }            & \makecell{R\$ }         \\
-		\makecell{\textbf{2}}   & \makecell{Adaptação ou replicação\\de postagem (modelos)}   & \makecell{12}                                      & \makecell{Mensal}            & \makecell{R\$ }             & \makecell{R\$ }         \\
-		\makecell{\textbf{3}}    & \makecell{Planejamento estratégico\\ de comunicação digital} & 1                                       & \makecell{Unidade/\\relatório} & \makecell{R\$ }            & \makecell{R\$ }         \\
-		\makecell{\textbf{4}}    & \makecell{Análise e matriz estratégica}                    & \makecell{1 }                                      & \makecell{Unidade/\\relatório} & \makecell{R\$ }            & \makecell{R\$ }         \\
-		\makecell{\textbf{5}}    & \makecell{Diagnóstico de conteúdo}                         & \makecell{1}                                    & \makecell{Unidade/\\relatório} & \makecell{R\$ }            & \makecell{R\$ }        \\
-		\makecell{\textbf{6}}    & \makecell{Treinamento de equipe}                           & \makecell{1}                                       & \makecell{Treinamento}               & \makecell{R\$ }            & \makecell{R\$ }         \\
-		\makecell{\textbf{7}}    & \makecell{Planejamento de conteúdo}                        & \makecell{1}                                       & \makecell{Unidade/\\relatório} & \makecell{R\$ }            &\makecell{ R\$ }         \\
-		\makecell{\textbf{8}}    & \makecell{Produção de conteúdo}                            & \makecell{12}                                      & \makecell{Mensal}            & \makecell{R\$ }            & R\$        \\
-		\makecell{\textbf{9}}   & \makecell{Produção de vídeo\\(duração de até 2 minutos)}    & \makecell{12}                                      & \makecell{Mensal}            & \makecell{R\$ }            & \makecell{R\$ }       \\
-		\makecell{\textbf{10}}   & \makecell{Produção de animação\\ (duração de até 2 minutos)} & \makecell{12}                                      & \makecell{Mensal}            & \makecell{R\$ }           & \makecell{R\$ }       \\
-		\makecell{\textbf{11}}   & \makecell{Monitoramento e emissão\\de relatórios mensais}   & \makecell{12}                                      & \makecell{Mensal}            & \makecell{R\$ }             & \makecell{R\$ }         \\
-		\makecell{\textbf{12}}   & \makecell{Relatório de desempenho anual}                  & \makecell{1}                                       & \makecell{Unidade/\\relatório} & \makecell{R\$ }            & \makecell{R\$ }         \\
-		\makecell{\textbf{13}}   & \makecell{Impulsionamento e gestão\\de tráfego}            & \makecell{12}                                      & \makecell{Mensal}            & \makecell{R\$ }             & \makecell{R\$ }        \\
+		\makecell{\textbf{1} }   & \makecell{Criação de\\ identidade visual}      & \makecell{1} & \makecell{Unidade/\\manual}    & \makecell{R\$ 21.657,50 (?)} & \makecell{R\$ } \\
+		\makecell{\textbf{2}}   & \makecell{Adaptação ou replicação\\de postagem (modelos)}   & \makecell{12} & \makecell{Mensal} & \makecell{R\$ } & \makecell{R\$ } \\
+		\makecell{\textbf{3}}    & \makecell{Planejamento estratégico\\ de comunicação digital} & 1 & \makecell{Unidade/\\relatório} & \makecell{R\$ } & \makecell{R\$ } \\
+		\makecell{\textbf{4}}    & \makecell{Análise e matriz estratégica}      & \makecell{1 } & \makecell{Unidade/\\relatório} & \makecell{R\$ } & \makecell{R\$ } \\
+		\makecell{\textbf{5}}    & \makecell{Diagnóstico de conteúdo} & \makecell{1} & \makecell{Unidade/\\relatório} & \makecell{R\$ } & \makecell{R\$ } \\
+		\makecell{\textbf{6}}    & \makecell{Treinamento de equipe} & \makecell{1} & \makecell{Treinamento} & \makecell{R\$ } & \makecell{R\$ } \\
+		\makecell{\textbf{7}}    & \makecell{Planejamento de conteúdo} & \makecell{1} & \makecell{Unidade/\\relatório} & \makecell{R\$ } &\makecell{ R\$ } \\
+		\makecell{\textbf{8}}    & \makecell{Produção de conteúdo} & \makecell{12} & \makecell{Mensal} & \makecell{R\$ } & R\$ \\
+		\makecell{\textbf{9}}   & \makecell{Produção de vídeo\\(duração de até 2 minutos)}    & \makecell{12} & \makecell{Mensal} & \makecell{R\$ } & \makecell{R\$ } \\
+		\makecell{\textbf{10}}   & \makecell{Produção de animação\\ (duração de até 2 minutos)} & \makecell{12} & \makecell{Mensal} & \makecell{R\$ } & \makecell{R\$ } \\
+		\makecell{\textbf{11}}   & \makecell{Monitoramento e emissão\\de relatórios mensais}   & \makecell{12} & \makecell{Mensal} & \makecell{R\$ } & \makecell{R\$ } \\
+		\makecell{\textbf{12}}   & \makecell{Relatório de desempenho anual}    & \makecell{1} & \makecell{Unidade/\\relatório} & \makecell{R\$ } & \makecell{R\$ } \\
+		\makecell{\textbf{13}}   & \makecell{Impulsionamento e gestão\\de tráfego} & \makecell{12} & \makecell{Mensal} & \makecell{R\$ } & \makecell{R\$ } \\
 		\midrule\noalign{}
 		& & & &\makecell{\textbf{Valor total}} &\makecell{\textbf{R\$ }}\\
 		\bottomrule\noalign{}
@@ -392,24 +394,24 @@ Fizemos cotação de maneira formal com três empresas, conforme tabelas \ref{ll
 		\caption{Razão social: Future Brand. CNPJ:\label{fb}}
 \begin{center}\footnotesize
 	\begin{tabular}{c c c c c c}
-		%		\hrule
+		\toprule\noalign{}
 		\thead{Item} & \thead{Descrição/\\especificação} & \thead{Qtd. total\\estimada\\(12 meses)} & \thead{Unidade} & \thead{Valor\\unitário} & \thead{Valor\\total}  \\
 		\midrule\noalign{}
-		\makecell{\textbf{1} }   & \makecell{Criação de\\ identidade visual}                    & \makecell{1}                                       & \makecell{Unidade/\\manual}    & \makecell{R\$ }            & \makecell{R\$ }         \\
-		\makecell{\textbf{2}}   & \makecell{Adaptação ou replicação\\de postagem (modelos)}   & \makecell{12}                                      & \makecell{Mensal}            & \makecell{R\$ }             & \makecell{R\$ }         \\
-		\makecell{\textbf{3}}    & \makecell{Planejamento estratégico\\ de comunicação digital} & 1                                       & \makecell{Unidade/\\relatório} & \makecell{R\$ }            & \makecell{R\$ }         \\
-		\makecell{\textbf{4}}    & \makecell{Análise e matriz estratégica}                    & \makecell{1 }                                      & \makecell{Unidade/\\relatório} & \makecell{R\$ }            & \makecell{R\$ }         \\
-		\makecell{\textbf{5}}    & \makecell{Diagnóstico de conteúdo}                         & \makecell{1}                                    & \makecell{Unidade/\\relatório} & \makecell{R\$ }            & \makecell{R\$ }        \\
-		\makecell{\textbf{6}}    & \makecell{Treinamento de equipe}                           & \makecell{1}                                       & \makecell{Treinamento}               & \makecell{R\$ }            & \makecell{R\$ }         \\
-		\makecell{\textbf{7}}    & \makecell{Planejamento de conteúdo}                        & \makecell{1}                                       & \makecell{Unidade/\\relatório} & \makecell{R\$ }            &\makecell{ R\$ }         \\
-		\makecell{\textbf{8}}    & \makecell{Produção de conteúdo}                            & \makecell{12}                                      & \makecell{Mensal}            & \makecell{R\$ }            & R\$        \\
-		\makecell{\textbf{9}}   & \makecell{Produção de vídeo\\(duração de até 2 minutos)}    & \makecell{12}                                      & \makecell{Mensal}            & \makecell{R\$ }            & \makecell{R\$ }       \\
-		\makecell{\textbf{10}}   & \makecell{Produção de animação\\ (duração de até 2 minutos)} & \makecell{12}                                      & \makecell{Mensal}            & \makecell{R\$ }           & \makecell{R\$ }       \\
-		\makecell{\textbf{11}}   & \makecell{Monitoramento e emissão\\de relatórios mensais}   & \makecell{12}                                      & \makecell{Mensal}            & \makecell{R\$ }             & \makecell{R\$ }         \\
-		\makecell{\textbf{12}}   & \makecell{Relatório de desempenho anual}                  & \makecell{1}                                       & \makecell{Unidade/\\relatório} & \makecell{R\$ }            & \makecell{R\$ }         \\
-		\makecell{\textbf{13}}   & \makecell{Impulsionamento e gestão\\de tráfego}            & \makecell{12}                                      & \makecell{Mensal}            & \makecell{R\$ }             & \makecell{R\$ }        \\
+		\makecell{\textbf{1} }   & \makecell{Criação de\\ identidade visual}      & \makecell{1} & \makecell{Unidade/\\manual}    & \makecell{R\$ 70.000,00} & \makecell{R\$ 70.000,00} \\
+		\makecell{\textbf{2}}   & \makecell{Adaptação ou replicação\\de postagem (modelos)}   & \makecell{12} & \makecell{Mensal} & \makecell{R\$ 2.000,00} & \makecell{R\$ 24.000,00} \\
+		\makecell{\textbf{3}}    & \makecell{Planejamento estratégico\\ de comunicação digital} & 1 & \makecell{Unidade/\\relatório} & \makecell{R\$ 60.000,00} & \makecell{R\$ 60.000,00} \\
+		\makecell{\textbf{4}}    & \makecell{Análise e matriz estratégica}      & \makecell{1 } & \makecell{Unidade/\\relatório} & \makecell{R\$ 204.000,00} & \makecell{R\$ 204.000,00} \\
+		\makecell{\textbf{5}}    & \makecell{Diagnóstico de conteúdo} & \makecell{1} & \makecell{Unidade/\\relatório} & \makecell{R\$ 90.000,00} & \makecell{R\$ 90.000,00} \\
+		\makecell{\textbf{6}}    & \makecell{Treinamento de equipe} & \makecell{1} & \makecell{Treinamento} & \makecell{R\$ 25.000,00} & \makecell{R\$ 25.000,00} \\
+		\makecell{\textbf{7}}    & \makecell{Planejamento de conteúdo} & \makecell{1} & \makecell{Unidade/\\relatório} & \makecell{R\$ 30.000,00} &\makecell{ R\$ 360.000,00} \\
+		\makecell{\textbf{8}}    & \makecell{Produção de conteúdo} & \makecell{12} & \makecell{Mensal} & \makecell{R\$ 2.000,00} & \makecell{R\$ 288.000,00} \\
+		\makecell{\textbf{9}}   & \makecell{Produção de vídeo\\(duração de até 2 minutos)}    & \makecell{12} & \makecell{Mensal} & \makecell{\scriptsize15\% de gestão\\\scriptsize sobre valor de\\\scriptsize produtora parceira} & \makecell{---} \\
+		\makecell{\textbf{10}}   & \makecell{Produção de animação\\ (duração de até 2 minutos)} & \makecell{12} & \makecell{Mensal} & \makecell{R\$ 15.000,00} & \makecell{R\$ 15.000,00} \\
+		\makecell{\textbf{11}}   & \makecell{Monitoramento e emissão\\de relatórios mensais\\(mínimo de seis meses\\de contratação}   & \makecell{12} & \makecell{Mensal} & \makecell{R\$ 30.000,00} & \makecell{R\$ 360.000,00} \\
+		\makecell{\textbf{12}}   & \makecell{Relatório de desempenho anual}    & \makecell{1} & \makecell{Unidade/\\relatório} & \makecell{R\$ 35.000,00} & \makecell{R\$ 35.000,00} \\
+		\makecell{\textbf{13}}   & \makecell{Impulsionamento e gestão\\de tráfego} & \makecell{12} & \makecell{Mensal} & \makecell{R\$ 8.000,00} & \makecell{R\$ 96.000,00} \\
 		\midrule\noalign{}
-		& & & &\makecell{\textbf{Valor total}} &\makecell{\textbf{R\$ }}\\
+		& & & &\makecell{\textbf{Valor total}} &\makecell{\textbf{R\$ 1.792.000,00}}\\
 		\bottomrule\noalign{}
 	\end{tabular}
 \end{center}
@@ -428,24 +430,24 @@ desafios e alcance dos seus objetivos de comunicação, abrangendo:
 	      contrato, sendo os itens previamente especificados e precificados pela
 	      Autarquia, com os respectivos quantitativos estimados de execução
 	      citados no item 4 deste documento.\newline Os produtos e serviços essenciais contemplam as necessidades
-        elementares do CRP~SP, de acordo com as categorias abaixo:
+ elementares do CRP~SP, de acordo com as categorias abaixo:
     \begin{enumerate}
 	    \item
 	    \textit{Design}
-        \begin{enumerate}
-	        \item
-	        Criação de identidade visual
+ \begin{enumerate}
+	 \item
+	 Criação de identidade visual
 
-          Desenvolvimento de um conceito criativo aplicável em diversas campanhas de comunicação e produtos digitais. Elaboração de uma identidade visual baseada no logotipo e mote da gestão existentes, acompanhada de um guia abrangente para a aplicação consistente da marca. Inclusão de paleta de cores, seleção tipográfica e demais elementos visuais destinados aos canais digitais, como \textit{site}, redes sociais e \textit{e-mail marketing}, além de materiais impressos. Manual da identidade contendo as diretrizes de utilização dos elementos de \textit{design} para garantir coesão visual.
+ Desenvolvimento de um conceito criativo aplicável em diversas campanhas de comunicação e produtos digitais. Elaboração de uma identidade visual baseada no logotipo e mote da gestão existentes, acompanhada de um guia abrangente para a aplicação consistente da marca. Inclusão de paleta de cores, seleção tipográfica e demais elementos visuais destinados aos canais digitais, como \textit{site}, redes sociais e \textit{e-mail marketing}, além de materiais impressos. Manual da identidade contendo as diretrizes de utilização dos elementos de \textit{design} para garantir coesão visual.
 
-          Proposta Visual para as Redes Sociais, \textit{site} e \textit{e-mail marketing} do CRP~SP: desenvolvimento de uma proposta visual alinhada à nova identidade visual para as redes sociais.
-        \end{enumerate}
+ Proposta Visual para as Redes Sociais, \textit{site} e \textit{e-mail marketing} do CRP~SP: desenvolvimento de uma proposta visual alinhada à nova identidade visual para as redes sociais.
+ \end{enumerate}
       \item
 	     Adaptação ou replicação de postagem (modelos)
-       \begin{enumerate}
-          \item
-          Elaboração de modelos editáveis com derivação de \textit{layouts} e alterações necessárias para adequação a diferentes plataformas digitais. Estudo de adequação do estilo da fonte, tamanho e cores, se necessário. Os modelos incluirão \textit{cards} e arquivos para redes sociais e \textit{site}, além de um modelo de apresentações institucionais/relatórios e \textit{e-mail marketing} (boletins,  informativos etc.), proporcionando uma abordagem unificada e impactante.
-       \end{enumerate}
+ \begin{enumerate}
+ \item
+ Elaboração de modelos editáveis com derivação de \textit{layouts} e alterações necessárias para adequação a diferentes plataformas digitais. Estudo de adequação do estilo da fonte, tamanho e cores, se necessário. Os modelos incluirão \textit{cards} e arquivos para redes sociais e \textit{site}, além de um modelo de apresentações institucionais/relatórios e \textit{e-mail marketing} (boletins,  informativos etc.), proporcionando uma abordagem unificada e impactante.
+ \end{enumerate}
     \end{enumerate}
 	\item
 	\textbf{planejamento estratégico}
@@ -495,7 +497,7 @@ desafios e alcance dos seus objetivos de comunicação, abrangendo:
 	      		\textit{Benchmark}: comparativo estratégico com outros conselhos de classe e órgãos públicos similares ao CRP~SP.
 			\end{enumerate}
     \item
-        \textbf{Treinamento}
+ \textbf{Treinamento}
 
 		Treinamento dos membros da equipe de comunicação para assegurar uma comunicação eficaz da nova identidade visual e linguagem. Garantia de que toda a equipe compreenda e aplique as diretrizes de marca estabelecidas.
 	\item
@@ -631,68 +633,38 @@ necessária.
 
 \chapter*{Equipe de planejamento da contratação}
 
-\begin{longtable}[]{@{}
-	>{\raggedright\arraybackslash}p{(\linewidth - 0\tabcolsep) * \real{1.0000}}@{}}
-	\toprule\noalign{}
-	\begin{minipage}[b]{\linewidth}\raggedright
-		\textbf{Requisitante}
-	\end{minipage}                            \\
-	\midrule\noalign{}
-	\endhead
-	\bottomrule\noalign{}
-	\endlastfoot
-	\begin{minipage}[t]{\linewidth}\raggedright
-		\textbf{Taís Aparecida de Souza}
+\subsection*{Requisitante}
+\rule[0.5ex]{\linewidth}{0.8pt}
+\normalsize\textbf{Taís Aparecida de Souza}\\
+\footnotesize Coordenadora de Comunicação\\
+\rule[0.5ex]{\linewidth}{0.4pt}\normalsize
+\vspace*{3\baselineskip}
+	
+\noindent\rule{28em}{0.4pt}\\
+	\footnotesize São Paulo, 5 de abril de 2024\\\normalsize
+	\rule{\linewidth}{0.8pt}
+	\vspace{0.62\baselineskip}
 
-		\_\_\\
-		\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+\subsection*{Aprovação}
 
-		Coordenadora da Comunicação
+\rule[0.5ex]{\linewidth}{0.8pt}
+\normalsize\textbf{Giane Del\textquotesingle Dono Rodrigues}\\
+\footnotesize Gerente de Administração e Tecnologia da Informação\\
+\rule[0.5ex]{\linewidth}{0.4pt}\normalsize
+\vspace*{3\baselineskip}
+	
+\noindent\rule{28em}{0.4pt}\\
+\\
+	\noindent\rule{\linewidth}{0.8pt}
 
-		São Paulo, 05 de Abril de 2024\strut
-	\end{minipage} \\
-\end{longtable}
-
-\section*{Aprovação}
-
-\begin{longtable}[]{@{}
-	>{\raggedright\arraybackslash}p{(\linewidth - 0\tabcolsep) * \real{1.0000}}@{}}
-	\toprule\noalign{}
-	\begin{minipage}[b]{\linewidth}\raggedright
-		\textbf{Giane Del\textquotesingle Dono Rodrigues}
-	\end{minipage}                      \\
-	\midrule\noalign{}
-	\endhead
-	\bottomrule\noalign{}
-	\endlastfoot
-	\begin{minipage}[t]{\linewidth}\raggedright
-		Gerente de Administração e Tecnologia da Informação
-
-		\_\_\_\_\_\_\_\_\_\_\\
-		\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
-
-		\hspace{0pt}São Paulo, 05 de Abril de 2024\strut
-	\end{minipage} \\
-\end{longtable}
-
-\begin{longtable}[]{@{}
-	>{\raggedright\arraybackslash}p{(\linewidth - 0\tabcolsep) * \real{1.0000}}@{}}
-	\toprule\noalign{}
-	\begin{minipage}[b]{\linewidth}\raggedright
-		\textbf{Talita Fabiano de Carvalho}
-	\end{minipage}                            \\
-	\midrule\noalign{}
-	\endhead
-	\bottomrule\noalign{}
-	\endlastfoot
-	\begin{minipage}[t]{\linewidth}\raggedright
-		Conselheira Presidente do CRP~SP
-
-		\_\\
-		\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
-
-		São Paulo, 05 de Abril de 2024\strut
-	\end{minipage} \\
-\end{longtable}
+	\noindent\rule[0.5ex]{\linewidth}{0.8pt}
+\normalsize\textbf{Talita Fabiano de Carvalho}\\
+\footnotesize Conselheira presidente do CRP~SP\\
+\rule[0.5ex]{\linewidth}{0.4pt}\normalsize
+\vspace*{3\baselineskip}
+	
+\noindent\rule{28em}{0.4pt}\\
+\\
+	\rule{\linewidth}{0.8pt}
 
 \end{document}

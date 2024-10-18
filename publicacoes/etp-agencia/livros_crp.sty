@@ -103,15 +103,23 @@
 %    }%
 %}
 %\makeatother
+\usepackage[%
+    a4paper,
+    left = 1.5cm, right = 2cm, top = 3.5cm, bottom = 2cm,
+    headheight = 3.5cm,
+    headsep = \baselineskip,
+]%
+{geometry}
 \addtopsmarks{headings}{}{
 	\createmark{chapter}{both}{shownumber}{}{. \ }
 }
-%\copypagestyle{crp}{headings}
-%\makeheadfootruleprefix{crp}{\color{crp2}}{\color{crp2}}
-%\makeheadrule{crp}{\textwidth}{\normalrulethickness}
-%\makeoddhead{crp}{\color{crp2}\thepage}{}{\color{crp2}\itshape\leftmark}
-%\makeevenhead{crp}{\color{crp2}\itshape\rightmark}{}{\color{crp2}\thepage}
-%\makeoddfoot{plain}{}{}{}
+\copypagestyle{crp}{headings}
+\makeheadfootruleprefix{crp}{\color{crp2}}{\color{crp2}}
+\makeheadrule{crp}{\textwidth}{\normalrulethickness}
+\makeoddhead{crp}{\includegraphics[height = 1.2cm]{logo-crp.png}}{}{\color{crp1}\small\textit{Estudos técnicos preliminares para contratação de agência de comunicação}}
+\makeevenhead{crp}{}{}{}
+\makeoddfoot{crp}{}{}{\color{crp2}\thepage}
+\makeevenfoot{crp}{\color{crp2}\thepage}{}{}
 %\makeatletter
 %\renewcommand{\hangsecnum}{%
 %	\def\@seccntformat##1{%
