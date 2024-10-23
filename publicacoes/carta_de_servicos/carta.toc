@@ -245,8 +245,20 @@
 \contentsline {part}{Serviços de \\\textbf {orientação e \\fiscalização}}{46}{section*.250}%
 \contentsline {chapter}{Acesso às publicações orientativas}{47}{chapter*.251}%
 \contentsline {chapter}{Orientações sobre o Código de Ética e legislação profissional}{48}{chapter*.252}%
-\contentsline {chapter}{Consulta de legislação profissional}{49}{chapter*.253}%
-\contentsline {chapter}{Apresentação de queixa}{50}{chapter*.254}%
-\contentsline {chapter}{Representação}{51}{chapter*.255}%
-\contentsline {chapter}{Orientação/fiscalização de pessoas jurídicas recém-inscritas}{52}{chapter*.256}%
-\contentsline {part}{Formulários}{53}{section*.258}%
+\contentsline {section}{O que é?}{48}{section*.253}%
+\contentsline {section}{Quem pode utilizar esse serviço?}{48}{section*.254}%
+\contentsline {section}{Como solicitar o serviço?}{48}{section*.255}%
+\contentsline {section}{Que informações ou documentos são necessários?}{48}{section*.256}%
+\contentsline {subsection}{Se o pedido é feito em umasubsede}{48}{section*.257}%
+\contentsline {chapter}{Se o pedido é feito por \emph {e-mail}}{49}{chapter*.258}%
+\contentsline {section}{Quais são as etapas para a realização desse serviço?}{49}{section*.259}%
+\contentsline {subsection}{Para orientações solicitadas via \emph {e-mail} da subsede}{49}{section*.260}%
+\contentsline {subsection}{Para orientação presencial}{49}{section*.261}%
+\contentsline {section}{Quanto custa?}{49}{section*.262}%
+\contentsline {section}{Quanto tempo leva?}{49}{section*.263}%
+\contentsline {section}{Legislação relacionada}{49}{section*.264}%
+\contentsline {chapter}{Consulta de legislação profissional}{51}{chapter*.265}%
+\contentsline {chapter}{Apresentação de queixa}{52}{chapter*.266}%
+\contentsline {chapter}{Representação}{53}{chapter*.267}%
+\contentsline {chapter}{Orientação/fiscalização de pessoas jurídicas recém-inscritas}{54}{chapter*.268}%
+\contentsline {part}{Formulários}{55}{section*.270}%
