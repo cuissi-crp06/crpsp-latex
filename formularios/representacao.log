@@ -1,9 +1,9 @@
-This is LuaHBTeX, Version 1.18.0 (TeX Live 2024)  (format=lualatex 2024.8.23)  13 SEP 2024 10:06
+This is LuaHBTeX, Version 1.18.0 (TeX Live 2024)  (format=lualatex 2024.10.25)  4 NOV 2024 13:59
  restricted system commands enabled.
 **representacao.tex
 (./representacao.tex
 LaTeX2e <2024-06-01> patch level 2
-L3 programming layer <2024-07-20>
+L3 programming layer <2024-10-09>
 Lua module: luaotfload 2024-02-14 3.28 Lua based OpenType font support
 Lua module: lualibs 2023-07-13 2.76 ConTeXt Lua standard libraries.
 Lua module: lualibs-extended 2023-07-13 2.76 ConTeXt Lua libraries -- extended c
@@ -50,7 +50,7 @@ Document Class: memoir 2024/01/26 v3.8.2 configurable book, report, article doc
 ument class
 (c:/texlive/2024/texmf-dist/tex/latex/xpatch/xpatch.sty
 (c:/texlive/2024/texmf-dist/tex/latex/l3kernel/expl3.sty
-Package: expl3 2024-07-20 L3 programming layer (loader) 
+Package: expl3 2024-10-09 L3 programming layer (loader) 
 
 (c:/texlive/2024/texmf-dist/tex/latex/l3backend/l3backend-luatex.def
 File: l3backend-luatex.def 2024-05-08 L3 backend support: PDF output (LuaTeX)
@@ -61,7 +61,7 @@ Inserting `l3color' in `luaotfload.parse_color'.
 Package: xpatch 2020/03/25 v0.3a Extending etoolbox patching commands
 
 (c:/texlive/2024/texmf-dist/tex/latex/l3packages/xparse/xparse.sty
-Package: xparse 2024-05-08 L3 Experimental document command parser
+Package: xparse 2024-08-16 L3 Experimental document command parser
 )
 (c:/texlive/2024/texmf-dist/tex/latex/etoolbox/etoolbox.sty
 Package: etoolbox 2020/10/05 v2.5k e-TeX tools for LaTeX (JAW)
@@ -550,7 +550,8 @@ File: bkm-pdftex.def 2023-12-10 v1.31 bookmark driver for pdfTeX and luaTeX (HO
 \BKM@id=\count330
 ))
 (c:/texlive/2024/texmf-dist/tex/generic/babel/babel.sty
-Package: babel 2024/08/18 v24.8 The Babel package
+Package: babel 2024/10/20 v24.12 The multilingual framework for pdfLaTeX, LuaLa
+TeX and XeLaTeX
 
 (c:/texlive/2024/texmf-dist/tex/generic/babel/luababel.def
 \bbl@readstream=\read3
@@ -869,7 +870,7 @@ File: luatex.def 2024/04/13 v1.2e Graphics/color driver for luatex
 \Gin@req@width=\dimen198
 )
 (c:/texlive/2024/texmf-dist/tex/latex/xcolor/xcolor.sty
-Package: xcolor 2023/11/15 v3.01 LaTeX color extensions (UK)
+Package: xcolor 2024/09/29 v3.02 LaTeX color extensions (UK)
 
 (c:/texlive/2024/texmf-dist/tex/latex/graphics-cfg/color.cfg
 File: color.cfg 2016/01/02 v1.6 sample color configuration
@@ -877,15 +878,15 @@ File: color.cfg 2016/01/02 v1.6 sample color configuration
 Package xcolor Info: Driver file: luatex.def on input line 274.
 
 (c:/texlive/2024/texmf-dist/tex/latex/graphics/mathcolor.ltx)
-Package xcolor Info: Model `cmy' substituted by `cmy0' on input line 1350.
-Package xcolor Info: Model `hsb' substituted by `rgb' on input line 1354.
-Package xcolor Info: Model `RGB' extended on input line 1366.
-Package xcolor Info: Model `HTML' substituted by `rgb' on input line 1368.
-Package xcolor Info: Model `Hsb' substituted by `hsb' on input line 1369.
-Package xcolor Info: Model `tHsb' substituted by `hsb' on input line 1370.
-Package xcolor Info: Model `HSB' substituted by `hsb' on input line 1371.
-Package xcolor Info: Model `Gray' substituted by `gray' on input line 1372.
-Package xcolor Info: Model `wave' substituted by `hsb' on input line 1373.
+Package xcolor Info: Model `cmy' substituted by `cmy0' on input line 1349.
+Package xcolor Info: Model `hsb' substituted by `rgb' on input line 1353.
+Package xcolor Info: Model `RGB' extended on input line 1365.
+Package xcolor Info: Model `HTML' substituted by `rgb' on input line 1367.
+Package xcolor Info: Model `Hsb' substituted by `hsb' on input line 1368.
+Package xcolor Info: Model `tHsb' substituted by `hsb' on input line 1369.
+Package xcolor Info: Model `HSB' substituted by `hsb' on input line 1370.
+Package xcolor Info: Model `Gray' substituted by `gray' on input line 1371.
+Package xcolor Info: Model `wave' substituted by `hsb' on input line 1372.
 )
 (c:/texlive/2024/texmf-dist/tex/latex/graphics/dvipsnam.def
 File: dvipsnam.def 2016/06/17 v3.0m Driver-dependent file (DPC,SPQR)
@@ -956,6 +957,7 @@ Package: ragged2e 2023/06/22 v3.6 ragged2e Package
 \boxlarg=\skip274
 \virgula=\skip275
 \fimdelinha=\skip276
+Package hyperref Info: Option `colorlinks' set `true' on input line 76.
 )
 Package hyperref Info: Option `colorlinks' set `false' on input line 16.
 
@@ -988,6 +990,9 @@ LaTeX Font Info:    ... okay on input line 22.
 LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 22.
 LaTeX Font Info:    ... okay on input line 22.
 Package hyperref Info: Link coloring OFF on input line 22.
+
+! I can't write on file `representacao.pdf'.
+Please type another file name for output: 
 \myptabbox=\box60
 \myptabboxwidth=\skip277
 LaTeX Info: Redefining \microtypecontext on input line 22.
@@ -1010,7 +1015,6 @@ Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             `NewJune' (encoding: TU).
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
-
 
 Package microtype Warning: Unknown slot number of character
 (microtype)                `\k A'
@@ -1356,6 +1360,10 @@ File: upzd.fd 2001/06/04 font definitions for U/pzd.
 ){c:/texlive/2024/texmf-var/fonts/map/pdftex/updmap/pdftex.map}
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `subscript' on input line 43.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 (hyperref)                removing `subscript' on input line 55.
 
 (c:/texlive/2024/texmf-dist/tex/latex/microtype/mt-cmr.cfg
@@ -1393,20 +1401,16 @@ enddocument/afterlastpage: lastpage setting LastPage.
 LaTeX2e <2024-06-01> patch level 2
 L3 programming layer <2020/03/25>
  ***********
-
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
 )
 
 Here is how much of LuaTeX's memory you used:
- 20113 strings out of 475910
- 125236,1977958 words of node,token memory allocated
- 1288 words of node memory still in use:
+ 20129 strings out of 475908
+ 125236,1144653 words of node,token memory allocated
+ 1293 words of node memory still in use:
    4 hlist, 1 vlist, 1 rule, 1 local_par, 4 glue, 3 kern, 1 penalty, 3 glyph, 11
- attribute, 211 glue_spec, 6 attribute_list, 2 write nodes
-   avail lists: 1:2,2:875,3:502,4:52,5:370,6:87,7:4311,8:1,9:766,10:12,11:360
- 42400 multiletter control sequences out of 65536+600000
+ attribute, 212 glue_spec, 6 attribute_list, 2 write nodes
+   avail lists: 1:2,2:878,3:502,4:52,5:370,6:87,7:4318,8:1,9:766,10:13,11:360
+ 42416 multiletter control sequences out of 65536+600000
  43 fonts using 2353799 bytes
  99i,14n,105p,1009b,537s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
@@ -1415,7 +1419,7 @@ warning  (pdf backend): unreferenced destination with name 'section*.1'
 alic.otf><c:/Users/angelo.cuissi/AppData/Local/Microsoft/Windows/Fonts/NewJune-B
 old.otf><c:/Users/angelo.cuissi/AppData/Local/Microsoft/Windows/Fonts/NewJune-Re
 gular.otf><c:/texlive/2024/texmf-dist/fonts/type1/urw/zapfding/uzdr.pfb>
-Output written on representacao.pdf (2 pages, 136032 bytes).
+Output written on representacao.pdf (2 pages, 136027 bytes).
 
 PDF statistics: 102 PDF objects out of 1000 (max. 8388607)
  82 compressed objects within 1 object stream
