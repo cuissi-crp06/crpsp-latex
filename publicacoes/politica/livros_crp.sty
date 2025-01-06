@@ -3,19 +3,19 @@
 % TIPOGRAFIA %
 % ---------- %
 \usepackage[no-math]{fontspec}
-\setmainfont{NewJune}[
+\setmainfont{sourceserifpro}[
     UprightFont = *-Regular,
     BoldFont=*-Bold,
-    ItalicFont=*-Regular-Italic,
-    BoldItalicFont=*-Bold-Italic,
+    ItalicFont=*-Italic,
+    BoldItalicFont=*-BoldItalic,
 ]
 \setsansfont{NewJune}[
     UprightFont = *-Regular,
     BoldFont=*-Bold,
     ItalicFont=*-Regular-Italic,
     BoldItalicFont=*-Bold-Italic,]
-%\fontsize{10pt}{12pt}
-\usepackage{microtype}
+\fontsize{10pt}{14pt}
+\usepackage[activate={true,nocompatibility}, tracking=true, babel=true]{microtype}
 % ------ %
 % IDIOMA %
 % ------ %
@@ -42,7 +42,7 @@
 \setulmarginsandblock{25mm}{20mm}{*}
 \setheadfoot{10mm}{5mm}
 \checkandfixthelayout[fixed]
-\nonzeroparskip
+%\nonzeroparskip
 \raggedbottom
 \newcommand*{\setasuspacing}[1]{%
     \let\AsuSpacing#1
@@ -55,14 +55,14 @@
 \setlength{\virgula}{0.5em}
 \setsecnumdepth{subparagraph}
 \maxsecnumdepth{subparagraph}
-\setsecheadstyle{\Large\bfseries\color{crp1}}
+\setsecheadstyle{\Large\bfseries\sffamily\color{crp1}}
 \setaftersecskip{\baselineskip}
-\setsubsecheadstyle{\large\bfseries\color{crp1}}
+\setsubsecheadstyle{\large\bfseries\sffamily\color{crp1}}
 \setaftersubsecskip{\baselineskip}
-\setsubsubsecheadstyle{\large\color{crp1}}
-\setparaheadstyle{\normalsize\itshape\color{crp1}}
+\setsubsubsecheadstyle{\large\sffamily\color{crp1}}
+\setparaheadstyle{\normalsize\itshape\sffamily\color{crp1}}
 \setafterparaskip{\baselineskip}
-\setsubparaheadstyle{\normalsize\color{crp1}}
+\setsubparaheadstyle{\normalsize\sffamily\color{crp1}}
 \setaftersubparaskip{\baselineskip}
 %
 \makeatletter
@@ -70,9 +70,9 @@
     \setlength{\afterchapskip}{40pt}
     \renewcommand*{\chapterheadstart}{\vspace*{40pt}}
     \renewcommand*{\afterchapternum}{\par\nobreak\vskip 10pt}
-    \renewcommand*{\chapnamefont}{\normalfont\Large\flushleft}
-    \renewcommand*{\chapnumfont}{\bfseries\huge}
-    \renewcommand*{\chaptitlefont}{\normalfont\huge\bfseries\flushleft\color{crp1}}
+    \renewcommand*{\chapnamefont}{\normalfont\Large\flushleft\sffamily}
+    \renewcommand*{\chapnumfont}{\bfseries\huge\sffamily}
+    \renewcommand*{\chaptitlefont}{\normalfont\huge\bfseries\flushleft\sffamily\color{crp1}}
     \renewcommand*{\printchaptername}{}%\color{crp1}}
     \renewcommand*{\chapternamenum}{}
 
@@ -109,13 +109,14 @@
 \copypagestyle{crp}{headings}
 \makeheadfootruleprefix{crp}{\color{crp2}}{\color{crp2}}
 \makeheadrule{crp}{\textwidth}{\normalrulethickness}
-\makeoddhead{crp}{\color{crp2}\thepage}{}{\color{crp2}\itshape\leftmark}
-\makeevenhead{crp}{\color{crp2}\itshape\rightmark}{}{\color{crp2}\thepage}
+\makeoddhead{crp}{\color{crp2}\small\sffamily\thepage}{}{\color{crp2}\small\sffamily\itshape\leftmark}
+\makeevenhead{crp}{\color{crp2}\small\sffamily\itshape\rightmark}{}{\small\sffamily\color{crp2}\thepage}
 \makeoddfoot{plain}{}{}{}
 \makeatletter
 \renewcommand{\hangsecnum}{%
 	\def\@seccntformat##1{%
 		\makebox[0pt][r]{%
+        \sffamily%
 			\color{crp2}%
 			\csname the##1\endcsname\hspace*{0.5\virgula}
 			%
@@ -182,3 +183,11 @@
         \footnotesize
         \setasuspacing{\SingleSpacing}}
         {\end{flushleft}}
+    % ----------- %
+    % Assinaturas %
+    % ----------- %
+    \newcommand{\assinatura}[1]{%
+        \vspace{\baselineskip}
+        \begin{flushright}
+            \normalsize\bfseries\color{crp1}#1
+        \end{flushright}}

@@ -83,8 +83,5 @@
     <requires type="dynamic">
       <file>politica.bcf</file>
     </requires>
-    <requires type="editable">
-      <file>biblio.bib</file>
-    </requires>
   </external>
 </requests>
