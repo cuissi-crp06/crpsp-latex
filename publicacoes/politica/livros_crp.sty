@@ -3,18 +3,18 @@
 % TIPOGRAFIA %
 % ---------- %
 \usepackage[no-math]{fontspec}
-\setmainfont{sourceserifpro}[
-    UprightFont = *-Regular,
-    BoldFont=*-Bold,
-    ItalicFont=*-Italic,
-    BoldItalicFont=*-BoldItalic,
-]
-\setsansfont{NewJune}[
-    UprightFont = *-Regular,
-    BoldFont=*-Bold,
-    ItalicFont=*-Regular-Italic,
-    BoldItalicFont=*-Bold-Italic,]
-\fontsize{12pt}{14.4pt}
+%\setmainfont{SourceSerifPro}%[
+%    UprightFont = *-Regular,
+%    BoldFont=*-Bold,
+%    ItalicFont=*-Italic,
+%    BoldItalicFont=*-BoldItalic,
+%]
+%\setsansfont{NewJune}[
+%    UprightFont = *-Regular,
+%    BoldFont=*-Bold,
+%    ItalicFont=*-Regular-Italic,
+%    BoldItalicFont=*-Bold-Italic,]
+%\fontsize{12pt}{14.4pt}
 \usepackage[activate={true,nocompatibility}, tracking=true, babel=true]{microtype}
 % ------ %
 % IDIOMA %
@@ -189,5 +189,6 @@
     \newcommand{\assinatura}[1]{%
         \vspace{\baselineskip}
         \begin{flushright}
-            \normalsize\bfseries\color{crp1}#1
-        \end{flushright}}
+            \normalsize\bfseries\color{crp1}#1%
+        \end{flushright}%
+    }
