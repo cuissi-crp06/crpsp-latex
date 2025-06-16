@@ -1,0 +1,220 @@
+\ProvidesPackage{livros_crp}
+% ---------- %
+% TIPOGRAFIA %
+% ---------- %
+\usepackage[no-math]{fontspec}
+\setmainfont{NewJune}[
+    UprightFont = *-Regular,
+    BoldFont=*-Bold,
+    ItalicFont=*-Regular-Italic,
+    BoldItalicFont=*-Bold-Italic,
+]
+\setsansfont{NewJune}[
+    UprightFont = *-Regular,
+    BoldFont=*-Bold,
+    ItalicFont=*-Regular-Italic,
+    BoldItalicFont=*-Bold-Italic,]
+%\fontsize{10pt}{12pt}
+\usepackage{microtype}
+% ------ %
+% IDIOMA %
+% ------ %
+\usepackage[brazil]{babel}
+% ---------------- %
+% CORES & GRÁFICOS %
+% ---------------- %
+\usepackage{graphicx}
+\usepackage[dvipsnames]{xcolor}
+\definecolor{crp1}{RGB}{66, 44, 115}
+\definecolor{crp2}{RGB}{165, 93, 166}
+\definecolor{crp3}{RGB}{191, 115, 171}
+\fboxsep=0pt
+\usepackage{framed}
+\usepackage{xhfill}
+\usepackage{tcolorbox}
+% ----------- %
+% DIAGRAMAÇÃO %
+% ----------- %
+\usepackage{pdfpages}
+\usepackage{lastpage}
+\usepackage{ragged2e}
+\semiisopage
+\checkandfixthelayout
+\nonzeroparskip
+\raggedbottom
+\checkandfixthelayout
+\newcommand*{\setasuspacing}[1]{%
+    \let\AsuSpacing#1
+    \AsuSpacing}
+\setasuspacing{\OnehalfSpacing}
+%\renewcommand\LayoutCheckField[2]{#2#1}
+\usepackage{calc}
+\newlength{\boxlarg}
+\setlength{\boxlarg}{2em}
+\newlength{\virgula}
+\setlength{\virgula}{0.5em}
+\setsecnumdepth{none}
+\maxsecnumdepth{none}
+\usepackage{tocvsec2}
+\setcounter{tocdepth}{0}
+%
+\makepagestyle{pretext}
+\makeoddhead{pretext}{}{}{}
+\makeoddfoot{pretext}{}{}{}
+\makeevenhead{pretext}{}{}{}
+\makeevenfoot{pretext}{}{}{}
+\aliaspagestyle{chapter}{pretext}
+\aliaspagestyle{part}{pretext}
+%
+\copypagestyle{crp}{headings}
+\makeheadfootruleprefix{crp}{\color{crp2}}{\color{crp2}}
+\makeheadrule{crp}{\textwidth}{\normalrulethickness}
+\makeevenhead{crp}{\color{crp2}\thepage}{}{\color{crp2}\itshape\leftmark}
+\makeoddhead{crp}{\color{crp2}\itshape\rightmark}{}{\color{crp2}\thepage}
+%
+\makeatletter
+\renewcommand{\hangsecnum}{%
+	\def\@seccntformat##1{%
+		\makebox[0pt][r]{%
+			\color{crp2}%
+			\csname the##1\endcsname
+			\quad
+		}%
+	}%
+}
+\makeatother
+%
+\setsecheadstyle{\LARGE\bfseries\color{crp1}}
+\setaftersecskip{\baselineskip}
+\setsubsecheadstyle{\Large\bfseries\color{crp1}}
+\setaftersubsecskip{\baselineskip}
+\setsubsubsecheadstyle{\large\itshape\color{crp1}}
+\setparaheadstyle{\normalsize\color{crp1}}
+\setafterparaskip{\baselineskip}
+\setsubparaheadstyle{\normalsize\color{crp1}}
+\setaftersubparaskip{\baselineskip}
+%
+%\renewcommand{\part}{%
+ %   \thispagestyle{pretext}}%
+\renewcommand{\printparttitle}{\flushright\HUGE\bfseries\color{crp1}\thepart}
+\renewcommand{\beforepartskip}{\vspace*{\fill}}
+\renewcommand{\afterpartskip}{\vspace*{4\baselineskip}}
+\let\partold\part
+\RenewDocumentCommand{\part}{O{#2} m}
+{
+\partold[#1]{\MakeUppercase{#2}}
+}
+%
+\makeatletter
+\makechapterstyle{CRP}{%
+    \setlength{\afterchapskip}{40pt}
+    \renewcommand*{\chapterheadstart}{\vspace*{40pt}}
+    \renewcommand*{\afterchapternum}{\par\nobreak\vskip 10pt}
+    \renewcommand*{\chapnamefont}{\normalfont\Large\flushleft}
+    \renewcommand*{\chapnumfont}{\bfseries\huge}
+    \renewcommand*{\chaptitlefont}{\normalfont\huge\bfseries\flushleft\color{crp1}}
+    \renewcommand*{\printchaptername}{}%\color{crp1}}
+    \renewcommand*{\chapternamenum}{}
+
+    \newlength{\redbarheight}
+    \setlength{\redbarheight}{0.5em}		% Setting the height of the bar
+
+    \newlength{\chapnumboxlength}
+    \setlength{\chapnumboxlength}{2em}	% Setting the length of the box containing chapter number
+
+    \newlength{\leftbarlength}
+    \setlength{\leftbarlength}{1em}  		% Setting length of the bar left to the chapter number
+
+    \newlength{\chapnumboxheight}
+    \setlength{\chapnumboxheight}{10pt}
+
+    \newlength{\rightbarlength}
+    \setlength{\rightbarlength}{\textwidth}
+    \addtolength{\rightbarlength}{-\leftbarlength}
+    \addtolength{\rightbarlength}{-\chapnumboxlength}	% Adjusting the right bar to fit the text margin
+    \addtolength{\rightbarlength}{-0.5em} % "By eye" adjustment.. - shouldn't really be there :(
+
+    \renewcommand*{\printchapternum}{%
+        \makebox[0pt][l]{%
+            \color{crp2}\rule{\leftbarlength}{\redbarheight}											% Left bar
+            \resizebox{\chapnumboxlength}{!}{\color{crp1}\chapnumfont\thechapter}	% Chapter number
+            \color{crp2}\rule{\rightbarlength}{\redbarheight}											% Right bar
+        }%
+    }%
+}
+\makeatother
+\addtopsmarks{headings}{}{
+	\createmark{chapter}{both}{shownumber}{}{. \ }
+}
+%
+\setsechook{\hangsecnum}
+\setsubsechook{\hangsecnum}
+\AtBeginDocument{\addtocontents{toc}{\protect\thispagestyle{empty}}}
+%
+\chapterstyle{CRP}
+\nouppercaseheads
+%
+% ----------------------- %
+% NAVEGAÇÃO & FORMULÁRIOS %
+% ----------------------- %
+\usepackage{hyperref}
+\hypersetup{
+	colorlinks=true,
+	linkcolor=crp1,
+	filecolor=crp2,
+	urlcolor=crp1,
+	pdfpagemode=FullScreen,
+}
+\urlstyle{same}
+% -------------- %
+% NOVOS COMANDOS %
+% -------------- %
+\renewcommand\baselinestretch{1.069}
+% ------------------- %
+% Páginas de créditos %
+% ------------------- %
+\newcommand{\CreditoInstitucionalUm}[1]{%
+    \begin{flushleft}
+        \large\bfseries\color{crp2}#1
+        \vspace{-2.5\baselineskip}
+    \end{flushleft}}
+\newcommand{\CreditoInstitucionalDois}[1]{%
+    \begin{flushleft}
+        \small\bfseries\color{crp3}#1
+        \vspace{-3\baselineskip}
+    \end{flushleft}}
+\newcommand{\CreditoTecnicoUm}[1]{%
+    \begin{flushright}
+        \large\bfseries\color{crp2}#1
+    \end{flushright}}
+\newcommand{\CreditoTecnicoDois}[1]{%
+    \begin{flushright}
+    \normalsize\bfseries\color{crp3}#1
+    \end{flushleft}}
+\newenvironment{CreditoInstitucional}%
+{\begin{flushleft}%
+        \noindent%
+        \footnotesize
+        \setasuspacing{\SingleSpacing}}
+        {\end{flushleft}}
+% ----------------------- %
+% Inserção de formulários %
+% ----------------------- %
+\newcommand{\formulario}[1]{%
+    \includepdf[%
+    noautoscale=true,
+    ]
+    {formularios/#1}
+}
+% --------------------- %
+% Voltar para o sumário %
+% --------------------- %
+\newcommand{\sumario}{%
+\vfill
+\begin{flushright}
+	\begin{tcolorbox}[width=14.5em, colback={crp2}, colframe={crp1}, halign lower = flush center]
+	\hyperref[sumario]{\small\textcolor{white}{\textbf{VOLTAR PARA O SUMÁRIO}}}
+	\end{tcolorbox}
+
+\end{flushright}
+}
