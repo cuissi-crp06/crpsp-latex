@@ -93,3 +93,12 @@
     \preenctext{14}{mesext#1}{8em}{ de }
     \preenctext{14}{anoext#1}{4em}{ de } .
 }
+\newcommand{\caixaselset}[3]{%
+    \begin{minipage}{\boxlarg}%{%
+        \caixasel{#1}{#2}
+    \end{minipage}%
+    \begin{minipage}{\linewidth-\boxlarg}
+        #3
+    \end{minipage}
+    %}%
+}%
