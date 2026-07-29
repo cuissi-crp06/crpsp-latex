@@ -11,11 +11,14 @@
 %%
 %% Uso:
 %%   \DocumentMetadata{lang=pt-BR, pdfversion=2.0, pdfstandard=ua-2,
-%%                     testphase={phase-III, table, firstaid}}
+%%                     tagging=on}
 %%   \documentclass{crpsp-relatorio}
 %%
-%% O módulo `table` do testphase é necessário sempre que houver
-%% tabelas de dados — esta linha editorial pressupõe que haja.
+%% `tagging=on` e NAO `testphase={phase-III,...}`: os mantenedores do
+%% latex-lab declararam a chave testphase sintaxe legada, anterior a
+%% introducao de tagging=on (issue latex3/tagging-project#1484,
+%% 2026-07-14). Verificado equivalente nesta imagem: mesmo numero de
+%% objetos de estrutura, mesmo resultado.
 %%
 %% Opções:
 %%   semtoc — suprime o sumário automático. Ao contrário da linha
