@@ -1,0 +1,76 @@
+% !TeX program = lualatex-dev
+% ===================================================================
+% mwe_leg_headings.tex — MWE-1 da camada Leg (crpsp-leg.sty)
+%
+% Valida os AGRUPADORES como headings tagueados fora do TOC:
+%   - \LegAgrup em 4 profundidades sob \chapter (H1) + \section (H2)
+%     deve produzir <H3>…<H6> na árvore de tags;
+%   - o TOC não pode listar nenhum agrupador;
+%   - contadores e marks do book intactos (seção seguinte numerada
+%     corretamente).
+%
+% Compilar 2x: lualatex-dev mwe_leg_headings.tex
+% Inspecionar: árvore de tags (Acrobat/PAC) ou \showtags no log.
+% ===================================================================
+
+\DocumentMetadata{
+    lang        = pt-BR,
+    pdfstandard = ua-2,
+    pdfversion  = 2.0,
+    testphase   = {phase-III,table,firstaid},
+    tagging     = on,
+}
+
+\documentclass[11pt,a5paper,twoside,openany]{book}
+
+\usepackage{../../book-crpsp_acessivel}
+
+% dc:title no XMP — exigência PDF/UA-2 (veraPDF 8.11.1-t1)
+\hypersetup{pdftitle={MWE Leg: agrupadores como headings tagueados}}
+
+\begin{document}
+
+\TOCAcessivel
+\mainmatter
+
+\chapter{Capítulo de teste}          % H1
+
+Parágrafo introdutório do capítulo.
+
+\section{Norma transcrita}           % H2
+
+Parágrafo antes da norma. Os agrupadores abaixo devem virar
+H3–H6 sem aparecer no sumário.
+
+\begin{LegNorma}{urn:lex:br:teste:lei:2026;1}{LEI DE TESTE Nº 1, DE 2026}
+
+\LegEmenta{Ementa de teste para o MWE de headings.}
+
+\LegAgrup[1]{livro}{LIVRO I}{PARTE GERAL}          % esperado: H3
+
+Texto sob o livro.
+
+\LegAgrup[2]{titulo}{TÍTULO I}{DISPOSIÇÕES PRELIMINARES} % esperado: H4
+
+Texto sob o título.
+
+\LegAgrup[3]{capitulo}{CAPÍTULO I}{DISPOSIÇÕES GERAIS}   % esperado: H5
+
+Texto sob o capítulo.
+
+\LegAgrup[4]{secao}{SEÇÃO I}{DO OBJETO}                  % esperado: H6
+
+\LegArtigo{Art. 1º}{Artigo plano sob os agrupadores, para conferir
+que a lista continua tagueada normalmente após os headings.}
+
+\end{LegNorma}
+
+Parágrafo após a norma: fonte e espaçamento devem ter voltado
+ao normal (serifada, 1,5 linha).
+
+\section{Seção seguinte}             % deve numerar 1.2 (contador intacto)
+
+O número desta seção confere que os agrupadores não incrementaram
+o contador de seções.
+
+\end{document}

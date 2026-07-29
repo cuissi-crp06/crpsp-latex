@@ -1,0 +1,96 @@
+%% guia-exemplo.tex
+%% Documento mínimo de teste — Guia Visual CRP-SP
+%% Compilar com: lualatex guia-exemplo.tex
+%%
+%% Em produção (TeX Live 2024+), adicionar antes de \documentclass:
+%%   \DocumentMetadata{
+%%     lang = pt-BR, pdfversion = 2.0,
+%%     pdfstandard = ua-2, testphase = {phase-III},
+%%   }
+
+\documentclass[guia]{crpsp_acessivel}
+
+% --- Paleta desta publicação ---
+\crpspCorPrincipal{8B1A4A}
+\crpspCorSecundaria{2E5090}
+\crpspCorAcessoria{D4A843}
+
+\title{Guia de Exemplo CRP-SP}
+\author{Conselho Regional de Psicologia de São Paulo}
+\date{2026}
+
+\begin{document}
+
+% ──────────────────────────────
+\frontmatter
+% ──────────────────────────────
+
+\begin{titlepage}
+\centering
+\vspace*{3cm}
+{\fontsize{24}{28}\selectfont\bfseries\color{cor1}
+Guia de Exemplo\\[0.5em]
+CRP-SP\par}
+\vfill
+{\large 2026\par}
+\end{titlepage}
+
+% ──────────────────────────────
+\mainmatter
+% ──────────────────────────────
+
+\chapter{Introdução ao Guia}
+
+Este é o primeiro capítulo do guia de exemplo. O texto começa nesta
+página, após a abertura dedicada do capítulo.
+
+\section{O que é este guia}
+
+Este guia foi produzido pelo CRP-SP como material de orientação
+profissional. Ele segue os padrões de acessibilidade PDF/UA-2.
+
+\begin{itemize}
+  \item Primeiro item da lista com bullet colorido.
+  \item Segundo item da lista.
+  \begin{itemize}
+    \item Sub-item de primeiro nível.
+    \item Outro sub-item.
+  \end{itemize}
+  \item Terceiro item.
+\end{itemize}
+
+\section{Tabela de exemplo}
+
+\begin{crpsptabela}{lll}
+  Coluna A & Coluna B & Coluna C \\
+  Dado 1   & Dado 2   & Dado 3   \\
+  Dado 4   & Dado 5   & Dado 6   \\
+  Dado 7   & Dado 8   & Dado 9   \\
+\end{crpsptabela}
+
+\chapter{Orientações Práticas}
+
+Conteúdo do segundo capítulo. Aqui o redator pode usar o carimbo
+de seção antes de uma nova seção temática:
+
+\carimbosecao
+
+\section{Procedimentos recomendados}
+
+Texto corrido com as orientações práticas do guia.
+
+\begin{enumerate}
+  \item Primeira orientação.
+  \item Segunda orientação.
+  \item Terceira orientação.
+\end{enumerate}
+
+% ──────────────────────────────
+\backmatter
+% ──────────────────────────────
+
+\chapter*{Referências}
+
+Referências bibliográficas e normativas do guia.
+
+\end{document}

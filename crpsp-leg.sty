@@ -1,0 +1,427 @@
+\ProvidesFile{crpsp-leg.sty}[2026/07/13 v0.3.0 Camada Leg — legislação acessível CRP-SP (módulo de book-crpsp_acessivel)]
+
+% Este módulo é lido via \input (não \RequirePackage) — garante o
+% catcode de @ por conta própria e restaura no fim.
+\makeatletter
+
+% ===================================================================
+% crpsp-leg.sty — comandos e ambientes de legislação (camada Leg)
+%
+% Módulo carregado INCONDICIONALMENTE por book-crpsp_acessivel.sty
+% (seção 7). Não usar isolado: depende de lengths (\indicartigo,
+% \boxementa), de setspace, hyperref e xcolor carregados pelo pacote
+% principal. Carregado via \InputIfFileExists (não \RequirePackage)
+% para acompanhar o caminho do pacote principal — por isso
+% \ProvidesFile, não \ProvidesPackage.
+%
+% Correspondência com os tipos LeXML do pipeline de normativas
+% (scripts/normativas/, JSON canônico do consolidar.py):
+%
+%   norma (wrapper)      ambiente LegNorma{urn}{epígrafe}
+%   epígrafe             \LegEpigrafe   (\LegTitulo = alias deprecado)
+%   ementa               \LegEmenta
+%   preâmbulo            \LegPreambulo  (um por parágrafo)
+%   prt/liv/tit/cap/     \LegAgrup[prof]{tipo}{rótulo}{nome}
+%   sec/sub                (+ \LegBaseNivel p/ calibrar a árvore H)
+%   art                  \LegArtigo{label}{caput}  — comando plano
+%                        \begin{LegArtigo}{label}{caput}…\end{LegArtigo}
+%                          — forma ambiente (aninhável), mesma macro
+%   par                  \LegParagrafo / \LegParagrafoUnico
+%   inc / ali / ite      \LegInciso/\LegAlinea/\LegItem dentro dos
+%                          ambientes LegIncisos/LegAlineas/LegItens
+%   item decimal (NR)    \LegDispDecimal{28.1.1}{texto}
+%   termo (glossário     \LegTermo{termo}{definição} — fragmento
+%     ABNT)                <id>-glossario.tex, \input ao final do mestre
+%   dpg (genérico)       \LegDisp{rótulo}{texto}
+%   nota de alteração    \LegNotaAlteracao{texto}{urn-alvo}
+%   remissão             \LegRef{urn}{texto} (+ \LegAncora{urn})
+%   revogado             \LegRevogado{texto}
+%   fecho / assinatura   \LegFecho / \LegAssina
+%
+% Restrições PDF/UA (inegociáveis — ver briefing-leg-book-acessivel):
+%   - nada de titlesec; nada de tabular para layout;
+%   - listas SEM chaves de enumitem (phase-III/block rejeita align,
+%     leftmargin, labelwidth, labelsep em \begin{description});
+%   - minipages ELIMINADAS da camada (v0.3.0: \LegEmenta era a
+%     última — hoje tudo é parágrafo com \leftskip/\hangindent);
+%   - revogação SEMPRE marcada textualmente além da cor (leitor de
+%     tela não vê cor); nunca riscado.
+% ===================================================================
+
+% -------------------------------------------------------------------
+% Cores auxiliares
+% -------------------------------------------------------------------
+% Cinza de dispositivo revogado: contraste ≥ 4.5:1 sobre branco
+% (WCAG AA em corpo de texto). RGB 89,89,89 ≈ razão 5.9:1.
+\definecolor{crplegcinza}{RGB}{89,89,89}
+
+% ===================================================================
+% A. WRAPPER DE NORMA
+% ===================================================================
+
+% Ambiente LegNorma{<urn>}{<epígrafe>}: visual da norma transcrita
+% (sans, footnotesize, espaçamento simples), âncora da norma para
+% remissões e restauração completa no fim (o grupo do ambiente
+% restaura fonte e leading — o \par final é OBRIGATÓRIO para o
+% setspace aplicar o leading corrente antes de fechar o grupo).
+\NewDocumentEnvironment{LegNorma}{m m}{%
+    \par
+    \singlespacing\sffamily\footnotesize
+    \LegAncora{#1}%
+    \IfBlankF{#2}{\LegEpigrafe{#2}}%
+}{%
+    \par
+}
+
+% --- Epígrafe: título centrado em negrito ---
+\newcommand{\LegEpigrafe}[1]{%
+    \begin{center}
+        \textbf{#1}
+    \end{center}
+}
+
+% \LegTitulo: alias DEPRECADO de \LegEpigrafe ("Título" agora designa
+% o agrupador LeXML `tit`, ver \LegAgrup). Interface preservada por
+% retrocompatibilidade (manual DH publicado, caderno_12_corepsi);
+% avisa uma única vez por compilação.
+\newcommand{\LegTitulo}[1]{%
+    \crp@leg@titulo@warn
+    \LegEpigrafe{#1}%
+}
+\def\crp@leg@titulo@warn{%
+    \PackageWarning{crpsp-leg}{\string\LegTitulo\space e obsoleto desde a
+        v0.5.0; use \string\LegEpigrafe. (Aviso emitido uma unica vez)}%
+    \global\let\crp@leg@titulo@warn\relax}
+
+% --- Ementa de legislação ---
+% [2026-07-13] Reimplementado: parágrafo com \leftskip=6cm (era
+% minipage dupla com nota de risco de ordem de leitura — a última
+% minipage da camada; mesma técnica do \LegParagrafo, seção C).
+% Largura do bloco direito idêntica (\boxementa = \textwidth-6cm).
+% ORDEM importa: \justifying (ragged2e) zera \leftskip, então o
+% \setlength vem DEPOIS dele.
+\newcommand{\LegEmenta}[1]{%
+    \par\begingroup
+    \justifying\sffamily\footnotesize
+    \setlength{\leftskip}{6cm}%
+    \noindent #1\par
+    \endgroup
+}
+
+% --- Preâmbulo (fórmula de promulgação / "Considerando…") ---
+% Um comando por parágrafo (o gerador divide em \n\n).
+\newcommand{\LegPreambulo}[1]{%
+    \par\noindent #1\par
+}
+
+% ===================================================================
+% B. AGRUPADORES (prt/liv/tit/cap/sec/sub) — headings tagueados
+% ===================================================================
+%
+% Decisão (Angelo, 2026-07-10): agrupadores ENTRAM na árvore H do PDF
+% como headings tagueados, mas FORA do sumário e sem tocar contadores
+% ou marks do book. Mecanismo: forma estrelada de \@startsection com
+% nome próprio ("legagrup") — \@ssect não incrementa contador, não
+% escreve no .toc e não seta marks; o tagging do phase-III deriva o
+% <Hn> do argumento de NÍVEL (2º argumento), a mesma maquinaria já
+% validada nas redefinições de \section…\subparagraph do pacote
+% principal (seção 4).
+%
+% Nível absoluto = crp@legbase + profundidade relativa. Padrão
+% crp@legbase=2: norma transcrita sob um \section (H2) ⇒ agrupadores
+% em H3…H6. Calibrar com \LegBaseNivel{n} quando a norma estiver sob
+% outro nível (ex.: \LegBaseNivel{1} sob capítulo sem seção).
+% O GERADOR normaliza a profundidade relativa ao agrupador mais raso
+% presente na norma e satura em 4 ⇒ nunca além de H6 (leitores de
+% tela lidam mal com Hn>6, ainda que o PDF 2.0 permita).
+
+\newcounter{crp@legbase}
+\setcounter{crp@legbase}{2}
+\NewDocumentCommand\LegBaseNivel{m}{\setcounter{crp@legbase}{#1}}
+
+% \LegAgrup[<prof rel 1-4>]{<tipo>}{<rótulo>}{<nome>}
+%   ex.: \LegAgrup[1]{livro}{LIVRO I}{PARTE GERAL}
+% O <tipo> não é tipografado (documenta a origem LeXML e reserva
+% espaço p/ estilos por tipo no futuro); rótulo e nome compõem o
+% heading: "LIVRO I — PARTE GERAL".
+\NewDocumentCommand\LegAgrup{O{1} m m m}{%
+    \crp@leg@agrup{#1}{#3\IfBlankF{#4}{ --- #4}}%
+}
+
+% Implementação: \@startsection ESTRELADO (sem TOC/contador/marks)
+% com NOME PADRÃO do book escolhido pelo nível absoluto. Teste
+% empírico (mwe_leg_headings, 2026-07-10): com nome desconhecido
+% ("legagrup") o phase-III taguea todos os níveis igual — o tipo
+% estrutural deriva do NOME do heading, não do 2º argumento (a forma
+% estrelada nem recebe o nível). Com os nomes padrão o rolemap do
+% book (section→H2 … subparagraph→H6) entra em ação; estilo e
+% espaçamento continuam próprios da camada Leg.
+\newcommand\crp@leg@agrup[2]{%
+    \edef\crp@leg@lvl{\the\numexpr\value{crp@legbase}+#1-1\relax}%
+    \ifcase\crp@leg@lvl\relax
+        \def\crp@leg@nome{section}% nunca (lvl>=1)
+    \or \def\crp@leg@nome{section}%        lvl 1 → H2
+    \or \def\crp@leg@nome{subsection}%     lvl 2 → H3
+    \or \def\crp@leg@nome{subsubsection}%  lvl 3 → H4
+    \or \def\crp@leg@nome{paragraph}%      lvl 4 → H5
+    \else \def\crp@leg@nome{subparagraph}% lvl 5+ → H6 (saturado)
+    \fi
+    \@startsection{\crp@leg@nome}%
+        {\crp@leg@lvl}%
+        {\z@}%
+        {-1.2\baselineskip \@plus -0.3\baselineskip}%
+        {0.5\baselineskip}%
+        {\normalfont\sffamily\footnotesize\bfseries\centering}%
+        *{#2}%
+}
+
+% ===================================================================
+% C. DISPOSITIVOS
+% ===================================================================
+
+% --- Artigo de lei: comando plano E ambiente, mesmo nome ---
+% [2026-07-11, POC manual_direitos_humanos v1] BUG CORRIGIDO: a
+% implementação original usava \description/\enddescription (\list).
+% Sob tagging=on + phase-III, quando a quebra de página cai no MEIO
+% do parágrafo de um item, o tagueamento de listas do latex-lab
+% corrompe \hsize da continuação: cada palavra vira uma \hbox
+% overfull isolada e o PDF incha em páginas quase vazias até o fim
+% (manual DH: 3614 páginas em vez de ~395; reproduzível com 13+
+% \LegArtigo consecutivos da DUDH).
+% [2026-07-13] Causa isolada em MWE mínimo: era a forma CSNAME do
+% ambiente (pula os env hooks do tagueamento) — \begin{description}
+% idêntico é saudável. Ver mwe_list_pagebreak_bug.tex e o rascunho
+% de issue briefings/issue-draft-list-csname-tagging.md.
+% A correção por \hangindent permanece: parágrafo comum com
+% \hangindent — visualmente equivalente (rótulo em negrito + recuo
+% francês), imune ao bug (não há fronteira de \list a corromper).
+% Efeito colateral aceito: tag <P> em vez de <L>/<LI> de item único
+% (sem perda semântica — nunca há irmãos de lista aqui).
+%
+% Dual-mode preservado na SINTAXE: \LegArtigo{label}{caput} e
+% \begin{LegArtigo}{label}{caput}…\end{LegArtigo} são ambos válidos.
+% Sem \list, a forma-ambiente não "contém" mais os filhos — o caput
+% fecha com \par e §§/incisos seguem como irmãos (a hierarquia
+% permanece nos frag_ids/âncoras e na ordem de leitura).
+% Rótulo em caixa de largura FIXA \indicartigo (a mesma do
+% \hangindent): o texto do artigo começa exatamente no recuo das
+% linhas seguintes — parágrafo francês alinhado (ajuste 2026-07-11,
+% revisão visual de Angelo: com \textbf{#1}~ o início da 1ª linha
+% ficava à esquerda das demais). Rótulo mais largo que a caixa
+% (ex. labels customizados do caderno): tipografa natural + espaço,
+% sem colisão (perde o alinhamento, não o conteúdo).
+\newcommand{\LegArtigo}[2]{%
+    \par\noindent
+    \hangindent=\indicartigo\relax\hangafter=1\relax
+    \sbox\@tempboxa{\textbf{#1}\space}%
+    \ifdim\wd\@tempboxa<\indicartigo
+        \makebox[\indicartigo][l]{\textbf{#1}}%
+    \else
+        \usebox\@tempboxa
+    \fi
+    #2\par
+}
+\def\endLegArtigo{\par}
+
+% INTERFACE DO LABEL: o label é tipografado COMO PASSADO, sem prefixo
+% "Art." automático — comportamento do pacote book desde a v0.4.2
+% (o caderno_12_corepsi usa labels customizados: \LegArtigo{000001}).
+% Quem quer "Art. 1º" passa "Art. 1º" (o gerador latexgen emite o
+% rótulo completo do banco). Atenção: difere do livros_crp.sty memoir
+% (que prefixava "Art." — o manual DH publicado passa só "1º"; na
+% regeneração o gerador cuida disso).
+
+% --- Parágrafo de lei (numerado ou único) ---
+% Argumento #1: label completo (ex.: "§ 1º" ou "Parágrafo único.").
+%
+% [2026-07-11] Reimplementado: parágrafo com \leftskip=\indicartigo
+% (era minipage dupla com offset \indicartigo-0.5em). Dois ganhos:
+% o bloco alinha EXATAMENTE na coluna do texto dos artigos (revisão
+% visual de Angelo — o offset antigo ficava 0.5em à esquerda) e some
+% a minipage com nota de risco de ordem de leitura (preferência
+% declarada do briefing). Label inline em negrito, como no manual
+% publicado ("Parágrafo único. Os psicólogos…").
+\newcommand{\LegParagrafo}[2]{%
+    \par\begingroup
+    \setlength{\leftskip}{\indicartigo}%
+    \noindent\textbf{#1} #2\par
+    \endgroup
+}
+
+% \LegParagrafoUnico: alias semântico.
+\let\LegParagrafoUnico\LegParagrafo
+
+% --- Incisos, alíneas e itens: listas aninhadas tagueadas ---
+% [2026-07-11] Geometria própria via \list CRU: o que o phase-III/
+% block rejeita são as CHAVES de enumitem no argumento opcional de
+% \begin{description} — parâmetros de lista definidos diretamente no
+% 2º argumento de \list são o mecanismo do kernel e passam pelo
+% tagueamento normal (<L>/<LI>). Coluna de rótulo FIXA (largura do
+% maior rótulo realista, "XVIII —"), rótulo alinhado à DIREITA na
+% coluna (os travessões se alinham, como no manual publicado) e em
+% peso normal (o publicado não usa negrito em incisos); o texto de
+% todos os itens começa na mesma coluna. No nível MAIS EXTERNO a
+% lista ainda recua \indicartigo (entra na coluna do texto do
+% artigo); níveis internos somam só a própria coluna.
+%
+% [2026-07-13, bissecção do MWE mwe_list_pagebreak_bug.tex] RISCO
+% REBAIXADO: o gatilho do bug de \hsize (cascata de \hbox overfull
+% quando a quebra de página cai no meio do parágrafo de um item) é a
+% invocação do ambiente POR CSNAME (\description…\enddescription,
+% como fazia o \LegArtigo antigo) — pula os env hooks do tagueamento.
+% Estas listas entram via \begin{LegIncisos} etc. (env hooks disparam)
+% e passaram saudáveis no teste com itens longos atravessando quebras
+% (e no manual DH inteiro). Se reaparecer inflação de páginas,
+% verificar primeiro se algum código chama ambientes por csname.
+% Issue upstream: briefings/issue-draft-list-csname-tagging.md.
+\newlength{\crp@leg@lbllista}
+\AtBeginDocument{\setlength{\crp@leg@lbllista}{\widthof{XVIII ---}}}
+
+\newcommand\crp@leg@listalabel[1]{\hfill #1}
+\def\crp@leg@lista{%
+    \list{}{%
+        \setlength{\labelwidth}{\crp@leg@lbllista}%
+        \setlength{\labelsep}{0.5em}%
+        \setlength{\leftmargin}{\dimexpr\labelwidth+\labelsep\relax}%
+        \ifnum\@listdepth=\@ne
+            \addtolength{\leftmargin}{\indicartigo}%
+        \fi
+        \setlength{\itemindent}{\z@}%
+        \setlength{\listparindent}{\z@}%
+        \let\makelabel\crp@leg@listalabel}}
+
+\newenvironment{LegIncisos}{\crp@leg@lista}{\endlist}
+\newcommand{\LegInciso}[2]{\item[#1~---] #2}
+
+\newenvironment{LegAlineas}{\crp@leg@lista}{\endlist}
+\newcommand{\LegAlinea}[2]{\item[#1)] #2}
+
+\newenvironment{LegItens}{\crp@leg@lista}{\endlist}
+\newcommand{\LegItem}[2]{\item[#1.] #2}
+
+% --- Dispositivo genérico (dpg: pena, disposição avulsa) ---
+% Mesma implementação de \LegArtigo (parágrafo com \hangindent, sem
+% \description; rótulo em caixa fixa p/ alinhamento do texto).
+\newcommand{\LegDisp}[2]{%
+    \par\noindent
+    \hangindent=\indicartigo\relax\hangafter=1\relax
+    \sbox\@tempboxa{\textbf{#1}\space}%
+    \ifdim\wd\@tempboxa<\indicartigo
+        \makebox[\indicartigo][l]{\textbf{#1}}%
+    \else
+        \usebox\@tempboxa
+    \fi
+    #2\par
+}
+
+% --- Dispositivo decimal (NR/ABNT: 28.1, 28.1.1…) ---
+% Parágrafo comum (<P>) com recuo proporcional à profundidade
+% (nº de pontos do número); sem lista — a numeração decimal já
+% carrega a hierarquia no rótulo.
+\ExplSyntaxOn
+\NewDocumentCommand \LegDispDecimal { m m }
+  {
+    \par
+    \group_begin:
+    \int_zero:N \l_tmpa_int
+    \str_map_inline:nn {#1}
+      { \str_if_eq:nnT {##1} { . } { \int_incr:N \l_tmpa_int } }
+    % dimexpr exige a dimensão ANTES do fator inteiro
+    \dim_set:Nn \leftskip { 1.25 em * \l_tmpa_int }
+    \noindent \textbf{#1} ~ #2 \par
+    \group_end:
+  }
+\ExplSyntaxOff
+
+% --- Termo de glossário (ABNT "Termos e definições") ---
+% Mesma implementação de \LegArtigo/\LegDisp: parágrafo com
+% \hangindent, SEM \list/description (bug de \hsize na quebra de
+% página sob phase-III — ver nota de 2026-07-11 em \LegArtigo).
+% Termo em negrito na caixa fixa \indicartigo; termo mais largo que
+% a caixa (comum: "citação direta") tipografa natural + espaço.
+% O latexgen emite o glossário como fragmento separado
+% (<id>-glossario.tex) para o documento-mestre posicionar ao FINAL
+% (a NBR impressa o traz no início; a inversão é decisão editorial).
+\newcommand{\LegTermo}[2]{%
+    \par\noindent
+    \hangindent=\indicartigo\relax\hangafter=1\relax
+    \sbox\@tempboxa{\textbf{#1}\space}%
+    \ifdim\wd\@tempboxa<\indicartigo
+        \makebox[\indicartigo][l]{\textbf{#1}}%
+    \else
+        \usebox\@tempboxa
+    \fi
+    #2\par
+}
+
+% ===================================================================
+% D. REMISSÕES, NOTAS E VIGÊNCIA
+% ===================================================================
+
+% Âncora + remissão com resolução em 2 passadas via .aux (as 2
+% compilações já são obrigatórias p/ o sumário):
+%   \LegAncora{urn}  → \hypertarget + registra a chave no .aux;
+%   \LegRef{urn}{txt} → \hyperlink se a chave existir (na passada
+%   anterior), senão link externo p/ o resolvedor LexML.
+% A chave é o URN \detokenize-ado (catcodes estáveis mesmo com
+% shorthands de babel); \csname compara por código de caractere,
+% então a releitura do .aux casa com a consulta.
+\def\crp@leg@known#1{\global\@namedef{crp@leg@k@#1}{}}
+
+\newcommand{\LegAncora}[1]{%
+    \edef\crp@leg@tmp{\detokenize{#1}}%
+    \hypertarget{\crp@leg@tmp}{}%
+    \protected@write\@auxout{}{\string\crp@leg@known{\crp@leg@tmp}}%
+}
+
+\newcommand{\LegRef}[2]{%
+    \edef\crp@leg@tmp{\detokenize{#1}}%
+    \ifcsname crp@leg@k@\crp@leg@tmp\endcsname
+        \hyperlink{\crp@leg@tmp}{#2}%
+    \else
+        \href{https://www.lexml.gov.br/urn/\crp@leg@tmp}{#2}%
+    \fi
+}
+
+% --- Nota de alteração: "(Redação dada pela Resolução X)" ---
+% #1 já vem COM parênteses do banco (texto_tag); #2 = urn-alvo ou
+% vazio. Em modo horizontal (após \LegInciso etc.) entra no MESMO
+% parágrafo do dispositivo (ordem de leitura contígua). Em modo
+% vertical (após \LegArtigo/\LegParagrafo, que fecham com \par) vira
+% parágrafo próprio COM o recuo da coluna de texto (\indicartigo) —
+% sem isso a nota caía na margem esquerda, fora do bloco.
+\NewDocumentCommand{\LegNotaAlteracao}{m m}{%
+    \ifvmode
+        \begingroup
+        \setlength{\leftskip}{\indicartigo}%
+        \noindent{\footnotesize\itshape
+            \IfBlankTF{#2}{#1}{\LegRef{#2}{#1}}}\par
+        \endgroup
+    \else
+        \space{\footnotesize\itshape
+            \IfBlankTF{#2}{#1}{\LegRef{#2}{#1}}}%
+    \fi
+}
+
+% --- Dispositivo revogado ---
+% A marca TEXTUAL "(Revogado)" é responsabilidade do gerador (nunca
+% só cor); este comando aplica o rebaixamento visual. Nunca riscado.
+\newcommand{\LegRevogado}[1]{\textcolor{crplegcinza}{#1}}
+
+% ===================================================================
+% E. FECHO E ASSINATURA
+% ===================================================================
+
+\newcommand{\LegFecho}[1]{%
+    \par\noindent #1\par
+}
+
+% --- Assinatura centrada (nome + cargo) ---
+\newcommand{\LegAssina}[2]{%
+    \begin{center}
+        #1\\
+        #2
+    \end{center}
+}
+
+\makeatother

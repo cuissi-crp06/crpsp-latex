@@ -1,0 +1,40 @@
+% !TeX program = lualatex-dev
+% ===================================================================
+% mwe_sty_notitlesec.tex — teste diagnóstico sem titlesec
+%
+% Idêntico ao mwe_sty_minimal.tex mas carrega a variante
+% livros_crp_acessivel_notitlesec.sty (sem titlesec).
+% Se o erro begin/end sumir aqui, titlesec é o culpado.
+%
+% Compilar com: lualatex-dev mwe_sty_notitlesec.tex (duas vezes)
+% ===================================================================
+
+\DocumentMetadata{
+    lang        = pt-BR,
+    pdfstandard = ua-2,
+    pdfversion  = 2.0,
+    testphase   = {phase-III,table,firstaid},
+    tagging     = on,
+}
+
+\documentclass[11pt,a5paper,twoside,openany]{book}
+
+\usepackage{livros_crp_acessivel_notitlesec}
+
+\begin{document}
+
+\mainmatter
+
+\part{Parte um}
+
+\chapter{Capítulo um}
+
+Um parágrafo simples de texto corrido sem nenhum comando de
+formatação, sem grupos, sem mudança de fonte. Apenas texto
+para gerar uma tag de parágrafo normal.
+
+\chapter{Capítulo dois}
+
+Outro parágrafo simples.
+
+\end{document}

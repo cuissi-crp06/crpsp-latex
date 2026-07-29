@@ -1,0 +1,356 @@
+%% guia-crpsp_acessivel.sty
+%% Linha editorial: Guia Visual CRP-SP
+%% Requer: crpsp_acessivel.cls
+%%
+\NeedsTeXFormat{LaTeX2e}[2023/11/01]
+\ProvidesPackage{guia-crpsp_acessivel}[2026/05/25 v0.1
+  Linha editorial Guia Visual CRP-SP]
+
+% ══════════════════════════════════════════════
+%  1. TIPOGRAFIA
+% ══════════════════════════════════════════════
+
+% Atkinson Hyperlegible Next é a fonte de projeto.
+% Em produção (TeX Live 2024+ com luaotfload funcional):
+%   \setmainfont{Atkinson Hyperlegible Next}
+%   \setsansfont{Atkinson Hyperlegible Next}
+%   \setmonofont{Atkinson Hyperlegible Mono}
+%
+% Cadeia de fallback: Atkinson > TeX Gyre Heros > CM sans
+\ifcrpsp@fontspec
+  \IfFontExistsTF{Atkinson Hyperlegible Next}{%
+    \setmainfont{Atkinson Hyperlegible Next}%
+    \setsansfont{Atkinson Hyperlegible Next}%
+  }{%
+    \IfFontExistsTF{TeX Gyre Heros}{%
+      \setmainfont{TeX Gyre Heros}%
+      \setsansfont{TeX Gyre Heros}%
+    }{%
+      \PackageWarning{guia-crpsp_acessivel}{%
+        Nenhuma fonte OpenType sans-serif encontrada.\MessageBreak
+        Usando Computer Modern Sans como fallback%
+      }%
+      \renewcommand{\familydefault}{\sfdefault}%
+    }%
+  }%
+  % Mono
+  \IfFontExistsTF{Atkinson Hyperlegible Mono}{%
+    \setmonofont{Atkinson Hyperlegible Mono}%
+  }{}%
+\else
+  % fontspec indisponível ou não funcional
+  \renewcommand{\familydefault}{\sfdefault}%
+\fi
+
+% ══════════════════════════════════════════════
+%  2. GEOMETRIA (A5 retrato, coluna única)
+% ══════════════════════════════════════════════
+
+\geometry{%
+  paper     = a5paper,
+  top       = 20mm,
+  bottom    = 20mm,
+  inner     = 18mm,
+  outer     = 15mm,
+  footskip  = 10mm,
+}
+
+% ══════════════════════════════════════════════
+%  3. FLAGS INTERNOS
+% ══════════════════════════════════════════════
+
+\newif\ifcrpsp@faixas  \crpsp@faixastrue
+\newif\ifcrpsp@bgabre  \crpsp@bgabrefalse
+
+% ══════════════════════════════════════════════
+%  4. ESTILOS DE PÁGINA (fancyhdr)
+% ══════════════════════════════════════════════
+
+\RequirePackage{fancyhdr}
+
+\fancypagestyle{corpo}{%
+  \fancyhf{}%
+  \renewcommand{\headrulewidth}{0pt}%
+  \renewcommand{\footrulewidth}{0pt}%
+  \fancyfoot[LE,RO]{\small\color{crpsp@cor2}\thepage}%
+}
+
+\fancypagestyle{abertura}{%
+  \fancyhf{}%
+  \renewcommand{\headrulewidth}{0pt}%
+  \renewcommand{\footrulewidth}{0pt}%
+}
+
+\fancypagestyle{figurainteira}{%
+  \fancyhf{}%
+  \renewcommand{\headrulewidth}{0pt}%
+  \renewcommand{\footrulewidth}{0pt}%
+}
+
+\pagestyle{corpo}
+
+% ══════════════════════════════════════════════
+%  5. ELEMENTOS GRÁFICOS DECORATIVOS (eso-pic)
+% ══════════════════════════════════════════════
+
+% --------------------------------------------------
+% 5.1 Faixas laterais
+%     Arquivos: faixa-impar.pdf / faixa-par.pdf
+%     Controladas pela flag \ifcrpsp@faixas
+% --------------------------------------------------
+\AddToShipoutPictureBG{%
+  \ifcrpsp@faixas
+    \ifodd\value{page}%
+      \IfFileExists{faixa-impar.pdf}{%
+        \AtPageLowerLeft{%
+          \includegraphics[width=\paperwidth,height=\paperheight]{faixa-impar.pdf}%
+        }%
+      }{}%
+    \else
+      \IfFileExists{faixa-par.pdf}{%
+        \AtPageLowerLeft{%
+          \includegraphics[width=\paperwidth,height=\paperheight]{faixa-par.pdf}%
+        }%
+      }{}%
+    \fi
+  \fi
+}
+
+% --------------------------------------------------
+% 5.2 Background de abertura de capítulo
+%     Arquivo: bg-abre-<n>.pdf
+% --------------------------------------------------
+\AddToShipoutPictureBG{%
+  \ifcrpsp@bgabre
+    \begingroup
+    \edef\crpsp@bgabrefile{bg-abre-\the\value{chapter}.pdf}%
+    \IfFileExists{\crpsp@bgabrefile}{%
+      \AtPageLowerLeft{%
+        \includegraphics[width=\paperwidth,height=\paperheight]{\crpsp@bgabrefile}%
+      }%
+    }{%
+      % Warning silenciado em teste (arquivos não existem)
+    }%
+    \endgroup
+  \fi
+}
+
+% --------------------------------------------------
+% 5.3 Carimbo de seção
+%     Arquivo: carimbo.pdf
+% --------------------------------------------------
+\newcommand{\carimbosecao}{%
+  \IfFileExists{carimbo.pdf}{%
+    \noindent
+    \includegraphics{carimbo.pdf}%
+    \par\medskip
+  }{%
+    % Warning silenciado em teste
+    \par\noindent\textcolor{crpsp@cor3}{\rule{3cm}{0.5pt}}%
+    \par\medskip
+  }%
+}
+
+% --------------------------------------------------
+% 5.4 Figura em página inteira
+%     #1 = opções adicionais de includegraphics
+%     #2 = arquivo da imagem
+% --------------------------------------------------
+\newcommand{\figurapaginainteira}[2][]{%
+  \clearpage
+  \crpsp@faixasfalse
+  \thispagestyle{figurainteira}%
+  \AddToShipoutPictureFG*{%
+    \AtPageLowerLeft{%
+      \includegraphics[width=\paperwidth,height=\paperheight,#1]{#2}%
+    }%
+  }%
+  \null
+  \clearpage
+  \crpsp@faixastrue
+}
+
+% --------------------------------------------------
+% 5.5 Background de figura (tcolorbox + PDF decorativo)
+%     #1 = chave-valor (variante, boxsep)
+%     #2 = arquivo da imagem interna
+%     #3 = texto alternativo (vazio = decorativa)
+% --------------------------------------------------
+\RequirePackage[skins]{tcolorbox}
+\tcbuselibrary{hooks}
+
+\pgfkeys{
+  /crpsp/bgfigura/.cd,
+  variante/.store in = \crpsp@bgfig@variante,
+  variante = col-1,
+  boxsep/.store in   = \crpsp@bgfig@boxsep,
+  boxsep = 3em,
+}
+
+\newcommand{\bgfigura}[3][]{%
+  \pgfkeys{/crpsp/bgfigura/.cd, #1}%
+  \edef\crpsp@bgfigfile{bg-figura-\crpsp@bgfig@variante.pdf}%
+  \begin{tcolorbox}[%
+    enhanced,
+    sharp corners,
+    boxrule    = 0pt,
+    colback    = white,
+    colframe   = white,
+    boxsep     = \crpsp@bgfig@boxsep,
+    left       = 0pt,
+    right      = 0pt,
+    top        = 0pt,
+    bottom     = 0pt,
+    underlay   = {%
+      \IfFileExists{\crpsp@bgfigfile}{%
+        \node[anchor=center] at (frame.center) {%
+          \includegraphics[
+            width  = \tcb@width,
+            height = \tcb@height,
+          ]{\crpsp@bgfigfile}%
+        };%
+      }{}%
+    },
+  ]%
+    \centering
+    \def\crpsp@bgfig@alt{#3}%
+    \ifx\crpsp@bgfig@alt\empty
+      \includegraphics[width=\linewidth]{#2}%
+    \else
+      \includegraphics[width=\linewidth, alt={#3}]{#2}%
+    \fi
+  \end{tcolorbox}%
+}
+
+% ══════════════════════════════════════════════
+%  6. REDEFINIÇÃO DE \chapter
+%     Abertura display em página dedicada
+% ══════════════════════════════════════════════
+
+\RenewDocumentCommand{\chapter}{s o m}{%
+  \clearpage
+  \crpsp@faixasfalse
+  \crpsp@bgabretrue
+  \thispagestyle{abertura}%
+  \stepcounter{chapter}%
+  \setcounter{section}{0}%
+  %
+  % --- Conteúdo visual da página de abertura ---
+  \vspace*{\fill}%
+  {%
+    \raggedright
+    \fontsize{28}{32}\selectfont
+    \bfseries
+    \color{crpsp@cor1}%
+    #3\par
+  }%
+  \vspace*{\fill}%
+  %
+  % --- TOC e bookmarks ---
+  \IfBooleanTF{#1}{}{%
+    \IfNoValueTF{#2}{%
+      \addcontentsline{toc}{chapter}{#3}%
+    }{%
+      \addcontentsline{toc}{chapter}{#2}%
+    }%
+  }%
+  \clearpage
+  \crpsp@bgabrefalse
+  \crpsp@faixastrue
+  \pagestyle{corpo}%
+}
+
+% ══════════════════════════════════════════════
+%  7. REDEFINIÇÃO DE \section
+% ══════════════════════════════════════════════
+
+\RenewDocumentCommand{\section}{s o m}{%
+  \par\addvspace{1.5ex plus 0.5ex minus 0.3ex}%
+  {%
+    \fontsize{16}{20}\selectfont
+    \bfseries
+    \color{crpsp@cor2}%
+    #3\par
+  }%
+  \nobreak
+  \addvspace{0.8ex plus 0.3ex minus 0.2ex}%
+  \IfBooleanTF{#1}{}{%
+    \stepcounter{section}%
+    \IfNoValueTF{#2}{%
+      \addcontentsline{toc}{section}{#3}%
+    }{%
+      \addcontentsline{toc}{section}{#2}%
+    }%
+  }%
+}
+
+% ══════════════════════════════════════════════
+%  8. HOOKS: \frontmatter / \mainmatter / \backmatter
+% ══════════════════════════════════════════════
+
+\let\crpsp@origfrontmatter\frontmatter
+\renewcommand{\frontmatter}{%
+  \crpsp@origfrontmatter
+  \pagestyle{empty}%
+  \crpsp@faixasfalse
+}
+
+\let\crpsp@origmainmatter\mainmatter
+\renewcommand{\mainmatter}{%
+  \crpsp@origmainmatter
+  \pagestyle{corpo}%
+  \crpsp@faixastrue
+}
+
+\let\crpsp@origbackmatter\backmatter
+\renewcommand{\backmatter}{%
+  \crpsp@origbackmatter
+  \pagestyle{corpo}%
+  \crpsp@faixastrue
+}
+
+% ══════════════════════════════════════════════
+%  9. LISTAS (enumitem) — bullets coloridos
+% ══════════════════════════════════════════════
+
+\setlist[itemize,1]{%
+  label  = {\textcolor{crpsp@cor1}{\textbullet}},
+  left   = 0pt .. 1.5em,
+  nosep,
+  topsep = 0.5ex,
+}
+
+\setlist[itemize,2]{%
+  label  = {\textcolor{crpsp@cor1}{--}},
+  left   = 1.5em .. 3em,
+  nosep,
+}
+
+\setlist[enumerate,1]{%
+  label  = {\textcolor{crpsp@cor1}{\arabic*.}},
+  left   = 0pt .. 1.5em,
+  nosep,
+  topsep = 0.5ex,
+}
+
+% ══════════════════════════════════════════════
+%  10. TABELAS (tabularray) — estilos com paleta
+% ══════════════════════════════════════════════
+
+\NewTblrTheme{crpsp}{%
+  \SetTblrStyle{firsthead}{%
+    font = \bfseries\color{white},
+  }%
+}
+
+\NewTblrEnviron{crpsptabela}
+\SetTblrOuter[crpsptabela]{%
+  theme = crpsp,
+}
+\SetTblrInner[crpsptabela]{%
+  row{1}  = {bg=crpsp@cor1, fg=white, font=\bfseries},
+  hlines  = {crpsp@cor3, 0.4pt},
+  vlines  = {crpsp@cor3, 0.4pt},
+}
+
+\endinput

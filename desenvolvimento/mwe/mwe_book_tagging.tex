@@ -1,0 +1,82 @@
+% !TeX program = lualatex
+% ===================================================================
+% mwe_book_tagging.tex — teste de viabilidade: book puro + tagging
+%
+% Objetivo: verificar se \documentclass{book} produz árvore de
+% tags correta com latex-lab phase-III, isolando a classe de
+% qualquer outro fator (fontes, pacotes editoriais, etc.).
+%
+% Critério de sucesso: no Acrobat Reader → Tags, a árvore deve
+% mostrar <Document> → <Part> → <Sect> → <H1>título de capítulo
+% (e não <Part> → <P> como o scrbook está produzindo).
+%
+% Compilar com: lualatex mwe_book_tagging.tex (duas vezes)
+% ===================================================================
+
+\DocumentMetadata{
+    lang        = pt-BR,
+    pdfstandard = ua-2,
+    pdfversion  = 2.0,
+    testphase   = {phase-III,table,firstaid},
+    tagging     = on,
+}
+
+\documentclass[11pt,a5paper,twoside,openright]{book}
+
+\usepackage[brazilian]{babel}
+\usepackage{hyperref}
+\hypersetup{
+    pdftitle           = {Teste book + tagging},
+    pdfauthor          = {Teste},
+    pdflang            = {pt-BR},
+    pdfdisplaydoctitle = true,
+}
+
+\title{Teste book + tagging}
+\author{Teste}
+
+\begin{document}
+
+\frontmatter
+
+\begin{titlepage}
+    \centering
+    \vspace*{\fill}
+    {\huge\bfseries Teste book + tagging\par}
+    \vspace{2\baselineskip}
+    {\large Verificação de viabilidade\par}
+    \vfill
+\end{titlepage}
+
+\tableofcontents
+
+\mainmatter
+
+\part{Primeira parte}
+
+\chapter{Primeiro capítulo}
+
+Texto corrido do primeiro capítulo. Este parágrafo deve virar
+uma tag \texttt{<P>} dentro de uma \texttt{<Sect>} que representa
+o capítulo, e o título do capítulo acima deve virar \texttt{<H1>}.
+
+\section{Uma seção}
+
+Texto da seção. Deve aparecer como \texttt{<P>} dentro de uma
+\texttt{<Sect>} aninhada, com \texttt{<H2>} para o título acima.
+
+\subsection{Uma subseção}
+
+Texto da subseção. Deve produzir \texttt{<H3>} + \texttt{<P>}.
+
+\chapter{Segundo capítulo}
+
+Outro capítulo para verificar que a hierarquia se repete
+corretamente. Deve haver uma nova \texttt{<Sect>} irmã da
+anterior, não aninhada.
+
+\section{Outra seção}
+
+Mais um teste de \texttt{<H2>}.
+
+\end{document}

@@ -1,0 +1,66 @@
+% !TeX program = lualatex-dev
+% ===================================================================
+% mwe_list_pagebreak_bug.tex — reprodução MÍNIMA (sem pacote CRP)
+% do bug de \hsize em lista × quebra de página sob phase-III.
+%
+% Sintoma (camada Leg, 2026-07-11, versão description do \LegArtigo
+% a partir do 13º artigo da DUDH): quebra de página no MEIO do
+% parágrafo de um item corrompe o \hsize das continuações — cascata
+% de \hbox overfull de ~uma palavra por linha, PDF incha ~10×
+% (o manual chegou a 3614 páginas).
+%
+% DIAGNÓSTICO REFINADO (bissecção 2026-07-13): o gatilho NÃO é
+% \list + quebra em si — é a invocação do ambiente POR CSNAME
+% (\description…\enddescription, como dentro de uma macro), que pula
+% os env hooks de que o tagueamento de listas depende. Resultados
+% nesta máquina (kernel develop 2026-07-10, tagpdf 1.0b):
+%   - este arquivo (csname):          75 págs, 3228 overfull  ← BUG
+%   - \begin{description} idêntico:    ~8 págs, 0 overfull    ← ok
+%   - sem \DocumentMetadata (csname):  ~8 págs, 0 overfull    ← ok
+% \list cru DENTRO de \newenvironment próprio (LegIncisos etc., via
+% \begin{…}) é saudável — validado à parte.
+%
+% Compilar: lualatex-dev mwe_list_pagebreak_bug.tex
+% Destino: issue em latex3/tagging-project — rascunho pronto em
+% ../../briefings/issue-draft-list-csname-tagging.md; abrir SÓ com
+% aprovação de Angelo.
+% ===================================================================
+
+\DocumentMetadata{
+    lang        = en,
+    testphase   = {phase-III},
+    tagging     = on,
+}
+
+\documentclass{book}
+
+\newcommand\filler{Lorem ipsum dolor sit amet, consectetur adipiscing
+elit, sed do eiusmod tempor incididunt ut labore et dolore magna
+aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
+laboris nisi ut aliquip ex ea commodo consequat. }
+\newcommand\longpar{\filler\filler\filler\filler\filler
+\filler\filler\filler\filler\filler}
+
+\begin{document}
+
+\chapter*{List item crossing a page break under tagging}
+
+% Gatilho isolado na bissecção de 2026-07-13: a description invocada
+% POR CSNAME (\description…\enddescription, forma legítima de macro)
+% em vez de \begin{description}…\end{description}. Os env hooks
+% (env/description/begin etc.) de que o tagueamento de listas do
+% phase-III depende NÃO disparam na forma csname — o estado do
+% tagging fica desbalanceado e, quando uma quebra de página cai no
+% meio do parágrafo de um item, o \hsize das continuações corrompe
+% (cascata de overfull de ~uma palavra por linha; PDF incha ~10×).
+% Com \begin{description} idêntico, o documento sai saudável.
+\newcount\artn
+\artn=1
+\loop
+    \description
+    \item[Article \the\artn.] \filler\filler\filler
+    \enddescription
+    \advance\artn by 1
+\ifnum\artn<31 \repeat
+
+\end{document}

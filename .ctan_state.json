@@ -1,0 +1,38 @@
+{
+  "packages": {
+    "latex-base-dev": {
+      "last_known_version": "pre-release 2",
+      "last_known_date": "2026-06-01",
+      "history": [
+        {
+          "version": "pre-release 2",
+          "date": "2026-06-01",
+          "checked_at": "2026-05-09T17:20:04.648237"
+        }
+      ]
+    },
+    "latex-lab": {
+      "last_known_version": "2025-11-01a",
+      "last_known_date": "",
+      "history": [
+        {
+          "version": "2025-11-01a",
+          "date": "",
+          "checked_at": "2026-05-09T17:20:05.377902"
+        }
+      ]
+    },
+    "tagpdf": {
+      "last_known_version": "1.0b",
+      "last_known_date": "2026-04-24",
+      "history": [
+        {
+          "version": "1.0b",
+          "date": "2026-04-24",
+          "checked_at": "2026-05-09T17:20:06.094730"
+        }
+      ]
+    }
+  },
+  "last_checked": "2026-05-09T17:20:06.094743"
+}

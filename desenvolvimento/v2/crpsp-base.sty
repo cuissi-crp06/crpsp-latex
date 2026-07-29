@@ -1,0 +1,81 @@
+%% crpsp-base.sty
+%% Infraestrutura compartilhada do sistema editorial acessível CRP-SP
+%% Usado por: crpsp_acessivel.cls, crpsp-guia_visual.cls
+%% Engine obrigatória: LuaLaTeX
+%%
+%% Fornece:
+%%   0. Verificação de engine (aborta se não for LuaLaTeX)
+%%   1. Detecção e carga condicional de fontspec (\ifcrpsp@fontspec)
+%%   2. Sistema de cores por publicação (cor1/cor2/cor3 + setters)
+%%
+\NeedsTeXFormat{LaTeX2e}[2023/11/01]
+\ProvidesPackage{crpsp-base}[2026/07/03 v0.1
+  Infraestrutura compartilhada CRP-SP]
+
+% ──────────────────────────────────────────────
+% 0. Verificação de engine — aborta se não for LuaLaTeX
+% ──────────────────────────────────────────────
+\RequirePackage{iftex}
+\ifluatex\else
+  \PackageError{crpsp-base}{%
+    Este pacote exige compilacao com LuaLaTeX.\MessageBreak
+    Compile com:  lualatex <arquivo>.tex%
+  }{%
+    O sistema editorial CRP-SP usa recursos exclusivos do\MessageBreak
+    LuaLaTeX (fontspec, phase-III tagging, PDF/UA-2).\MessageBreak
+    Outras engines (pdflatex, xelatex) nao sao suportadas.%
+  }
+  \expandafter\stop
+\fi
+
+% ──────────────────────────────────────────────
+% 1. Detecção e carga condicional de fontspec
+%    Em ambientes sem luaotfload funcional, os STYs
+%    editoriais fazem fallback para fontes NFSS (T1).
+% ──────────────────────────────────────────────
+\newif\ifcrpsp@fontspec \crpsp@fontspecfalse
+% Testa se luaotfload consegue ser carregado. Quando o módulo
+% já está no format (LuaLaTeX moderno), require devolve `true`
+% em vez da tabela do módulo — ambos os casos indicam que o
+% carregador de fontes está funcional.
+\directlua{
+  local ok, loader = pcall(require, "luaotfload-main")
+  if ok and loader then
+    tex.sprint("\string\\crpsp@fontspectrue")
+  end
+}
+\ifcrpsp@fontspec
+  \RequirePackage{fontspec}%
+\else
+  \RequirePackage[T1]{fontenc}%
+\fi
+
+% ──────────────────────────────────────────────
+% 2. Interface de paleta de cores por publicação
+%    Valores padrão neutros (preto/cinza escuro)
+% ──────────────────────────────────────────────
+\RequirePackage{xcolor}
+
+\definecolor{crpsp@cor1}{HTML}{1A1A1A}
+\definecolor{crpsp@cor2}{HTML}{333333}
+\definecolor{crpsp@cor3}{HTML}{555555}
+
+\newcommand{\crpspCorPrincipal}[1]{%
+  \definecolor{crpsp@cor1}{HTML}{#1}%
+  \colorlet{cor1}{crpsp@cor1}%
+}
+\newcommand{\crpspCorSecundaria}[1]{%
+  \definecolor{crpsp@cor2}{HTML}{#1}%
+  \colorlet{cor2}{crpsp@cor2}%
+}
+\newcommand{\crpspCorAcessoria}[1]{%
+  \definecolor{crpsp@cor3}{HTML}{#1}%
+  \colorlet{cor3}{crpsp@cor3}%
+}
+
+% Aliases públicos para uso em conteúdo
+\colorlet{cor1}{crpsp@cor1}
+\colorlet{cor2}{crpsp@cor2}
+\colorlet{cor3}{crpsp@cor3}
+
+\endinput

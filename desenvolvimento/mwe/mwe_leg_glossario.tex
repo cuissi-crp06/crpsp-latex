@@ -1,0 +1,52 @@
+% !TeX program = lualatex-dev
+% ===================================================================
+% mwe_leg_glossario.tex — MWE-4 da camada Leg: \LegTermo (glossário)
+%
+% Valida o comando \LegTermo (crpsp-leg.sty v0.2.0, parágrafo com
+% \hangindent — sem \list) com FRAGMENTOS REAIS <id>-glossario.tex
+% gerados pelo latexgen.py: NBR 6023:2018 (grande; termos mais largos
+% que a caixa \indicartigo, ex. "documento audiovisual") e
+% NBR 10520:2023 (formato inline 2002–2006 não se aplica; termos
+% curtos e definições multilinhas, força quebra de página no meio de
+% definição — o cenário do bug \list que o \hangindent evita).
+%
+% Regenerar os fragmentos: python -m scripts.normativas.latexgen
+%   --todas --out export/latex/   (na raiz do workbench)
+% Compilar 2x: lualatex-dev mwe_leg_glossario.tex
+% Validar: veraPDF UA-2 + inspeção da árvore de tags.
+% ===================================================================
+
+\DocumentMetadata{
+    lang        = pt-BR,
+    pdfstandard = ua-2,
+    pdfversion  = 2.0,
+    testphase   = {phase-III,table,firstaid},
+    tagging     = on,
+}
+
+\documentclass[11pt,a5paper,twoside,openany]{book}
+
+\usepackage{../../book-crpsp_acessivel}
+
+% dc:title no XMP — exigência PDF/UA-2 (veraPDF 8.11.1-t1)
+\hypersetup{pdftitle={MWE Leg: glossários ABNT reais (\string\LegTermo)}}
+
+\begin{document}
+
+\TOCAcessivel
+\mainmatter
+
+\chapter{Glossários de normas técnicas}
+
+Prosa introdutória antes dos glossários (no documento-mestre real, o
+fragmento \texttt{<id>-glossario.tex} entra AO FINAL da norma; aqui
+os dois glossários se sucedem para forçar quebras de página no meio
+de definições longas).
+
+\section{NBR 6023:2018 — Termos e definições}
+\input{../../../../export/latex/abnt-nbr-6023-2018-glossario.tex}
+
+\section{NBR 10520:2023 — Termos e definições}
+\input{../../../../export/latex/abnt-nbr-10520-2023-glossario.tex}
+
+\end{document}

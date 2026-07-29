@@ -1,0 +1,40 @@
+# Imagem enxuta de TeX Live para compilar as classes crpsp-*.
+# Pacotes sao adicionados sob demanda via `tlmgr install <pacote>`
+# conforme os erros de compilacao apontarem a falta -- ver README.md
+# nesta pasta para o fluxo de "congelar" a lista final aqui.
+FROM docker.io/texlive/texlive:latest-small
+
+# Pacotes ja confirmados como necessarios pelo briefing
+# (editorial/latex_acessivel/briefings/briefing-crpsp-guia_visual.md):
+RUN tlmgr update --self \
+ && tlmgr install \
+      fontspec \
+      luaotfload \
+      tcolorbox \
+      tikzfill \
+      hypdoc \
+      pgf \
+      fancyhdr \
+      etoolbox \
+      geometry \
+      eso-pic \
+      iftex \
+      babel \
+      babel-portuges \
+      hyphen-portuguese \
+      hyphenat \
+      enumitem \
+      xcolor \
+      tabularray \
+      l3packages \
+      l3kernel \
+      setspace \
+      ragged2e \
+      xhfill \
+      framed \
+      microtype \
+      lastpage \
+      hyperref \
+      url
+
+WORKDIR /work

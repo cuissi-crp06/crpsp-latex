@@ -1,0 +1,121 @@
+%% exemplo-guia-visual.tex
+%% Documento mínimo de teste — linha Guia Visual 16:9 CRP-SP
+%% Compilar 2x com: lualatex exemplo-guia-visual.tex
+%% (a primeira passagem grava o .nav; a segunda renderiza a navbar)
+
+\DocumentMetadata{
+  lang        = pt-BR,
+  pdfversion  = 2.0,
+  pdfstandard = ua-2,
+  testphase   = {phase-III},
+}
+
+\documentclass{crpsp-guia_visual}
+
+% --- Paleta desta publicação ---
+\crpspCorPrincipal{004A8F}
+\crpspCorSecundaria{E8452A}
+
+\hypersetup{
+  pdftitle  = {Exemplo de Guia Visual CRP-SP},
+  pdfauthor = {Conselho Regional de Psicologia de São Paulo},
+}
+
+\begin{document}
+
+% ══════════════════════════════════════════════
+\section[Apresentação]{Apresentação institucional do CRP-SP}
+% ══════════════════════════════════════════════
+
+\begin{frame}
+  \begin{colunas}
+    \coluna[span=2]{%
+      Conteúdo principal do primeiro frame — ocupa dois terços da
+      largura útil. O texto flui normalmente dentro da coluna, com
+      a tipografia padrão da linha editorial.
+
+      \begin{itemize}
+        \item Primeiro item com bullet na cor principal.
+        \item Segundo item da lista.
+      \end{itemize}
+    }%
+    \coluna[span=1]{%
+      % Placeholder de imagem: retângulo cheio (sem arquivo externo).
+      % Em produção: \includegraphics[width=\linewidth, alt={...}]{imagem.pdf}
+      \textcolor{cor3}{\rule{\linewidth}{45mm}}%
+    }%
+  \end{colunas}
+\end{frame}
+
+\begin{frame}[layout=full]
+  Frame de largura total, sem grid de colunas. Serve para imagens
+  panorâmicas ou blocos de texto únicos.
+
+  \textcolor{cor2}{\rule{\linewidth}{30mm}}
+\end{frame}
+
+% ══════════════════════════════════════════════
+\section[Resultados]{Resultados e indicadores de 2025}
+% ══════════════════════════════════════════════
+
+\begin{frame}
+  \begin{colunas}
+    \coluna[span=1]{%
+      Primeira coluna do grid 1+1+1.
+
+      \textcolor{cor1}{\rule{\linewidth}{25mm}}%
+    }%
+    \coluna[span=1]{%
+      Segunda coluna, mesma largura.
+
+      \textcolor{cor2}{\rule{\linewidth}{25mm}}%
+    }%
+    \coluna[span=1]{%
+      Terceira coluna, fechando a soma de spans em 3.
+
+      \textcolor{cor3}{\rule{\linewidth}{25mm}}%
+    }%
+  \end{colunas}
+\end{frame}
+
+\begin{frame}
+  \begin{colunas}
+    \coluna[span=1]{%
+      Coluna estreita com legenda ou destaque lateral.
+    }%
+    \coluna[span=2]{%
+      Coluna larga com o conteúdo principal deste frame — grid 1+2,
+      espelhando o 2+1 do primeiro frame.
+    }%
+  \end{colunas}
+\end{frame}
+
+% Teste das chaves de alinhamento: as três colunas têm o mesmo texto
+% curto e devem aparecer no topo, no meio e no pé da mancha.
+\begin{frame}
+  \begin{colunas}
+    \coluna[span=1, t]{%
+      Coluna \texttt{t}: conteúdo no topo (padrão).
+    }%
+    \coluna[span=1, c, centro]{%
+      Coluna \texttt{c} com \texttt{centro}: centrada nos dois eixos.
+
+      \textcolor{cor2}{\rule{20mm}{15mm}}%
+    }%
+    \coluna[span=1, b]{%
+      Coluna \texttt{b}: conteúdo rente ao rodapé da mancha.
+    }%
+  \end{colunas}
+\end{frame}
+
+% ══════════════════════════════════════════════
+\section{Encaminhamentos e próximos passos}
+% (sem argumento curto: o título longo vai à navbar — teste de fallback)
+% ══════════════════════════════════════════════
+
+\begin{frame}[layout=full]
+  Última seção, declarada sem título curto para testar o fallback
+  da navbar.
+\end{frame}
+
+\end{document}

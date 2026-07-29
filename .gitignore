@@ -1,0 +1,11 @@
+*.aux
+*.log
+*.toc
+*.out
+*.nav
+*.idx
+*.glo
+*.hd
+*.stdout
+briefings/*.pdf
+desenvolvimento/mwe/*.pdf
