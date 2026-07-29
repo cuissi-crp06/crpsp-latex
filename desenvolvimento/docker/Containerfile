@@ -35,6 +35,12 @@ RUN tlmgr update --self \
       microtype \
       lastpage \
       hyperref \
-      url
+      url \
+      booktabs \
+      colortbl \
+      pgfplots \
+      standalone
+# Nota: `longtable` NAO entra aqui -- nao e pacote proprio no TeX Live,
+# vem no bundle `tools`, ja presente na imagem base.
 
 WORKDIR /work

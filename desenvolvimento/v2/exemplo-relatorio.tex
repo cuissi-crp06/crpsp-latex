@@ -1,0 +1,93 @@
+%% exemplo-relatorio.tex
+%% Documento mínimo de teste — linha Relatório A4 CRP-SP
+%% Exercita: seccionamento, boxes paralelos, tabela com linha
+%% destacada, box de destaque, listas e figura com alt.
+%% Compilar 2x com: sh lualatex-podman.sh exemplo-relatorio.tex
+
+\DocumentMetadata{
+  lang        = pt-BR,
+  pdfversion  = 2.0,
+  pdfstandard = ua-2,
+  testphase   = {phase-III, table, firstaid},
+}
+
+\documentclass{crpsp-relatorio}
+
+% --- Paleta desta publicação (CRP-SP) ---
+\crpspCorPrincipal{422C73}   % Her Highness      — 11,4:1 sobre branco
+\crpspCorSecundaria{0511F2}  % Midsummer Nights  —  8,9:1
+\crpspCorAcessoria{A55DA6}   % Royal Pretender   —  4,45:1, só gráfico
+\crpspCorAlarme{EE05F2}      % Piquant Pink      —  3,54:1, só moldura
+
+\hypersetup{
+  pdftitle  = {Exemplo de Relatório CRP-SP},
+  pdfauthor = {Conselho Regional de Psicologia de São Paulo},
+}
+
+\title{Exemplo de Relatório CRP-SP}
+\author{}
+\date{}
+
+\begin{document}
+
+\section{A decisão}
+
+Parágrafo de abertura, para dar contexto de fluxo ao tagging e
+verificar a medida de linha resultante das margens de 25\,mm.
+O corpo do texto vai em preto sobre branco, contraste de 19,4:1.
+
+\subsection{Um subtítulo}
+
+Texto sob o subtítulo, conferindo o espaçamento entre níveis.
+
+\section{As duas opções}
+
+\begin{paralelos}
+  \boxlado{Opção A}{Manter o modelo atual}{%
+    \begin{itemize}
+      \item Periodicidade segue abaixo da meta regimental.
+      \item A checagem de fatos continua sem responsável.
+      \item O risco de erro material permanece.
+    \end{itemize}}
+  \boxlado[destaque]{Opção B $\cdot$ recomendada}{Nova divisão de trabalho}{%
+    \begin{itemize}
+      \item Pauta definida pela ComCom com a Comunicação.
+      \item Checagem de fatos atribuída à Comunicação.
+      \item Validação final pelo Plenário.
+    \end{itemize}}
+\end{paralelos}
+
+Parágrafo após os boxes, para confirmar que o fluxo normal foi
+retomado e que o espaçamento vertical fecha.
+
+\subsection{Divisão de trabalho proposta}
+
+\begin{tabular}{p{0.4\linewidth}p{0.5\linewidth}}
+  \linhacab \celcab{Etapa} & \celcab{Responsável na Opção B} \\
+  Definição de pauta & ComCom + Comunicação \\
+  Apuração e entrevistas & Conselheiras/os \\
+  Redação das matérias & Conselheiras/os \\
+  Revisão e padronização & Comunicação \\
+  \linhadestaque \textbf{Checagem de fatos} & \textbf{Comunicação} \\
+  Diagramação e projeto gráfico & Comunicação \\
+  Produção gráfica e distribuição & Comunicação \\
+  Validação final & Plenário \\
+\end{tabular}
+
+A linha destacada acima é a etapa que hoje não tem responsável
+designado. Numa tabela de funções, a célula vazia recebe \vago.
+
+\section{Diagnóstico}
+
+\begin{destaque}{Caso documentado $\cdot$ 2026}
+  Em 2026 --- ano com a menor equipe nominal da série, 2 pessoas ---
+  a edição 209 foi impressa e postada com dois erros materiais no
+  expediente.
+
+  \textbf{Nenhuma etapa do processo era capaz de interceptar o erro
+  antes da impressão, porque essa etapa não existe no fluxo atual.}
+\end{destaque}
+
+Parágrafo final, fechando o documento de teste.
+
+\end{document}
