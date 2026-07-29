@@ -1,0 +1,62 @@
+%% mwe_tabelas2_phase3.tex
+%% Substitutos do tabularray sob phase-III:
+%%   D: tabular + \rowcolor (colortbl via xcolor[table])
+%%   E: tabular com coluna p{} (texto que quebra linha)
+%%   F: longtable (tabela que atravessa páginas) + \rowcolor
+\DocumentMetadata{
+  lang        = pt-BR,
+  pdfversion  = 2.0,
+  pdfstandard = ua-2,
+  testphase   = {phase-III, table, firstaid},
+}
+\documentclass[11pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage[a4paper, margin=25mm]{geometry}
+\usepackage[table]{xcolor}
+\usepackage{longtable}
+\usepackage{booktabs}
+\definecolor{herhighness}{HTML}{422C73}
+\colorlet{alarmefundo}{red!10!white}
+\setlength{\parindent}{0pt}
+
+\begin{document}
+
+\section*{D --- tabular + rowcolor}
+
+\begin{tabular}{ll}
+  \rowcolor{herhighness}
+  \textcolor{white}{\textbf{Etapa}} & \textcolor{white}{\textbf{Responsável}} \\
+  Definição de pauta & ComCom \\
+  \rowcolor{alarmefundo}
+  \textbf{Checagem de fatos} & \textbf{Comunicação} \\
+  Validação final & Plenário \\
+\end{tabular}
+
+\section*{E --- tabular com p\{\} e booktabs}
+
+\begin{tabular}{p{0.35\linewidth}p{0.5\linewidth}}
+  \toprule
+  \textbf{Etapa} & \textbf{Responsável na Opção B} \\
+  \midrule
+  Definição de pauta & ComCom mais Comunicação, conforme já previsto
+  no Regimento Interno do Conselho \\
+  Checagem de fatos & Comunicação \\
+  \bottomrule
+\end{tabular}
+
+\section*{F --- longtable}
+
+\begin{longtable}{p{0.2\linewidth}p{0.6\linewidth}}
+  \rowcolor{herhighness}
+  \textcolor{white}{\textbf{Ano}} & \textcolor{white}{\textbf{Observação}} \\
+  \endfirsthead
+  \rowcolor{herhighness}
+  \textcolor{white}{\textbf{Ano}} & \textcolor{white}{\textbf{Observação}} \\
+  \endhead
+  1981 & Primeira edição da série, com equipe nominal reduzida \\
+  1999 & Reestruturação editorial \\
+  2020 & Internalização da produção \\
+  2026 & Menor equipe nominal da série \\
+\end{longtable}
+
+\end{document}

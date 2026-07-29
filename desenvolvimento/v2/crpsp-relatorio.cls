@@ -69,7 +69,14 @@
 \RequirePackage{geometry}
 \RequirePackage{longtable}
 \RequirePackage{booktabs}
+% babel com padrões de hifenização do português: sem ele o TeX quebra
+% as linhas com padrões do inglês e a justificação de texto corrido em
+% pt-BR acumula overfull. O `lang=pt-BR` do \DocumentMetadata declara o
+% idioma no PDF, mas NÃO carrega padrões de hifenização.
+\RequirePackage[brazil]{babel}
 \RequirePackage{hyperref}
+\RequirePackage{url}
+\urlstyle{same}
 
 % ──────────────────────────────────────────────
 % 4. Implementação de layout
