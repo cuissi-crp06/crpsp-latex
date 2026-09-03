@@ -1,0 +1,51 @@
+% !TeX program = lualatex-dev
+% ===================================================================
+% mwe_sty_manual.tex — teste das redefinições manuais
+%
+% Verifica se o livros_crp_acessivel_manual.sty (com redefinições
+% manuais no lugar do titlesec) produz:
+%   1. Zero erros de tagpdf begin/end
+%   2. Árvore de tags idêntica à do mwe_sty_notitlesec.tex
+%   3. Formatação visual dos capítulos em cor crp2, sans-serif
+%
+% Compilar com: lualatex-dev mwe_sty_manual.tex (duas vezes)
+% ===================================================================
+
+\DocumentMetadata{
+    lang        = pt-BR,
+    pdfstandard = ua-2,
+    pdfversion  = 2.0,
+    testphase   = {phase-III,table,firstaid},
+    tagging     = on,
+}
+
+\documentclass[11pt,a5paper,twoside,openany]{book}
+
+\usepackage{livros_crp_acessivel_manual}
+
+\begin{document}
+
+\mainmatter
+
+\part{Parte um}
+
+\chapter{Capítulo um}
+
+Um parágrafo simples de texto corrido sem nenhum comando de
+formatação, sem grupos, sem mudança de fonte. Apenas texto
+para gerar uma tag de parágrafo normal.
+
+\section{Seção de primeiro nível}
+
+Texto dentro da seção para testar que o tagger emite H2
+corretamente.
+
+\subsection{Subseção}
+
+Texto da subseção. Deve virar H3.
+
+\chapter{Capítulo dois}
+
+Outro parágrafo simples.
+
+\end{document}

@@ -1,0 +1,44 @@
+% !TeX program = lualatex-dev
+% ===================================================================
+% mwe_sty_minimal.tex — bisseção diagnóstica
+%
+% Usa o livros_crp_acessivel_book.sty completo mas com o conteúdo
+% ultra-mínimo do mwe_minimal.tex. Objetivo: determinar se o
+% descasamento begin/end do tagpdf vem do .sty (algum pacote que
+% ele carrega) ou do conteúdo específico do MWE completo (listas,
+% tabela, \maketitle, \TOCAcessivel, links).
+%
+% Compilar com: lualatex-dev mwe_sty_minimal.tex (duas vezes)
+% ===================================================================
+
+\DocumentMetadata{
+    lang        = pt-BR,
+    pdfstandard = ua-2,
+    pdfversion  = 2.0,
+    testphase   = {phase-III,table,firstaid},
+    tagging     = on,
+}
+
+\documentclass[11pt,a5paper,twoside,openany]{book}
+
+\usepackage{livros_crp_acessivel_book}
+
+\begin{document}
+
+\mainmatter
+% \pagestyle{crp}  % COMENTADO: teste de bisseção — fancyhdr é suspeito
+                   % de causar o descasamento begin/end do tagpdf.
+
+\part{Parte um}
+
+\chapter{Capítulo um}
+
+Um parágrafo simples de texto corrido sem nenhum comando de
+formatação, sem grupos, sem mudança de fonte. Apenas texto
+para gerar uma tag de parágrafo normal.
+
+\chapter{Capítulo dois}
+
+Outro parágrafo simples.
+
+\end{document}

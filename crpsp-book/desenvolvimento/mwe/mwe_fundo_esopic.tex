@@ -1,0 +1,72 @@
+% !TeX program = lualatex-dev
+% ===================================================================
+% mwe_fundo_esopic.tex — MWE-5: fundo decorativo eso-pic sob UA-2
+%
+% Valida a arte de fundo por página (fundo_impar/fundo_par do Manual
+% de DH publicado) via \AddToShipoutPictureBG com tagging=on:
+% o conteúdo do shipout precisa entrar como ARTIFACT na árvore de
+% tags (nunca <Figure>). Teste antes de portar ao manual_dh.tex
+% (briefing-manual-dh-acabamento, tarefa 1).
+%
+% Página original: A4 com PNG A4 em tamanho natural (cobertura
+% exata). Aqui (A5, mesma proporção 1:sqrt(2)):
+% width=\paperwidth, height=\paperheight — sem distorção.
+%
+% Compilar 2x: lualatex-dev mwe_fundo_esopic.tex
+% Validar: veraPDF UA-2 + árvore de tags sem <Figure> do fundo.
+% ===================================================================
+
+\DocumentMetadata{
+    lang        = pt-BR,
+    pdfstandard = ua-2,
+    pdfversion  = 2.0,
+    testphase   = {phase-III,table,firstaid},
+    tagging     = on,
+}
+
+\documentclass[11pt,a5paper,twoside,openany]{book}
+
+\usepackage{../../book-crpsp_acessivel}
+
+\hypersetup{pdftitle={MWE fundo decorativo eso-pic (UA-2)}}
+
+% Arte do manual publicado (cópia em v1/; aqui referenciada relativa)
+\graphicspath{{../../../../production/editorial/publicacoes/manual_direitos_humanos/v1/}}
+
+% Achado do teste 1 (2026-07-13): includegraphics com alt={} sob
+% tagging vira <Figure> com Alt vazio — veraPDF UA-2 até PASSA, mas
+% o requisito do briefing é ARTIFACT (fundo fora da árvore de tags).
+% Portanto: \tagstop suspende a criação de estrutura (sem <Figure>)
+% e \tagmcbegin{artifact} marca o conteúdo do stream como artefato
+% (sem ele o conteúdo ficaria sem MC — falha "untagged content").
+\AddToShipoutPictureBG{%
+    \tagstop
+    \tagmcbegin{artifact}%
+    \AtPageLowerLeft{%
+        \ifodd\value{page}
+            \includegraphics[width=\paperwidth,
+                             height=\paperheight]{fundo_impar.png}%
+        \else
+            \includegraphics[width=\paperwidth,
+                             height=\paperheight]{fundo_par.png}%
+        \fi
+    }%
+    \tagmcend
+    \tagstart
+}
+
+\begin{document}
+
+\chapter{Fundo decorativo por paridade}
+
+Página ímpar com \texttt{fundo\_impar.png} ao fundo. O texto corre
+por cima; a arte não pode aparecer na árvore de tags como conteúdo.
+
+\newpage
+Página par com \texttt{fundo\_par.png}. Parágrafo de controle para
+verificar a ordem de leitura: nada além desta prosa deve ser lido.
+
+\newpage
+Terceira página (ímpar de novo) — alternância conferida visualmente.
+
+\end{document}

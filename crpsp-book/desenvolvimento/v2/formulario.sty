@@ -1,0 +1,308 @@
+%% formulario.sty
+%% Layout da linha de formulários do CRP-SP e SISTEMA DE CAMPOS
+%% PREENCHÍVEIS AUTO-DIMENSIONÁVEIS.
+%% Requer: crpsp-formulario.cls (que carrega crpsp-base.sty e os pacotes
+%% de base: geometry, calc, etoolbox, hyperref, setspace, ragged2e,
+%% framed, xhfill, microtype, fancyhdr, lastpage).
+%%
+%% ─── Assinatura canônica dos campos ──────────────────────────────────
+%%   \campolinha{nome}{rótulo}          campo que preenche o resto da linha
+%%   \begin{camposlinha} \campo[peso]{nome}{rótulo} ... \end{camposlinha}
+%%                                      vários campos, largura repartida
+%%   \campofixo{nome}{rótulo}{largura}  campo de largura fixa (prosa)
+%%   \campodata{id}                     dia / mês / ano
+%%   \campodataextenso{id}              cidade, dia de mês de ano
+%%   \caixa{nome}{rótulo}               checkbox + rótulo
+%%   \blocoassinatura{legenda}          régua de assinatura + legenda
+%% As larguras vêm de \linewidth e da medida do rótulo; NÃO se calibram
+%% larguras em `em` à mão (essa era a dor do sistema antigo).
+%%
+%% Aliases de compatibilidade (assinatura antiga) no fim do arquivo:
+%%   \preenctext{altura}{nome}{largura}{texto}, \dataabrev{altura}{id},
+%%   \dataextenso{id}, \caixasel{tam}{nome}, \caixaselset{tam}{nome}{rótulo}
+%% ─────────────────────────────────────────────────────────────────────
+\NeedsTeXFormat{LaTeX2e}[2023/11/01]
+\ProvidesPackage{formulario}[2026/07/03 v0.1
+  Layout e campos auto-dimensionaveis CRP-SP]
+
+% ══════════════════════════════════════════════
+%  1. GEOMETRIA (A4 retrato; timbrado = margens grandes)
+% ══════════════════════════════════════════════
+\ifcrpsp@form@timbrado
+  \geometry{a4paper, left=4cm, right=2cm, top=6cm, bottom=4cm,
+    headheight=4cm, headsep=\baselineskip}
+\else
+  \geometry{a4paper, left=1.5cm, right=2cm, top=3.5cm, bottom=2cm,
+    headheight=3.5cm, headsep=\baselineskip}
+\fi
+
+% Campos de formulário são medidos a partir de \linewidth; parágrafo
+% indentado desalinharia a caixa da margem (overfull). Formulários não
+% usam recuo de primeira linha — separação por espaço vertical.
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.5\baselineskip}
+
+% ══════════════════════════════════════════════
+%  2. TIPOGRAFIA
+%     NewJune (marca) → TeX Gyre Heros → CM Sans (fallback)
+%     O fallback deixa o documento compilar em ambientes sem a fonte
+%     proprietária instalada (ex.: container texlive-small).
+% ══════════════════════════════════════════════
+\ifcrpsp@fontspec
+  \IfFontExistsTF{NewJune}{%
+    \setmainfont{NewJune}[
+      UprightFont    = *-Regular,
+      BoldFont       = *-Bold,
+      ItalicFont     = *-Regular-Italic,
+      BoldItalicFont = *-Bold-Italic]%
+    \setsansfont{NewJune}[
+      UprightFont    = *-Regular,
+      BoldFont       = *-Bold,
+      ItalicFont     = *-Regular-Italic,
+      BoldItalicFont = *-Bold-Italic]%
+  }{%
+    \IfFontExistsTF{TeX Gyre Heros}{%
+      \setmainfont{TeX Gyre Heros}%
+      \setsansfont{TeX Gyre Heros}%
+    }{%
+      \PackageWarning{formulario}{%
+        Fonte NewJune indisponivel e nenhum fallback OpenType\MessageBreak
+        encontrado. Usando Computer Modern Sans.%
+      }%
+      \renewcommand{\familydefault}{\sfdefault}%
+    }%
+  }%
+\else
+  \renewcommand{\familydefault}{\sfdefault}%
+\fi
+
+% ══════════════════════════════════════════════
+%  3. CORES DA MARCA
+%     Mapeadas para os setters de crpsp-base; aliases crp1/2/3
+%     preservados para os .tex legados.
+% ══════════════════════════════════════════════
+\crpspCorPrincipal{422C73}   % roxo institucional (RGB 66,44,115)
+\crpspCorSecundaria{A55DA6}  % (RGB 165,93,166)
+\crpspCorAcessoria{BF73AB}   % (RGB 191,115,171)
+\colorlet{crp1}{cor1}
+\colorlet{crp2}{cor2}
+\colorlet{crp3}{cor3}
+
+% ══════════════════════════════════════════════
+%  4. ESPAÇAMENTO ENTRE LINHAS
+%     Aliases capitalizados (memoir/abntex2) sobre setspace, para os
+%     .tex legados que chamam \setasuspacing{\DoubleSpacing} etc.
+% ══════════════════════════════════════════════
+\providecommand{\SingleSpacing}{\singlespacing}
+\providecommand{\OnehalfSpacing}{\onehalfspacing}
+\providecommand{\DoubleSpacing}{\doublespacing}
+\newcommand*{\setasuspacing}[1]{\let\AsuSpacing#1\AsuSpacing}
+\setasuspacing{\SingleSpacing}
+
+% ══════════════════════════════════════════════
+%  5. SECCIONAMENTO
+%     Sem numeração, colorido na cor da marca. Via \@startsection
+%     (NÃO titlesec — incompatível com phase-III; ver briefing §8).
+% ══════════════════════════════════════════════
+\setcounter{secnumdepth}{-1}
+\renewcommand\section{\@startsection{section}{1}{0pt}%
+  {\baselineskip}{0.5\baselineskip}%
+  {\normalfont\Large\bfseries\color{cor1}}}
+\renewcommand\subsection{\@startsection{subsection}{2}{0pt}%
+  {0.8\baselineskip}{0.3\baselineskip}%
+  {\normalfont\large\bfseries\color{cor1}}}
+\renewcommand\subsubsection{\@startsection{subsubsection}{3}{0pt}%
+  {0.6\baselineskip}{0.2\baselineskip}%
+  {\normalfont\normalsize\bfseries\color{cor1}}}
+
+% ══════════════════════════════════════════════
+%  6. LOGO E ESTILO DE PÁGINA
+% ══════════════════════════════════════════════
+% \logocrp: logo institucional; fallback para caixa vazia quando o
+% arquivo não está no diretório de compilação (ex.: exemplo no v2).
+% TODO fase 2: acrescentar alt-text (\Alt) sob \DocumentMetadata.
+\newcommand{\logocrp}{%
+  \IfFileExists{logo-crp.png}{%
+    \includegraphics[height=2cm]{logo-crp.png}%
+  }{%
+    \rule{0pt}{2cm}%
+  }%
+}
+
+\fancypagestyle{crp}{%
+  \fancyhf{}%
+  \renewcommand{\headrulewidth}{0pt}%
+  \renewcommand{\footrulewidth}{0pt}%
+  \ifcrpsp@form@timbrado\else
+    \fancyhead[C]{\logocrp}%
+    \fancyfoot[C]{\thepage/\pageref{LastPage}}%
+  \fi
+}
+\pagestyle{crp}
+
+% ══════════════════════════════════════════════
+%  7. COMPRIMENTOS E PARÂMETROS DO SISTEMA DE CAMPOS
+% ══════════════════════════════════════════════
+\newlength{\campogap}     \setlength{\campogap}{0.5em}   % folga rótulo↔caixa
+\newlength{\campoaltura}  \setlength{\campoaltura}{14pt} % altura da TextField
+\newlength{\boxlarg}      \setlength{\boxlarg}{2em}      % coluna do checkbox
+\newlength{\virgula}      \setlength{\virgula}{0.5em}    % compat
+\newlength{\fimdelinha}   \setlength{\fimdelinha}{\textwidth-1.5\boxlarg} % compat
+
+% Registradores de trabalho
+\newlength{\campo@tmpwd}
+\newlength{\campo@labsum}
+\newlength{\campo@unit}
+\newlength{\campo@thiswd}
+\newcount\campo@n
+\newcount\campo@i
+\newcount\campo@wsum
+\newcount\campo@gaps
+
+% ── Primitiva: emite uma TextField AcroForm com largura já resolvida ──
+% #1 nome do campo, #2 largura (dimensão), #3 conteúdo inicial
+\newcommand{\campo@textfield}[3]{%
+  \setlength{\campo@thiswd}{#2}%
+  \TextField[name={#1}, width=\the\campo@thiswd, height=\the\campoaltura,
+    bordercolor=gray, color=black, backgroundcolor=white]{#3}%
+}
+
+% ── 6.1 Campo de linha cheia ─────────────────────────────────────────
+% Preenche todo o resto da linha após o rótulo. A largura é derivada de
+% \linewidth menos a largura medida do rótulo — nunca calibrada à mão.
+\newcommand{\campolinha}[2]{%
+  \par\noindent
+  \settowidth{\campo@tmpwd}{#2}%
+  #2\hspace{\campogap}%
+  \campo@textfield{#1}{\dimexpr\linewidth-\campo@tmpwd-2\campogap\relax}{}%
+  \par
+}
+
+% ── 6.3 Campo de largura fixa (para prosa justificada) ───────────────
+% #1 nome, #2 rótulo, #3 largura explícita.
+\newcommand{\campofixo}[3]{%
+  #2\campo@textfield{#1}{#3}{}%
+}
+
+% ── 6.2 Linha rotulada multi-campo (largura repartida por peso) ──────
+% Duas passagens, no estilo da navbar do guia-visual: \campo apenas
+% REGISTRA (mede o rótulo, guarda nome/peso/rótulo em macros indexadas
+% e acumula somas); o ambiente, no \end, calcula a unidade de largura e
+% desenha cada campo. Não re-executa o corpo.
+\newif\ifcampo@active \campo@activefalse
+
+\NewDocumentCommand{\campo}{O{1} m m}{%
+  \ifcampo@active\else
+    \PackageError{formulario}{%
+      \string\campo\space so pode ser usado dentro de camposlinha%
+    }{%
+      Fora de camposlinha use \string\campolinha\space ou
+      \string\campofixo.%
+    }%
+  \fi
+  \global\advance\campo@n by 1\relax
+  \settowidth{\campo@tmpwd}{#3}%
+  \global\advance\campo@labsum by \campo@tmpwd
+  \global\advance\campo@wsum by #1\relax
+  \expandafter\gdef\csname campo@name@\the\campo@n\endcsname{#2}%
+  \expandafter\gdef\csname campo@lab@\the\campo@n\endcsname{#3}%
+  \csxdef{campo@peso@\the\campo@n}{#1}%
+}
+
+\newenvironment{camposlinha}{%
+  \global\campo@n=0\relax
+  \global\campo@wsum=0\relax
+  \global\setlength{\campo@labsum}{0pt}%
+  \campo@activetrue
+}{%
+  \campo@activefalse
+  % gaps fixos: um rótulo↔caixa por campo (n) + separadores entre campos (n-1)
+  % => 2n-1 folgas. Aritmética com \count (evita o '*' exigido em \numexpr).
+  \campo@gaps=\campo@n
+  \multiply\campo@gaps by 2\relax
+  \advance\campo@gaps by -1\relax
+  \setlength{\campo@unit}{%
+    \dimexpr(\linewidth-\campo@labsum-\campo@gaps\campogap)/\campo@wsum\relax}%
+  \ifdim\campo@unit<\z@
+    \PackageWarning{formulario}{%
+      camposlinha: rotulos nao cabem na linha (unidade negativa).\MessageBreak
+      Reduza rotulos ou use menos campos por linha.%
+    }%
+  \fi
+  \par\noindent
+  \campo@i=0
+  \loop\ifnum\campo@i<\campo@n
+    \advance\campo@i by 1\relax
+    \ifnum\campo@i>1 \hspace{\campogap}\fi
+    \csname campo@lab@\the\campo@i\endcsname
+    \hspace{\campogap}%
+    \campo@textfield{\csname campo@name@\the\campo@i\endcsname}%
+      {\dimexpr\csname campo@peso@\the\campo@i\endcsname\campo@unit\relax}{}%
+  \repeat
+  \par
+}
+
+% ── 6.4 Datas ────────────────────────────────────────────────────────
+\newcommand{\campodata}[1]{%
+  \campo@textfield{dia#1}{2em}{}\,/\,%
+  \campo@textfield{mes#1}{2em}{}\,/\,%
+  \campo@textfield{ano#1}{3em}{}%
+}
+\newcommand{\campodataextenso}[1]{%
+  \campo@textfield{cidade#1}{16em}{},
+  \campo@textfield{dia#1}{3em}{} de
+  \campo@textfield{mes#1}{8em}{} de
+  \campo@textfield{ano#1}{4em}{}.%
+}
+
+% ── 6.4 Checkbox + rótulo ────────────────────────────────────────────
+\newlength{\campocheckbox} \setlength{\campocheckbox}{11pt}
+% Ordem rótulo/caixa do \CheckBox: rótulo depois da caixa
+\renewcommand\LayoutCheckField[2]{#2#1}
+\newcommand{\caixa}[2]{%
+  \raisebox{-2pt}{\CheckBox[name={#1}, bordercolor=black,
+    height=\the\campocheckbox, width=\the\campocheckbox]{\null}}%
+  \hspace{\campogap}#2%
+}
+% Lista vertical de checkboxes
+\newenvironment{caixaslista}{%
+  \par\begin{list}{}{%
+    \setlength{\leftmargin}{0pt}\setlength{\itemsep}{0.3\baselineskip}%
+    \renewcommand{\makelabel}[1]{}%
+  }%
+}{%
+  \end{list}%
+}
+% \item dentro de caixaslista: use \caixaitem{nome}{rótulo}
+\newcommand{\caixaitem}[2]{\item \caixa{#1}{#2}}
+
+% ══════════════════════════════════════════════
+%  8. BLOCOS COMUNS REUTILIZÁVEIS
+% ══════════════════════════════════════════════
+\newcommand{\blocoassinatura}[1]{%
+  {\par\centering\rule{24em}{0.4pt}\\ #1\par}%
+}
+
+% ══════════════════════════════════════════════
+%  9. ALIASES DE COMPATIBILIDADE (assinatura antiga)
+%     Permitem migrar um formulário trocando só \documentclass, sem
+%     reescrever todas as chamadas de uma vez.
+% ══════════════════════════════════════════════
+% \preenctext{altura}{nome}{largura}{texto} — altura ignorada (usa \campoaltura)
+\newcommand{\preenctext}[4]{\campofixo{#2}{#4}{#3}}
+% \dataabrev{altura}{id} — altura ignorada
+\newcommand{\dataabrev}[2]{\campodata{#2}}
+% \dataextenso{id}
+\newcommand{\dataextenso}[1]{\campodataextenso{#1}}
+% \caixasel{tamanho}{nome} — checkbox nu (tamanho em pt)
+\newcommand{\caixasel}[2]{%
+  \centering\raisebox{-2pt}{\fbox{\CheckBox[name={#2}, bordercolor=black,
+    height=#1pt, width=#1pt]{\null}}}%
+}
+% \caixaselset{tamanho}{nome}{rótulo} — checkbox + rótulo em duas minipages
+\newcommand{\caixaselset}[3]{%
+  \begin{minipage}{\boxlarg}\caixasel{#1}{#2}\end{minipage}%
+  \begin{minipage}{\linewidth-\boxlarg}#3\end{minipage}%
+}
+
+\endinput

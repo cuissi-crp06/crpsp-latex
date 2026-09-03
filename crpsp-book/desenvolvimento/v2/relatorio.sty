@@ -1,0 +1,339 @@
+%% relatorio.sty
+%% Implementação de layout da linha Relatório A4 do CRP-SP:
+%% geometria, tipografia, seccionamento, boxes paralelos, tabelas
+%% com linha destacada, box de destaque e figuras com alt.
+%% Requer: crpsp-relatorio.cls (que carrega crpsp-base.sty)
+%%
+\NeedsTeXFormat{LaTeX2e}[2023/11/01]
+\ProvidesPackage{relatorio}[2026/07/29 v0.1
+  Layout de relatorios A4 CRP-SP]
+
+\RequirePackage{etoolbox}
+
+% ══════════════════════════════════════════════
+%  1. GEOMETRIA E TIPOGRAFIA
+% ══════════════════════════════════════════════
+
+% Margens de 25mm dão ~68 caracteres por linha em 11pt — o mesmo
+% critério de medida do artefato HTML de origem (max-width: 70ch).
+\geometry{%
+  a4paper,
+  top    = 25mm,
+  bottom = 25mm,
+  left   = 25mm,
+  right  = 25mm,
+  footskip = 12mm,
+}
+
+% Parágrafos sem indentação, separados por espaço vertical.
+% Fixado no hook 'begindocument/end' porque só ali \baselineskip já
+% vale a entrelinha real (em tempo de carregamento é a da fonte
+% default da classe; em 'begindocument' ainda é 0pt).
+% O valor fica guardado em \crpsprel@parskip porque \parbox aplica
+% \@parboxrestore, que zera \parskip — os boxes da §3 e da §5
+% precisam restaurá-lo a partir daqui.
+\setlength{\parindent}{0pt}
+\newlength{\crpsprel@parskip}
+% Rígido (sem plus/minus): os boxes de altura livre da §5 dependem
+% de espaçamento previsível para alinhar. E, na prática, um registro
+% de skip seguido de `plus` não é cola válida — o resto acaba
+% impresso como texto.
+\AddToHook{begindocument/end}{%
+  \setlength{\crpsprel@parskip}{0.6\baselineskip}%
+  \setlength{\parskip}{\crpsprel@parskip}%
+}
+
+% Cadeia de fallback de fontes, idêntica às demais linhas v2:
+% Atkinson Hyperlegible Next > TeX Gyre Heros > CM Sans
+\ifcrpsp@fontspec
+  \IfFontExistsTF{Atkinson Hyperlegible Next}{%
+    \setmainfont{Atkinson Hyperlegible Next}%
+    \setsansfont{Atkinson Hyperlegible Next}%
+  }{%
+    \IfFontExistsTF{TeX Gyre Heros}{%
+      \setmainfont{TeX Gyre Heros}%
+      \setsansfont{TeX Gyre Heros}%
+    }{%
+      \PackageWarning{relatorio}{%
+        Nenhuma fonte OpenType sans-serif encontrada.\MessageBreak
+        Usando Computer Modern Sans como fallback%
+      }%
+      \renewcommand{\familydefault}{\sfdefault}%
+    }%
+  }%
+  \IfFontExistsTF{Atkinson Hyperlegible Mono}{%
+    \setmonofont{Atkinson Hyperlegible Mono}%
+  }{}%
+\else
+  \renewcommand{\familydefault}{\sfdefault}%
+\fi
+
+% ══════════════════════════════════════════════
+%  2. CORES DERIVADAS DA PALETA
+%
+%  Contrastes medidos sobre papel branco (WCAG):
+%    cor1 Her Highness      #422C73 — 11,4:1  texto e títulos (AAA)
+%    cor2 Midsummer Nights  #0511F2 —  8,9:1  links (AAA)
+%    cor3 Royal Pretender   #A55DA6 —  4,45:1 SÓ elemento gráfico
+%    alarme Piquant Pink    #EE05F2 —  3,54:1 SÓ borda/faixa/fundo
+%
+%  Piquant Pink NÃO passa como cor de texto. Ele entra apenas como
+%  moldura (limiar 3:1 de elemento gráfico não-textual) e como fundo
+%  tingido a 10%, sobre o qual o texto vai em preto (17:1).
+% ══════════════════════════════════════════════
+
+\definecolor{crpsp@alarme}{HTML}{EE05F2}
+\definecolor{crpsp@tinta}{HTML}{0D0D0D}
+\colorlet{alarme}{crpsp@alarme}
+\colorlet{alarmefundo}{crpsp@alarme!10!white}
+\colorlet{regua}{crpsp@cor3!45!white}
+
+\newcommand{\crpspCorAlarme}[1]{%
+  \definecolor{crpsp@alarme}{HTML}{#1}%
+  \colorlet{alarme}{crpsp@alarme}%
+  \colorlet{alarmefundo}{crpsp@alarme!10!white}%
+}
+
+\AtBeginDocument{\color{crpsp@tinta}}
+
+\hypersetup{
+  colorlinks = true,
+  linkcolor  = crpsp@cor1,
+  urlcolor   = crpsp@cor2,
+  citecolor  = crpsp@cor2,
+}
+
+% ══════════════════════════════════════════════
+%  3. SECCIONAMENTO
+%     Via \@startsection — NUNCA titlesec, que é incompatível
+%     com phase-III (WA-03: "number of automatic begin/end
+%     text-unit para hooks differ").
+% ══════════════════════════════════════════════
+
+\setcounter{secnumdepth}{-1}
+
+% Nota: o h2 do HTML de origem tem uma régua superior (border-top).
+% Ela NÃO foi replicada aqui: emitir \hrule dentro do corpo do
+% título de \@startsection insere material no bloco tagueado como
+% cabeçalho. Se for desejada, o caminho seguro é uma régua explícita
+% no documento (\crpspregua), não embutida no seccionamento.
+\renewcommand\section{\@startsection{section}{1}{0pt}%
+  {1.6\baselineskip}{0.6\baselineskip}%
+  {\normalfont\Large\bfseries\color{crpsp@cor1}}}
+\renewcommand\subsection{\@startsection{subsection}{2}{0pt}%
+  {1.1\baselineskip}{0.35\baselineskip}%
+  {\normalfont\large\bfseries\color{crpsp@cor1}}}
+\renewcommand\subsubsection{\@startsection{subsubsection}{3}{0pt}%
+  {0.9\baselineskip}{0.25\baselineskip}%
+  {\normalfont\normalsize\bfseries\color{crpsp@cor1}}}
+
+% ══════════════════════════════════════════════
+%  4. HELPERS DE TAGGING
+%     \tagstructbegin/\tagstructend existem como no-ops
+%     (tagpdf-base) quando o documento não ativa
+%     \DocumentMetadata; o guard cobre formats sem tagpdf-base.
+% ══════════════════════════════════════════════
+
+\newcommand{\crpsprel@tagbegin}[1]{%
+  \ifdefined\tagstructbegin\tagstructbegin{tag=#1}\fi
+}
+\newcommand{\crpsprel@tagend}{%
+  \ifdefined\tagstructend\tagstructend\fi
+}
+\newcommand{\crpsprel@paraoff}{\ifdefined\tagpdfparaOff\tagpdfparaOff\fi}
+\newcommand{\crpsprel@paraon}{\ifdefined\tagpdfparaOn\tagpdfparaOn\fi}
+
+% ══════════════════════════════════════════════
+%  5. BOXES PARALELOS  —  \begin{paralelos} + \boxlado
+%
+%  Reproduz os cards da seção "As duas opções" do relatório HTML.
+%
+%  Implementação em \fcolorbox{\parbox}, NÃO tcolorbox: sob
+%  phase-III o patch de tagging do tcolorbox força \par em volta
+%  da box mesmo com nobeforeafter, empilhando as colunas.
+%  Validado em desenvolvimento/mwe/mwe_fcolorbox_phase3.tex.
+%
+%  A ordem das operações de tagging é decalque de colunas/\coluna
+%  (guia-visual.sty §9) e é sensível:
+%    abertura: \par, \topskip=0pt, paraoff, tagbegin{Sect}
+%    cada box: tagbegin{Sect}, \parbox{ paraon <corpo>\par paraoff }, tagend
+%    fecho:    \par, tagend, paraon
+%  Duas armadilhas confirmadas empiricamente:
+%    - sem o \par ANTES do paraoff interno, os hooks de parágrafo
+%      ficam desbalanceados ("begin (12) and end (11) differ");
+%    - invertendo \par e tagend no fecho, a pilha de estruturas
+%      não fecha ("there is no open structure on the stack").
+% ══════════════════════════════════════════════
+
+\newlength{\crpsprel@cardgap}
+\setlength{\crpsprel@cardgap}{6mm}
+\newlength{\crpsprel@cardwd}
+\newlength{\crpsprel@cardparwd}
+\newcounter{crpsprel@ncards}
+
+\NewDocumentEnvironment{paralelos}{}{%
+  \par
+  % \topskip zerado (local ao ambiente): no topo da página o TeX
+  % insere cola de \topskip menos a altura da primeira caixa; com
+  % \parbox[t] essa altura é a da primeira linha, e a cola residual
+  % estoura a mancha.
+  \topskip=0pt\relax
+  \setcounter{crpsprel@ncards}{0}%
+  \setlength{\crpsprel@cardwd}{%
+    \dimexpr(\linewidth-\crpsprel@cardgap)/2\relax}%
+  \setlength{\fboxsep}{4.5mm}%
+  \crpsprel@paraoff
+  \crpsprel@tagbegin{Sect}%   container da linha de boxes
+  \noindent\ignorespaces
+}{%
+  \par
+  \crpsprel@tagend
+  \crpsprel@paraon
+  \ifnum\value{crpsprel@ncards}>2\relax
+    \PackageWarning{relatorio}{%
+      O ambiente 'paralelos' recebeu \the\value{crpsprel@ncards} boxes;
+      o layout comporta 2.\MessageBreak
+      Use dois ambientes consecutivos para mais cards.%
+    }%
+  \fi
+}
+
+% \boxlado[destaque]{rótulo}{título}{corpo}
+%   sem opção  — moldura fina em cor3 (elemento gráfico, 4,45:1)
+%   [destaque] — moldura grossa em alarme (3,54:1, acima do
+%                limiar 3:1 de elemento gráfico não-textual)
+% O rótulo vai SEMPRE em cor1 (11,4:1): a cor viva fica na moldura,
+% nunca no texto.
+\NewDocumentCommand{\boxlado}{O{} m m +m}{%
+  \stepcounter{crpsprel@ncards}%
+  \ifnum\value{crpsprel@ncards}>1\hspace{\crpsprel@cardgap}\fi
+  \ifstrequal{#1}{destaque}{%
+    \setlength{\fboxrule}{1.2pt}%
+    \def\crpsprel@cardborda{crpsp@alarme}%
+  }{%
+    \setlength{\fboxrule}{0.4pt}%
+    \def\crpsprel@cardborda{crpsp@cor3}%
+  }%
+  \setlength{\crpsprel@cardparwd}{%
+    \dimexpr\crpsprel@cardwd-2\fboxsep-2\fboxrule\relax}%
+  \crpsprel@tagbegin{Sect}%
+  \fcolorbox{\crpsprel@cardborda}{white}{%
+    \parbox[t]{\crpsprel@cardparwd}{%
+      % alinha os TOPOS das duas caixas
+      \vspace{0pt}%
+      \setlength{\parskip}{\crpsprel@parskip}%
+      % medida estreita: justificar aqui produz rios e underfull
+      \raggedright
+      \crpsprel@paraon
+      {\footnotesize\bfseries\color{crpsp@cor1}\MakeUppercase{#2}}\par
+      {\large\bfseries\color{crpsp@cor1}#3}\par
+      #4\par
+      \crpsprel@paraoff
+    }%
+  }%
+  \crpsprel@tagend
+  \ignorespaces
+}
+
+% ══════════════════════════════════════════════
+%  6. BOX DE DESTAQUE  —  \begin{destaque}{rótulo}
+%     Reproduz o callout "Caso documentado · 2026".
+%     Largura da mancha, fundo tingido a 10% e moldura no tom
+%     puro; todo o texto em preto sobre o fundo claro (17:1).
+% ══════════════════════════════════════════════
+
+\NewDocumentEnvironment{destaque}{m +b}{%
+  \par
+  \setlength{\fboxrule}{0.8pt}%
+  \setlength{\fboxsep}{4.5mm}%
+  \crpsprel@paraoff
+  \crpsprel@tagbegin{Sect}%
+  \noindent\fcolorbox{crpsp@alarme}{alarmefundo}{%
+    \parbox{\dimexpr\linewidth-2\fboxsep-2\fboxrule\relax}{%
+      \setlength{\parskip}{\crpsprel@parskip}%
+      \crpsprel@paraon
+      {\footnotesize\bfseries\color{crpsp@cor1}\MakeUppercase{#1}}\par
+      #2\par
+      \crpsprel@paraoff
+    }%
+  }%
+  \par
+  \crpsprel@tagend
+  \crpsprel@paraon
+}{}
+
+% ══════════════════════════════════════════════
+%  7. TABELAS  —  tabular / longtable + \rowcolor
+%
+%     NÃO tabularray: todo \end{tblr} emite relações de tag
+%     inválidas ('text' --> 'text-unit') sob phase-III, mesmo com
+%     o módulo `table` do testphase ativo. Verificado em
+%     desenvolvimento/mwe/mwe_tabelas_phase3.tex: tabular puro
+%     taggeia limpo, tblr não — com ou sem colspec X, com ou sem
+%     cor de linha.
+%
+%     tabular + \rowcolor, tabular com p{} + booktabs, e longtable
+%     + \rowcolor foram todos verificados limpos
+%     (mwe_tabelas2_phase3.tex).
+%
+%     Cabeçalho em cor1 com texto branco (11,4:1). Linha de
+%     destaque com fundo de alarme a 10% — o ênfase vem de fundo
+%     mais negrito, nunca de texto colorido.
+%
+%     PDF/UA proíbe tabular de LAYOUT; estas são de dados e têm
+%     cabeçalho. Para blocos lado a lado use 'paralelos' (§5).
+%
+%     Uso:
+%       \begin{tabular}{p{.35\linewidth}p{.55\linewidth}}
+%         \linhacab \celcab{Etapa} & \celcab{Responsável} \\
+%         Definição de pauta & ComCom \\
+%         \linhadestaque \textbf{Checagem de fatos} & \textbf{Comunicação} \\
+%       \end{tabular}
+% ══════════════════════════════════════════════
+
+% Fundo da linha de cabeçalho. Vai no INÍCIO da linha, antes da
+% primeira célula.
+\newcommand{\linhacab}{\rowcolor{crpsp@cor1}}
+
+% Célula de cabeçalho: branco sobre cor1 = 11,4:1. É por célula
+% porque \color no início da linha não atravessa o & no tabular.
+\newcommand{\celcab}[1]{\textcolor{white}{\bfseries #1}}
+
+% Linha realçada (o equivalente ao tr.gap do HTML de origem).
+\newcommand{\linhadestaque}{\rowcolor{alarmefundo}}
+
+% Marca de função sem responsável designado. Sem cor: o ênfase é
+% tipográfico, porque Piquant Pink reprova como cor de texto.
+\newcommand{\vago}{\textbf{--- vago}}
+
+% ══════════════════════════════════════════════
+%  8. LISTAS
+%     Sem enumitem (incompatível com o módulo `block` do
+%     latex-lab). Apenas recoloração dos rótulos padrão.
+% ══════════════════════════════════════════════
+
+\renewcommand{\labelitemi}{\textcolor{crpsp@cor1}{\textbullet}}
+\renewcommand{\labelitemii}{\textcolor{crpsp@cor1}{--}}
+\renewcommand{\labelenumi}{\textcolor{crpsp@cor1}{\arabic{enumi}.}}
+
+% ══════════════════════════════════════════════
+%  9. FIGURAS  —  \graficocrp{arquivo}{título}{alt}{fonte}
+%     O alt é OBRIGATÓRIO: os gráficos entram como PDF
+%     pré-renderizado, logo são imagem para o leitor de tela.
+%     Toda figura deve ser acompanhada da tabela de dados
+%     correspondente (equivalente ao <details> do HTML).
+% ══════════════════════════════════════════════
+
+\newcommand{\graficocrp}[4]{%
+  \par
+  \crpsprel@tagbegin{Sect}%
+  {\normalfont\large\bfseries\color{crpsp@cor1}#2\par}
+  \nobreak
+  \noindent\includegraphics[width=\linewidth, alt={#3}]{#1}\par
+  \nobreak
+  {\footnotesize\color{crpsp@cor3}#4\par}
+  \crpsprel@tagend
+  \par
+}
+
+\endinput

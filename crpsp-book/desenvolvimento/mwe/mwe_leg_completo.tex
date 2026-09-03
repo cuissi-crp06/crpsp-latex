@@ -1,0 +1,53 @@
+% !TeX program = lualatex-dev
+% ===================================================================
+% mwe_leg_completo.tex — MWE-3 da camada Leg (crpsp-leg.sty)
+%
+% Prova de fogo com FRAGMENTOS REAIS gerados pelo latexgen.py a
+% partir do banco de normativas (export/latex/): DUDH (30 artigos +
+% preâmbulo), Lei 15.263/2025 (incisos) e Lei 13.146/2015 — LBI
+% (459 dispositivos: livros/títulos/capítulos + artigos aninhados
+% com §§/incisos/alíneas + notas de alteração + remissões).
+%
+% Regenerar os fragmentos: python -m scripts.normativas.latexgen
+%   --todas --out export/latex/   (na raiz do workbench)
+% Compilar 2x: lualatex-dev mwe_leg_completo.tex
+% Validar: veraPDF UA-2 + inspeção da árvore de tags.
+% ===================================================================
+
+\DocumentMetadata{
+    lang        = pt-BR,
+    pdfstandard = ua-2,
+    pdfversion  = 2.0,
+    testphase   = {phase-III,table,firstaid},
+    tagging     = on,
+}
+
+\documentclass[11pt,a5paper,twoside,openany]{book}
+
+\usepackage{../../book-crpsp_acessivel}
+
+% dc:title no XMP — exigência PDF/UA-2 (veraPDF 8.11.1-t1)
+\hypersetup{pdftitle={MWE Leg: normas reais do banco (DUDH, LBI, Lei 15.263)}}
+
+\begin{document}
+
+\TOCAcessivel
+\mainmatter
+
+\chapter{Declaração Universal dos Direitos Humanos}
+
+Parágrafo de prosa antes da norma transcrita (o capítulo 5 do
+Manual de DH tem uma introdução análoga).
+
+\section{Texto da Declaração}
+\input{../../../../export/latex/dudh.tex}
+
+\chapter{Legislação federal}
+
+\section{Política Nacional de Linguagem Simples}
+\input{../../../../export/latex/lei15263.tex}
+
+\section{Lei Brasileira de Inclusão}
+\input{../../../../export/latex/lei13146.tex}
+
+\end{document}

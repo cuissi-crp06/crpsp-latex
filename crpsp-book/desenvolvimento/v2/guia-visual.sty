@@ -1,0 +1,527 @@
+%% guia-visual.sty
+%% Implementação de layout da linha Guia Visual 16:9 do CRP-SP:
+%% geometria, tipografia, frames, grid de três colunas e
+%% barra de navegação com inferência automática de seção.
+%% Requer: crpsp-guia_visual.cls (que carrega crpsp-base.sty)
+%%
+\NeedsTeXFormat{LaTeX2e}[2023/11/01]
+\ProvidesPackage{guia-visual}[2026/07/03 v0.1
+  Layout guia visual 16:9 CRP-SP]
+
+\RequirePackage{tikz}
+\RequirePackage{fancyhdr}
+\RequirePackage{etoolbox}
+\RequirePackage[skins]{tcolorbox}
+
+% ══════════════════════════════════════════════
+%  1. GEOMETRIA (16:9 paisagem, padrão widescreen)
+% ══════════════════════════════════════════════
+
+% A navbar ocupa os primeiros ~12mm do topo da página
+% (desenhada em overlay absoluto — ver seção 6); a margem
+% top=18mm reserva esse espaço sem comprimir o conteúdo.
+\geometry{%
+  paperwidth  = 338.67mm,
+  paperheight = 190.5mm,
+  top         = 18mm,
+  bottom      = 10mm,
+  left        = 12mm,
+  right       = 12mm,
+  footskip    = 7mm,
+  headheight  = 12mm,
+  headsep     = 2mm,
+}
+
+\newlength{\guia@navheight}
+\setlength{\guia@navheight}{12mm}
+
+% Parágrafos em blocos visuais: sem indentação, separados
+% por espaço vertical de uma entrelinha cheia.
+% O \parskip é fixado no hook 'begindocument/end' porque só ali
+% \baselineskip já vale a entrelinha real: em tempo de carregamento do
+% pacote ele é o da fonte default da classe (não a do fontspec, seção 2)
+% e em 'begindocument' ainda é 0pt — quem o define é o \normalsize
+% emitido por \document DEPOIS daquele hook.
+% Rígido (sem plus/minus): com colunas de altura fixa (seção 9), cola
+% elástica no \parskip tiraria a previsibilidade do alinhamento.
+% O valor fica guardado em \guia@parskip porque \parbox aplica
+% \@parboxrestore, que zera \parskip — cada \coluna (seção 9) precisa
+% restaurá-lo a partir daqui.
+\setlength{\parindent}{0pt}
+\newlength{\guia@parskip}
+\AddToHook{begindocument/end}{%
+  \setlength{\guia@parskip}{\baselineskip}%
+  \setlength{\parskip}{\guia@parskip}%
+}
+
+% ══════════════════════════════════════════════
+%  2. TIPOGRAFIA
+%     Mesma cadeia de fallback do guia A5:
+%     Atkinson Hyperlegible Next > TeX Gyre Heros > CM Sans
+% ══════════════════════════════════════════════
+
+\ifcrpsp@fontspec
+  \IfFontExistsTF{Atkinson Hyperlegible Next}{%
+    \setmainfont{Atkinson Hyperlegible Next}%
+    \setsansfont{Atkinson Hyperlegible Next}%
+  }{%
+    \IfFontExistsTF{TeX Gyre Heros}{%
+      \setmainfont{TeX Gyre Heros}%
+      \setsansfont{TeX Gyre Heros}%
+    }{%
+      \PackageWarning{guia-visual}{%
+        Nenhuma fonte OpenType sans-serif encontrada.\MessageBreak
+        Usando Computer Modern Sans como fallback%
+      }%
+      \renewcommand{\familydefault}{\sfdefault}%
+    }%
+  }%
+  \IfFontExistsTF{Atkinson Hyperlegible Mono}{%
+    \setmonofont{Atkinson Hyperlegible Mono}%
+  }{}%
+\else
+  \renewcommand{\familydefault}{\sfdefault}%
+\fi
+
+% Fonte dos itens da navbar (também usada na estimativa
+% de overflow — manter as duas em sincronia)
+\newcommand{\guia@navfont}{\fontsize{8}{10}\selectfont\sffamily}
+
+% ══════════════════════════════════════════════
+%  3. STREAM .nav DEDICADO
+%     Mesmo padrão do Beamer: os dados de navegação ficam
+%     fora do .aux para não interagir com hyperref/toc/ref.
+%     Primeira passagem grava; segunda passagem lê.
+% ══════════════════════════════════════════════
+
+\newwrite\guia@navstream
+
+% Total de seções conhecidas (segunda passagem)
+\gdef\guia@navtotal{0}
+
+% Executado na segunda passagem, ao ler o .nav:
+%   #1 = índice, #2 = título curto, #3 = página de início
+% Os dados ficam em pares de macros indexadas
+% (\guia@navtit@<i> / \guia@navpag@<i>), consultadas pelo
+% cabeçalho a cada página.
+\newcommand{\guia@navitem}[3]{%
+  \csgdef{guia@navtit@#1}{#2}%
+  \csgdef{guia@navpag@#1}{#3}%
+  \ifnum#1>\guia@navtotal\relax
+    \xdef\guia@navtotal{#1}%
+  \fi
+}
+
+% Leitura ANTES da abertura do stream de escrita
+% (\openout trunca o arquivo). O .nav é escrito com @
+% em nome de macro, então a leitura ocorre sob \makeatletter;
+% por isso todas as definições de \guia@navitem são globais.
+\AtBeginDocument{%
+  \IfFileExists{\jobname.nav}{%
+    \begingroup
+      \makeatletter
+      \@input{\jobname.nav}%
+    \endgroup
+    \guia@navcheckoverflow
+  }{%
+    \PackageWarning{guia-visual}{%
+      Arquivo .nav nao encontrado. Execute lualatex duas vezes\MessageBreak
+      para que a barra de navegacao seja renderizada corretamente.%
+    }%
+  }%
+  \immediate\openout\guia@navstream=\jobname.nav\relax
+}
+\AtEndDocument{%
+  \clearpage
+  \immediate\closeout\guia@navstream
+}
+
+% Estimativa de overflow: soma das larguras dos títulos
+% (na fonte da navbar, com o padding de cada item) mais o
+% espaço reservado ao número de página.
+\newlength{\guia@navtmpwd}
+\newlength{\guia@navsumwd}
+\newlength{\guia@navpad}% padding horizontal de cada item
+\setlength{\guia@navpad}{3mm}
+\newcount\guia@navi% índice de iteração (não usar \count@ sob TikZ)
+\newcommand{\guia@navcheckoverflow}{%
+  \setlength{\guia@navsumwd}{15mm}% margem esquerda + zona do nº de página
+  \begingroup
+    \guia@navi=0
+    \loop\ifnum\guia@navi<\guia@navtotal\relax
+      \advance\guia@navi by 1
+      \settowidth{\guia@navtmpwd}{%
+        \guia@navfont\bfseries\csuse{guia@navtit@\the\guia@navi}%
+      }%
+      \global\advance\guia@navsumwd by \guia@navtmpwd
+      \global\advance\guia@navsumwd by \dimexpr2\guia@navpad\relax
+    \repeat
+  \endgroup
+  \ifdim\guia@navsumwd>\paperwidth
+    \PackageWarning{guia-visual}{%
+      Navbar pode transbordar: soma dos titulos excede a largura
+      do papel.\MessageBreak
+      Use \string\section[Curto]{Longo} para abreviar os itens da barra.%
+    }%
+  \fi
+}
+
+% ══════════════════════════════════════════════
+%  4. REDEFINIÇÃO DE \section
+%     \section[Título curto]{Título longo}
+%     A seção NÃO produz título visual no corpo — ela é
+%     comunicada pela navbar. O título longo alimenta o
+%     sumário apenas se a classe recebeu a opção [toc].
+% ══════════════════════════════════════════════
+
+\newcounter{navsec}
+\newcounter{guia@cursec}
+
+\RenewDocumentCommand{\section}{o m}{%
+  \clearpage
+  \stepcounter{navsec}%
+  \IfNoValueTF{#1}{%
+    \def\guia@sec@curto{#2}%   sem argumento curto: usar o longo
+  }{%
+    \def\guia@sec@curto{#1}%
+  }%
+  \def\guia@sec@longo{#2}%
+  \protected@write\guia@navstream{}{%
+    \string\guia@navitem{\the\c@navsec}{\guia@sec@curto}{\thepage}%
+  }%
+  \setcounter{guia@cursec}{\value{navsec}}%
+  \ifcrpsp@guiavisual@toc
+    \addcontentsline{toc}{section}{#2}%
+  \fi
+}
+
+% ══════════════════════════════════════════════
+%  5. INFERÊNCIA DE SEÇÃO CORRENTE
+%     A seção ativa é a última cujo número de página de
+%     início seja <= página corrente. Roda no cabeçalho,
+%     a cada página, sobre os dados lidos do .nav.
+% ══════════════════════════════════════════════
+
+\newcount\guia@inferido
+\newcommand{\guia@infersec}{%
+  \guia@inferido=0
+  \guia@navi=0
+  \loop\ifnum\guia@navi<\guia@navtotal\relax
+    \advance\guia@navi by 1
+    \ifnum\csuse{guia@navpag@\the\guia@navi}>\value{page}\relax
+    \else
+      \guia@inferido=\guia@navi
+    \fi
+  \repeat
+}
+
+% ══════════════════════════════════════════════
+%  6. RENDERIZAÇÃO DA NAVBAR (TikZ overlay)
+%     Faixa em cor1 no topo da página; itens da esquerda
+%     para a direita; item ativo em fundo branco com texto
+%     em cor1; separadores verticais; nº de página à direita.
+% ══════════════════════════════════════════════
+
+\newlength{\guia@navx}
+\newlength{\guia@navitemwd}
+
+\newcommand{\guia@navbar}{%
+  % O cabeçalho é artefato; o módulo latex-lab-testphase-tikz
+  % tenta taggear o tikzpicture como Figure e, nesse contexto,
+  % descarta o picture e deixa dados não processados. Suspender
+  % o tagging em volta da navbar evita as duas coisas.
+  \ifdefined\SuspendTagging\SuspendTagging{guia-visual}\fi
+  \guia@infersec
+  % Pré-medição FORA do tikzpicture: sob phase-III, \settowidth
+  % dentro de um picture devolve 0pt (boxes de medição são
+  % interceptadas pelo tagging). As posições x e larguras de
+  % cada item ficam em macros indexadas.
+  \setlength{\guia@navx}{6mm}%
+  \guia@navi=0
+  \loop\ifnum\guia@navi<\guia@navtotal\relax
+    \advance\guia@navi by 1
+    % mede em \bfseries: é a largura do estado ativo (pior caso)
+    \settowidth{\guia@navitemwd}{%
+      \guia@navfont\bfseries\csuse{guia@navtit@\the\guia@navi}%
+    }%
+    \csxdef{guia@navxpos@\the\guia@navi}{\the\guia@navx}%
+    \csxdef{guia@navwd@\the\guia@navi}{\the\guia@navitemwd}%
+    \global\advance\guia@navx by \guia@navitemwd
+    \global\advance\guia@navx by \dimexpr2\guia@navpad\relax
+  \repeat
+  \begin{tikzpicture}[remember picture, overlay]
+    % faixa de fundo
+    \fill[cor1]
+      (current page.north west)
+      rectangle
+      ([yshift=-\guia@navheight]current page.north east);
+    % itens de seção — \foreach, e não \loop/\repeat: o \repeat
+    % (um \fi) desbalanceia a pilha de condicionais dentro do
+    % parser de paths do TikZ
+    \ifnum\guia@navtotal>0
+    \foreach \guia@i in {1,...,\guia@navtotal}{%
+      % pré-expande posição/largura: \csuse dentro de pgfmath
+      % deixa um \fi órfão (Incomplete \ifx) — usar \csname via \edef
+      \edef\guia@navcurx{\csname guia@navxpos@\guia@i\endcsname}%
+      \edef\guia@navcurwd{\csname guia@navwd@\guia@i\endcsname}%
+      \ifnum\guia@i=\guia@inferido
+        % item ativo: fundo branco, texto em cor1
+        \fill[white]
+          ([xshift=\guia@navcurx,
+            yshift=-\guia@navheight]current page.north west)
+          rectangle
+          ([xshift=\dimexpr\guia@navcurx+\guia@navcurwd
+                   +2\guia@navpad\relax]current page.north west);
+        \node[anchor=west, inner sep=0pt, text=cor1]
+          at ([xshift=\dimexpr\guia@navcurx+\guia@navpad\relax,
+               yshift=-0.5\guia@navheight]current page.north west)
+          {\guia@navfont\bfseries\csname guia@navtit@\guia@i\endcsname};%
+      \else
+        % item inativo: texto branco sobre a faixa
+        \node[anchor=west, inner sep=0pt, text=white]
+          at ([xshift=\dimexpr\guia@navcurx+\guia@navpad\relax,
+               yshift=-0.5\guia@navheight]current page.north west)
+          {\guia@navfont\csname guia@navtit@\guia@i\endcsname};%
+      \fi
+      % separador vertical entre itens
+      \ifnum\guia@i<\guia@navtotal\relax
+        \draw[white!60!cor1, line width=0.4pt]
+          ([xshift=\dimexpr\guia@navcurx+\guia@navcurwd
+                   +2\guia@navpad\relax,
+            yshift=-0.2\guia@navheight]current page.north west)
+          --
+          ([xshift=\dimexpr\guia@navcurx+\guia@navcurwd
+                   +2\guia@navpad\relax,
+            yshift=-0.8\guia@navheight]current page.north west);
+      \fi
+    }%
+    \fi
+    % número de página no canto direito
+    \node[anchor=east, text=white]
+      at ([xshift=-6mm,
+           yshift=-0.5\guia@navheight]current page.north east)
+      {\guia@navfont\bfseries\thepage};%
+  \end{tikzpicture}%
+  \ifdefined\ResumeTagging\ResumeTagging{guia-visual}\fi
+}
+
+% ══════════════════════════════════════════════
+%  7. ESTILOS DE PÁGINA (fancyhdr)
+% ══════════════════════════════════════════════
+
+% frames de conteúdo (padrão): navbar + nº de página
+\fancypagestyle{guia@corpo}{%
+  \fancyhf{}%
+  \renewcommand{\headrulewidth}{0pt}%
+  \renewcommand{\footrulewidth}{0pt}%
+  \fancyhead[C]{\guia@navbar}%
+}
+
+% primeira página de seção (tratamento especial futuro)
+\fancypagestyle{guia@abertura}{%
+  \fancyhf{}%
+  \renewcommand{\headrulewidth}{0pt}%
+  \renewcommand{\footrulewidth}{0pt}%
+  \fancyhead[C]{\guia@navbar}%
+}
+
+% frames com background full-bleed, sem navbar
+\fancypagestyle{guia@vazio}{%
+  \fancyhf{}%
+  \renewcommand{\headrulewidth}{0pt}%
+  \renewcommand{\footrulewidth}{0pt}%
+}
+
+\pagestyle{guia@corpo}
+
+% Aliases públicos (sem @) para uso em documentos
+\newcommand{\estilocorpo}{\pagestyle{guia@corpo}}
+\newcommand{\estiloaberturapagina}{\thispagestyle{guia@abertura}}
+\newcommand{\estilovaziopagina}{\thispagestyle{guia@vazio}}
+
+% ══════════════════════════════════════════════
+%  8. SISTEMA DE FRAMES
+%     Cada frame é uma unidade de layout autônoma que
+%     ocupa uma página. Opções:
+%       layout = colunas (padrão) | full
+%       bg     = <arquivo>  (background de página via eso-pic)
+% ══════════════════════════════════════════════
+
+\pgfkeys{
+  /guia/frame/.cd,
+  layout/.store in = \guia@frame@layout,
+  layout = colunas,
+  bg/.store in     = \guia@frame@bg,
+  bg = {},
+}
+
+% \DeclareDocumentEnvironment porque o kernel já define \frame
+% (moldura do modo picture), que este ambiente substitui.
+\DeclareDocumentEnvironment{frame}{O{}}{%
+  \pgfkeys{/guia/frame/.cd, layout=colunas, bg={}, #1}%
+  \ifdefstring{\guia@frame@bg}{}{}{%
+    \AddToShipoutPictureBG*{%
+      \AtPageLowerLeft{%
+        \includegraphics[width=\paperwidth,height=\paperheight]%
+          {\guia@frame@bg}%
+      }%
+    }%
+  }%
+  \ignorespaces
+}{%
+  \par
+  \clearpage
+}
+
+% ══════════════════════════════════════════════
+%  9. GRID DE TRÊS COLUNAS
+%     NÃO usar multicol/paracol — não suportam tagged PDF.
+%     Colunas são tcolorbox sequenciais em modo hbox; a
+%     ordem das chamadas \coluna{1}\coluna{2}\coluna{3}
+%     determina a ordem de leitura na árvore de tags.
+% ══════════════════════════════════════════════
+
+\newlength{\guia@colgap}
+\setlength{\guia@colgap}{8mm}
+\newlength{\guia@colunit}
+\newlength{\guia@colwd}
+\newcounter{guia@colspan}
+
+% Altura da coluna. Uma vbox de altura NATURAL não tem folga para cola
+% infinita esticar — é por isso que \vfill/\vspace*{\fill} dentro de
+% \coluna não faziam nada. Com altura explícita (a mancha do frame, já
+% que 'colunas' é sempre o corpo inteiro de um frame) o \fill funciona
+% e os inner pos c/b do \parbox passam a ter efeito.
+% (reinicializada a cada \coluna pela chave 'altura')
+\newlength{\guia@colht}
+
+% Alinhamento horizontal dentro da coluna. O default 'justificado' é
+% um no-op deliberado: emitir \raggedright aqui mudaria todo o texto
+% corrido já diagramado.
+\newcommand{\guia@halign@justificado}{}
+\newcommand{\guia@halign@esquerda}{\raggedright}
+\newcommand{\guia@halign@centro}{\centering}
+\newcommand{\guia@halign@direita}{\raggedleft}
+
+% Tagging: \tagstructbegin/\tagstructend existem como no-ops
+% (tagpdf-base) quando o documento não ativa \DocumentMetadata,
+% então podem ser chamados incondicionalmente; o guard cobre
+% formats antigos sem tagpdf-base.
+\newcommand{\guia@tagbegin}[1]{%
+  \ifdefined\tagstructbegin\tagstructbegin{tag=#1}\fi
+}
+\newcommand{\guia@tagend}{%
+  \ifdefined\tagstructend\tagstructend\fi
+}
+% A linha de boxes do grid não pode ser envolvida num <P>
+% automático (P não admite filho Sect); desliga-se o
+% paratagging na linha e religa-se dentro de cada coluna.
+\newcommand{\guia@paraoff}{\ifdefined\tagpdfparaOff\tagpdfparaOff\fi}
+\newcommand{\guia@paraon}{\ifdefined\tagpdfparaOn\tagpdfparaOn\fi}
+
+\NewDocumentEnvironment{colunas}{}{%
+  \par
+  % \topskip zerado (local ao ambiente): no topo da página o TeX insere
+  % cola de \topskip menos a altura da primeira caixa. Como \coluna usa
+  % \parbox[t] de altura fixa, essa altura é a da primeira linha (~5pt),
+  % e os ~5pt de cola resultantes estouravam a mancha — uma página em
+  % branco extra por frame.
+  \topskip=0pt\relax
+  \guia@paraoff
+  \guia@tagbegin{Sect}%   container de colunas
+  \setcounter{guia@colspan}{0}%
+  % 3 colunas iguais: unit = (linewidth - 2*gap) / 3
+  \setlength{\guia@colunit}{\dimexpr(\linewidth-2\guia@colgap)/3\relax}%
+  \noindent\ignorespaces
+}{%
+  \par
+  \guia@tagend
+  \guia@paraon
+  \ifnum\value{guia@colspan}=3\relax\else
+    \PackageWarning{guia-visual}{%
+      Soma dos spans em 'colunas' e \the\value{guia@colspan},
+      esperado 3.\MessageBreak
+      Use \string\coluna[span=N] com spans somando 3.%
+    }%
+  \fi
+  \par
+}
+
+\pgfkeys{
+  /guia/coluna/.cd,
+  span/.store in = \guia@col@span,
+  span = 1,
+  % alinhamento vertical = inner pos do \parbox; 'n' = altura natural
+  % (comportamento anterior, sem caixa de altura fixa)
+  valign/.store in = \guia@col@valign,
+  valign  = t,
+  t/.code = {\def\guia@col@valign{t}},
+  c/.code = {\def\guia@col@valign{c}},
+  b/.code = {\def\guia@col@valign{b}},
+  natural/.code = {\def\guia@col@valign{n}},
+  % alinhamento horizontal
+  halign/.store in  = \guia@col@halign,
+  halign            = justificado,
+  justificado/.code = {\def\guia@col@halign{justificado}},
+  esquerda/.code    = {\def\guia@col@halign{esquerda}},
+  centro/.code      = {\def\guia@col@halign{centro}},
+  direita/.code     = {\def\guia@col@halign{direita}},
+  % altura da coluna, para frames que não usam a mancha inteira
+  altura/.code = {\setlength{\guia@colht}{#1}},
+}
+
+\NewDocumentCommand{\coluna}{O{} +m}{%
+  \pgfkeys{/guia/coluna/.cd,
+    span=1, valign=t, halign=justificado, altura=\textheight, #1}%
+  % gap antes de toda coluna que não é a primeira do grid
+  \ifnum\value{guia@colspan}>0\hspace{\guia@colgap}\fi%
+  \addtocounter{guia@colspan}{\guia@col@span}%
+  % largura: N*unit + (N-1)*gap
+  \setlength{\guia@colwd}{\dimexpr
+    \guia@col@span\guia@colunit
+    + \numexpr\guia@col@span-1\relax\guia@colgap\relax}%
+  \guia@tagbegin{Sect}%   cada coluna é uma Sect
+  % \parbox, e não tcolorbox: sob phase-III o patch de tagging do
+  % tcolorbox força \par em volta da box (mesmo com nobeforeafter),
+  % empilhando as colunas. É o mesmo workaround "\parbox duplo"
+  % usado na linha A5 para tabelas de layout.
+  \def\guia@col@corpo{%
+    % \vspace{0pt} inicial: alinha os TOPOS das colunas mesmo
+    % quando a primeira "linha" é uma imagem alta (sem isso a
+    % baseline da imagem desalinha as colunas vizinhas)
+    \vspace{0pt}%
+    % \parbox zera \parskip via \@parboxrestore: restaura-se o
+    % espaçamento entre parágrafos da linha editorial (seção 1)
+    \setlength{\parskip}{\guia@parskip}%
+    \csuse{guia@halign@\guia@col@halign}%
+    \guia@paraon
+    #2\par
+    \guia@paraoff
+  }%
+  \ifdefstring{\guia@col@valign}{n}{%
+    \parbox[t]{\guia@colwd}{\guia@col@corpo}%
+  }{%
+    % Altura fixa: é o que dá folga para \vfill / \vspace*{\fill}
+    % esticarem dentro da coluna e o que faz os inner pos c/b
+    % surtirem efeito. Conteúdo maior que a altura passa a gerar
+    % Overfull \vbox — sinal legítimo de excesso de texto; a saída
+    % é a chave 'altura' ou 'natural'.
+    \parbox[t][\guia@colht][\guia@col@valign]{\guia@colwd}{%
+      \guia@col@corpo}%
+  }%
+  \guia@tagend
+  \ignorespaces
+}
+
+% ══════════════════════════════════════════════
+%  10. LISTAS — bullets coloridos
+%      Sem enumitem: ele é incompatível com o módulo `block`
+%      do latex-lab (phase-III), como o titlesec. Usa-se o
+%      mecanismo padrão de rótulos do LaTeX.
+% ══════════════════════════════════════════════
+
+\renewcommand{\labelitemi}{\textcolor{crpsp@cor1}{\textbullet}}
+\renewcommand{\labelitemii}{\textcolor{crpsp@cor1}{--}}
+\renewcommand{\labelenumi}{\textcolor{crpsp@cor1}{\arabic{enumi}.}}
+
+\endinput

@@ -1,0 +1,188 @@
+% !TeX program = lualatex
+% ===================================================================
+% mwe_acessivel.tex — teste mínimo do livros_crp_acessivel.sty
+%
+% Objetivo: verificar layout, fontes, page styles, capítulos,
+% seções, partes e bookmarks antes de portar a seção 7 do pacote.
+%
+% Compilar com: lualatex mwe_acessivel.tex (duas vezes)
+%
+% Pré-requisitos no diretório:
+%   - livros_crp_acessivel.sty
+%   - Lora-Regular.ttf, Lora-Bold.ttf, Lora-Italic.ttf, Lora-BoldItalic.ttf
+%   - NEWJUNE-*.OTF (todas as variantes usadas)
+%   - Um arquivo de imagem qualquer para o teste de \includegraphics
+%     (ajustar nome na linha indicada ou comentar o bloco)
+% ===================================================================
+
+\DocumentMetadata{
+    lang        = pt-BR,
+    pdfstandard = ua-2,
+    pdfversion  = 2.0,
+    testphase   = {phase-III,table,firstaid},
+    tagging     = on,
+}
+
+\documentclass[11pt,a5paper,twoside,openright]{scrbook}
+
+\usepackage{livros_crp_acessivel}
+
+% Metadados do documento (vão para XMP via \DocumentMetadata + hyperref)
+\hypersetup{
+    pdftitle  = {MWE — Teste de acessibilidade},
+    pdfauthor = {CRP-SP},
+    pdflang   = {pt-BR},
+}
+
+\title{MWE — Teste de acessibilidade}
+\author{CRP-SP}
+
+\begin{document}
+
+\frontmatter
+\pagestyle{pretext}
+
+% --- Folha de rosto simplificada ---
+\begin{titlepage}
+    \centering
+    \vspace*{\fill}
+    {\huge\bfseries\color{crp1} MWE — Teste de acessibilidade\par}
+    \vspace{2\baselineskip}
+    {\Large Verificação do pacote \texttt{livros\_crp\_acessivel}\par}
+    \vspace{\fill}
+    {\large CRP-SP\par}
+    \vspace{2\baselineskip}
+\end{titlepage}
+
+% --- Sumário ---
+\tableofcontents
+
+\mainmatter
+\pagestyle{scrheadings}
+
+% ===================================================================
+% PARTE I — teste de \part com número e título
+% ===================================================================
+\part{Primeira parte do teste}
+
+% ===================================================================
+% Capítulo 1 — texto corrido, teste de fontes e hifenização
+% ===================================================================
+\chapter{Texto corrido e tipografia}
+
+Este capítulo existe para verificar se a fonte Lora está sendo
+carregada corretamente como fonte principal, se o espaçamento
+entre linhas corresponde ao \texttt{\textbackslash onehalfspacing},
+e se a hifenização portuguesa está ativa por meio do pacote
+\texttt{babel}.
+
+O próximo parágrafo contém um texto longo o suficiente para que
+o algoritmo de quebra de linhas do \LaTeX{} precise hifenizar
+pelo menos uma palavra composta, como
+\emph{extraordinariamente} ou \emph{responsabilidade}, e assim
+demonstrar que a hifenização está se comportando conforme o
+esperado no contexto do idioma selecionado.
+
+Aqui testamos \textbf{negrito}, \emph{itálico},
+\textsf{fonte sem serifa (NEWJUNE)}, e o peso customizado
+{\Light peso light da NEWJUNE} seguido por
+{\media peso medium da NEWJUNE} e por fim
+{\fontebook peso book da NEWJUNE}.
+
+% ===================================================================
+% Seção — teste de hierarquia para tagging
+% ===================================================================
+\section{Seção de primeiro nível}
+
+Este texto está dentro de uma seção. Em PDF tagueado, deve
+aparecer como \texttt{<H2>} na árvore de estrutura (já que
+\texttt{<H1>} corresponde ao capítulo).
+
+\subsection{Subseção}
+
+Texto da subseção. Deve virar \texttt{<H3>} nas tags.
+
+\subsubsection{Sub-subseção}
+
+Texto da sub-subseção. Deve virar \texttt{<H4>} nas tags.
+
+\section{Outra seção}
+
+Esta seção serve para verificar se há numeração visível (não
+deve haver — \texttt{secnumdepth=-1}) e se a navegação por
+bookmarks do \texttt{hyperref} lista corretamente capítulos
+e seções.
+
+% ===================================================================
+% Capítulo 2 — elementos variados
+% ===================================================================
+\chapter{Elementos variados}
+
+\section{Listas}
+
+Lista com marcadores:
+\begin{itemize}
+    \item Primeiro item da lista.
+    \item Segundo item, um pouco mais longo para testar quebra
+          de linha dentro de item.
+    \item Terceiro item.
+\end{itemize}
+
+Lista numerada:
+\begin{enumerate}
+    \item Primeiro.
+    \item Segundo.
+    \item Terceiro.
+\end{enumerate}
+
+\section{Tabela simples}
+
+Uma tabela curta para verificar tagging automático via
+\texttt{testphase=table}:
+
+\begin{center}
+\begin{tabular}{lcr}
+    \toprule
+    \textbf{Item} & \textbf{Quantidade} & \textbf{Valor} \\
+    \midrule
+    Livro         & 10                  & R\$ 250,00     \\
+    Caderno       &  5                  & R\$  75,00     \\
+    Caneta        & 20                  & R\$  40,00     \\
+    \bottomrule
+\end{tabular}
+\end{center}
+
+\section{Imagem com alt text}
+
+% Comentar este bloco se não houver imagem disponível.
+% Substituir "exemplo" pelo nome real de um arquivo de imagem.
+%
+% \begin{figure}[h]
+%     \centering
+%     \includegraphics[width=0.5\textwidth, alt={Descrição da imagem para leitor de tela}]{exemplo}
+%     \caption{Legenda da figura de teste.}
+% \end{figure}
+
+Se houver uma imagem no bloco acima (descomentado), ela deve
+aparecer na árvore de tags como \texttt{<Figure>} com o
+atributo \texttt{/Alt} preenchido.
+
+\section{Link e URL}
+
+Um link externo para testar o \texttt{hyperref}:
+\url{https://www.crpsp.org.br}
+
+E um link com texto customizado:
+\href{https://www.crpsp.org.br}{site do CRP-SP}.
+
+% ===================================================================
+% Capítulo 3 — página curta para testar paginação
+% ===================================================================
+\chapter{Página final}
+
+Último capítulo do MWE. Serve para confirmar que a numeração
+de páginas no cabeçalho aparece em crp1, que o cabeçalho usa
+a fonte \texttt{\textbackslash Light} em tamanho \texttt{small},
+e que a régua separadora do cabeçalho está na cor correta.
+
+\end{document}

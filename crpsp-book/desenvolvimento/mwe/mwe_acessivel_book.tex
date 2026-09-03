@@ -1,0 +1,160 @@
+% !TeX program = lualatex-dev
+% ===================================================================
+% mwe_acessivel_book.tex — teste do livros_crp_acessivel_book.sty
+%
+% IMPORTANTE: compilar com lualatex-dev, não lualatex.
+% A versão -dev do LaTeX usa os módulos latex-lab-dev, que contêm
+% correções de tagging não disponíveis na versão estável do
+% latex-lab. O ganho principal é a estruturação correta do sumário
+% com <TOCI>/<Reference>/<Link>.
+%
+% Reproduz o MWE de scrbook anterior com a variante book, para
+% comparação direta de árvore de tags e layout.
+%
+% Compilar com: lualatex-dev mwe_acessivel_book.tex (duas vezes)
+% ===================================================================
+
+\DocumentMetadata{
+    lang        = pt-BR,
+    pdfstandard = ua-2,
+    pdfversion  = 2.0,
+    testphase   = {phase-III,table,firstaid},
+    tagging     = on,
+}
+
+\documentclass[11pt,a5paper,twoside,openright]{book}
+
+\usepackage{livros_crp_acessivel_book}
+
+\hypersetup{
+    pdftitle  = {MWE — Teste de acessibilidade (book)},
+    pdfauthor = {CRP-SP},
+    pdflang   = {pt-BR},
+}
+
+\title{MWE — Teste de acessibilidade}
+\author{CRP-SP}
+
+\begin{document}
+
+\frontmatter
+\pagestyle{pretext}
+
+% --- Folha de rosto ---
+% TESTE DIAGNÓSTICO: usando \maketitle em vez de ambiente titlepage.
+% O \title/\author já foram definidos no preâmbulo. \maketitle é o
+% caminho canônico do book e o latex-lab-testphase-title foi escrito
+% para suportá-lo explicitamente, enquanto titlepage livre produz
+% <Part> genéricos e, pela hipótese atual, também descasa o
+% contador begin/end de text-unit do tagpdf.
+\maketitle
+
+% Sumário via wrapper acessível (ver comentário em
+% livros_crp_acessivel_book.sty, seção Sumário, para o motivo).
+\TOCAcessivel
+
+\mainmatter
+\pagestyle{crp}
+
+% ===================================================================
+% PARTE I
+% ===================================================================
+\part{Primeira parte do teste}
+
+% ===================================================================
+% Capítulo 1
+% ===================================================================
+\chapter{Texto corrido e tipografia}
+
+Este capítulo existe para verificar se a fonte Lora está sendo
+carregada corretamente como fonte principal, se o espaçamento
+entre linhas corresponde ao \texttt{\textbackslash onehalfspacing},
+e se a hifenização portuguesa está ativa por meio do pacote
+\texttt{babel}.
+
+O próximo parágrafo contém um texto longo o suficiente para que
+o algoritmo de quebra de linhas do \LaTeX{} precise hifenizar
+pelo menos uma palavra composta, como
+\emph{extraordinariamente} ou \emph{responsabilidade}, e assim
+demonstrar que a hifenização está se comportando conforme o
+esperado no contexto do idioma selecionado.
+
+Aqui testamos \textbf{negrito}, \emph{itálico},
+\textsf{fonte sem serifa (NEWJUNE)}, e o peso customizado
+{\Light peso light da NEWJUNE} seguido por
+{\media peso medium da NEWJUNE} e por fim
+{\fontebook peso book da NEWJUNE}.
+
+\section{Seção de primeiro nível}
+
+Este texto está dentro de uma seção. Em PDF tagueado, deve
+aparecer como \texttt{<H2>} (ou \texttt{<H>} com nível 2) na
+árvore de estrutura.
+
+\subsection{Subseção}
+
+Texto da subseção. Deve virar \texttt{<H3>}.
+
+\subsubsection{Sub-subseção}
+
+Texto da sub-subseção.
+
+\section{Outra seção}
+
+Esta seção serve para verificar se há numeração visível (não
+deve haver — \texttt{secnumdepth=-1}).
+
+% ===================================================================
+% Capítulo 2
+% ===================================================================
+\chapter{Elementos variados}
+
+\section{Listas}
+
+Lista com marcadores:
+\begin{itemize}
+    \item Primeiro item da lista.
+    \item Segundo item, um pouco mais longo para testar quebra
+          de linha dentro de item.
+    \item Terceiro item.
+\end{itemize}
+
+Lista numerada:
+\begin{enumerate}
+    \item Primeiro.
+    \item Segundo.
+    \item Terceiro.
+\end{enumerate}
+
+\section{Tabela simples}
+
+\begin{center}
+\begin{tabular}{lcr}
+    \toprule
+    \textbf{Item} & \textbf{Quantidade} & \textbf{Valor} \\
+    \midrule
+    Livro         & 10                  & R\$ 250,00     \\
+    Caderno       &  5                  & R\$  75,00     \\
+    Caneta        & 20                  & R\$  40,00     \\
+    \bottomrule
+\end{tabular}
+\end{center}
+
+\section{Link e URL}
+
+\url{https://www.crpsp.org.br}
+
+E um link com texto customizado:
+\href{https://www.crpsp.org.br}{site do CRP-SP}.
+
+% ===================================================================
+% Capítulo 3
+% ===================================================================
+\chapter{Página final}
+
+Último capítulo do MWE. Serve para confirmar que a numeração
+de páginas no cabeçalho aparece em crp1, que o cabeçalho usa
+a fonte \texttt{\textbackslash Light} em tamanho \texttt{small},
+e que a régua separadora do cabeçalho está na cor correta.
+
+\end{document}

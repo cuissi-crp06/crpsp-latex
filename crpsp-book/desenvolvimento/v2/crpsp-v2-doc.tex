@@ -1,0 +1,329 @@
+%% crpsp-v2-doc.tex
+%% Documentação do sistema editorial LaTeX v2 do CRP-SP,
+%% no estilo do pacote `doc` (classe ltxdoc).
+%% Compilar 2x com: lualatex crpsp-v2-doc.tex
+%% (não requer \DocumentMetadata: este manual não é PDF/UA-2)
+\documentclass{ltxdoc}
+\usepackage{iftex}
+\ifluatex\usepackage{fontspec}\else\usepackage[T1]{fontenc}\fi
+\usepackage{xcolor}
+\usepackage{hyperref}
+\hypersetup{colorlinks, linkcolor=blue!50!black, urlcolor=blue!50!black,
+  pdftitle={Sistema editorial LaTeX v2 do CRP-SP}}
+
+\EnableCrossrefs
+\CodelineIndex
+\RecordChanges
+
+\newcommand{\pkg}[1]{\textsf{#1}}
+\newcommand{\cls}[1]{\textsf{#1}}
+\newcommand{\opt}[1]{\texttt{#1}}
+
+\title{Sistema editorial \LaTeX\ v2 do CRP-SP\\
+  \large\pkg{crpsp-base} \textbullet\ \cls{crpsp\_acessivel} \textbullet\
+  \cls{crpsp-guia\_visual} \textbullet\ \pkg{guia-visual}}
+\author{Conselho Regional de Psicologia de São Paulo\\
+  \texttt{editorial/latex\_acessivel/desenvolvimento/v2/}}
+\date{2026-07-03 \quad v0.1/v0.2}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Este manual documenta a segunda geração do sistema de classes \LaTeX\ do
+CRP-SP para publicações institucionais acessíveis em conformidade
+PDF/UA-2, usando o mecanismo de \emph{tagging} automático do
+\pkg{latex-lab} (\texttt{testphase=\{phase-III\}}). A arquitetura separa
+a infraestrutura comum (\pkg{crpsp-base}) das classes por formato
+(\cls{crpsp\_acessivel} para A5, \cls{crpsp-guia\_visual} para 16:9) e
+das implementações de layout por linha editorial
+(\pkg{guia-crpsp\_acessivel}, \pkg{guia-visual}).
+\end{abstract}
+
+\tableofcontents
+
+\section{Requisitos e compilação}
+
+Todos os arquivos exigem \textbf{LuaLaTeX}; outras engines abortam com
+erro. Neste workspace a compilação é feita via podman:
+
+\begin{verbatim}
+sh .../docker/lualatex-podman.sh arquivo.tex
+\end{verbatim}
+
+Compile \textbf{duas vezes} (três na primeira vez): a barra de navegação
+da linha 16:9 usa um stream |.nav| dedicado (seção~\ref{sec:nav}) e o
+posicionamento TikZ usa \opt{remember picture}, ambos resolvidos apenas
+na passagem seguinte.
+
+\DescribeMacro{\DocumentMetadata}
+Todo documento de produção \textbf{deve} começar com o bloco abaixo,
+\emph{antes} de |\documentclass| (o kernel não permite que a classe o
+emita):
+\begin{verbatim}
+\DocumentMetadata{
+  lang        = pt-BR,
+  pdfversion  = 2.0,
+  pdfstandard = ua-2,
+  testphase   = {phase-III},
+}
+\end{verbatim}
+Sem ele o documento compila, mas sem árvore de tags — os comandos de
+tagging dos pacotes viram no-ops silenciosos (via \pkg{tagpdf-base}).
+
+\section{\pkg{crpsp-base} — infraestrutura compartilhada}
+
+Pacote carregado por ambas as classes. Não é usado diretamente pelo
+autor, mas define a interface pública de cores.
+
+\subsection{Verificação de engine}
+Aborta a compilação com |\PackageError| se a engine não for LuaLaTeX.
+
+\subsection{Detecção de fontspec}
+\DescribeMacro{\ifcrpsp@fontspec}
+Testa em Lua se \pkg{luaotfload} está funcional e define o condicional
+interno |\ifcrpsp@fontspec|. Os pacotes de linha editorial usam esse
+condicional para escolher entre |\setmainfont| (OpenType) e o fallback
+NFSS com codificação T1. O probe aceita tanto o retorno-tabela quanto o
+retorno-|true| de |require| (módulo já carregado no format, caso do
+Lua\LaTeX\ moderno).
+
+\subsection{Paleta de cores por publicação}
+
+\DescribeMacro{\crpspCorPrincipal}
+\DescribeMacro{\crpspCorSecundaria}
+\DescribeMacro{\crpspCorAcessoria}
+Cada publicação define sua paleta no preâmbulo com códigos HTML
+(sem |#|):
+\begin{verbatim}
+\crpspCorPrincipal{004A8F}
+\crpspCorSecundaria{E8452A}
+\crpspCorAcessoria{D4A843}
+\end{verbatim}
+Os valores padrão são neutros (preto/cinza). As cores ficam disponíveis
+no corpo do documento pelos aliases \texttt{cor1}, \texttt{cor2} e
+\texttt{cor3} (para |\textcolor|, TikZ etc.).
+
+\section{\cls{crpsp\_acessivel} — linha A5 (v0.2)}
+
+Classe da linha editorial em A5 retrato, baseada em \cls{book}.
+Comportamento documentado no \texttt{README.md} da pasta
+\texttt{latex\_acessivel}; a v0.2 é um \emph{refactoring} sem mudança de
+API: os blocos de engine, cores e fontspec migraram para
+\pkg{crpsp-base}.
+
+\DescribeMacro{[guia]}
+\DescribeMacro{[livro]}
+Exige exatamente uma opção de linha editorial:
+|\documentclass[guia]{crpsp_acessivel}|. A linha \opt{livro} ainda não
+está implementada (emite warning).
+
+\section{\cls{crpsp-guia\_visual} — linha 16:9 (v0.1)}
+
+Classe para guias visuais e apresentações institucionais em PDF
+paisagem 16:9 ($338{,}67 \times 190{,}5$\,mm, padrão widescreen).
+Baseada em \cls{article} — o documento é uma sequência plana de seções
+e \emph{frames}, sem frontmatter/mainmatter/backmatter. Carrega
+\pkg{crpsp-base} e \pkg{guia-visual}.
+
+\DescribeMacro{[toc]}
+Por padrão |\section| \emph{não} alimenta o sumário (a navegação é
+feita pela navbar). A opção de classe \opt{toc} restaura o
+|\addcontentsline| com o título longo.
+
+\subsection{Estrutura do documento}
+
+\DescribeMacro{\section}
+\begin{verbatim}
+\section[Título curto]{Título longo completo}
+\end{verbatim}
+Sintaxe idêntica à do Beamer. A seção: (1) inicia página nova;
+(2) registra o título curto e a página de início no stream |.nav|;
+(3) \emph{não} produz título visual no corpo — a seção é comunicada
+pela barra de navegação. Sem o argumento opcional, o título longo é
+usado também na navbar.
+
+\DescribeEnv{frame}
+Cada frame é uma unidade de layout autônoma que ocupa uma página
+(termina com |\clearpage|). Opções em key--value:
+
+\begin{center}
+\begin{tabular}{ll}
+\opt{layout=colunas} & padrão — o conteúdo usará o grid de 3 colunas \\
+\opt{layout=full}    & largura total, sem grid \\
+\opt{bg=<arquivo>}   & background de página inteira (via \pkg{eso-pic}) \\
+\end{tabular}
+\end{center}
+
+\DescribeEnv{colunas}
+\DescribeMacro{\coluna}
+Grid de \textbf{3 colunas iguais}. Dentro de |colunas|, cada
+|\coluna[span=N]{...}| ocupa $N$ unidades ($N \in \{1,2,3\}$); a soma
+dos spans deve ser 3, senão o pacote emite warning. A ordem das
+chamadas determina a ordem de leitura na árvore de tags
+(seção~\ref{sec:ua2}).
+
+\begin{verbatim}
+\begin{frame}
+  \begin{colunas}
+    \coluna[span=2]{Conteúdo principal}%
+    \coluna[span=1, c]{\includegraphics[width=\linewidth,
+                      alt={Descrição da imagem}]{imagem.pdf}}%
+  \end{colunas}
+\end{frame}
+\end{verbatim}
+
+Termine cada argumento de |\coluna| com |%| após a chave para não vazar
+espaços para o grid.
+
+\paragraph{Alinhamento dentro da coluna.}
+A coluna é uma caixa de \textbf{altura fixa} — por padrão a mancha do
+frame. É isso que faz |\vfill| / |\vspace*{\fill}| funcionarem dentro
+dela (numa caixa de altura natural a cola infinita não tem folga para
+esticar e colapsa em zero) e que dá sentido às chaves de posição:
+
+\begin{center}
+\begin{tabular}{ll}
+\opt{t} & \emph{(padrão)} conteúdo no topo \\
+\opt{c} & centrado verticalmente \\
+\opt{b} & rente ao rodapé da mancha \\
+\opt{natural}      & altura natural (|\vfill| volta a ser inerte) \\
+\opt{altura=<dim>} & altura explícita \\
+\opt{justificado}  & \emph{(padrão)} texto justificado \\
+\opt{esquerda}     & bloco alinhado à esquerda \\
+\opt{centro}       & bloco centrado \\
+\opt{direita}      & bloco alinhado à direita \\
+\end{tabular}
+\end{center}
+
+As formas longas \opt{valign=t} (ou \texttt{c}, \texttt{b}) e
+\opt{halign=centro} também são aceitas:
+
+\begin{verbatim}
+\coluna[span=1, b]{...}          % encosta no rodapé
+\coluna[span=2, c, centro]{...}  % centrado nos dois eixos
+\coluna[span=1]{Texto\vfill\includegraphics{fig}}  % figura ao pé
+\end{verbatim}
+
+Como a caixa tem altura fixa, conteúdo maior que a mancha passa a
+gerar \emph{Overfull \cs{vbox}} — sinal legítimo de excesso de texto na
+coluna; a saída é \opt{altura} ou \opt{natural}.
+
+\subsection{Barra de navegação}\label{sec:nav}
+
+Faixa em \texttt{cor1} nos primeiros 12\,mm do topo de cada página:
+itens de seção da esquerda para a direita (ativo em fundo branco e
+texto \texttt{cor1} negrito; inativos em branco), separadores verticais
+e número de página à direita — referência visual: Relatório Anual 2025
+do BNDES.
+
+A seção ativa é \emph{inferida} por página: é a última seção cuja
+página de início é $\le$ a página corrente. Os dados vêm de um
+\textbf{stream \texttt{.nav} dedicado} (mesmo padrão do Beamer),
+separado do |.aux| para não interagir com \pkg{hyperref}/toc/refs:
+a primeira passagem grava um |\guia@navitem{índice}{título}{página}|
+por seção; a segunda lê o arquivo em |\AtBeginDocument| (antes do
+|\openout|, que trunca o arquivo).
+
+Se a soma das larguras dos títulos (medidas em negrito, o estado mais
+largo) exceder |\paperwidth|, o pacote avisa:
+use |\section[Curto]{Longo}| para abreviar.
+
+\DescribeMacro{\estilocorpo}
+\DescribeMacro{\estiloaberturapagina}
+\DescribeMacro{\estilovaziopagina}
+Aliases públicos dos estilos de página \pkg{fancyhdr}
+(\texttt{guia@corpo}, \texttt{guia@abertura}, \texttt{guia@vazio});
+o último remove a navbar, para frames com background \emph{full-bleed}.
+
+\subsection{Tipografia e listas}
+
+Cadeia de fallback (a mesma da linha A5): Atkinson Hyperlegible Next
+$\to$ TeX Gyre Heros $\to$ Computer Modern Sans. Parágrafos sem
+indentação, separados por \textbf{uma entrelinha cheia}
+(|\parskip| $=$ |\baselineskip|, rígido) — não é preciso inserir
+|\vspace| entre parágrafos. O valor é fixado no hook
+\texttt{begindocument/end} (antes disso |\baselineskip| ainda é 0\,pt)
+e reaplicado dentro de cada |\coluna|, porque |\parbox| zera
+|\parskip| via |\@parboxrestore|. Bullets e numeração de
+listas em \texttt{cor1}, via redefinição de |\labelitemi| /
+|\labelitemii| / |\labelenumi| (\emph{não} \pkg{enumitem} — ver
+seção~\ref{sec:workarounds}).
+
+\section{Conformidade PDF/UA-2}\label{sec:ua2}
+
+O grid de colunas gera estrutura explícita: o ambiente |colunas| abre
+um contêiner \texttt{Sect} e cada |\coluna| abre uma \texttt{Sect}
+filha, na ordem do código-fonte — garantindo a ordem de leitura
+coluna~1 $\to$ 2 $\to$ 3. \textbf{Não} se usa \pkg{multicol} nem
+\pkg{paracol} (nenhum suporta tagged PDF).
+
+Toda imagem informativa deve declarar texto alternativo:
+\begin{verbatim}
+\includegraphics[width=\linewidth,
+  alt={Gráfico de barras mostrando...}]{figura.pdf}
+\end{verbatim}
+
+A navbar e o número de página são artefatos de paginação: o tagging é
+suspenso (|\SuspendTagging|) durante sua construção.
+
+\section{Workarounds phase-III}\label{sec:workarounds}
+
+Registro dos contornos ativos nesta linha, descobertos com TeX Live
+2026 (\pkg{tagpdf} 1.0c, \pkg{latex-lab} 2026-05). Antes de removê-los,
+verificar o estado upstream com \texttt{monitor\_ctan.py}.
+
+\begin{enumerate}
+\item \textbf{\pkg{enumitem} é incompatível} com o módulo \pkg{block}
+  do \pkg{latex-lab} (erro \emph{``Some keys specified on the itemize
+  environment are unknown''}) — mesma família do problema conhecido do
+  \pkg{titlesec}. Listas são estilizadas pelo mecanismo padrão do
+  kernel.
+\item \textbf{\pkg{tcolorbox} não fica inline} sob phase-III: o patch
+  de tagging força |\par| em volta da box mesmo com
+  \opt{nobeforeafter}, empilhando colunas. O grid usa |\parbox[t]|
+  \emph{de altura fixa} — o mesmo workaround
+  ``\,\emph{parbox duplo}\,'' da linha A5 para tabelas de layout.
+\item \textbf{\cs{topskip} zerado no ambiente \texttt{colunas}}: no
+  topo da página o \TeX{} insere cola de |\topskip| menos a altura da
+  primeira caixa. Com a coluna de altura fixa essa altura é a da
+  primeira linha ($\approx 5$\,pt), e os $\approx 5$\,pt de cola
+  resultantes estouravam a mancha — uma página em branco extra por
+  frame.
+\item \textbf{\cs{settowidth} devolve 0\,pt dentro de
+  \texttt{tikzpicture}} (interferência do módulo
+  \pkg{latex-lab-testphase-tikz}). A navbar pré-mede todos os itens
+  \emph{fora} do picture e só desenha dentro dele.
+\item \textbf{\cs{SuspendTagging} em volta do \texttt{tikzpicture} do
+  cabeçalho}: sem isso o módulo de tagging de TikZ tenta taggear a
+  navbar como \texttt{Figure}, descarta o picture e deixa ``dados não
+  processados'' (página extra \emph{Temporary page!}).
+\item \textbf{Estruturas \texttt{Sect} não podem abrir dentro de
+  parágrafo taggeado} (relação \texttt{P}$\to$\texttt{Sect} proibida
+  no PDF 2.0): o grid desliga o \emph{paratagging} na linha de boxes
+  (|\tagpdfparaOff|) e religa dentro de cada coluna.
+\end{enumerate}
+
+Dois contornos de implementação TikZ/pgf independentes de tagging:
+não usar |\loop|/|\repeat| com |\node| dentro de \texttt{tikzpicture}
+(o |\repeat| desbalanceia a pilha de condicionais do parser de paths;
+usar |\foreach|), e não usar |\csuse| do \pkg{etoolbox} em expressões
+de coordenada (o |\fi| do |\ifcsname| fica órfão no pgfmath; usar
+|\csname| pré-expandido com |\edef|).
+
+\section{Arquivos}
+
+\begin{center}
+\begin{tabular}{lll}
+\textbf{arquivo} & \textbf{papel} & \textbf{versão} \\\hline
+\pkg{crpsp-base.sty}          & infraestrutura compartilhada   & v0.1 \\
+\cls{crpsp\_acessivel.cls}    & classe A5 (book)               & v0.2 \\
+\pkg{guia-crpsp\_acessivel.sty} & layout da linha guia A5      & v0.1 \\
+\cls{crpsp-guia\_visual.cls}  & classe 16:9 (article)          & v0.1 \\
+\pkg{guia-visual.sty}         & layout da linha guia visual    & v0.1 \\
+\texttt{exemplo-guia-visual.tex} & documento de teste 16:9     & --- \\
+\texttt{guia-exemplo.tex}     & documento de teste A5          & --- \\
+\end{tabular}
+\end{center}
+
+\end{document}

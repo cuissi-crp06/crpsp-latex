@@ -1,0 +1,97 @@
+% !TeX program = lualatex-dev
+% ===================================================================
+% mwe_leg_listas.tex — MWE-2 da camada Leg (crpsp-leg.sty)
+%
+% Valida o AMBIENTE LegArtigo (dual-mode via \@currenvir) e as
+% listas aninhadas de incisos/alíneas/itens:
+%   - \begin{LegArtigo}{...}{caput} … \end{LegArtigo} com §§ e
+%     incisos>alíneas>itens no corpo → <L>/<LI> aninhados;
+%   - a forma PLANA \LegArtigo{...}{...} no mesmo documento
+%     (retrocompatibilidade) → parágrafo com \hangindent desde
+%     2026-07-11 (era description one-shot por csname — forma que se
+%     provou ser o GATILHO do bug de \hsize na quebra de página; ver
+%     mwe_list_pagebreak_bug.tex, bissecção de 2026-07-13).
+%
+% Compilar 2x: lualatex-dev mwe_leg_listas.tex
+% ===================================================================
+
+\DocumentMetadata{
+    lang        = pt-BR,
+    pdfstandard = ua-2,
+    pdfversion  = 2.0,
+    testphase   = {phase-III,table,firstaid},
+    tagging     = on,
+}
+
+\documentclass[11pt,a5paper,twoside,openany]{book}
+
+\usepackage{../../book-crpsp_acessivel}
+
+% dc:title no XMP — exigência PDF/UA-2 (veraPDF 8.11.1-t1)
+\hypersetup{pdftitle={MWE Leg: listas aninhadas e dual-mode}}
+
+\begin{document}
+
+\mainmatter
+\chapter{Listas da camada Leg}
+
+\section{Norma com estrutura aninhada}
+
+\begin{LegNorma}{urn:lex:br:teste:lei:2026;2}{LEI DE TESTE Nº 2, DE 2026}
+
+\LegEmenta{Testa aninhamento artigo > incisos > alíneas > itens.}
+
+\LegAncora{urn:lex:br:teste:lei:2026;2!art1}%
+\begin{LegArtigo}{Art. 1º}{Caput do artigo com estrutura aninhada,
+listando os requisitos seguintes:}
+
+\begin{LegIncisos}
+    \LegInciso{I}{primeiro inciso do caput;}
+    \LegInciso{II}{segundo inciso, com alíneas:}
+    \begin{LegAlineas}
+        \LegAlinea{a}{primeira alínea do inciso II;}
+        \LegAlinea{b}{segunda alínea, com itens:}
+        \begin{LegItens}
+            \LegItem{1}{primeiro item da alínea b;}
+            \LegItem{2}{segundo item da alínea b.}
+        \end{LegItens}
+    \end{LegAlineas}
+    \LegInciso{III}{terceiro inciso, após as alíneas.}
+\end{LegIncisos}
+
+\LegParagrafo{§ 1º}{Parágrafo dentro do ambiente do artigo, após os
+incisos do caput.}
+\LegNotaAlteracao{(Redação dada pela Lei de Teste nº 3, de 2026)}{urn:lex:br:teste:lei:2026;3}
+
+\LegParagrafo{§ 2º}{Segundo parágrafo, seguido de incisos próprios
+como irmãos (contrato do gerador):}
+
+\begin{LegIncisos}
+    \LegInciso{I}{inciso do § 2º;}
+    \LegInciso{II}{\LegRevogado{(Revogado) texto rebaixado
+        visualmente, nunca riscado.}}
+\end{LegIncisos}
+
+\end{LegArtigo}
+
+\LegAncora{urn:lex:br:teste:lei:2026;2!art2}%
+\LegArtigo{Art. 2º}{Artigo na forma PLANA retrocompatível, sem
+filhos, no mesmo documento da forma ambiente. Remissão interna:
+\LegRef{urn:lex:br:teste:lei:2026;2!art1}{art. 1º desta Lei} e
+remissão externa: \LegRef{urn:lex:br:federal:lei:2015-07-06;13146}{Lei
+nº 13.146, de 2015}.}
+
+\LegDispDecimal{28.1}{Item decimal de primeiro nível.}
+\LegDispDecimal{28.1.1}{Item decimal de segundo nível, com recuo.}
+\LegDispDecimal{28.1.1.1}{Item decimal de terceiro nível.}
+
+\LegFecho{Brasília, 10 de julho de 2026; 205º da Independência e
+138º da República.}
+
+\LegAssina{NOME DE TESTE}{Conselheira-Presidenta}
+
+\end{LegNorma}
+
+\LegTitulo{Título legado (deve avisar deprecação no log, uma vez)}
+
+\end{document}

@@ -1,0 +1,73 @@
+%% exemplo-formulario.tex
+%% Documento mínimo de teste — linha de formulários CRP-SP.
+%% Compilar 2x com LuaLaTeX (via podman) por causa de \pageref{LastPage}:
+%%   sh ../docker/lualatex-podman.sh exemplo-formulario.tex
+%% Fase 1: sem \DocumentMetadata (tagging PDF/UA-2 é fase 2).
+
+\documentclass{crpsp-formulario}
+
+\hypersetup{
+  colorlinks     = false,
+  allbordercolors = white,
+  pdftitle  = {Exemplo de formulário CRP-SP},
+  pdfauthor = {Conselho Regional de Psicologia de São Paulo},
+}
+\title{Exemplo de formulário CRP-SP}
+\author{Conselho Regional de Psicologia de São Paulo}
+
+\begin{document}
+\Form
+\section{Exemplo de formulário}
+
+\textbf{Teste do sistema de campos auto-dimensionáveis.}
+\vspace{\baselineskip}
+
+% 6.1 — campo de linha cheia: a caixa chega à margem direita não importa
+% o tamanho do rótulo (compare as duas linhas abaixo).
+\campolinha{nome}{Nome completo:}
+\campolinha{orgao}{Órgão expedidor do documento de identidade:}
+
+\vspace{\baselineskip}
+% 6.2 — linha rotulada multi-campo, pesos iguais (divisão igual)
+\begin{camposlinha}
+  \campo{banco}{Banco:}
+  \campo{agencia}{Agência:}
+  \campo{conta}{Conta:}
+\end{camposlinha}
+
+% 6.2 — pesos diferentes: o primeiro campo fica com o dobro da largura
+\begin{camposlinha}
+  \campo[2]{endereco}{Endereço:}
+  \campo[1]{numero}{Nº:}
+\end{camposlinha}
+
+\vspace{\baselineskip}
+% 6.3 — campo de largura fixa dentro de prosa justificada
+\justifying
+Eu, \campofixo{decl-nome}{}{18em}, portador do RG
+\campofixo{decl-rg}{}{9em}, declaro para os devidos fins.
+\vspace{\baselineskip}
+
+% 6.4 — datas e checkboxes
+Data de nascimento: \campodata{nasc}
+\vspace{0.5\baselineskip}
+
+\begin{caixaslista}
+  \caixaitem{opt-clinica}{Clínica}
+  \caixaitem{opt-escolar}{Escolar/Educacional}
+  \caixaitem{opt-social}{Social}
+\end{caixaslista}
+\vspace{\baselineskip}
+
+% moldura + alias de compatibilidade (\preenctext legado, largura fixa)
+\begin{framed}
+  \preenctext{14}{compat}{20em}{Compatibilidade (\textbackslash preenctext): }
+\end{framed}
+\vfill
+
+\campodataextenso{fim}
+\vspace{2\baselineskip}
+
+\blocoassinatura{Assinatura}
+
+\end{document}
