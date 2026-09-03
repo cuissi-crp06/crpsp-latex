@@ -46,10 +46,31 @@ RUN tlmgr update --self \
       kvsetkeys \
       kvdefinekeys \
       etexcmds \
-      luatex85
+      luatex85 \
+      xellipsis \
+      svg \
+      catchfile \
+      multirow \
+      pdfcol \
+      xurl \
+      ncctools \
+      titlesec \
+      tikz-bpmn
 # Notas:
+#  - de xellipsis a ncctools: exigidos pela linha `book`
+#    (book-crpsp_acessivel.sty + guia_apresentacoes_acessiveis.tex),
+#    confirmados em 2026-08-04. `extdash.sty` NAO e pacote proprio:
+#    vem no bundle `ncctools`. `pdfcol` e dependencia do
+#    tcolorbox[breakable] sob LuaLaTeX.
+#  - `titlesec` entra so para REPRODUZIR a incompatibilidade com o
+#    phase-III (WA-03); nao deve ser carregado por classe alguma.
 #  - `longtable` NAO entra aqui: nao e pacote proprio no TeX Live,
 #    vem no bundle `tools`, ja presente na imagem base.
+#  - `tikz-bpmn`: exigido por scripts/bpmn2tikz/bpmn2tikz.py, que gera
+#    as figuras dos diagramas BPMN do relatorio do Jornal Psi
+#    (Apendice B). Confirmado em 2026-08-12: os onze diagramas da
+#    serie compilam com pdflatex + standalone. ATENCAO: tlmgr so
+#    existe DENTRO do conteiner -- nao ha LaTeX no host.
 #  - de pdftexcmds a luatex85 sao dependencias de standalone+pgfplots
 #    sob LuaLaTeX; sem elas o standalone aborta em \RequirePackage.
 

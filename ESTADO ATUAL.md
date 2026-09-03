@@ -3,9 +3,40 @@
 Situação das linhas editoriais LaTeX do CRP-SP e pendências abertas que
 atravessam mais de uma linha. Para a análise detalhada da linha `book`, ver
 `README.md`; para os contornos de tagging com os MWEs que os reproduzem, ver
-`skills/latex-dev/references/workarounds.md`.
+`.agents/skills/latex-dev/references/workarounds.md`.
 
-**Última atualização:** 2026-07-29
+**Última atualização:** 2026-08-04
+
+---
+
+## RODADA 2026-08-04 — upstream se mexeu
+
+`monitor_ctan.py` acusou `latex-lab 2025-11-01a → 2026-06-01a`, `tagpdf
+1.0b → 1.0d` e `latex-base-dev pre-release 0 (2026-11-01)`. A imagem
+`crpsp-latex:dev` está com `latex-lab 2026-06-01a` (igual ao CTAN) e
+`tagpdf 1.0c` (uma atrás). O que isso mudou:
+
+**Corrigido na classe (linha `book`):**
+
+- **Chaves do `sec-template` renomeadas** — o bloco `\DeclareInstance{heading}{chapter}`
+  escrito para a v0.9b falhava com 4 erros por capítulo na v0.9g, e a
+  identidade visual do capítulo era ignorada em silêncio. `book-crpsp_acessivel.sty`
+  agora traz os dois ramos, por `\@ifpackagelater{...}{2026/05/25}`. Ver WA-01.
+- **`\TOCAcessivel` virou alias deprecado** — o bug do `latex-lab-testphase-toc`
+  foi corrigido upstream (v0.85k, 2026-04-28); `\tableofcontents` emite
+  `/T (Sumário)` limpo. Ver WA-02.
+- **`alt={}` não marca mais artefato** — virou WA-10; a chave é `artifact`.
+  Corrigido em `guia_apresentacoes_acessiveis.tex` (27 avisos → 0).
+
+**Continua ativo:** `titlesec` (WA-03) e `tabularray` (WA-08), ambos
+reconferidos com MWE nesta data.
+
+**Pendente de conferência visual:** `tcolorbox` inline (WA-09) não emite
+mais erro de tagging; falta ver se ainda força `\par`.
+
+**Não migrar:** a emulação de `enumitem` aceita de novo as chaves de
+`description`, mas o `\LegArtigo` por `\hangindent` fica como está — ele
+contorna o bug de `\hsize` na quebra de página, não as chaves.
 
 ---
 
@@ -57,11 +88,15 @@ mas não a elimina para os workarounds que dependem de módulos nomeados.
 
 - [ ] **Linha `book`** — a mais delicada. WA-01 e WA-02 dependem de módulos
       `latex-lab-testphase-sec-template` e `latex-lab-testphase-toc`
-      **nomeados**; não se sabe se `tagging=on` os carrega sob outro nome nem
-      se o `\TOCAcessivel` continua necessário. Agrava: o motor de referência
-      histórico dessa linha é o `lualatex-dev` do MiKTeX/Windows, e a
-      equivalência acima foi medida só no podman. **Recompilar nos dois
-      motores e comparar a árvore de tags antes de migrar.**
+      **nomeados**; não se sabe se `tagging=on` os carrega sob outro nome.
+      Agrava: o motor de referência histórico dessa linha é o `lualatex-dev`
+      do MiKTeX/Windows, e a equivalência acima foi medida só no podman.
+      **Recompilar nos dois motores e comparar a árvore de tags antes de
+      migrar.** [2026-08-04] Parcialmente andado: o `guia_apresentacoes_acessiveis.tex`
+      já usa `tagging=on` **e** `testphase={phase-III,table,firstaid}` no mesmo
+      `\DocumentMetadata` e compila limpo no podman (0 erros, 670 objetos);
+      o `\TOCAcessivel` deixou de ser necessário. Falta rodar no MiKTeX e
+      tirar a chave legada.
 - [ ] **Linha `guia`** (`crpsp_acessivel.cls`) — migrar e recompilar
       `guia-exemplo.tex`.
 - [ ] **Linha `guia_visual`** — migrar e recompilar `exemplo-guia-visual.tex`.
@@ -114,23 +149,25 @@ primeira que exercitar vai esbarrar nisso sem aviso claro.
 - [ ] `guia-visual.sty` carrega `tcolorbox[skins]` sem usar: a implementação
       migrou para `\parbox` justamente porque o `tcolorbox` não fica inline
       sob tagging. Manter a carga é risco sem contrapartida.
-- [ ] O workaround "`enumitem` é proibido" pode estar **vencido**: o
-      phase-III agora carrega `latex-lab-enumitem.sty` ("Emulating enumitem",
-      v0.80f, 2026-04-21). Testar se as chaves de `\LegArtigo` voltam a
-      funcionar. `crpsp_acessivel.cls` ainda carrega o `enumitem` real,
-      contrariando o workaround — resolver os dois de uma vez.
-- [ ] `monitor_ctan.py` teve última verificação registrada em 2026-05-09.
-      Rodar antes de qualquer decisão sobre workarounds de tagging:
-      `python3 monitor_ctan.py`
+- [x] O workaround "`enumitem` é proibido" está **vencido em parte**
+      (testado 2026-08-04): `description` com `align`/`leftmargin`/
+      `labelwidth`/`labelsep`, `itemize[nosep]` e `enumerate[label=]` passam
+      limpos pela emulação `latex-lab-enumitem`; só `leftmargin=*` falha.
+      Não implica reverter o `\LegArtigo` — ver a nota no `workarounds.md`.
+      Fica em aberto só o fato de `crpsp_acessivel.cls` carregar o `enumitem`
+      real, o que agora é menos grave.
+- [x] `monitor_ctan.py` rodado em 2026-08-04: `latex-lab 2026-06-01a`,
+      `tagpdf 1.0d`, `latex-base-dev pre-release 0`. Rodar de novo antes de
+      qualquer decisão sobre workarounds de tagging: `python3 monitor_ctan.py`
 
 ---
 
 ## Controle de versão
 
 Esta pasta é um repositório git desde 2026-07-29 (commit inicial `c9d1450`).
-O restante do workspace — inclusive `production/` e `skills/` — **não é
+O restante do workspace — inclusive `production/` e `.agents/skills/` — **não é
 versionado**: alterações lá não têm histórico.
 
 Consequência prática: o relatório do Jornal Psi
-(`production/jornal/analise/latex/`) e a documentação em `skills/latex-dev/`
+(`production/jornal/analise/latex/`) e a documentação em `.agents/skills/latex-dev/`
 estão fora deste repositório, ainda que sejam parte do mesmo trabalho.

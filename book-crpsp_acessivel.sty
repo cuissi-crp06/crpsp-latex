@@ -401,24 +401,69 @@
 %
 % Validado contra latex-lab-testphase-sec-template.sty v0.9b
 % (2026-01-26), MiKTeX 26.2, lualatex-dev 2026-04-14.
-
+%
+% [2026-08-04] O upstream RENOMEOU as chaves do template heading/
+% display. Na v0.9g (2026-05-25, TeX Live 2026 / imagem podman) o
+% bloco escrito para a v0.9b falha com 4 erros por capítulo:
+%
+%   ! LaTeX template Error: Unknown template key 'after-penalty-sep'.
+%   ! LaTeX template Error: Unknown template key 'after-sep'.
+%   ! LaTeX template Error: Unknown template key 'decls'.
+%   ! LaTeX template Error: The instance 'display' of type
+%                           'headformat' is unknown.
+%
+% Correspondência das chaves:
+%   after-penalty-sep    → after-penalty-vspace
+%   after-sep            → after-vspace
+%   decls                → heading-decls
+%   headformat-instance = display → = chapter
+%
+% Com a instância inválida a customização é ignorada por inteiro e
+% os capítulos caem no formato padrão do latex-lab (preto, sem
+% \sffamily) — falha silenciosa do ponto de vista visual.
+%
+% Os dois ramos abaixo existem porque a linha `book` tem dois
+% motores: o podman (TL 2026, v0.9g) e o MiKTeX/Windows histórico,
+% que pode ainda trazer a v0.9b. O limiar 2026/05/25 é a versão em
+% que a renomeação foi OBSERVADA; as versões intermediárias
+% (v0.9c–v0.9f) não foram testadas — se algum motor trouxer uma
+% delas, verificar de que lado do limiar ela cai.
 \AddToHook{class/book/after}[crp/chapter]{%
-    \DeclareInstance{heading}{chapter}{display}
-    {%
-        , name               = chapter
-        , level              = 0
-        , placement          = top
-        , after-penalty-sep  = 50pt
-        , after-sep          = 40pt
-        , number-format      = \@chapapp\space\thechapter
-        , decls              = \raggedright\parindent0pt\bfseries\sffamily
-        , number-decls       = \huge\color{crp1}
-        , title-decls        = \Huge\color{crp1}
-        , headformat-instance = display
-        , mark-cmd           = \chaptermark {#1}
-        , contents-extra     = \addtocontents{lof}{\protect\addvspace{10\p@}}%
-                               \addtocontents{lot}{\protect\addvspace{10\p@}}%
-    }%
+    \@ifpackagelater{latex-lab-testphase-sec-template}{2026/05/25}
+        {\DeclareInstance{heading}{chapter}{display}
+            {%
+                , name                 = chapter
+                , level                = 0
+                , placement            = top
+                , after-penalty-vspace = 50pt
+                , after-vspace         = 40pt
+                , number-format        = \@chapapp\space\thechapter
+                , heading-decls        = \raggedright\parindent0pt\bfseries\sffamily
+                , number-decls         = \huge\color{crp1}
+                , title-decls          = \Huge\color{crp1}
+                , headformat-instance  = chapter
+                , mark-cmd             = \chaptermark {#1}
+                , contents-extra       = \addtocontents{lof}{\protect\addvspace{10\p@}}%
+                                         \addtocontents{lot}{\protect\addvspace{10\p@}}%
+            }%
+        }
+        {\DeclareInstance{heading}{chapter}{display}
+            {%
+                , name               = chapter
+                , level              = 0
+                , placement          = top
+                , after-penalty-sep  = 50pt
+                , after-sep          = 40pt
+                , number-format      = \@chapapp\space\thechapter
+                , decls              = \raggedright\parindent0pt\bfseries\sffamily
+                , number-decls       = \huge\color{crp1}
+                , title-decls        = \Huge\color{crp1}
+                , headformat-instance = display
+                , mark-cmd           = \chaptermark {#1}
+                , contents-extra     = \addtocontents{lof}{\protect\addvspace{10\p@}}%
+                                       \addtocontents{lot}{\protect\addvspace{10\p@}}%
+            }%
+        }%
 }
 
 % \TOCAcessivel: substituto de \tableofcontents para contornar
@@ -440,11 +485,29 @@
 % — o sumário não precisa aparecer em si mesmo, e sem eles
 % evitamos adicionar uma entrada recursiva de TOC.
 %
-% Quando o bug for corrigido upstream, substituir por
-% \tableofcontents direto.
-\newcommand{\TOCAcessivel}{%
+% [2026-08-04] BUG CORRIGIDO UPSTREAM. Com latex-lab-testphase-toc
+% v0.85k (2026-04-28, TeX Live 2026), o \tableofcontents padrão
+% emite o elemento de estrutura correto:
+%
+%     /Type /StructElem /T <FEFF00530075006D00E100720069006F>
+%                                             → "Sumário"
+%
+% sem vestígio da cadeia \protect\markboth\MakeUppercase. Verificado
+% em MWE e no guia_apresentacoes_acessiveis.tex completo (0 erros de
+% tagging, 37 páginas).
+%
+% \TOCAcessivel fica como ALIAS DEPRECADO: nos motores novos delega
+% para \tableofcontents; nos antigos (MiKTeX com o toc anterior a
+% 2026-04-28) mantém o contorno original. Documentos novos devem
+% chamar \tableofcontents direto.
+\newcommand{\TOCAcessivelLegado}{%
     \chapter*{Sumário}%
     \@starttoc{toc}%
+}
+\newcommand{\TOCAcessivel}{%
+    \@ifpackagelater{latex-lab-testphase-toc}{2026/04/28}
+        {\tableofcontents}
+        {\TOCAcessivelLegado}%
 }
 
 % \@makechapterhead e \@makeschapterhead mantidos como fallback para
