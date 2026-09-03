@@ -39,8 +39,18 @@ RUN tlmgr update --self \
       booktabs \
       colortbl \
       pgfplots \
-      standalone
-# Nota: `longtable` NAO entra aqui -- nao e pacote proprio no TeX Live,
-# vem no bundle `tools`, ja presente na imagem base.
+      standalone \
+      pdftexcmds \
+      infwarerr \
+      ltxcmds \
+      kvsetkeys \
+      kvdefinekeys \
+      etexcmds \
+      luatex85
+# Notas:
+#  - `longtable` NAO entra aqui: nao e pacote proprio no TeX Live,
+#    vem no bundle `tools`, ja presente na imagem base.
+#  - de pdftexcmds a luatex85 sao dependencias de standalone+pgfplots
+#    sob LuaLaTeX; sem elas o standalone aborta em \RequirePackage.
 
 WORKDIR /work

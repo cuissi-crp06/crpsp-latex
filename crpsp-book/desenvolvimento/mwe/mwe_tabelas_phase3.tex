@@ -1,0 +1,51 @@
+%% mwe_tabelas_phase3.tex
+%% Qual mecanismo de tabela taggeia limpo sob phase-III + module table?
+%%   A: tabular puro (booktabs-less)
+%%   B: tblr do tabularray, colspec simples
+%%   C: tblr do tabularray com colspec X[] e row{n} colorida
+\DocumentMetadata{
+  lang        = pt-BR,
+  pdfversion  = 2.0,
+  pdfstandard = ua-2,
+  testphase   = {phase-III, table, firstaid},
+}
+\documentclass[11pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage[a4paper, margin=25mm]{geometry}
+\usepackage{xcolor}
+\usepackage{tabularray}
+\definecolor{herhighness}{HTML}{422C73}
+\colorlet{alarmefundo}{red!10!white}
+\setlength{\parindent}{0pt}
+
+\begin{document}
+
+\section*{A --- tabular puro}
+
+\begin{tabular}{ll}
+  Etapa & Responsável \\
+  Definição de pauta & ComCom \\
+  Checagem de fatos & Comunicação \\
+\end{tabular}
+
+\section*{B --- tblr colspec simples}
+
+\begin{tblr}{colspec = {ll}}
+  Etapa & Responsável \\
+  Definição de pauta & ComCom \\
+  Checagem de fatos & Comunicação \\
+\end{tblr}
+
+\section*{C --- tblr com X e linha colorida}
+
+\begin{tblr}{
+  colspec = {X[2,l] X[3,l]},
+  row{1}  = {bg = herhighness, fg = white, font = \bfseries},
+  row{3}  = {bg = alarmefundo, font = \bfseries},
+}
+  Etapa & Responsável \\
+  Definição de pauta & ComCom \\
+  Checagem de fatos & Comunicação \\
+\end{tblr}
+
+\end{document}

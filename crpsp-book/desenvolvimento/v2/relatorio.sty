@@ -291,6 +291,25 @@
 %       \end{tabular}
 % ══════════════════════════════════════════════
 
+% Tipo de coluna L{largura}: como p{}, mas alinhada à esquerda.
+% Em coluna estreita a justificação força hifenação agressiva
+% ("res-ponsável", "reporta-gem") e abre rios — use L{} em vez de p{}
+% em toda coluna de texto de tabela.
+% Tipo de coluna L{largura}: como p{}, mas alinhada à esquerda.
+% Em coluna estreita a justificação força hifenação agressiva
+% ("res-ponsável", "reporta-gem") — use L{} em vez de p{} em toda
+% coluna de texto de tabela.
+%
+% Resíduo conhecido: células muito curtas em coluna estreita geram
+% "Underfull \hbox (badness 10000)" — 4 ocorrências no relatório do
+% Jornal Psi. É ruído métrico, não defeito: a folga à direita é o
+% efeito pretendido do alinhamento à esquerda. Duas saídas foram
+% testadas e descartadas: \RaggedRight (ragged2e) gera underfull
+% ADICIONAL na longtable, por usar esticamento finito; e \hbadness
+% dentro do >{} não é honrado pelo array nessas células.
+\RequirePackage{array}
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+
 % Fundo da linha de cabeçalho. Vai no INÍCIO da linha, antes da
 % primeira célula.
 \newcommand{\linhacab}{\rowcolor{crpsp@cor1}}
@@ -331,7 +350,9 @@
   \nobreak
   \noindent\includegraphics[width=\linewidth, alt={#3}]{#1}\par
   \nobreak
-  {\footnotesize\color{crpsp@cor3}#4\par}
+  % A nota de fonte é TEXTO: vai em cinza escuro (10,4:1), não em cor3
+  % (Royal Pretender, 4,45:1) — cor3 é reservada a elemento gráfico.
+  {\footnotesize\color{crpsp@tinta!75!white}#4\par}
   \crpsprel@tagend
   \par
 }
