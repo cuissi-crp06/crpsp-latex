@@ -1,0 +1,511 @@
+\ProvidesPackage{livros_crp}[2025/04/06 v0.2 Pacote editorial CRP-SP]
+
+% ===================================================================
+% livros_crp.sty — Pacote editorial do CRP-SP
+% Motor: LuaLaTeX + classe memoir
+%
+% Estrutura:
+%   1. Tipografia
+%   2. Cores & gráficos
+%   3. Tabelas
+%   4. Diagramação & layout
+%   5. Navegação & PDF
+%   6. Revisão de texto
+%   7. Comandos e ambientes institucionais
+% ===================================================================
+
+
+% ===================================================================
+% 1. TIPOGRAFIA
+% ===================================================================
+
+% [no-math]: evita conflito com pacotes matemáticos.
+\usepackage[no-math]{fontspec}
+
+% --- Fonte principal (serifada) ---
+% Lora em TTF, carregada do diretório do documento (Path=./).
+\setmainfont{Lora}[
+    Path           = ./,
+    Extension      = .ttf,
+    UprightFont    = Lora-Regular,
+    BoldFont       = Lora-Bold,
+    ItalicFont     = Lora-Italic,
+    BoldItalicFont = Lora-BoldItalic,
+]
+
+% --- Família sem serifa principal (NEWJUNE Regular) ---
+% Usada em títulos de seção e elementos de destaque via \sffamily.
+\setsansfont{NEWJUNE}[
+    UprightFont    = NEWJUNE-REGULAR.OTF,
+    BoldFont       = NEWJUNE-BOLD.OTF,
+    ItalicFont     = NEWJUNE-REGULAR-ITALIC.OTF,
+    BoldItalicFont = NEWJUNE-BOLD-ITALIC.OTF,
+]
+
+% --- Pesos adicionais NEWJUNE como famílias independentes ---
+% Convenção: \<nome> ativa o peso; itálico disponível via \itshape.
+% Nota: \serifada aponta para NEWJUNE-REGULAR — o nome é semântico
+%       no contexto do projeto, não tipográfico.
+\newfontfamily{\media}   {NEWJUNE-Medium}   [UprightFont=NEWJUNE-MEDIUM.OTF,    ItalicFont=NEWJUNE-MEDIUM-ITALIC.OTF]
+\newfontfamily{\fininha} {NEWJUNE-Fine}     [UprightFont=NEWJUNE-FINE.OTF,      ItalicFont=NEWJUNE-FINE-ITALIC.OTF]
+\newfontfamily{\Light}   {NEWJUNE-Light}    [UprightFont=NEWJUNE-LIGHT.OTF,     ItalicFont=NEWJUNE-LIGHT-ITALIC.OTF]
+\newfontfamily{\fontebook}{NEWJUNE-Book}    [UprightFont=NEWJUNE-BOOK.OTF,      ItalicFont=NEWJUNE-BOOK-ITALIC.OTF]
+\newfontfamily{\serifada}{NEWJUNE-Serif}    [UprightFont=NEWJUNE-REGULAR.OTF,   ItalicFont=NEWJUNE-REGULAR-ITALIC.OTF]
+\newfontfamily{\pesada}  {NEWJUNE-Ultrabold}[UprightFont=NEWJUNE-ULTRABOLD.OTF, ItalicFont=NEWJUNE-ULTRABOLD-ITALIC.OTF]
+
+% --- Microtipografia ---
+% No LuaLaTeX, protrusion e expansion estão ambos disponíveis.
+% (No XeLaTeX apenas protrusion funcionava — razão da migração.)
+\usepackage[
+    protrusion = true,
+    expansion  = true,
+]{microtype}
+
+% --- Hifenização ---
+\usepackage{hyphenat}
+% \hyph: hífen sem penalidade de quebra — para compostos longes
+%        onde a quebra após o hífen é desejável.
+\def\hyph{-\penalty0\hskip0pt\relax}
+
+% --- Reticências ---
+% oldmla: reticências entre colchetes [ . . . ] para omissões,
+%         conforme o estilo MLA anterior à edição de 2009.
+\usepackage[oldmla]{xellipsis}
+
+% Espaçamento francês: sem espaço extra após ponto final.
+\frenchspacing
+
+
+% ===================================================================
+% 2. CORES & GRÁFICOS
+% ===================================================================
+
+% dvipsnames: ativa nomes clássicos (ex.: MidnightBlue, BrickRed).
+% Deve ser carregado antes de qualquer pacote que use xcolor
+% internamente (tcolorbox, hyperref etc.).
+\usepackage[dvipsnames]{xcolor}
+
+% --- Paleta institucional CRP-SP ---
+\definecolor{crp1}{RGB}{66,  44,  115}   % Púrpura escuro — headings, réguas, URLs
+\definecolor{crp2}{RGB}{165, 93,  166}   % Púrpura médio — numeração de seções
+\definecolor{crp3}{RGB}{191, 115, 171}   % Púrpura claro — uso decorativo
+
+\usepackage{graphicx}
+\usepackage{svg}
+\usepackage{background}
+
+% --- tcolorbox: carga única com todas as bibliotecas necessárias ---
+% CORRIGIDO: o pacote era carregado duas vezes (sem opções na linha 63,
+% com [skins,breakable] na linha 203). LaTeX aceita silenciosamente,
+% mas apenas as opções da primeira carga são efetivas — as da segunda
+% são ignoradas, o que tornava skins e breakable inoperantes.
+\usepackage[skins, breakable]{tcolorbox}
+
+% fboxsep=0pt: remove padding interno do \fbox.
+% ATENÇÃO: afeta todos os \fbox do documento. Valor global deliberado.
+\setlength{\fboxsep}{0pt}
+
+
+% ===================================================================
+% 3. TABELAS
+% ===================================================================
+
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{longtable}
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage{enumitem}
+
+% Coluna P{<larg>}: parágrafo centralizado (extensão de array).
+\newcolumntype{P}[1]{>{\centering\arraybackslash}p{#1}}
+
+% Centralização vertical em colunas X do tabularx.
+\renewcommand{\tabularxcolumn}[1]{m{#1}}
+
+% Espaçamento entre linhas de tabelas: 20% acima do padrão.
+\renewcommand{\arraystretch}{1.2}
+
+
+% ===================================================================
+% 4. DIAGRAMAÇÃO & LAYOUT
+% ===================================================================
+
+\usepackage{multicol}
+\usepackage{pdfpages}
+\usepackage{ragged2e}
+\usepackage{calc}
+\usepackage{lastpage}
+
+% --- Colofão ---
+% title={}: suprime o título padrão "Colophon".
+\usepackage[title={}]{colophon}
+
+% --- Sumário ---
+\usepackage{tocvsec2}
+
+% --- Dimensões da página ---
+% \semiisopage: proporção áurea entre margens (memoir).
+% As linhas \setstocksize / \settrims / \trimXmarks estão comentadas
+% — mantidas como referência para produção com marcas de corte.
+%\setstocksize{230mm}{168.5mm}
+%\settrims{10mm}{10mm}
+%\trimXmarks
+\semiisopage
+
+% --- Penalidades tipográficas ---
+% Controlam linhas viúvas, órfãs e quebras indesejadas.
+\clubpenalty        = 9996   % órfãs (primeira linha de parágrafo isolada)
+\widowpenalty       = 9999   % viúvas (última linha isolada)
+\brokenpenalty      = 4991   % linhas hifenizadas no final de página
+\predisplaypenalty  = 10000  % evita quebra antes de display math
+\postdisplaypenalty = 1549   % flexibiliza quebra após display math
+\displaywidowpenalty= 1602   % viúva após display math
+
+% --- Parskip e layout ---
+% \nonzeroparskip e \sloppybottom são declarados ANTES de
+% \checkandfixthelayout para que memoir os incorpore ao cálculo.
+% CORRIGIDO: havia duas chamadas a \checkandfixthelayout (linhas 90
+% e 93) com \nonzeroparskip e \sloppybottom entre elas — o que
+% forçava um recálculo desnecessário. Uma única chamada ao final
+% é suficiente.
+\nonzeroparskip
+\sloppybottom
+\checkandfixthelayout
+
+% --- Espaçamento entre linhas ---
+% \setasuspacing: indireção que permite trocar o espaçamento global
+% via \setasuspacing{\SingleSpacing} ou \setasuspacing{\OnehalfSpacing}.
+% O padrão do documento é 1,5 linhas.
+\newcommand*{\setasuspacing}[1]{%
+    \let\AsuSpacing#1%
+    \AsuSpacing}
+\setasuspacing{\OnehalfSpacing}
+
+% --- Lengths calculadas em tempo de compilação ---
+% CORRIGIDO: movidas para \AtBeginDocument para garantir que
+% as fontes e o layout estejam totalmente inicializados antes
+% do cálculo de \widthof. Se calculadas no preâmbulo, uma
+% mudança de fonte ou de \textwidth pode deixar os valores errados.
+\newlength{\boxlarg}
+\newlength{\virgula}
+\newlength{\boxementa}
+\newlength{\indicartigo}
+\newlength{\paragrafodelei}
+\newlength{\paragrafounico}
+\newlength{\sepcredito}
+\newlength{\numfrances}
+\newlength{\numfrancesdois}
+\newlength{\TOCVSpace}
+
+\AtBeginDocument{%
+    \setlength{\boxlarg}      {2em}%
+    \setlength{\virgula}      {0.5em}%
+    \setlength{\boxementa}    {\textwidth-6cm}%
+    \setlength{\indicartigo}  {\widthof{\bfseries Art. 99º}}%
+    \setlength{\paragrafodelei}{\widthof{\bfseries § 999º\space}}%
+    \setlength{\paragrafounico}{\widthof{\bfseries Parágrafo único.\space}}%
+    \setlength{\sepcredito}   {\widthof{\bfseries | }}%
+    \setlength{\numfrances}   {\widthof{10\space\space}}%
+    \setlength{\numfrancesdois}{\widthof{10\space}}%
+    \setlength{\TOCVSpace}    {3\baselineskip}%
+}
+
+% --- Sumário ---
+\setsecnumdepth{none}
+\maxsecnumdepth{none}
+\setcounter{tocdepth}{0}
+\renewcommand{\aftertoctitle}{\vspace*{\TOCVSpace}}
+\renewcommand*{\sectionmark}[1]{\markright{#1}}
+
+% --- Page styles ---
+
+% pretext: frontmatter e páginas de parte — sem cabeçalho/rodapé.
+\makepagestyle{pretext}
+\makeoddhead {pretext}{}{}{}
+\makeoddfoot {pretext}{}{}{}
+\makeevenhead{pretext}{}{}{}
+\makeevenfoot{pretext}{}{}{}
+\aliaspagestyle{part}{pretext}
+
+% crp: miolo principal — régua e número de página em crp1.
+\copypagestyle{crp}{headings}
+\makeheadfootruleprefix{crp}{\color{crp1}}{\color{crp1}}
+\makeheadrule         {crp}{\textwidth}{\normalrulethickness}
+\makeevenhead{crp}{\color{crp1}\Light\small\thepage}  {}{\color{crp1}\Light\small\leftmark}
+\makeoddhead {crp}{\color{crp1}\Light\small\rightmark}{}{\color{crp1}\Light\small\thepage}
+
+% crpPre: miolo com fonte book (variante de crp para pré-textuais).
+% CORRIGIDO: as linhas de \makeheadfootruleprefix e \makeheadrule
+% referenciavam o estilo "crp" em vez de "crpPre" — as regras de
+% crpPre sobrescreviam as de crp silenciosamente.
+\copypagestyle{crpPre}{headings}
+\makeheadfootruleprefix{crpPre}{\color{crp1}}{\color{crp1}}
+\makeheadrule         {crpPre}{\textwidth}{\normalrulethickness}
+\makeevenhead{crpPre}{\color{crp1}\fontebook\small\thepage}         {}{\color{crp1}\fontebook\small\itshape\leftmark}
+\makeoddhead {crpPre}{\color{crp1}\fontebook\small\itshape\rightmark}{}{\color{crp1}\fontebook\small\thepage}
+
+% chapter: página de abertura de capítulo — limpa (sem cabeçalho).
+% Derivado de pretext para garantir herança correta.
+\copypagestyle{chapter}{pretext}
+
+% --- Numeração de seções em margem (hangsecnum) ---
+% \makeatletter necessário porque \@seccntformat usa @ no nome.
+% Isolado em bloco próprio para clareza.
+\makeatletter
+\renewcommand{\hangsecnum}{%
+    \def\@seccntformat##1{%
+        \makebox[0pt][r]{%
+            \color{crp2}%
+            \csname the##1\endcsname
+            \quad
+        }%
+    }%
+}
+\makeatother
+
+% --- Estilos de seção ---
+% Skip pós-título: proporção áurea (0.618) de \baselineskip.
+\setsecheadstyle      {\color{crp1}\sffamily\Large\bfseries}
+\setaftersecskip      {0.618\baselineskip}
+\setsubsecheadstyle   {\color{crp1}\sffamily\normalsize\bfseries}
+\setaftersubsecskip   {0.618\baselineskip}
+\setsubsubsecheadstyle{\color{crp1}\sffamily\normalsize\itshape}
+\setaftersubsubsecskip{0.618\baselineskip}
+\setparaheadstyle     {\color{crp1}\sffamily\normalsize\bfseries}
+\setafterparaskip     {0.618\baselineskip}
+% CORRIGIDO: \setsubparaheadstyle usava \color sem argumento —
+% provavelmente erro de edição (faltava \color{crp1} ou similar).
+% Definido com \color{crp1} para coerência com os demais níveis.
+\setsubparaheadstyle  {\color{crp1}\sffamily\normalsize}
+\setaftersubparaskip  {0.618\baselineskip}
+
+% --- Partes ---
+\renewcommand{\printparttitle}{\flushright\HUGE\bfseries\color{crp1}\thepart}
+\renewcommand{\beforepartskip}{\vspace*{\fill}}
+\renewcommand{\afterpartskip} {\vspace*{4\baselineskip}}
+\let\partold\part
+\RenewDocumentCommand{\part}{O{#2} m}{%
+    \partold[#1]{\MakeUppercase{#2}}%
+}
+
+% --- Capítulos ---
+\nouppercaseheads
+\makechapterstyle{CRP01}{%
+    \renewcommand{\chaptitlefont}{\huge\bfseries\sffamily\color{crp2}}%
+    \setlength{\afterchapskip}{8\baselineskip}%
+}
+\chapterstyle{CRP01}
+
+
+% ===================================================================
+% 5. NAVEGAÇÃO & PDF
+% ===================================================================
+
+% xurl antes de hyperref — estende as regras de quebra de URL.
+\usepackage[obeyspaces, spaces, hyphens]{xurl}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks = true,
+    linkcolor  = black,
+    filecolor  = black,
+    urlcolor   = crp1,
+}
+\urlstyle{same}
+
+
+% ===================================================================
+% 6. REVISÃO DE TEXTO
+% ===================================================================
+%
+% O pacote `changes` foi removido. Motivos:
+%   - Marcações de revisão não devem aparecer no PDF final de entrega.
+%   - `changes` colide com \comment definido indiretamente por outros
+%     pacotes do pipeline (ajuste, extdash, etc.).
+%   - Revisão editorial é fluxo de produção; usar branch/versão
+%     separada fora do pipeline de entrega se necessário.
+
+
+% ===================================================================
+% 7. COMANDOS E AMBIENTES INSTITUCIONAIS
+% ===================================================================
+%
+% Convenções adotadas nesta seção:
+%   - Toda macro que altera cor ou fonte restaura ao final.
+%   - Toda macro que altera espaçamento chama \setasuspacing
+%     ou restaura via \normalfont conforme o contexto.
+%   - \noindent é explícito quando necessário; nunca implícito.
+
+% --- Subtítulo de abertura ---
+% Posicionado com vspace negativo para sobrepor o espaço de capítulo.
+\newcommand{\SubTituloUm}[1]{%
+    \vspace{-8\baselineskip}%
+    \noindent\raggedright\large\itshape #1\par
+    \normalfont\normalsize\color{black}\justifying
+    \vspace{8\baselineskip}%
+}
+
+% --- Intertítulo ---
+\newcommand{\Entretitulo}[1]{%
+    \vspace{0.618\baselineskip}%
+    \noindent\color{crp1}\Light #1\par
+    \vspace{0.382\baselineskip}%
+    \normalfont\normalsize\color{black}%
+}
+
+% --- Filete decorativo ---
+\newcommand{\setetoques}{\rule{6em}{0.4pt}}
+
+% --- Identificadores de plenário ---
+\newcommand{\xviplenario} {\textbf{XVI Plenário}}
+\newcommand{\xviiplenario}{\textbf{XVII Plenário}}
+
+% --- Bloco de assinatura institucional ---
+\newcommand{\assinaapresenta}[1]{%
+    \begin{flushright}
+        \noindent
+        Conselho Regional de Psicologia de São Paulo\\
+        #1%
+    \end{flushright}
+    \justifying
+    \setasuspacing{\OnehalfSpacing}%
+}
+
+% --- Assinatura centrada (nome + cargo) ---
+\newcommand{\LegAssina}[2]{%
+    \begin{center}
+        #1\\
+        #2
+    \end{center}
+}
+
+% --- Título centrado em negrito ---
+\newcommand{\LegTitulo}[1]{%
+    \begin{center}
+        \textbf{#1}
+    \end{center}
+}
+
+% --- Ementa de legislação ---
+% Offset de 6cm à esquerda; texto em sffamily footnotesize.
+\newcommand{\LegEmenta}[1]{%
+    \noindent
+    \begin{minipage}{6cm}\hfill\end{minipage}%
+    \begin{minipage}{\boxementa}%
+        \justifying\sffamily\footnotesize\noindent #1%
+    \end{minipage}\par
+}
+
+% --- Artigo de lei ---
+% Recuo baseado em \indicartigo (calculado em \AtBeginDocument).
+\newcommand{\LegArtigo}[2]{%
+    \begin{description}[
+        align      = left,
+        leftmargin = !,
+        labelwidth = 1.3\indicartigo,
+        labelsep   = 0.5em,
+    ]
+        \item[\,#1\,] #2%
+    \end{description}
+}
+
+% --- Parágrafo de lei (numerado ou único) ---
+% CORRIGIDO: \LegParagrafo e \LegParagrafoUnico eram idênticos no
+% código — diferiam apenas na indentação do fonte. Unificados em
+% um único comando. O argumento #1 recebe o label completo
+% (ex.: "§ 1º" ou "Parágrafo único.").
+\newcommand{\LegParagrafo}[2]{%
+    \noindent
+    \begin{minipage}{\indicartigo-0.5em}\hfill\end{minipage}%
+    \begin{minipage}{\linewidth-1.5\indicartigo+1em}%
+        \textbf{#1} #2%
+    \end{minipage}\par
+}
+
+% \LegParagrafoUnico: alias semântico para clareza nos documentos.
+\let\LegParagrafoUnico\LegParagrafo
+
+% --- Caso (abertura de caso clínico/ético) ---
+\newcommand{\Caso}[1]{%
+    \clearpage
+    \begin{center}
+        \color{crp1}\sffamily\textbf{#1}%
+    \end{center}
+}
+
+% --- Ambientes de bloco sem recuo ---
+\newenvironment{blocao}
+    {\setlength{\parindent}{0pt}}
+    {}
+
+\newenvironment{blocaosingle}
+    {\setlength{\parindent}{0pt}\setasuspacing{\SingleSpacing}}
+    {\setasuspacing{\OnehalfSpacing}}
+
+% ---------------------------------------------------------------
+% Páginas de créditos
+% ---------------------------------------------------------------
+
+% Ambiente base: scriptsize, SingleSpacing, raggedright.
+% CreditoInstitucional e CreditoInstitucionalDestaque compartilham
+% a mesma estrutura — a distinção entre eles é semântica (uso nos
+% documentos). Unificados internamente; manter os dois nomes
+% preserva a interface existente.
+\newenvironment{CreditoInstitucional}{%
+    \sffamily\raggedright\noindent\scriptsize
+    \setasuspacing{\SingleSpacing}%
+}{}
+
+% CORRIGIDO: CreditoInstitucionalDestaque era idêntico a
+% CreditoInstitucional mas com um \vspace comentado no fechamento.
+% Unificado; o alias preserva compatibilidade com documentos existentes.
+\let\CreditoInstitucionalDestaque\CreditoInstitucional
+\let\endCreditoInstitucionalDestaque\endCreditoInstitucional
+
+% Cabeçalho de seção de créditos (nível 1): normalsize, negrito, crp1.
+\newcommand{\CreditoInstitucionalUm}[1]{%
+    \raggedright
+    {\sffamily\normalsize\bfseries\color{crp1}#1}\par
+    %\vspace{-0.382\baselineskip}%
+}
+
+% Cabeçalho de seção de créditos (nível 2): footnotesize, negrito, crp1.
+% Uso: subseções dentro de uma seção de créditos.
+\newcommand{\CreditoInstitucionalDois}[1]{%
+    \raggedright
+    \vspace{0.2\baselineskip}%
+    {\sffamily\footnotesize\bfseries\color{crp1}#1}\par
+    \vspace{-1\baselineskip}%
+}
+
+% Linha de crédito técnico: label (30%) + valor (61.8%).
+\newcommand{\CreditoTecnico}[2]{%
+    \begin{CreditoInstitucional}
+        \vspace{-1.618\baselineskip}%
+        \setlength{\tabcolsep}{0pt}%
+        \begin{tabular}{p{0.3\linewidth} p{0.618\linewidth}}
+            \sffamily\scriptsize\bfseries\color{crp1}#1 &
+            \normalfont\color{black}#2 \\
+        \end{tabular}%
+        \vspace{-1\baselineskip}%
+    \end{CreditoInstitucional}
+}
+
+% Lista de cargos: duas colunas (60% + 40%).
+\newcommand{\CargoNosCreditos}[1]{%
+    \sffamily\scriptsize\raggedright
+    \setlength{\tabcolsep}{0pt}%
+    \begin{tabular}{p{0.6\linewidth} p{0.4\linewidth}}
+        #1
+    \end{tabular}%
+    \vspace{-0.618\baselineskip}%
+}
+
+% Lista de nomes: coluna única.
+\newcommand{\NomeNosCreditos}[1]{%
+    \sffamily\scriptsize\raggedright
+    \setlength{\tabcolsep}{0pt}%
+    \begin{tabular}{p{\linewidth}}
+        #1
+    \end{tabular}%
+}

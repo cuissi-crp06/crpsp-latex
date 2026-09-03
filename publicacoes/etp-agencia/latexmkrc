@@ -1,1 +1,0 @@
-$pdf_previewer = 'start "C:\Users\angelo.cuissi\SumatraPDF\SumatraPDF-3.5.2-64" %O %S';

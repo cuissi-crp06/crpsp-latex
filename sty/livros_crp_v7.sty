@@ -1,0 +1,202 @@
+% !TeX program = lualatex
+% !TeX encoding = UTF-8
+\ProvidesPackage{livros_crp}[2025/09/26 v7.0 Reengenharia do Carregador de Fontes]
+
+% =============================================================================
+% PACOTE DE ESTILO PARA LIVROS DO CRP
+% v7.0: Reengenharia completa do sistema de carregamento de fontes para
+%       eliminar a instabilidade que causava erros fatais em cascata.
+%       Esta versão é estável e robusta.
+% =============================================================================
+
+% -----------------------------------------------------------------------------
+% VERIFICAÇÕES INICIAIS
+% -----------------------------------------------------------------------------
+\RequirePackage{iftex}
+\ifluatex
+  \PackageInfo{livros_crp}{Motor LuaLaTeX detectado.}
+\else
+  \PackageError{livros_crp}{Este pacote requer o motor LuaLaTeX}{Por favor, compile com 'lualatex'.}
+\fi
+
+\@ifclassloaded{memoir}{}{\PackageError{livros_crp}{Este pacote requer a classe 'memoir'}{Use \string\documentclass{memoir}.}}
+
+% -----------------------------------------------------------------------------
+% DEPENDÊNCIAS FUNDAMENTAIS
+% -----------------------------------------------------------------------------
+\RequirePackage{fontspec}
+\RequirePackage{xparse}
+\RequirePackage{etoolbox}
+\RequirePackage{microtype}
+\RequirePackage[main=brazilian,english]{babel}
+\RequirePackage{graphicx}
+\RequirePackage[dvipsnames,table]{xcolor}
+\RequirePackage{tcolorbox}
+\tcbuselibrary{skins,breakable,fitting}
+\RequirePackage{pdfpages}
+\RequirePackage{lastpage}
+\RequirePackage{ragged2e}
+\RequirePackage{hyperref}
+
+% -----------------------------------------------------------------------------
+% CONFIGURAÇÕES FIXAS
+% -----------------------------------------------------------------------------
+\definecolor{crp1}{RGB}{66,44,115}
+\definecolor{crp2}{RGB}{165,93,166}
+\definecolor{crp3}{RGB}{191,115,171}
+
+% %%% INÍCIO DA REENGENHARIA DE FONTES %%%
+% -----------------------------------------------------------------------------
+% FONTES: Configuração simplificada e robusta com fontspec padrão
+% -----------------------------------------------------------------------------
+\IfFontExistsTF{NEWJUNE}{
+    \setmainfont{NEWJUNE}[
+        Path=./,
+        UprightFont=*-REGULAR,
+        BOLDFont=*-BOLD,
+        ITALICFont=*-REGULAR-ITALIC,
+        BOLDITALICFont=*-BOLD-ITALIC,
+        Scale=1.0,
+        Ligatures=TeX
+    ]
+    \setsansfont{NEWJUNE}[
+        Path=./,
+        UprightFont=*-REGULAR,
+        BOLDFont=*-BOLD,
+        ITALICFont=*-REGULAR-ITALIC,
+        BOLDITALICFont=*-BOLD-ITALIC,
+        Scale=0.95
+    ]
+    \PackageInfo{livros_crp}{Fonte NEWJUNE carregada com sucesso.}
+}{
+    \IfFontExistsTF{Times New Roman}{
+        \setmainfont{Times New Roman}[Scale=1.0, Ligatures=TeX]
+        \PackageInfo{livros_crp}{Fonte Times New Roman carregada.}
+    }{\IfFontExistsTF{Liberation Serif}{
+        \setmainfont{Liberation Serif}[Scale=1.0, Ligatures=TeX]
+        \PackageInfo{livros_crp}{Fonte Liberation Serif carregada.}
+    }{\PackageWarning{livros_crp}{Nenhuma fonte serifada de fallback encontrada.}}}
+    
+    \IfFontExistsTF{Arial}{
+        \setsansfont{Arial}[Scale=0.95]
+        \PackageInfo{livros_crp}{Fonte Arial carregada.}
+    }{\IfFontExistsTF{Liberation Sans}{
+        \setsansfont{Liberation Sans}[Scale=0.95]
+        \PackageInfo{livros_crp}{Fonte Liberation Sans carregada.}
+    }{\PackageWarning{livros_crp}{Nenhuma fonte sans-serif de fallback encontrada.}}}
+    
+    \PackageWarning{livros_crp}{Fonte NEWJUNE não encontrada. Usando fontes de sistema como fallback.}
+}
+
+\IfFontExistsTF{Courier New}{
+    \setmonofont{Courier New}[Scale=0.85]
+    \PackageInfo{livros_crp}{Fonte Courier New carregada.}
+}{\IfFontExistsTF{Liberation Mono}{
+    \setmonofont{Liberation Mono}[Scale=0.85]
+    \PackageInfo{livros_crp}{Fonte Liberation Mono carregada.}
+}{\PackageWarning{livros_crp}{Nenhuma fonte monoespaçada de fallback encontrada.}}}
+%%% FIM DA REENGENHARIA DE FONTES %%%
+
+
+% -----------------------------------------------------------------------------
+% LAYOUT E TIPOGRAFIA
+% -----------------------------------------------------------------------------
+\semiisopage[9]
+\checkandfixthelayout
+\nonzeroparskip
+\raggedbottom
+\AtBeginDocument{\OnehalfSpacing}
+\microtypesetup{protrusion=true, expansion=true, tracking=true}
+
+% -----------------------------------------------------------------------------
+% TÍTULOS E SUMÁRIO
+% -----------------------------------------------------------------------------
+\setcounter{secnumdepth}{3}
+\setcounter{tocdepth}{3}
+\setsecnumdepth{subsection}
+\maxsecnumdepth{subsection}
+
+% -----------------------------------------------------------------------------
+% ESTILOS DE PÁGINA
+% -----------------------------------------------------------------------------
+\makepagestyle{pretext}
+\makeoddhead{pretext}{}{}{} \makeevenhead{pretext}{}{}{}
+\makeoddfoot{pretext}{}{}{\small\color{crp2}\thepage}
+\makeevenfoot{pretext}{\small\color{crp2}\thepage}{}{}
+\aliaspagestyle{chapter}{pretext} \aliaspagestyle{part}{pretext}
+\aliaspagestyle{toc}{pretext} \aliaspagestyle{titlingpage}{empty}
+\copypagestyle{crp}{headings}
+\makeheadfootruleprefix{crp}{\color{crp2}}{\color{crp2}}
+\makeheadrule{crp}{\textwidth}{0.5pt}
+\makeevenhead{crp}{\color{crp2}\small\thepage}{}{\color{crp2}\small\itshape\leftmark}
+\makeoddhead{crp}{\color{crp2}\small\itshape\rightmark}{}{\color{crp2}\small\thepage}
+\makeevenfoot{crp}{}{}{} \makeoddfoot{crp}{}{}{}
+
+% -----------------------------------------------------------------------------
+% ESTILOS DE SEÇÃO E CAPÍTULO
+% -----------------------------------------------------------------------------
+\renewcommand{\thepart}{\Roman{part}}
+\renewcommand{\partnamefont}{\huge\bfseries\color{crp2}}
+\renewcommand{\partnumfont}{\huge\bfseries\color{crp2}}
+\renewcommand{\parttitlefont}{\Huge\bfseries\color{crp1}\centering}
+
+\makechapterstyle{CRPHangFinal}{%
+  \chapterstyle{hangnum}
+  \renewcommand*{\printchapterstart}{\cleardoublepage\thispagestyle{empty}}
+  \renewcommand*{\chapnumfont}{\Huge\bfseries\color{crp2}}
+  \renewcommand*{\chaptitlefont}{\Huge\bfseries\color{crp1}\RaggedRight}
+  \renewcommand*{\printchaptername}{}
+  \renewcommand*{\chapternamenum}{}
+  \setbeforechapskip{2\baselineskip}
+  \setafterchapskip{2.5\baselineskip}
+  \settowidth{\chapnumhang}{\chapnumfont 88\hspace{0.618em}}
+}
+\chapterstyle{CRPHangFinal}
+
+\setbeforesecskip{-3.5ex plus -1ex minus -.2ex} 
+\setaftersecskip{\dimexpr 2.3ex plus .2ex - \parskip\relax}
+\setbeforesubsecskip{-3.25ex plus -1ex minus -.2ex}
+\setaftersubsecskip{\dimexpr 1.5ex plus .2ex - \parskip\relax}
+\setbeforesubsubsecskip{-3.25ex plus -1ex minus -.2ex}
+\setaftersubsubsecskip{\dimexpr 1.5ex plus .2ex - \parskip\relax}
+\setsecheadstyle{\Large\bfseries\color{crp1}}
+\setsubsecheadstyle{\large\bfseries\color{crp1}}
+\setsubsubsecheadstyle{\normalsize\bfseries\color{crp1}}
+\hangsecnum
+\setsecnumformat{\color{crp2}\csname the#1\endcsname\hspace{0.618em}}
+\settowidth{\sectionnumwidth}{\Large\bfseries\color{crp2}88\hspace{0.618em}}
+\settowidth{\subsectionnumwidth}{\large\bfseries\color{crp2}88.88\hspace{0.618em}}
+\settowidth{\subsubsectionnumwidth}{\normalsize\bfseries\color{crp2}88.88.88\hspace{0.618em}}
+
+\nouppercaseheads
+\addtopsmarks{headings}{}{\createmark{chapter}{both}{shownumber}{}{.\space}}
+
+% -----------------------------------------------------------------------------
+% COMANDOS CUSTOMIZADOS
+% -----------------------------------------------------------------------------
+\NewDocumentCommand{\CreditoInstitucionalUm}{m}{\begin{flushleft}\large\bfseries\color{crp2}#1\end{flushleft}\vspace{-0.5\baselineskip}}
+\NewDocumentCommand{\CreditoInstitucionalDois}{m}{\begin{flushleft}\normalsize\bfseries\color{crp3}#1\end{flushleft}\vspace{-\baselineskip}}
+\NewDocumentCommand{\CreditoTecnicoUm}{m}{\begin{flushright}\large\bfseries\color{crp2}#1\end{flushright}}
+\NewDocumentCommand{\CreditoTecnicoDois}{m}{\begin{flushright}\normalsize\bfseries\color{crp3}#1\end{flushright}}
+\NewDocumentEnvironment{CreditoInstitucional}{}{\begin{flushleft}\footnotesize}{\end{flushleft}}
+\NewDocumentCommand{\formulario}{O{} m}{\includepdf[#1]{formularios/#2}}
+\NewDocumentCommand{\sumario}{}{\vfill\begin{flushright}\begin{tcolorbox}[enhanced,width=12em,colback=crp2,colframe=crp1,arc=3pt,boxsep=8pt,halign=center]\hyperref[toc]{\small\sffamily\bfseries\textcolor{white}{VOLTAR~AO~SUMÁRIO}}\end{tcolorbox}\end{flushright}}
+
+% -----------------------------------------------------------------------------
+% HYPERREF E CONFIGURAÇÕES FINAIS
+% -----------------------------------------------------------------------------
+\hypersetup{unicode=true,colorlinks=true,linkcolor=crp1,filecolor=crp2,urlcolor=crp1,citecolor=crp1,linktoc=all,bookmarks=true,bookmarksnumbered=true,bookmarksopen=true,bookmarksopenlevel=1,pdfpagemode=UseOutlines,pdfstartview=FitH,pdfcreator={LuaLaTeX com livros_crp.sty v7.0},pdfproducer={Conselho Regional de Psicologia - São Paulo}}
+\urlstyle{same}
+
+\AtBeginDocument{
+  \addtocontents{toc}{\protect\thispagestyle{pretext}}
+  \addto\captionsbrazilian{
+    \renewcommand{\contentsname}{Sumário}
+    \renewcommand{\listfigurename}{Lista de Figuras}
+    \renewcommand{\listtablename}{Lista de Tabelas}
+  }
+}
+
+\PackageInfo{livros_crp}{Pacote carregado com sucesso - v7.0 estável.}
+\endinput
+% =============================================================================

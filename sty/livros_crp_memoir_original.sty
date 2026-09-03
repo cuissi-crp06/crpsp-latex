@@ -1,0 +1,359 @@
+\ProvidesPackage{livros_crp}
+% ---------- %
+% TIPOGRAFIA %
+% ---------- %
+\usepackage[no-math]{fontspec}
+\setmainfont{Lora}[
+    Path=./,
+    Extension=.ttf,
+    UprightFont = Lora-Regular,
+    BoldFont=Lora-Bold,
+    ItalicFont=Lora-Italic,
+    BoldItalicFont=Lora-BoldItalic,
+]
+\setsansfont{NEWJUNE}[
+    UprightFont = NEWJUNE-REGULAR.OTF,
+    BoldFont=NEWJUNE-BOLD.OTF,
+    ItalicFont=NEWJUNE-REGULAR-ITALIC.OTF,
+    BoldItalicFont=NEWJUNE-BOLD-ITALIC.OTF,
+]
+\newfontfamily{\media}{NEWJUNE-Medium}[%
+    UprightFont = NEWJUNE-MEDIUM.OTF,
+    ItalicFont = NEWJUNE-MEDIUM-ITALIC.OTF,
+]
+\newfontfamily{\fininha}{NEWJUNE-FINE}[%
+    UprightFont = NEWJUNE-FINE.OTF,
+    ItalicFont = NEWJUNE-FINE-ITALIC.OTF,
+]
+\newfontfamily{\Light}{NEWJUNE-LIGHT}[%
+    UprightFont = NEWJUNE-LIGHT.OTF,
+    ItalicFont = NEWJUNE-LIGHT-ITALIC.OTF,
+]
+\newfontfamily{\fontebook}{NEWJUNE-BOOK}[%
+    UprightFont = NEWJUNE-BOOK.OTF,
+    ItalicFont = NEWJUNE-BOOK-ITALIC.OTF,
+]
+\newfontfamily{\serifada}{NEWJUNESerif}[%
+    UprightFont = NEWJUNE-REGULAR.OTF,
+    ItalicFont = NEWJUNE-REGULAR-ITALIC.OTF,
+]
+\newfontfamily{\pesada}{NEWJUNE-ULTRABOLD}[%
+    UprightFont = NEWJUNE-ULTRABOLD.OTF,
+    ItalicFont = NEWJUNE-ULTRABOLD-ITALIC.OTF,
+    ]
+\usepackage{microtype}
+\usepackage{hyphenat}
+\def\hyph{-\penalty 0\hskip 0pt\relax}
+\usepackage[oldmla]{xellipsis}
+\frenchspacing
+% ------ %
+% Listas %
+% ------ %
+\usepackage{enumitem}
+% ---------------- %
+% CORES & GRÁFICOS %
+% ---------------- %
+\usepackage{graphicx}
+\usepackage{epstopdf}
+\epstopdfsetup{update}
+\usepackage{background}
+\usepackage[dvipsnames]{xcolor}
+\definecolor{crp1}{RGB}{4, 88, 110}
+\definecolor{crp2}{RGB}{25, 159, 175}
+\definecolor{crp3}{RGB}{191, 115, 171}
+\fboxsep=0pt
+\usepackage[skins, breakable]{tcolorbox}
+\usepackage{multirow}
+\usepackage{array}
+\newcolumntype{P}[1]{>{\centering\arraybackslash}p{#1}}
+\usepackage{longtable}
+\usepackage{tabularx,booktabs}
+\renewcommand\tabularxcolumn[1]{m{#1}}% for vertical centering text in X column
+\renewcommand{\arraystretch}{1.2}
+% ----------- %
+% DIAGRAMAÇÃO %
+% ----------- %
+\usepackage{svg}
+\usepackage{multicol}
+\usepackage{pdfpages}
+\usepackage[title={}]{colophon}
+\usepackage{lastpage}
+\usepackage{ragged2e}
+%\setstocksize{230mm}{168.5mm}
+%\settrims{10mm}{10mm}
+%\trimXmarks
+\semiisopage
+\clubpenalty=9996
+\widowpenalty=9999
+\brokenpenalty=4991
+\predisplaypenalty=10000
+\postdisplaypenalty=1549
+\displaywidowpenalty=1602
+\checkandfixthelayout
+\nonzeroparskip
+\sloppybottom
+\checkandfixthelayout
+\newcommand*{\setasuspacing}[1]{%
+    \let\AsuSpacing#1
+    \AsuSpacing}
+\setasuspacing{\OnehalfSpacing}
+\usepackage{calc}
+\newlength{\boxlarg}
+\setlength{\boxlarg}{2em}
+\newlength{\virgula}
+\setlength{\virgula}{0.5em}
+\newlength{\boxementa}
+\setlength{\boxementa}{\textwidth-6cm}
+\newlength{\indicartigo}
+\setlength{\indicartigo}{\widthof{\bfseries Art. 99º}}
+\newlength{\paragrafodelei}
+\setlength{\paragrafodelei}{\widthof{\bfseries § 999º }}
+\newlength{\paragrafounico}
+\setlength{\paragrafounico}{\widthof{\bfseries Paragrafo unico. }}
+\newlength{\sepcredito}
+\setlength{\sepcredito}{\widthof{\bfseries | }}
+\newlength{\numfrances}
+\setlength{\numfrances}{\widthof{10 \space}}
+\newlength{\numfrancesdois}
+\setlength{\numfrancesdois}{\widthof{10\space}}
+\newlength{\TOCVSpace}
+\setlength{\TOCVSpace}{3\baselineskip}
+\setsecnumdepth{none}
+\maxsecnumdepth{none}
+\usepackage{tocvsec2}
+\setcounter{tocdepth}{0}
+\renewcommand{\aftertoctitle}{\vspace*{\TOCVSpace}}
+\renewcommand*{\sectionmark}[1]{\markright{#1}}
+%
+\makepagestyle{pretext}
+\makeoddhead{pretext}{}{}{}
+\makeoddfoot{pretext}{}{}{}
+\makeevenhead{pretext}{}{}{}
+\makeevenfoot{pretext}{}{}{}
+\aliaspagestyle{part}{pretext}
+%
+\copypagestyle{crp}{headings}
+\makeheadfootruleprefix{crp}{\color{crp1}}{\color{crp1}}
+\makeheadrule{crp}{\textwidth}{\normalrulethickness}
+\makeevenhead{crp}{\color{crp1}\Light\small\thepage}{}{\color{crp1}\Light\small\leftmark}
+\makeoddhead{crp}{\color{crp1}\Light\small\rightmark}{}{\small\Light\color{crp1}\thepage}
+%
+\copypagestyle{chapter}{pretext}
+\makeoddhead{chapter}{}{}{}
+\makeoddfoot{chapter}{}{}{}
+\makeevenhead{chapter}{}{}{}
+\makeevenfoot{chapter}{}{}{}
+\aliaspagestyle{chapter}{empty}
+%
+\copypagestyle{crpPre}{headings}
+\makeheadfootruleprefix{crp}{\color{crp1}}{\color{crp1}}
+\makeheadrule{crp}{\textwidth}{\normalrulethickness}
+\makeevenhead{crp}{\color{crp1}\fontebook\small\thepage}{}{\color{crp1}\fontebook\small\itshape\leftmark}
+\makeoddhead{crp}{\color{crp1}\fontebook\small\itshape\rightmark}{}{\small\fontebook\color{crp1}\thepage}
+%
+\makeatletter
+\renewcommand{\hangsecnum}{%
+	\def\@seccntformat##1{%
+		\makebox[0pt][r]{%
+			\color{crp2}%
+			\csname the##1\endcsname
+			\quad
+		}%
+	}%
+}
+\makeatother
+%
+\setsecheadstyle{\color{crp1}\sffamily\Large\bfseries}
+\setaftersecskip{0.618\baselineskip}
+\setsubsecheadstyle{\color{crp1}\sffamily\normalsize\bfseries}
+\setaftersubsecskip{0.618\baselineskip}
+\setsubsubsecheadstyle{\color{crp1}\sffamily\normalsize\itshape}
+\setaftersubsubsecskip{0.618\baselineskip}
+\setparaheadstyle{\color{crp1}\sffamily\normalsize\bfseries}
+\setafterparaskip{0.618\baselineskip}
+\setsubparaheadstyle{\color{crp1}\sffamily\normalsize\color}
+\setaftersubparaskip{0.618\baselineskip}
+%
+\renewcommand{\printparttitle}{\flushright\HUGE\bfseries\color{crp1}\thepart}
+\renewcommand{\beforepartskip}{\vspace*{\fill}}
+\renewcommand{\afterpartskip}{\vspace*{4\baselineskip}}
+\let\partold\part
+\RenewDocumentCommand{\part}{O{#2} m}
+{
+\partold[#1]{\MakeUppercase{#2}}
+}
+%
+\nouppercaseheads
+\makechapterstyle{CRP01}{%
+%\renewcommand{\printchaptername}{\LARGE\bfseries\sffamily\color{crp2}}
+\renewcommand{\chaptitlefont}{\huge\bfseries\sffamily\color{crp2}}
+\setlength{\afterchapskip}{8\baselineskip}
+\renewcommand{\chapterheadstart}{\thispagestyle{empty}\vspace*{\beforechapskip}}
+}
+%
+\chapterstyle{CRP01}
+% ----------------------- %
+% NAVEGAÇÃO & FORMULÁRIOS %
+% ----------------------- %
+% Nota: a opção `urlbreaks` foi removida porque, quando \DocumentMetadata
+% está ativo, `url` é carregado antes de xurl e não reconhece essa opção,
+% gerando erro fatal. As quebras de URL continuam cobertas por `hyphens`
+% e `spaces`.
+\usepackage[obeyspaces, spaces, hyphens]{xurl}
+\usepackage{hyperref}
+\hypersetup{
+	colorlinks=true,
+	linkcolor=black,
+	filecolor=black,
+	urlcolor=crp1,
+}
+\urlstyle{same}
+%
+% -------------- %
+% NOVOS COMANDOS %
+% -------------- %
+%\renewcommand{\baselinestretch}{1.069}
+\newcommand{\SubTituloUm}[1]{%
+\vspace{-8\baselineskip}
+    \noindent\raggedright\large\itshape #1
+    \normalfont\normalsize\color{black}\justifying
+    \vspace{8\baselineskip}
+    }%
+% ----------- %
+% Assinaturas %
+% ----------- %
+\newcommand{\xviplenario}%
+    {\bfseries{XVI Plenário}\normalfont}
+\newcommand{\xviiplenario}
+    {\bfseries{XVII Plenário}\normalfont}
+\newcommand{\assinaapresenta}[1]%
+    {\begin{flushright}
+       % \vspace{-0.5\baselineskip}
+    \noindent%
+    Conselho Regional de Psicologia de São Paulo\\
+    #1%
+    \end{flushright}
+    \justifying
+    \setasuspacing{\OnehalfSpacing}
+    }%
+% ------------------- %
+% Páginas de créditos %
+% ------------------- %
+\newcommand{\CreditoInstitucionalUm}[1]{%
+    \raggedright
+        \sffamily\normalsize\bfseries\color{crp1}#1
+        \vspace{-0.382\baselineskip}%
+        \normalsize\normalfont\color{black}
+        }
+\newcommand{\CreditoInstitucionalDois}[1]{%
+    \raggedright
+        \vspace{0.2\baselineskip}
+        \sffamily\footnotesize\bfseries\color{crp1}#1
+       \vspace{-1.382\baselineskip}
+        \normalsize\normalfont\color{black}
+    }
+\newenvironment{CreditoInstitucional}{%
+    \raggedright
+    \noindent
+    \scriptsize
+    \setasuspacing{\SingleSpacing}
+    }{}%
+\newenvironment{CreditoInstitucionalDestaque}{%
+    \raggedright
+    \noindent
+    \scriptsize
+    \setasuspacing{\SingleSpacing}
+    }%
+    {%\vspace{-1\baselineskip}
+    }
+\newcommand{\CargoNosCreditos}[1]{%
+\sffamily\scriptsize\raggedright
+    \setlength{\tabcolsep}{0pt}
+    \begin{tabular}{p{0.6\linewidth} p{0.4\linewidth}}
+     \fontebook%
+     #1
+    \end{tabular}
+    \vspace{-0.618\baselineskip}
+    }
+\newcommand{\NomeNosCreditos}[1]{%
+\sffamily\scriptsize\raggedright
+    \setlength{\tabcolsep}{0pt}
+    \begin{tabular}{p{\linewidth}}
+     \fontebook%
+     #1
+    \end{tabular}
+    }
+\newcommand{\CreditoTecnico}[2]{%
+    \begin{CreditoInstitucional}
+        \vspace{-1.618\baselineskip}
+            \setlength{\tabcolsep}{0pt}
+      \begin{tabular}{p{0.3\linewidth} p{0.618\linewidth}}
+        \sffamily\scriptsize\bfseries\color{crp1}#1 &
+        \normalfont\color{black}#2 \\
+    \end{tabular}
+        \vspace{-1\baselineskip}
+    \end{CreditoInstitucional}
+    }
+\newcommand{\LegEmenta}[1]{%
+    \begin{minipage}{6cm}
+        \hfill{}
+    \end{minipage}%
+    \begin{minipage}{\boxementa}
+        \justifying
+        \sffamily\footnotesize\noindent #1
+    \end{minipage}
+    \noindent%
+    }
+\newcommand{\Entretitulo}[1]{%
+    \vspace{0.618\baselineskip}%
+\color{crp1}\Light\noindent#1
+    \vspace{0.382\baselineskip}%
+    \normalfont\normalsize\color{black}%
+    }
+\newcommand{\LegArtigo}[2]{%
+    \begin{description}[align= left,leftmargin=!,labelwidth=\indicartigo,labelsep=1em]
+        \item[Art. #1 ] #2%
+    \end{description}
+    }
+\newcommand{\LegParagrafo}[2]{%
+    \begin{minipage}{\indicartigo-0.5em}
+        \hfill{}
+    \end{minipage}%
+    \begin{minipage}{\linewidth-1.5\indicartigo+1em}
+        \textbf{#1} #2%
+    \end{minipage}
+    }
+\newcommand{\LegParagrafoUnico}[2]{%
+\begin{minipage}{\indicartigo-0.5em}
+    \hfill{}
+\end{minipage}%
+\begin{minipage}{\linewidth-1.5\indicartigo+1em}
+    \textbf{#1} #2%
+\end{minipage}
+}
+\newenvironment{blocao}{\setlength{\parindent}{0cm}}{}
+\newcommand{\LegAssina}[2]{%
+	\begin{center}
+	#1 \\
+	#2
+	\end{center}
+	}
+\newenvironment{blocaosingle}{\setlength{\parindent}{0cm}\setasuspacing{\SingleSpacing}}{\setasuspacing{\OnehalfSpacing}}
+\newcommand{\LegTitulo}[1]{%
+	%\vspace{\baselineskip}
+	\begin{center}
+	\textbf{#1}
+	\end{center}
+	}
+%
+\newcommand{\setetoques}{\rule{6em}{0.4pt}}
+%
+% Nota: definição de \Caso estava truncada no arquivo original.
+% Fechada com implementação mínima para evitar erro de compilação.
+% Este comando não é utilizado no documento atual.
+\newcommand{\Caso}[1]{%
+    \clearpage
+    \begin{center}
+        \color{crp1}#1
+    \end{center}
+}

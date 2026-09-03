@@ -1,0 +1,219 @@
+\ProvidesPackage{livros_crp_acessivel_manual}[2026/04/09 v0.3-test — redefinições manuais de chapter/section]
+
+% ATENÇÃO: ARQUIVO DE TESTE DIAGNÓSTICO.
+% Cópia do livros_crp_acessivel_book.sty com o bloco titlesec
+% substituído por redefinições manuais dos comandos internos
+% de \chapter, \section etc. do book.cls.
+%
+% Objetivo: verificar que as redefinições manuais produzem a
+% mesma árvore de tags limpa que o arquivo _notitlesec produziu,
+% SEM regredir para os defeitos causados pelo titlesec.
+
+% ===================================================================
+% 1. TIPOGRAFIA
+% ===================================================================
+
+\usepackage[no-math]{fontspec}
+\usepackage[brazilian]{babel}
+
+\setmainfont{Lora}[
+    Path           = ./,
+    Extension      = .ttf,
+    UprightFont    = Lora-Regular,
+    BoldFont       = Lora-Bold,
+    ItalicFont     = Lora-Italic,
+    BoldItalicFont = Lora-BoldItalic,
+]
+
+\setsansfont{NEWJUNE}[
+    UprightFont    = NEWJUNE-REGULAR.OTF,
+    BoldFont       = NEWJUNE-BOLD.OTF,
+    ItalicFont     = NEWJUNE-REGULAR-ITALIC.OTF,
+    BoldItalicFont = NEWJUNE-BOLD-ITALIC.OTF,
+]
+
+\newfontfamily{\media}    {NEWJUNE-Medium}   [UprightFont=NEWJUNE-MEDIUM.OTF,    ItalicFont=NEWJUNE-MEDIUM-ITALIC.OTF]
+\newfontfamily{\fininha}  {NEWJUNE-Fine}     [UprightFont=NEWJUNE-FINE.OTF,      ItalicFont=NEWJUNE-FINE-ITALIC.OTF]
+\newfontfamily{\Light}    {NEWJUNE-Light}    [UprightFont=NEWJUNE-LIGHT.OTF,     ItalicFont=NEWJUNE-LIGHT-ITALIC.OTF]
+\newfontfamily{\fontebook}{NEWJUNE-Book}     [UprightFont=NEWJUNE-BOOK.OTF,      ItalicFont=NEWJUNE-BOOK-ITALIC.OTF]
+\newfontfamily{\serifada} {NEWJUNE-Serif}    [UprightFont=NEWJUNE-REGULAR.OTF,   ItalicFont=NEWJUNE-REGULAR-ITALIC.OTF]
+\newfontfamily{\pesada}   {NEWJUNE-Ultrabold}[UprightFont=NEWJUNE-ULTRABOLD.OTF, ItalicFont=NEWJUNE-ULTRABOLD-ITALIC.OTF]
+
+\usepackage[protrusion=true, expansion=true]{microtype}
+\usepackage{hyphenat}
+\def\hyph{-\penalty0\hskip0pt\relax}
+\usepackage[oldmla]{xellipsis}
+\frenchspacing
+
+
+% ===================================================================
+% 2. CORES
+% ===================================================================
+
+\usepackage[dvipsnames]{xcolor}
+\definecolor{crp1}{RGB}{66,  44,  115}
+\definecolor{crp2}{RGB}{165, 93,  166}
+\definecolor{crp3}{RGB}{191, 115, 171}
+
+\usepackage{graphicx}
+
+
+% ===================================================================
+% 4. LAYOUT
+% ===================================================================
+
+\usepackage{setspace}
+
+\usepackage[
+    a5paper,
+    inner      = 16.444mm,
+    outer      = 32.889mm,
+    top        = 23.333mm,
+    bottom     = 46.667mm,
+    headheight = 14pt,
+    headsep    = 0.5\baselineskip,
+]{geometry}
+
+\setcounter{tocdepth}{0}
+\setcounter{secnumdepth}{-1}
+
+\setlength{\parskip}{0.5\baselineskip plus 2pt}
+\setlength{\parindent}{0pt}
+
+\onehalfspacing
+
+% --- Redefinições manuais de estilos de seção ---
+% Substituem o bloco \titleformat/\titlespacing que usava titlesec.
+% A formatação é feita sobrescrevendo os comandos internos do
+% book.cls: \@makechapterhead (conteúdo da abertura de capítulo)
+% e o formato padrão de \section, \subsection etc. via \@startsection.
+%
+% \chapter: definido em book.cls via \@makechapterhead e
+% \@makeschapterhead. Redefinimos os dois com o estilo CRP.
+
+\makeatletter
+
+% --- Capítulo numerado ---
+% NOTA: com secnumdepth=-1 nenhum capítulo exibe número, então o
+% bloco \if@mainmatter...\fi que imprimiria "Capítulo N" fica
+% simplesmente omitido. O resultado é só o título.
+\renewcommand\@makechapterhead[1]{%
+    \vspace*{50\p@}%
+    {\parindent \z@ \raggedright \normalfont
+     \interlinepenalty\@M
+     \huge\bfseries\sffamily\color{crp2} #1\par\nobreak
+     \vskip 8\baselineskip
+    }%
+}
+
+% --- Capítulo não-numerado (\chapter*) ---
+\renewcommand\@makeschapterhead[1]{%
+    \vspace*{50\p@}%
+    {\parindent \z@ \raggedright \normalfont
+     \interlinepenalty\@M
+     \huge\bfseries\sffamily\color{crp2} #1\par\nobreak
+     \vskip 8\baselineskip
+    }%
+}
+
+% --- Partes ---
+% A parte usa \@part e \@endpart em book.cls. Em vez de mexer
+% nesses comandos internos (que são complexos e interagem com
+% page breaks), redefinimos \part via wrapper que ajusta a
+% formatação do título.
+%
+% Abordagem: deixar \part do book.cls emitir sua estrutura
+% normal, mas mudar \partname (se quiséssemos "Parte" em
+% português, o babel já faz isso) e o estilo via \huge etc.
+%
+% Para controle visual: redefinir \@makepartnumber e o formato
+% interno. Mas book.cls não separa esses componentes limpamente.
+% Alternativa: aceitar o layout default do book (número + título
+% centrados no meio da página) e só aplicar cor e fonte via
+% redefinição direta.
+
+\renewcommand\part{%
+    \if@openright\cleardoublepage\else\clearpage\fi
+    \thispagestyle{plain}%
+    \if@twocolumn\onecolumn\@tempswatrue\else\@tempswafalse\fi
+    \null\vfil
+    \secdef\@part\@spart}
+
+\def\@part[#1]#2{%
+    \ifnum \c@secnumdepth >-2\relax
+        \refstepcounter{part}%
+        \addcontentsline{toc}{part}{\thepart\hspace{1em}#2}%
+    \else
+        \addcontentsline{toc}{part}{#2}%
+    \fi
+    \markboth{}{}%
+    {\centering
+     \interlinepenalty \@M
+     \normalfont
+     \ifnum \c@secnumdepth >-2\relax
+       \huge\bfseries\sffamily\color{crp1} \partname\nobreakspace\thepart
+       \par
+       \vskip 20\p@
+     \fi
+     \Huge \bfseries \sffamily \color{crp1} #2\par}%
+    \@endpart}
+
+\def\@spart#1{%
+    {\centering
+     \interlinepenalty \@M
+     \normalfont
+     \Huge \bfseries \sffamily \color{crp1} #1\par}%
+    \@endpart}
+
+% --- Seções via \@startsection ---
+% \@startsection{name}{level}{indent}{beforeskip}{afterskip}{style}
+% Negativo em afterskip = inline (runin); positivo = display
+\renewcommand\section{%
+    \@startsection{section}{1}{\z@}%
+        {-2\baselineskip \@plus -\p@ \@minus -.2ex}%
+        {0.618\baselineskip}%
+        {\color{crp1}\sffamily\Large\bfseries}}
+
+\renewcommand\subsection{%
+    \@startsection{subsection}{2}{\z@}%
+        {-1.5\baselineskip \@plus -\p@ \@minus -.2ex}%
+        {0.618\baselineskip}%
+        {\color{crp1}\sffamily\normalsize\bfseries}}
+
+\renewcommand\subsubsection{%
+    \@startsection{subsubsection}{3}{\z@}%
+        {-\baselineskip \@plus -\p@ \@minus -.2ex}%
+        {0.618\baselineskip}%
+        {\color{crp1}\sffamily\normalsize\itshape}}
+
+\renewcommand\paragraph{%
+    \@startsection{paragraph}{4}{\z@}%
+        {-0.5\baselineskip \@plus -\p@ \@minus -.2ex}%
+        {-0.5em}%   % negativo: runin
+        {\color{crp1}\sffamily\normalsize\bfseries}}
+
+\renewcommand\subparagraph{%
+    \@startsection{subparagraph}{5}{\parindent}%
+        {-0.5\baselineskip \@plus -\p@ \@minus -.2ex}%
+        {-0.5em}%
+        {\color{crp1}\sffamily\normalsize}}
+
+\makeatother
+
+
+% ===================================================================
+% 5. NAVEGAÇÃO & PDF
+% ===================================================================
+
+\usepackage[obeyspaces, spaces, hyphens]{xurl}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks         = true,
+    linkcolor          = black,
+    filecolor          = black,
+    urlcolor           = crp1,
+    pdfdisplaydoctitle = true,
+    bookmarksopen      = true,
+    bookmarksnumbered  = false,
+}
+\urlstyle{same}

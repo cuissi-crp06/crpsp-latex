@@ -1,0 +1,22 @@
+# Artefatos de compilação LaTeX — regeneráveis a partir dos .tex
+*.aux
+*.log
+*.out
+*.toc
+*.lof
+*.lot
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+*.bbl
+*.bcf
+*.blg
+*.run.xml
+*.nav
+*.snm
+*.vrb
+texput.log
+indent.log
+
+# Estado local de editor
+*.code-workspace

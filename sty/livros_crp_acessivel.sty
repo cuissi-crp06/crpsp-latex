@@ -1,0 +1,388 @@
+\ProvidesPackage{livros_crp_acessivel_book}[2026/04/09 v0.2 Pacote editorial CRP-SP — variante PDF/UA (book)]
+
+% ===================================================================
+% livros_crp_acessivel_book.sty — variante acessível, base `book`
+% Motor:  LuaLaTeX + classe book (LaTeX standard)
+% Alvo:   PDF/UA-2 (tagging automático via latex-lab / phase-III)
+%
+% Por que book e não scrbook?
+%   Testes com o MWE mostraram que scrbook + latex-lab phase-III
+%   produz árvore de tags estruturalmente incorreta: títulos de
+%   capítulo e seção ficam como <P> dentro de <Part>, sem <H1>/<H2>.
+%   O KOMA-Script emite warning explícito: "Activated tagging
+%   detected but not supported". O mesmo teste com `book` puro
+%   produziu <Sect> → <H1> título → <P> corretamente.
+%
+% Diferenças em relação a livros_crp.sty (memoir):
+%   - Base book em vez de memoir
+%   - Compatível com \DocumentMetadata + tagging=on
+%   - Comandos memoir-only substituídos por titlesec + fancyhdr
+%   - Layout via geometry com valores fixos reproduzindo \semiisopage
+%   - Créditos institucionais refatorados (sem tabular de layout)
+%   - changes removido (revisão editorial fora do pipeline de entrega)
+%   - \MakeUppercase removido de \part (caixa real no fonte)
+%
+% PREREQUISITO no .tex principal (antes de \documentclass):
+%   \DocumentMetadata{
+%       lang        = pt-BR,
+%       pdfstandard = ua-2,
+%       pdfversion  = 2.0,
+%       testphase   = {phase-III,table,firstaid},
+%       tagging     = on,
+%   }
+%   \documentclass[11pt,a5paper,twoside,openright]{book}
+%
+% Estrutura:
+%   1. Tipografia
+%   2. Cores & gráficos
+%   3. Tabelas
+%   4. Diagramação & layout
+%   5. Navegação & PDF
+%   6. Revisão de texto        (bloco documental, sem código)
+%   7. Comandos e ambientes institucionais   (rodada seguinte)
+% ===================================================================
+
+
+% ===================================================================
+% 1. TIPOGRAFIA
+% ===================================================================
+
+% [no-math]: evita conflito com pacotes matemáticos.
+\usepackage[no-math]{fontspec}
+
+% Babel é obrigatório para PDF/UA: fornece /Lang correto nas tags
+% e hifenização portuguesa. Deve ser carregado antes de qualquer
+% pacote que dependa da seleção de idioma.
+\usepackage[brazilian]{babel}
+
+% --- Fonte principal (serifada) ---
+% NOTA PDF/UA: TTF OpenType com cmap válido produz ToUnicode
+% correto no PDF final. Verificar com veraPDF se necessário.
+\setmainfont{Lora}[
+    Path           = ./,
+    Extension      = .ttf,
+    UprightFont    = Lora-Regular,
+    BoldFont       = Lora-Bold,
+    ItalicFont     = Lora-Italic,
+    BoldItalicFont = Lora-BoldItalic,
+]
+
+% --- Família sem serifa principal (NEWJUNE Regular) ---
+\setsansfont{NEWJUNE}[
+    UprightFont    = NEWJUNE-REGULAR.OTF,
+    BoldFont       = NEWJUNE-BOLD.OTF,
+    ItalicFont     = NEWJUNE-REGULAR-ITALIC.OTF,
+    BoldItalicFont = NEWJUNE-BOLD-ITALIC.OTF,
+]
+
+% --- Pesos adicionais NEWJUNE como famílias independentes ---
+\newfontfamily{\media}    {NEWJUNE-Medium}   [UprightFont=NEWJUNE-MEDIUM.OTF,    ItalicFont=NEWJUNE-MEDIUM-ITALIC.OTF]
+\newfontfamily{\fininha}  {NEWJUNE-Fine}     [UprightFont=NEWJUNE-FINE.OTF,      ItalicFont=NEWJUNE-FINE-ITALIC.OTF]
+\newfontfamily{\Light}    {NEWJUNE-Light}    [UprightFont=NEWJUNE-LIGHT.OTF,     ItalicFont=NEWJUNE-LIGHT-ITALIC.OTF]
+\newfontfamily{\fontebook}{NEWJUNE-Book}     [UprightFont=NEWJUNE-BOOK.OTF,      ItalicFont=NEWJUNE-BOOK-ITALIC.OTF]
+\newfontfamily{\serifada} {NEWJUNE-Serif}    [UprightFont=NEWJUNE-REGULAR.OTF,   ItalicFont=NEWJUNE-REGULAR-ITALIC.OTF]
+\newfontfamily{\pesada}   {NEWJUNE-Ultrabold}[UprightFont=NEWJUNE-ULTRABOLD.OTF, ItalicFont=NEWJUNE-ULTRABOLD-ITALIC.OTF]
+
+% --- Microtipografia ---
+\usepackage[
+    protrusion = true,
+    expansion  = true,
+]{microtype}
+
+% --- Hifenização ---
+\usepackage{hyphenat}
+\def\hyph{-\penalty0\hskip0pt\relax}
+
+% --- Reticências ---
+% NOTA PDF/UA: xellipsis insere glifos como texto, compatível
+% com tagging. Reticências MLA ([ . . . ]) são lidas pelo leitor
+% de tela como "colchete aberto, ponto, ponto, ponto, colchete
+% fechado" — intencional para marcar omissão.
+\usepackage[oldmla]{xellipsis}
+
+\frenchspacing
+
+
+% ===================================================================
+% 2. CORES & GRÁFICOS
+% ===================================================================
+
+\usepackage[dvipsnames]{xcolor}
+
+% --- Paleta institucional CRP-SP ---
+\definecolor{crp1}{RGB}{66,  44,  115}   % Púrpura escuro
+\definecolor{crp2}{RGB}{165, 93,  166}   % Púrpura médio
+\definecolor{crp3}{RGB}{191, 115, 171}   % Púrpura claro
+
+\usepackage{graphicx}
+\usepackage{svg}
+\usepackage{background}
+
+\usepackage[skins, breakable]{tcolorbox}
+\setlength{\fboxsep}{0pt}
+
+
+% ===================================================================
+% 3. TABELAS
+% ===================================================================
+
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{longtable}
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage{enumitem}
+
+\newcolumntype{P}[1]{>{\centering\arraybackslash}p{#1}}
+\renewcommand{\tabularxcolumn}[1]{m{#1}}
+\renewcommand{\arraystretch}{1.2}
+
+
+% ===================================================================
+% 4. DIAGRAMAÇÃO & LAYOUT
+% ===================================================================
+
+\usepackage{multicol}
+\usepackage{pdfpages}
+\usepackage{ragged2e}
+\usepackage{calc}
+\usepackage{lastpage}
+\usepackage{setspace}
+
+% --- Layout da página ---
+% Valores calculados a partir do \semiisopage do memoir para A5:
+%   inner  = paperwidth  / 9 = 148/9  ≈ 16.444 mm
+%   outer  = 2 * inner       ≈ 32.889 mm
+%   top    = paperheight / 9 = 210/9  ≈ 23.333 mm
+%   bottom = 2 * top         ≈ 46.667 mm
+%   textwidth  = 148 - inner - outer  ≈ 98.667 mm
+%   textheight = 210 - top   - bottom = 140.000 mm
+%
+% A proporção áurea das margens é aproximada pelo ratio 1:2 do
+% memoir (spine:edge e top:bottom), que é a fórmula documentada
+% de \semiisopage.
+\usepackage[
+    a5paper,
+    inner  = 16.444mm,
+    outer  = 32.889mm,
+    top    = 23.333mm,
+    bottom = 46.667mm,
+    headsep= 0.5\baselineskip,
+]{geometry}
+
+% --- Sumário ---
+\setcounter{tocdepth}{0}
+\setcounter{secnumdepth}{-1}   % hierarquia via tags, sem numeração visível
+
+% --- Penalidades tipográficas ---
+\clubpenalty        = 9996
+\widowpenalty       = 9999
+\brokenpenalty      = 4991
+\predisplaypenalty  = 10000
+\postdisplaypenalty = 1549
+\displaywidowpenalty= 1602
+
+% --- Parskip ---
+% Equivalente ao \nonzeroparskip do memoir.
+\setlength{\parskip}{0.5\baselineskip plus 2pt}
+\setlength{\parindent}{0pt}
+
+% --- Espaçamento entre linhas ---
+% \setasuspacing: indireção que permite trocar o espaçamento
+% global via \setasuspacing{\singlespacing} ou
+% \setasuspacing{\onehalfspacing}. Padrão: 1,5 linhas.
+\newcommand*{\setasuspacing}[1]{%
+    \let\AsuSpacing#1%
+    \AsuSpacing}
+\setasuspacing{\onehalfspacing}
+
+% --- Lengths calculadas em tempo de compilação ---
+\newlength{\boxlarg}
+\newlength{\virgula}
+\newlength{\boxementa}
+\newlength{\indicartigo}
+\newlength{\paragrafodelei}
+\newlength{\paragrafounico}
+\newlength{\sepcredito}
+\newlength{\numfrances}
+\newlength{\numfrancesdois}
+\newlength{\TOCVSpace}
+
+\AtBeginDocument{%
+    \setlength{\boxlarg}      {2em}%
+    \setlength{\virgula}      {0.5em}%
+    \setlength{\boxementa}    {\textwidth-6cm}%
+    \setlength{\indicartigo}  {\widthof{\bfseries Art. 99º}}%
+    \setlength{\paragrafodelei}{\widthof{\bfseries § 999º\space}}%
+    \setlength{\paragrafounico}{\widthof{\bfseries Parágrafo único.\space}}%
+    \setlength{\sepcredito}   {\widthof{\bfseries | }}%
+    \setlength{\numfrances}   {\widthof{10\space\space}}%
+    \setlength{\numfrancesdois}{\widthof{10\space}}%
+    \setlength{\TOCVSpace}    {3\baselineskip}%
+}
+
+% --- Page styles via fancyhdr ---
+\usepackage{fancyhdr}
+
+% Estilo "crp" (miolo principal): régua + número de página + mark.
+% Cor crp1 aplicada via \color no conteúdo do cabeçalho.
+% NOTA: fancyhdr não tem equivalente direto ao \makeheadfootruleprefix
+% do memoir (que colore a régua independentemente do texto). Aqui
+% usamos \headrule redefinido para incluir \color{crp1}.
+\fancypagestyle{crp}{%
+    \fancyhf{}%
+    \fancyhead[LE]{\color{crp1}\Light\small\thepage}%
+    \fancyhead[RE]{\color{crp1}\Light\small\leftmark}%
+    \fancyhead[LO]{\color{crp1}\Light\small\rightmark}%
+    \fancyhead[RO]{\color{crp1}\Light\small\thepage}%
+    \renewcommand{\headrule}{%
+        {\color{crp1}\hrule width\headwidth height\normalrulethickness}%
+    }%
+    \renewcommand{\footrulewidth}{0pt}%
+}
+
+% Estilo "crpPre" (pré-textuais com fonte book em itálico)
+\fancypagestyle{crpPre}{%
+    \fancyhf{}%
+    \fancyhead[LE]{\color{crp1}\fontebook\small\thepage}%
+    \fancyhead[RE]{\color{crp1}\fontebook\small\itshape\leftmark}%
+    \fancyhead[LO]{\color{crp1}\fontebook\small\itshape\rightmark}%
+    \fancyhead[RO]{\color{crp1}\fontebook\small\thepage}%
+    \renewcommand{\headrule}{%
+        {\color{crp1}\hrule width\headwidth height\normalrulethickness}%
+    }%
+    \renewcommand{\footrulewidth}{0pt}%
+}
+
+% Estilo "pretext": folha de rosto e partes — sem cabeçalho.
+\fancypagestyle{pretext}{%
+    \fancyhf{}%
+    \renewcommand{\headrulewidth}{0pt}%
+    \renewcommand{\footrulewidth}{0pt}%
+}
+
+% O estilo `plain` (usado automaticamente em páginas de abertura
+% de capítulo) é redefinido para também ficar limpo:
+\fancypagestyle{plain}{%
+    \fancyhf{}%
+    \renewcommand{\headrulewidth}{0pt}%
+    \renewcommand{\footrulewidth}{0pt}%
+}
+
+% Marks para o cabeçalho: capítulo em \leftmark, seção em \rightmark.
+% book já faz isso por padrão; aqui garantimos que o formato não
+% aplique \MakeUppercase (que seria ruim para leitores de tela).
+\renewcommand{\chaptermark}[1]{\markboth{#1}{}}
+\renewcommand{\sectionmark}[1]{\markright{#1}}
+
+% --- Estilos de título via titlesec ---
+\usepackage{titlesec}
+
+% Partes: número + título em flushright, cor crp1.
+% CORRIGIDO em relação ao livros_crp.sty memoir original:
+% incluindo o título textual (#1) no corpo da página, não apenas
+% o número — para que o leitor de tela anuncie o conteúdo da parte.
+% \MakeUppercase removido para preservar a caixa real no stream
+% de glifos (leitor de tela lê o que está desenhado).
+\titleformat{\part}[display]
+    {\flushright\color{crp1}\sffamily\bfseries}
+    {\Huge\thepart}
+    {1em}
+    {\huge}
+\titlespacing*{\part}{0pt}{*0}{4\baselineskip}
+
+% Capítulos
+\titleformat{\chapter}[display]
+    {\huge\bfseries\sffamily\color{crp2}}
+    {}
+    {0pt}
+    {\huge}
+\titlespacing*{\chapter}{0pt}{*0}{8\baselineskip}
+
+% Seções
+\titleformat{\section}
+    {\color{crp1}\sffamily\Large\bfseries}
+    {}{0pt}{}
+\titlespacing*{\section}{0pt}{*2}{0.618\baselineskip}
+
+\titleformat{\subsection}
+    {\color{crp1}\sffamily\normalsize\bfseries}
+    {}{0pt}{}
+\titlespacing*{\subsection}{0pt}{*1.5}{0.618\baselineskip}
+
+\titleformat{\subsubsection}
+    {\color{crp1}\sffamily\normalsize\itshape}
+    {}{0pt}{}
+\titlespacing*{\subsubsection}{0pt}{*1}{0.618\baselineskip}
+
+\titleformat{\paragraph}[runin]
+    {\color{crp1}\sffamily\normalsize\bfseries}
+    {}{0pt}{}
+\titlespacing*{\paragraph}{0pt}{*0.5}{0.618\baselineskip}
+
+\titleformat{\subparagraph}[runin]
+    {\color{crp1}\sffamily\normalsize}
+    {}{0pt}{}
+\titlespacing*{\subparagraph}{0pt}{*0.5}{0.618\baselineskip}
+
+
+% ===================================================================
+% 5. NAVEGAÇÃO & PDF
+% ===================================================================
+
+% xurl antes de hyperref — estende regras de quebra de URL.
+% NOTA: a opção urlbreaks requer que url não tenha sido carregado
+% antes. Com \DocumentMetadata ativo, pdfmanagement pode carregar
+% url antecipadamente — por isso não usamos urlbreaks aqui.
+\usepackage[obeyspaces, spaces, hyphens]{xurl}
+\usepackage{hyperref}
+
+% \DocumentMetadata já configura título, autor, idioma via XMP.
+% hypersetup aqui cuida apenas da aparência dos links e de
+% pdfdisplaydoctitle (exigido por PDF/UA).
+\hypersetup{
+    colorlinks         = true,
+    linkcolor          = black,
+    filecolor          = black,
+    urlcolor           = crp1,
+    pdfdisplaydoctitle = true,
+    bookmarksopen      = true,
+    bookmarksnumbered  = false,
+}
+\urlstyle{same}
+
+
+% ===================================================================
+% 6. REVISÃO DE TEXTO
+% ===================================================================
+%
+% O pacote `changes` foi removido desta variante. Motivos:
+%   - Marcações de revisão (adicionado, removido, destaque) não
+%     devem aparecer no PDF final de entrega; eram neutralizadas.
+%   - Com phase-III + tagpdf ativos, `changes` colide com \comment
+%     definido indiretamente por outros pacotes do pipeline.
+%   - Revisão editorial é fluxo de produção, não de entrega: deve
+%     ser feita em branch/versão separada, fora do pipeline PDF/UA.
+%
+% Se for necessário reintroduzir marcação de revisão em uma
+% compilação de trabalho (nunca de entrega), carregar `changes`
+% diretamente no .tex do documento — não aqui.
+
+
+% ===================================================================
+% 7. COMANDOS E AMBIENTES INSTITUCIONAIS
+% ===================================================================
+%
+% STATUS: seção pendente de migração.
+% Na próxima rodada:
+%   - Créditos (CreditoTecnico, CargoNosCreditos, NomeNosCreditos)
+%     refatorados para \parbox duplo, sem tabular de layout.
+%   - SubTituloUm, Entretitulo, Caso, blocao, blocaosingle:
+%     portados com escopo de grupo explícito para segurança de tags.
+%   - Leg* (LegEmenta, LegArtigo, LegParagrafo, LegAssina, LegTitulo):
+%     portados preservando estrutura minipage (decisão do usuário —
+%     refatoração adiada).
+%   - assinaapresenta, setetoques, xviplenario, xviiplenario,
+%     CreditoInstitucional*: portados sem mudança estrutural.
+%
+% ===================================================================

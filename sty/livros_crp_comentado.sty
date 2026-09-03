@@ -1,0 +1,330 @@
+% !TeX program = lualatex
+% !TeX encoding = UTF-8
+
+% DECLARAÇÃO DO PACOTE: Define o nome, data e versão do pacote de estilo
+\ProvidesPackage{livros_crp}[2025/09/26 v7.0 Reengenharia do Carregador de Fontes]
+
+% =============================================================================
+% PACOTE DE ESTILO PARA LIVROS DO CRP
+% v7.0: Reengenharia completa do sistema de carregamento de fontes para
+%       eliminar a instabilidade que causava erros fatais em cascata.
+%       Esta versão é estável e robusta.
+% =============================================================================
+
+% -----------------------------------------------------------------------------
+% VERIFICAÇÕES INICIAIS
+% -----------------------------------------------------------------------------
+
+% Carrega pacote para verificar qual motor LaTeX está sendo usado
+\RequirePackage{iftex}
+
+% Verifica se está usando LuaLaTeX (necessário para fontes modernas)
+\ifluatex
+  % Se sim, informa que detectou LuaLaTeX
+  \PackageInfo{livros_crp}{Motor LuaLaTeX detectado.}
+\else
+  % Se não, para a compilação com erro explicativo
+  \PackageError{livros_crp}{Este pacote requer o motor LuaLaTeX}{Por favor, compile com 'lualatex'.}
+\fi
+
+% Verifica se a classe 'memoir' está sendo usada (necessária para layout avançado)
+% Se não estiver, para com erro explicativo
+\@ifclassloaded{memoir}{}{\PackageError{livros_crp}{Este pacote requer a classe 'memoir'}{Use \string\documentclass{memoir}.}}
+
+% -----------------------------------------------------------------------------
+% DEPENDÊNCIAS FUNDAMENTAIS
+% -----------------------------------------------------------------------------
+
+% PACOTES ESSENCIAIS PARA O FUNCIONAMENTO:
+\RequirePackage{fontspec}        % Permite usar fontes do sistema (TTF, OTF)
+\RequirePackage{xparse}          % Ferramentas modernas para criar comandos
+\RequirePackage{etoolbox}        % Utilitários para programação em LaTeX
+\RequirePackage{microtype}       % Melhora a tipografia (espaçamento, hifenização)
+\RequirePackage[main=brazilian,english]{babel}  % Suporte a idiomas (português como principal)
+\RequirePackage{graphicx}        % Permite inserir imagens
+\RequirePackage[dvipsnames,table]{xcolor}       % Sistema de cores avançado
+\RequirePackage{tcolorbox}       % Caixas coloridas e decoradas
+\tcbuselibrary{skins,breakable,fitting}         % Extensões para caixas mais sofisticadas
+\RequirePackage{pdfpages}        % Permite incluir páginas de outros PDFs
+\RequirePackage{lastpage}        % Acesso ao número da última página
+\RequirePackage{ragged2e}        % Alinhamentos de texto melhorados
+\RequirePackage{hyperref}        % Links clicáveis e navegação no PDF
+
+% -----------------------------------------------------------------------------
+% CONFIGURAÇÕES FIXAS
+% -----------------------------------------------------------------------------
+
+% PALETA DE CORES DO CRP (valores RGB):
+\definecolor{crp1}{RGB}{66,44,115}    % Roxo escuro principal
+\definecolor{crp2}{RGB}{165,93,166}   % Roxo médio secundário
+\definecolor{crp3}{RGB}{191,115,171}  % Rosa claro terciário
+
+% %%% INÍCIO DA REENGENHARIA DE FONTES %%%
+% -----------------------------------------------------------------------------
+% FONTES: Configuração simplificada e robusta com fontspec padrão
+% -----------------------------------------------------------------------------
+
+% CONFIGURAÇÃO INTELIGENTE DE FONTES COM SISTEMA DE FALLBACK:
+
+% Primeiro, tenta carregar a fonte personalizada NEWJUNE
+\IfFontExistsTF{NEWJUNE}{
+    % SE A FONTE NEWJUNE EXISTIR:
+    
+    % Define NEWJUNE como fonte principal (serifada, para o texto corrido)
+    \setmainfont{NEWJUNE}[
+        Path=./,                    % Procura a fonte na pasta atual
+        UprightFont=*-REGULAR,      % Arquivo da versão normal
+        BOLDFont=*-BOLD,            % Arquivo da versão negrita
+        ITALICFont=*-REGULAR-ITALIC, % Arquivo da versão itálica
+        BOLDITALICFont=*-BOLD-ITALIC, % Arquivo da versão negrita itálica
+        Scale=1.0,                  % Tamanho 100%
+        Ligatures=TeX               % Ativa ligaduras tipográficas (fi, fl, etc.)
+    ]
+    
+    % Define NEWJUNE também como fonte sem serifa (para títulos e destaques)
+    \setsansfont{NEWJUNE}[
+        Path=./,
+        UprightFont=*-REGULAR,
+        BOLDFont=*-BOLD,
+        ITALICFont=*-REGULAR-ITALIC,
+        BOLDITALICFont=*-BOLD-ITALIC,
+        Scale=0.95                  % Tamanho 95% (um pouco menor que a principal)
+    ]
+    
+    % Confirma que a fonte foi carregada
+    \PackageInfo{livros_crp}{Fonte NEWJUNE carregada com sucesso.}
+}{
+    % SE A FONTE NEWJUNE NÃO EXISTIR, USA FONTES DE FALLBACK:
+    
+    % FALLBACK PARA FONTE PRINCIPAL (serifada):
+    \IfFontExistsTF{Times New Roman}{
+        % Primeira opção: Times New Roman
+        \setmainfont{Times New Roman}[Scale=1.0, Ligatures=TeX]
+        \PackageInfo{livros_crp}{Fonte Times New Roman carregada.}
+    }{\IfFontExistsTF{Liberation Serif}{
+        % Segunda opção: Liberation Serif (alternativa livre ao Times)
+        \setmainfont{Liberation Serif}[Scale=1.0, Ligatures=TeX]
+        \PackageInfo{livros_crp}{Fonte Liberation Serif carregada.}
+    }{
+        % Se nenhuma foi encontrada, emite aviso
+        \PackageWarning{livros_crp}{Nenhuma fonte serifada de fallback encontrada.}
+    }}
+    
+    % FALLBACK PARA FONTE SEM SERIFA:
+    \IfFontExistsTF{Arial}{
+        % Primeira opção: Arial
+        \setsansfont{Arial}[Scale=0.95]
+        \PackageInfo{livros_crp}{Fonte Arial carregada.}
+    }{\IfFontExistsTF{Liberation Sans}{
+        % Segunda opção: Liberation Sans (alternativa livre ao Arial)
+        \setsansfont{Liberation Sans}[Scale=0.95]
+        \PackageInfo{livros_crp}{Fonte Liberation Sans carregada.}
+    }{
+        % Se nenhuma foi encontrada, emite aviso
+        \PackageWarning{livros_crp}{Nenhuma fonte sans-serif de fallback encontrada.}
+    }}
+    
+    % Avisa que a fonte principal não foi encontrada
+    \PackageWarning{livros_crp}{Fonte NEWJUNE não encontrada. Usando fontes de sistema como fallback.}
+}
+
+% CONFIGURAÇÃO DA FONTE MONOESPAÇADA (para código):
+\IfFontExistsTF{Courier New}{
+    % Primeira opção: Courier New
+    \setmonofont{Courier New}[Scale=0.85]  % 85% do tamanho (fontes mono são maiores)
+    \PackageInfo{livros_crp}{Fonte Courier New carregada.}
+}{\IfFontExistsTF{Liberation Mono}{
+    % Segunda opção: Liberation Mono
+    \setmonofont{Liberation Mono}[Scale=0.85]
+    \PackageInfo{livros_crp}{Fonte Liberation Mono carregada.}
+}{
+    % Se nenhuma foi encontrada, emite aviso
+    \PackageWarning{livros_crp}{Nenhuma fonte monoespaçada de fallback encontrada.}
+}}
+
+%%% FIM DA REENGENHARIA DE FONTES %%%
+
+% -----------------------------------------------------------------------------
+% LAYOUT E TIPOGRAFIA
+% -----------------------------------------------------------------------------
+
+% CONFIGURAÇÕES DE PÁGINA E ESPAÇAMENTO:
+\semiisopage[9]              % Define proporções da página baseadas na série ISO
+\checkandfixthelayout        % Verifica e ajusta automaticamente o layout
+\nonzeroparskip             % Adiciona espaço entre parágrafos (estilo brasileiro)
+\raggedbottom               % Permite que páginas tenham alturas diferentes
+\AtBeginDocument{\OnehalfSpacing}  % Entrelinhas de 1,5 quando o documento iniciar
+\microtypesetup{protrusion=true, expansion=true, tracking=true}  % Ajustes tipográficos finos
+
+% -----------------------------------------------------------------------------
+% TÍTULOS E SUMÁRIO
+% -----------------------------------------------------------------------------
+
+% CONFIGURAÇÃO DA NUMERAÇÃO:
+\setcounter{secnumdepth}{3}    % Numera até subsubseções (1.1.1)
+\setcounter{tocdepth}{3}       % Inclui no sumário até subsubseções
+\setsecnumdepth{subsection}    % Memoir: numera até subseções
+\maxsecnumdepth{subsection}    % Memoir: máximo de numeração
+
+% -----------------------------------------------------------------------------
+% ESTILOS DE PÁGINA
+% -----------------------------------------------------------------------------
+
+% ESTILO PARA PÁGINAS PRELIMINARES (sumário, prefácio, etc.):
+\makepagestyle{pretext}
+\makeoddhead{pretext}{}{}{} \makeevenhead{pretext}{}{}{}  % Cabeçalhos vazios
+\makeoddfoot{pretext}{}{}{\small\color{crp2}\thepage}     % Rodapé: número à direita (páginas ímpares)
+\makeevenfoot{pretext}{\small\color{crp2}\thepage}{}{}    % Rodapé: número à esquerda (páginas pares)
+
+% APLICAÇÃO DO ESTILO PRETEXT:
+\aliaspagestyle{chapter}{pretext}      % Primeiras páginas de capítulos
+\aliaspagestyle{part}{pretext}         % Páginas de partes
+\aliaspagestyle{toc}{pretext}          % Página do sumário
+\aliaspagestyle{titlingpage}{empty}    % Página de título sem numeração
+
+% ESTILO PRINCIPAL PARA O CONTEÚDO:
+\copypagestyle{crp}{headings}          % Cria estilo baseado no padrão 'headings'
+\makeheadfootruleprefix{crp}{\color{crp2}}{\color{crp2}}  % Linha colorida no cabeçalho
+\makeheadrule{crp}{\textwidth}{0.5pt}  % Define espessura da linha
+
+% CONFIGURAÇÃO DOS CABEÇALHOS:
+% Páginas pares: número | vazio | nome do capítulo
+\makeevenhead{crp}{\color{crp2}\small\thepage}{}{\color{crp2}\small\itshape\leftmark}
+% Páginas ímpares: nome da seção | vazio | número
+\makeoddhead{crp}{\color{crp2}\small\itshape\rightmark}{}{\color{crp2}\small\thepage}
+
+% Rodapés vazios no estilo principal
+\makeevenfoot{crp}{}{}{} \makeoddfoot{crp}{}{}{}
+
+% -----------------------------------------------------------------------------
+% ESTILOS DE SEÇÃO E CAPÍTULO
+% -----------------------------------------------------------------------------
+
+% CONFIGURAÇÃO DAS PARTES:
+\renewcommand{\thepart}{\Roman{part}}     % Numeração romana (I, II, III...)
+\renewcommand{\partnamefont}{\huge\bfseries\color{crp2}}      % "PARTE" em roxo
+\renewcommand{\partnumfont}{\huge\bfseries\color{crp2}}       % Número em roxo
+\renewcommand{\parttitlefont}{\Huge\bfseries\color{crp1}\centering}  % Título centralizado
+
+% ESTILO PERSONALIZADO PARA CAPÍTULOS:
+\makechapterstyle{CRPHangFinal}{%
+  \chapterstyle{hangnum}       % Baseado no estilo 'hangnum' (número pendurado)
+  
+  % Configurações de página:
+  \renewcommand*{\printchapterstart}{\cleardoublepage\thispagestyle{empty}}
+  
+  % Fontes e cores:
+  \renewcommand*{\chapnumfont}{\Huge\bfseries\color{crp2}}     % Número grande e roxo
+  \renewcommand*{\chaptitlefont}{\Huge\bfseries\color{crp1}\RaggedRight}  % Título alinhado à esquerda
+  
+  % Remove a palavra "Capítulo":
+  \renewcommand*{\printchaptername}{}
+  \renewcommand*{\chapternamenum}{}
+  
+  % Espaçamentos:
+  \setbeforechapskip{2\baselineskip}      % Espaço antes do título
+  \setafterchapskip{2.5\baselineskip}     % Espaço depois do título
+  
+  % Largura para o número pendurado:
+  \settowidth{\chapnumhang}{\chapnumfont 88\hspace{0.618em}}  % Baseado na proporção áurea
+}
+\chapterstyle{CRPHangFinal}    % Aplica o estilo criado
+
+% CONFIGURAÇÃO DAS SEÇÕES, SUBSEÇÕES E SUBSUBSEÇÕES:
+
+% ESPAÇAMENTOS (valores negativos = espaço antes, positivos = espaço depois):
+\setbeforesecskip{-3.5ex plus -1ex minus -.2ex}     % Espaço antes da seção
+\setaftersecskip{\dimexpr 2.3ex plus .2ex - \parskip\relax}  % Espaço depois da seção
+\setbeforesubsecskip{-3.25ex plus -1ex minus -.2ex}   % Espaço antes da subseção
+\setaftersubsecskip{\dimexpr 1.5ex plus .2ex - \parskip\relax}  % Espaço depois da subseção
+\setbeforesubsubsecskip{-3.25ex plus -1ex minus -.2ex} % Espaço antes da subsubseção
+\setaftersubsubsecskip{\dimexpr 1.5ex plus .2ex - \parskip\relax} % Espaço depois da subsubseção
+
+% APARÊNCIA DOS TÍTULOS:
+\setsecheadstyle{\Large\bfseries\color{crp1}}        % Seção: grande, negrito, roxo escuro
+\setsubsecheadstyle{\large\bfseries\color{crp1}}     % Subseção: média, negrito, roxo escuro
+\setsubsubsecheadstyle{\normalsize\bfseries\color{crp1}} % Subsubseção: normal, negrito, roxo escuro
+
+% CONFIGURAÇÃO DA NUMERAÇÃO:
+\hangsecnum  % Números "pendurados" (destacados à esquerda)
+\setsecnumformat{\color{crp2}\csname the#1\endcsname\hspace{0.618em}}  % Números em roxo médio
+
+% LARGURAS PARA OS NÚMEROS (baseadas na proporção áurea 0.618):
+\settowidth{\sectionnumwidth}{\Large\bfseries\color{crp2}88\hspace{0.618em}}
+\settowidth{\subsectionnumwidth}{\large\bfseries\color{crp2}88.88\hspace{0.618em}}
+\settowidth{\subsubsectionnumwidth}{\normalsize\bfseries\color{crp2}88.88.88\hspace{0.618em}}
+
+% CONFIGURAÇÃO DOS CABEÇALHOS DE PÁGINA:
+\nouppercaseheads  % Não converte títulos para maiúsculas no cabeçalho
+\addtopsmarks{headings}{}{\createmark{chapter}{both}{shownumber}{}{.\space}}  % Formato do cabeçalho
+
+% -----------------------------------------------------------------------------
+% COMANDOS CUSTOMIZADOS PARA DESIGNERS
+% -----------------------------------------------------------------------------
+
+% COMANDOS PARA CRÉDITOS INSTITUCIONAIS:
+% \CreditoInstitucionalUm{texto} - Crédito principal grande e roxo médio
+\NewDocumentCommand{\CreditoInstitucionalUm}{m}{\begin{flushleft}\large\bfseries\color{crp2}#1\end{flushleft}\vspace{-0.5\baselineskip}}
+
+% \CreditoInstitucionalDois{texto} - Crédito secundário normal e rosa
+\NewDocumentCommand{\CreditoInstitucionalDois}{m}{\begin{flushleft}\normalsize\bfseries\color{crp3}#1\end{flushleft}\vspace{-\baselineskip}}
+
+% \CreditoTecnicoUm{texto} - Crédito técnico principal, alinhado à direita
+\NewDocumentCommand{\CreditoTecnicoUm}{m}{\begin{flushright}\large\bfseries\color{crp2}#1\end{flushright}}
+
+% \CreditoTecnicoDois{texto} - Crédito técnico secundário, alinhado à direita
+\NewDocumentCommand{\CreditoTecnicoDois}{m}{\begin{flushright}\normalsize\bfseries\color{crp3}#1\end{flushright}}
+
+% Ambiente para créditos institucionais (texto pequeno, alinhado à esquerda)
+\NewDocumentEnvironment{CreditoInstitucional}{}{\begin{flushleft}\footnotesize}{\end{flushleft}}
+
+% \formulario[opções]{arquivo} - Inclui formulários PDF externos
+\NewDocumentCommand{\formulario}{O{} m}{\includepdf[#1]{formularios/#2}}
+
+% \sumario - Cria botão decorativo "VOLTAR AO SUMÁRIO"
+\NewDocumentCommand{\sumario}{}{\vfill\begin{flushright}\begin{tcolorbox}[enhanced,width=12em,colback=crp2,colframe=crp1,arc=3pt,boxsep=8pt,halign=center]\hyperref[toc]{\small\sffamily\bfseries\textcolor{white}{VOLTAR~AO~SUMÁRIO}}\end{tcolorbox}\end{flushright}}
+
+% -----------------------------------------------------------------------------
+% HYPERREF E CONFIGURAÇÕES FINAIS
+% -----------------------------------------------------------------------------
+
+% CONFIGURAÇÃO DOS LINKS E NAVEGAÇÃO PDF:
+\hypersetup{
+    unicode=true,              % Suporte a caracteres especiais
+    colorlinks=true,           % Links coloridos (não com caixas)
+    linkcolor=crp1,           % Links internos em roxo escuro
+    filecolor=crp2,           % Links para arquivos em roxo médio  
+    urlcolor=crp1,            % URLs em roxo escuro
+    citecolor=crp1,           % Citações em roxo escuro
+    linktoc=all,              % Links no sumário (números e títulos)
+    bookmarks=true,           % Ativa marcadores no PDF
+    bookmarksnumbered=true,   % Marcadores numerados
+    bookmarksopen=true,       % Marcadores expandidos
+    bookmarksopenlevel=1,     % Nível de expansão inicial
+    pdfpagemode=UseOutlines,  % Abre com painel de marcadores
+    pdfstartview=FitH,        % Visualização inicial ajustada à largura
+    pdfcreator={LuaLaTeX com livros_crp.sty v7.0},        % Criador do PDF
+    pdfproducer={Conselho Regional de Psicologia - São Paulo}  % Produtor do PDF
+}
+
+\urlstyle{same}  % URLs com a mesma fonte do texto
+
+% CONFIGURAÇÕES APLICADAS NO INÍCIO DO DOCUMENTO:
+\AtBeginDocument{
+  % Aplica estilo de página ao sumário
+  \addtocontents{toc}{\protect\thispagestyle{pretext}}
+  
+  % Traduz nomes para português brasileiro
+  \addto\captionsbrazilian{
+    \renewcommand{\contentsname}{Sumário}        % "Contents" -> "Sumário"
+    \renewcommand{\listfigurename}{Lista de Figuras}  % "List of Figures" -> "Lista de Figuras"
+    \renewcommand{\listtablename}{Lista de Tabelas}   % "List of Tables" -> "Lista de Tabelas"
+  }
+}
+
+% Mensagem final de sucesso
+\PackageInfo{livros_crp}{Pacote carregado com sucesso - v7.0 estável.}
+
+% Fim do arquivo de pacote
+\endinput
+% =============================================================================

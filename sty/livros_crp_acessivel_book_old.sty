@@ -1,0 +1,695 @@
+\ProvidesPackage{livros_crp_acessivel_book}[2026/04/09 v0.3 Pacote editorial CRP-SP — variante PDF/UA (book)]
+
+% ===================================================================
+% livros_crp_acessivel_book.sty — variante acessível, base `book`
+% Motor:  LuaLaTeX + classe book (LaTeX standard)
+% Alvo:   PDF/UA-2 (tagging automático via latex-lab / phase-III)
+%
+% Por que book e não scrbook?
+%   Testes com o MWE mostraram que scrbook + latex-lab phase-III
+%   produz árvore de tags estruturalmente incorreta: títulos de
+%   capítulo e seção ficam como <P> dentro de <Part>, sem <H1>/<H2>.
+%   O KOMA-Script emite warning explícito: "Activated tagging
+%   detected but not supported". O mesmo teste com `book` puro
+%   produziu <Sect> → <H1> título → <P> corretamente.
+%
+% Diferenças em relação a livros_crp.sty (memoir):
+%   - Base book em vez de memoir
+%   - Compatível com \DocumentMetadata + tagging=on
+%   - Comandos memoir-only substituídos por titlesec + fancyhdr
+%   - Layout via geometry com valores fixos reproduzindo \semiisopage
+%   - background (2014, API legada) substituído por eso-pic
+%   - Créditos institucionais refatorados (sem tabular de layout)
+%   - changes removido (revisão editorial fora do pipeline de entrega)
+%   - \MakeUppercase removido de \part (caixa real no fonte)
+%
+% PREREQUISITO no .tex principal (antes de \documentclass):
+%   \DocumentMetadata{
+%       lang        = pt-BR,
+%       pdfstandard = ua-2,
+%       pdfversion  = 2.0,
+%       testphase   = {phase-III,table,firstaid},
+%       tagging     = on,
+%   }
+%   \documentclass[11pt,a5paper,twoside,openright]{book}
+%
+% Estrutura:
+%   1. Tipografia
+%   2. Cores & gráficos
+%   3. Tabelas
+%   4. Diagramação & layout
+%   5. Navegação & PDF
+%   6. Revisão de texto        (bloco documental, sem código)
+%   7. Comandos e ambientes institucionais   (rodada seguinte)
+% ===================================================================
+
+
+% ===================================================================
+% 1. TIPOGRAFIA
+% ===================================================================
+
+% [no-math]: evita conflito com pacotes matemáticos.
+\usepackage[no-math]{fontspec}
+
+% Babel é obrigatório para PDF/UA: fornece /Lang correto nas tags
+% e hifenização portuguesa. Deve ser carregado antes de qualquer
+% pacote que dependa da seleção de idioma.
+\usepackage[brazilian]{babel}
+
+% --- Fonte principal (serifada) ---
+% NOTA PDF/UA: TTF OpenType com cmap válido produz ToUnicode
+% correto no PDF final. Verificar com veraPDF se necessário.
+\setmainfont{Lora}[
+    Path           = ./,
+    Extension      = .ttf,
+    UprightFont    = Lora-Regular,
+    BoldFont       = Lora-Bold,
+    ItalicFont     = Lora-Italic,
+    BoldItalicFont = Lora-BoldItalic,
+]
+
+% --- Família sem serifa principal (NEWJUNE Regular) ---
+\setsansfont{NEWJUNE}[
+    UprightFont    = NEWJUNE-REGULAR.OTF,
+    BoldFont       = NEWJUNE-BOLD.OTF,
+    ItalicFont     = NEWJUNE-REGULAR-ITALIC.OTF,
+    BoldItalicFont = NEWJUNE-BOLD-ITALIC.OTF,
+]
+
+% --- Pesos adicionais NEWJUNE como famílias independentes ---
+\newfontfamily{\media}    {NEWJUNE-Medium}   [UprightFont=NEWJUNE-MEDIUM.OTF,    ItalicFont=NEWJUNE-MEDIUM-ITALIC.OTF]
+\newfontfamily{\fininha}  {NEWJUNE-Fine}     [UprightFont=NEWJUNE-FINE.OTF,      ItalicFont=NEWJUNE-FINE-ITALIC.OTF]
+\newfontfamily{\Light}    {NEWJUNE-Light}    [UprightFont=NEWJUNE-LIGHT.OTF,     ItalicFont=NEWJUNE-LIGHT-ITALIC.OTF]
+\newfontfamily{\fontebook}{NEWJUNE-Book}     [UprightFont=NEWJUNE-BOOK.OTF,      ItalicFont=NEWJUNE-BOOK-ITALIC.OTF]
+\newfontfamily{\serifada} {NEWJUNE-Serif}    [UprightFont=NEWJUNE-REGULAR.OTF,   ItalicFont=NEWJUNE-REGULAR-ITALIC.OTF]
+\newfontfamily{\pesada}   {NEWJUNE-Ultrabold}[UprightFont=NEWJUNE-ULTRABOLD.OTF, ItalicFont=NEWJUNE-ULTRABOLD-ITALIC.OTF]
+
+% --- Microtipografia ---
+\usepackage[
+    protrusion = true,
+    expansion  = true,
+]{microtype}
+
+% --- Hifenização ---
+\usepackage{hyphenat}
+\def\hyph{-\penalty0\hskip0pt\relax}
+
+% --- Reticências ---
+% NOTA PDF/UA: xellipsis insere glifos como texto, compatível
+% com tagging. Reticências MLA ([ . . . ]) são lidas pelo leitor
+% de tela como "colchete aberto, ponto, ponto, ponto, colchete
+% fechado" — intencional para marcar omissão.
+\usepackage[oldmla]{xellipsis}
+
+\frenchspacing
+
+
+% ===================================================================
+% 2. CORES & GRÁFICOS
+% ===================================================================
+
+\usepackage[dvipsnames]{xcolor}
+\makeatletter
+\let\oldhyperchapter\Hy@org@chapter  % se existir
+\makeatother
+
+% --- Paleta institucional CRP-SP ---
+\definecolor{crp1}{RGB}{4,  88,  110}   % Azul escuro
+\definecolor{crp2}{RGB}{25, 159,  175}   % Azul médio
+\definecolor{crp3}{RGB}{191, 115, 171}   % Púrpura claro
+
+\usepackage{graphicx}
+\usepackage{svg}
+
+% --- eso-pic: conteúdo de fundo/página ---
+% Substitui o pacote `background` (v2.1 de 2014, API legada,
+% com default "Draft" como marca d'água que virava conteúdo
+% tagueado indesejado).
+%
+% eso-pic é ativamente mantido, tem API limpa e integra bem
+% com tagging. Comandos principais:
+%
+%   \AddToShipoutPictureBG{...}   — aplica a TODAS as páginas
+%   \AddToShipoutPictureBG*{...}  — aplica só à página atual
+%   \AddToShipoutPictureFG{...}   — foreground, idem acima
+%
+% Exemplo típico no .tex do documento (arte do designer
+% ocupando a página inteira, atrás do texto):
+%
+%   \AddToShipoutPictureBG*{%
+%       \AtPageLowerLeft{%
+%           \includegraphics[
+%               width=\paperwidth,
+%               height=\paperheight,
+%               alt={}% <- vazio: marca como artefato decorativo
+%           ]{arte_capa.pdf}%
+%       }%
+%   }
+%
+% NOTA PDF/UA: arte puramente decorativa deve receber alt={}
+% (string vazia), que instrui o leitor de tela a ignorar a
+% imagem. Arte informativa precisa de alt={descrição real}.
+\usepackage{eso-pic}
+
+\usepackage[skins, breakable]{tcolorbox}
+\setlength{\fboxsep}{0pt}
+
+
+% ===================================================================
+% 3. TABELAS
+% ===================================================================
+
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{longtable}
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage{enumitem}
+
+\newcolumntype{P}[1]{>{\centering\arraybackslash}p{#1}}
+\renewcommand{\tabularxcolumn}[1]{m{#1}}
+\renewcommand{\arraystretch}{1.2}
+
+
+% ===================================================================
+% 4. DIAGRAMAÇÃO & LAYOUT
+% ===================================================================
+
+\usepackage{multicol}
+\usepackage{pdfpages}
+\usepackage{ragged2e}
+\usepackage{calc}
+\usepackage{lastpage}
+\usepackage{setspace}
+
+% --- Layout da página ---
+% Valores calculados a partir do \semiisopage do memoir para A5:
+%   inner  = paperwidth  / 9 = 148/9  ≈ 16.444 mm
+%   outer  = 2 * inner       ≈ 32.889 mm
+%   top    = paperheight / 9 = 210/9  ≈ 23.333 mm
+%   bottom = 2 * top         ≈ 46.667 mm
+%   textwidth  = 148 - inner - outer  ≈ 98.667 mm
+%   textheight = 210 - top   - bottom = 140.000 mm
+%
+% A proporção áurea das margens é aproximada pelo ratio 1:2 do
+% memoir (spine:edge e top:bottom), que é a fórmula documentada
+% de \semiisopage.
+\usepackage[
+    a5paper,
+    inner      = 16.444mm,
+    outer      = 32.889mm,
+    top        = 23.333mm,
+    bottom     = 32.889mm,
+    headheight = 14pt,      % fancyhdr reclama se < 12.4pt
+    headsep    = \baselineskip,
+    topskip    = \baselineskip,
+]{geometry}
+
+% --- Sumário ---
+\setcounter{tocdepth}{0}
+\setcounter{secnumdepth}{-1}   % hierarquia via tags, sem numeração visível
+
+% NOTA: há um segundo defeito cosmético observado na árvore de
+% tags — o <TOCI> das partes mostra "l1emPrimeira parte do teste"
+% (prefixo "l1em" colado ao texto). A origem exata não foi
+% confirmada: pode ser \l@part do book.cls, do titlesec, ou do
+% próprio latex-lab-testphase-toc capturando um \hspace literal.
+% Correção adiada para investigação específica — não é bloqueante.
+
+% --- Penalidades tipográficas ---
+\clubpenalty        = 9996
+\widowpenalty       = 9999
+\brokenpenalty      = 4991
+\predisplaypenalty  = 10000
+\postdisplaypenalty = 1549
+\displaywidowpenalty= 1602
+
+% --- Parskip ---
+% Equivalente ao \nonzeroparskip do memoir.
+\setlength{\parskip}{0.5\baselineskip plus 2pt}
+\setlength{\parindent}{0pt}
+
+% --- Espaçamento entre linhas ---
+% \setasuspacing: indireção que permite trocar o espaçamento
+% global via \setasuspacing{\singlespacing} ou
+% \setasuspacing{\onehalfspacing}. Padrão: 1,5 linhas.
+\newcommand*{\setasuspacing}[1]{%
+    \let\AsuSpacing#1%
+    \AsuSpacing}
+\setasuspacing{\onehalfspacing}
+
+% --- Lengths calculadas em tempo de compilação ---
+\newlength{\boxlarg}
+\newlength{\virgula}
+\newlength{\boxementa}
+\newlength{\indicartigo}
+\newlength{\paragrafodelei}
+\newlength{\paragrafounico}
+\newlength{\sepcredito}
+\newlength{\numfrances}
+\newlength{\numfrancesdois}
+\newlength{\TOCVSpace}
+
+\AtBeginDocument{%
+    \setlength{\boxlarg}      {2em}%
+    \setlength{\virgula}      {0.5em}%
+    \setlength{\boxementa}    {\textwidth-6cm}%
+    \setlength{\indicartigo}  {\widthof{\bfseries Art. 99º}}%
+    \setlength{\paragrafodelei}{\widthof{\bfseries § 999º\space}}%
+    \setlength{\paragrafounico}{\widthof{\bfseries Parágrafo único.\space}}%
+    \setlength{\sepcredito}   {\widthof{\bfseries | }}%
+    \setlength{\numfrances}   {\widthof{10\space\space}}%
+    \setlength{\numfrancesdois}{\widthof{10\space}}%
+    \setlength{\TOCVSpace}    {3\baselineskip}%
+}
+
+% --- Page styles via fancyhdr ---
+\usepackage{fancyhdr}
+
+% Espessura da régua de cabeçalho. No memoir, \normalrulethickness
+% valia 0.4pt; aqui fixamos o mesmo valor como length própria para
+% manter a identidade visual do pacote original.
+\newlength{\crpheadrulewidth}
+\setlength{\crpheadrulewidth}{0.4pt}
+
+% Estilo "crp" (miolo principal): régua + número de página + mark.
+% Cor crp1 aplicada via \color no conteúdo do cabeçalho.
+% NOTA: fancyhdr não tem equivalente direto ao \makeheadfootruleprefix
+% do memoir (que colore a régua independentemente do texto). Aqui
+% redefinimos \headrule para incluir \color{crp1}.
+\fancypagestyle{crp}{%
+    \fancyhf{}%
+    \fancyhead[LE]{\color{crp1}\Light\small\thepage}%
+    \fancyhead[RE]{\color{crp1}\Light\small\leftmark}%
+    \fancyhead[LO]{\color{crp1}\Light\small\rightmark}%
+    \fancyhead[RO]{\color{crp1}\Light\small\thepage}%
+    \renewcommand{\headrule}{%
+        {\color{crp1}\hrule width\headwidth height\crpheadrulewidth}%
+    }%
+    \renewcommand{\footrulewidth}{0pt}%
+}
+
+% Estilo "crpPre" (pré-textuais com fonte book em itálico)
+\fancypagestyle{crpPre}{%
+    \fancyhf{}%
+    \fancyhead[LE]{\color{crp1}\fontebook\small\thepage}%
+    \fancyhead[RE]{\color{crp1}\fontebook\small\itshape\leftmark}%
+    \fancyhead[LO]{\color{crp1}\fontebook\small\itshape\rightmark}%
+    \fancyhead[RO]{\color{crp1}\fontebook\small\thepage}%
+    \renewcommand{\headrule}{%
+        {\color{crp1}\hrule width\headwidth height\crpheadrulewidth}%
+    }%
+    \renewcommand{\footrulewidth}{0pt}%
+}
+
+% Estilo "pretext": folha de rosto e partes — sem cabeçalho.
+\fancypagestyle{pretext}{%
+    \fancyhf{}%
+    \renewcommand{\headrulewidth}{0pt}%
+    \renewcommand{\footrulewidth}{0pt}%
+}
+
+% O estilo `plain` (usado automaticamente em páginas de abertura
+% de capítulo) é redefinido para também ficar limpo:
+\fancypagestyle{plain}{%
+    \fancyhf{}%
+    \renewcommand{\headrulewidth}{0pt}%
+    \renewcommand{\footrulewidth}{0pt}%
+}
+
+% Marks para o cabeçalho: capítulo em \leftmark, seção em \rightmark.
+% book já faz isso por padrão; aqui garantimos que o formato não
+% aplique \MakeUppercase (que seria ruim para leitores de tela).
+\renewcommand{\chaptermark}[1]{\markboth{#1}{}}
+\renewcommand{\sectionmark}[1]{\markright{#1}}
+\makeatletter
+    % --- Estilos de título — redefinições manuais (sem titlesec) ---
+%
+% Motivação: titlesec é INCOMPATÍVEL com latex-lab phase-III tagging.
+% Causa descasamento begin/end de paragraph hooks:
+%   "number of automatic begin (N) and end (N-1) text-unit para hooks differ"
+% Solução: redefinir diretamente os comandos internos do book.cls
+% (\@makechapterhead, \@startsection etc.), que são compatíveis com
+% o mecanismo de tagging do latex-lab.
+%
+% Validado com mwe_sty_manual.tex + lualatex-dev em 2026-04-09:
+% zero erros, zero warnings de open structures, árvore de tags limpa
+% (<Sect> → <H1>/<H2>/<H3> na hierarquia correta).
+
+% @makechapterhead FORA de qualquer \AtBeginDocument ou \AddToHook
+
+% \TOCAcessivel: substituto de \tableofcontents para contornar
+% bug upstream de latex-lab-testphase-toc (testado com latex-lab-dev
+% 2026-01-30). Em book + tagging=on, o \tableofcontents padrão
+% emite a tag <H1> do título do sumário contendo macros não-
+% expandidas (\contentsname, \protect, \markboth, \MakeUppercase),
+% porque o mecanismo de tagging captura o título antes de \protect
+% resolver a cadeia. Resultado na árvore de tags:
+%
+%     <H1> Sum\'ario\protect \markboth {\MakeUppercase []{Sum\'ari...
+%
+% que um leitor de tela leria como sequência incompreensível de
+% barras e comandos.
+%
+% Workaround: passar a string literal "Sumário" via \chapter*,
+% que não envolve \contentsname na cadeia de \protect. O
+% \phantomsection + \addcontentsline são omitidos deliberadamente
+% — o sumário não precisa aparecer em si mesmo, e sem eles
+% evitamos adicionar uma entrada recursiva de TOC.
+%
+% Quando o bug for corrigido upstream, substituir por
+% \tableofcontents direto.
+\newcommand{\TOCAcessivel}{%
+    \chapter*{Sumário}%
+    \@starttoc{toc}%
+}
+
+\renewcommand\@makechapterhead[1]{%
+    \vspace*{50\p@}%
+    {\parindent \z@ \raggedright \normalfont
+     \interlinepenalty\@M
+     \huge\bfseries\sffamily\color{crp2}#1\par\nobreak
+     \vskip 8\baselineskip
+    }%
+}
+
+\renewcommand\@makeschapterhead[1]{%
+    \vspace*{50\p@}%
+    {\parindent \z@ \raggedright \normalfont
+     \interlinepenalty\@M
+     \huge\bfseries\sffamily\color{crp2}#1\par\nobreak
+     \vskip 8\baselineskip
+    }%
+}
+
+% --- Partes ---
+% Redefinimos \part e os internos \@part / \@spart para aplicar
+% a identidade visual CRP-SP, mantendo o comportamento de
+% \cleardoublepage e \@endpart do book.cls.
+% \MakeUppercase REMOVIDO: leitor de tela pronunciaria siglas
+% letra-por-letra; escrever em caixa alta no .tex se necessário.
+\renewcommand\part{%
+    \if@openright\cleardoublepage\else\clearpage\fi
+    \thispagestyle{plain}%
+    \if@twocolumn\onecolumn\@tempswatrue\else\@tempswafalse\fi
+    \null\vfil
+    \secdef\@part\@spart}
+
+\def\@part[#1]#2{%
+    \ifnum \c@secnumdepth >-2\relax
+        \refstepcounter{part}%
+        \addcontentsline{toc}{part}{\thepart\hspace{1em}#2}%
+    \else
+        \addcontentsline{toc}{part}{#2}%
+    \fi
+    \markboth{}{}%
+    {\centering
+     \interlinepenalty \@M
+     \normalfont
+     \ifnum \c@secnumdepth >-2\relax
+       \huge\bfseries\sffamily\color{crp1} \partname\nobreakspace\thepart
+       \par
+       \vskip 20\p@
+     \fi
+     \Huge \bfseries \sffamily \color{crp1} #2\par}%
+    \@endpart}
+
+\def\@spart#1{%
+    {\centering
+     \interlinepenalty \@M
+     \normalfont
+     \Huge \bfseries \sffamily \color{crp1} #1\par}%
+    \@endpart}
+
+% --- Seções via \@startsection ---
+% Assinatura: {nome}{nível}{recuo}{skip-antes}{skip-depois}{estilo}
+% skip-depois negativo = runin (parágrafo inline).
+\renewcommand\section{%
+    \@startsection{section}{1}{\z@}%
+        {-2\baselineskip}%
+        {0.618\baselineskip}%
+        {\color{crp1}\sffamily\Large\bfseries}}
+
+\renewcommand\subsection{%
+    \@startsection{subsection}{2}{\z@}%
+        {-1.5\baselineskip}%
+        {0.618\baselineskip}%
+        {\color{crp1}\sffamily\normalsize\bfseries}}
+
+\renewcommand\subsubsection{%
+    \@startsection{subsubsection}{3}{\z@}%
+        {-\baselineskip}%
+        {0.618\baselineskip}%
+        {\color{crp1}\sffamily\normalsize\itshape}}
+
+\renewcommand\paragraph{%
+    \@startsection{paragraph}{4}{\z@}%
+        {-0.5\baselineskip}%
+        {-0.5em}%   % negativo: runin
+        {\color{crp1}\sffamily\normalsize\bfseries}}
+
+\renewcommand\subparagraph{%
+    \@startsection{subparagraph}{5}{\parindent}%
+        {-0.5\baselineskip}%
+        {-0.5em}%
+        {\color{crp1}\sffamily\normalsize}}
+\makeatother
+% ===================================================================
+% 5. NAVEGAÇÃO & PDF
+% ===================================================================
+
+% xurl antes de hyperref — estende regras de quebra de URL.
+% NOTA: a opção urlbreaks requer que url não tenha sido carregado
+% antes. Com \DocumentMetadata ativo, pdfmanagement pode carregar
+% url antecipadamente — por isso não usamos urlbreaks aqui.
+\usepackage[obeyspaces, spaces, hyphens]{xurl}
+\usepackage{hyperref}
+% O nameref captura \@chapter antes de \@makechapterhead estar
+% disponível. Corrigimos \NR@chapter e \NR@schapter no início
+% do documento, quando tudo já foi carregado.
+\makeatletter
+\AtBeginDocument{%
+    \let\NR@chapter\@chapter
+    \let\NR@schapter\@schapter
+}
+\makeatother
+% \DocumentMetadata já configura título, autor, idioma via XMP.
+% hypersetup aqui cuida apenas da aparência dos links e de
+% pdfdisplaydoctitle (exigido por PDF/UA).
+\hypersetup{
+    colorlinks         = true,
+    linkcolor          = crp1,
+    filecolor          = black,
+    urlcolor           = crp1,
+    pdfdisplaydoctitle = true,
+    bookmarksopen      = true,
+    bookmarksnumbered  = false,
+}
+\urlstyle{same}
+
+% ===================================================================
+% 6. REVISÃO DE TEXTO
+% ===================================================================
+%
+% O pacote `changes` foi removido desta variante. Motivos:
+%   - Marcações de revisão (adicionado, removido, destaque) não
+%     devem aparecer no PDF final de entrega; eram neutralizadas.
+%   - Com phase-III + tagpdf ativos, `changes` colide com \comment
+%     definido indiretamente por outros pacotes do pipeline.
+%   - Revisão editorial é fluxo de produção, não de entrega: deve
+%     ser feita em branch/versão separada, fora do pipeline PDF/UA.
+%
+% Se for necessário reintroduzir marcação de revisão em uma
+% compilação de trabalho (nunca de entrega), carregar `changes`
+% diretamente no .tex do documento — não aqui.
+
+
+% ===================================================================
+% 7. COMANDOS E AMBIENTES INSTITUCIONAIS
+% ===================================================================
+%
+% Convenções adotadas nesta seção:
+%   - Toda macro que altera cor ou fonte restaura ao final.
+%   - Toda macro que altera espaçamento usa \setasuspacing
+%     ou restaura via \normalfont conforme o contexto.
+%   - \noindent é explícito quando necessário; nunca implícito.
+%   - setspace (carregado na seção 4) usa \onehalfspacing /
+%     \singlespacing (minúsculas) — NÃO as variantes memoir.
+
+% --- Subtítulo de abertura ---
+% \vspace negativo é intencional: sobrepõe o espaço pós-capítulo
+% para posicionar o subtítulo imediatamente abaixo do título.
+\newcommand{\SubTituloUm}[1]{%
+    \vspace{-8\baselineskip}%
+    \noindent\raggedright\large\itshape #1\par
+    \normalfont\normalsize\color{black}\justifying
+    \vspace{8\baselineskip}%
+}
+
+% --- Intertítulo ---
+\newcommand{\Entretitulo}[1]{%
+    \vspace{0.618\baselineskip}%
+    \noindent\color{crp1}\Light #1\par
+    \vspace{0.382\baselineskip}%
+    \normalfont\normalsize\color{black}%
+}
+
+% --- Filete decorativo ---
+\newcommand{\setetoques}{\rule{6em}{0.4pt}}
+
+% --- Identificadores de plenário ---
+\newcommand{\xviplenario} {\textbf{XVI Plenário}}
+\newcommand{\xviiplenario}{\textbf{XVII Plenário}}
+
+% --- Bloco de assinatura institucional ---
+\newcommand{\assinaapresenta}[1]{%
+    \begin{flushright}
+        \noindent
+        Conselho Regional de Psicologia de São Paulo\\
+        #1%
+    \end{flushright}
+    \justifying
+    \setasuspacing{\onehalfspacing}%
+}
+
+% --- Assinatura centrada (nome + cargo) ---
+\newcommand{\LegAssina}[2]{%
+    \begin{center}
+        #1\\
+        #2
+    \end{center}
+}
+
+% --- Título centrado em negrito ---
+\newcommand{\LegTitulo}[1]{%
+    \begin{center}
+        \textbf{#1}
+    \end{center}
+}
+
+% --- Ementa de legislação ---
+% Offset de 6cm à esquerda via minipage.
+%
+% NOTA PDF/UA: o mecanismo de minipage pode gerar warning de ordem
+% de leitura no tagpdf em documentos futuros. Mantido por decisão
+% do usuário (compatibilidade visual). Investigar quando o upstream
+% do latex-lab estabilizar o suporte a minipages.
+\newcommand{\LegEmenta}[1]{%
+    \noindent
+    \begin{minipage}{6cm}\hfill\end{minipage}%
+    \begin{minipage}{\boxementa}%
+        \justifying\sffamily\footnotesize\noindent #1%
+    \end{minipage}\par
+}
+
+% --- Artigo de lei ---
+% Sem argumento opcional: phase-III/block intercepta \begin{description}
+% e rejeita chaves de enumitem (align, leftmargin, labelwidth, labelsep).
+% \setlist afeta apenas a sessão de enumitem; block usa seu próprio
+% pipeline. Aceita-se a indentação padrão do description do book.
+\newcommand{\LegArtigo}[2]{%
+    \begin{description}
+        \item[\,#1\,] #2%
+    \end{description}
+}
+
+% --- Parágrafo de lei (numerado ou único) ---
+% Argumento #1: label completo (ex.: "§ 1º" ou "Parágrafo único.").
+%
+% NOTA PDF/UA: usa minipage para controlar recuo visual. Mesma
+% situação de \LegEmenta — mantido por decisão do usuário.
+\newcommand{\LegParagrafo}[2]{%
+    \noindent
+    \begin{minipage}{\indicartigo-0.5em}\hfill\end{minipage}%
+    \begin{minipage}{\linewidth-1.5\indicartigo+1em}%
+        \textbf{#1} #2%
+    \end{minipage}\par
+}
+
+% \LegParagrafoUnico: alias semântico.
+\let\LegParagrafoUnico\LegParagrafo
+
+% --- Caso (abertura de caso clínico/ético) ---
+\newcommand{\Caso}[1]{%
+    \clearpage
+    \begin{center}
+        \color{crp1}\sffamily\textbf{#1}%
+    \end{center}
+}
+
+% --- Ambientes de bloco sem recuo ---
+\newenvironment{blocao}
+    {\setlength{\parindent}{0pt}}
+    {}
+
+\newenvironment{blocaosingle}
+    {\setlength{\parindent}{0pt}\singlespacing}
+    {\onehalfspacing}
+
+% ---------------------------------------------------------------
+% Páginas de créditos
+% ---------------------------------------------------------------
+
+% Ambiente base: scriptsize, singlespacing, raggedright.
+\newenvironment{CreditoInstitucional}{%
+    \setlength{\parskip}{0pt}%
+    \singlespacing\sffamily\scriptsize\raggedright\noindent
+}{}
+
+% Alias semântico (interface existente preservada).
+\let\CreditoInstitucionalDestaque\CreditoInstitucional
+\let\endCreditoInstitucionalDestaque\endCreditoInstitucional
+
+% Cabeçalho de seção de créditos (nível 1): normalsize, negrito, crp1.
+\newcommand{\CreditoInstitucionalUm}[1]{%
+    \raggedright
+    {\sffamily\normalsize\bfseries\color{crp1}#1}\par
+}
+
+% Cabeçalho de seção de créditos (nível 2): footnotesize, negrito, crp1.
+\newcommand{\CreditoInstitucionalDois}[1]{%
+    \raggedright
+    %\vspace{0.2\baselineskip}%
+    {\sffamily\footnotesize\bfseries\color{crp1}#1}\par
+    \vspace*{-1\baselineskip}%
+}
+
+% --- Linha de crédito técnico: label (30%) + valor (61.8%) ---
+% REFATORADO: substituiu \begin{tabular}{p p} (proibido por PDF/UA)
+% por \parbox duplo lado a lado.
+% Interface preservada: \CreditoTecnico{label}{valor}
+\newcommand{\CreditoTecnico}[2]{%
+    \begin{CreditoInstitucional}
+        \vspace{-1.618\baselineskip}%
+        \noindent
+        \parbox[t]{0.3\linewidth}{%
+            \sffamily\scriptsize\bfseries\color{crp1}#1}%
+        \parbox[t]{0.618\linewidth}{%
+            \normalfont\color{black}#2}\par
+        \vspace{-1\baselineskip}%
+    \end{CreditoInstitucional}
+}
+
+% --- Lista de cargos: duas colunas (60% + 40%) ---
+% REFATORADO: substituiu \begin{tabular}{p p} por \parbox duplo.
+% MUDANÇA DE INTERFACE: agora requer dois argumentos separados
+% (coluna esquerda e coluna direita) em vez de um bloco tabular.
+% Documentos existentes que usavam \CargoNosCreditos{col1 & col2 \\}
+% devem ser atualizados para \CargoNosCreditos{col1}{col2}.
+\newcommand{\CargoNosCreditos}[2]{%
+    \noindent
+    \parbox[t]{0.6\linewidth}{\sffamily\scriptsize\raggedright #1}%
+    \parbox[t]{0.4\linewidth}{\sffamily\scriptsize\raggedright #2}\par
+    \vspace{0.3\baselineskip}%
+}
+
+% --- Lista de nomes: parágrafo único ---
+% REFATORADO: substituiu \begin{tabular}{p{\linewidth}} (tabela de
+% layout de coluna única, proibida por PDF/UA) por parágrafo direto.
+% Interface preservada: \NomeNosCreditos{texto}
+\newcommand{\NomeNosCreditos}[1]{%
+    \sffamily\scriptsize\raggedright
+    \noindent #1\par
+}
+
+% ===================================================================
