@@ -20,3 +20,5 @@ indent.log
 
 # Estado local de editor
 *.code-workspace
+*.loc
+*.soc

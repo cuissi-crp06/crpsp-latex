@@ -1,4 +1,4 @@
-\ProvidesPackage{livros_crp_memoir_original}[2026/09/04 v0.1.0-alfa Base memoir original]
+\ProvidesPackage{livros_crp-guia_apresentacoes_acessiveis}[2025/09/26 v0.4.0-beta Copia do guia de apresentacoes acessiveis; mesma geracao da cartilha]
 % ---------- %
 % TIPOGRAFIA %
 % ---------- %
@@ -54,15 +54,13 @@
 % CORES & GRÁFICOS %
 % ---------------- %
 \usepackage{graphicx}
-\usepackage{epstopdf}
-\epstopdfsetup{update}
 \usepackage{background}
 \usepackage[dvipsnames]{xcolor}
-\definecolor{crp1}{RGB}{4, 88, 110}
-\definecolor{crp2}{RGB}{25, 159, 175}
+\definecolor{crp1}{RGB}{66, 44, 115}
+\definecolor{crp2}{RGB}{165, 93, 166}
 \definecolor{crp3}{RGB}{191, 115, 171}
 \fboxsep=0pt
-\usepackage[skins, breakable]{tcolorbox}
+\usepackage{tcolorbox}
 \usepackage{multirow}
 \usepackage{array}
 \newcolumntype{P}[1]{>{\centering\arraybackslash}p{#1}}
@@ -143,7 +141,6 @@
 \makeoddfoot{chapter}{}{}{}
 \makeevenhead{chapter}{}{}{}
 \makeevenfoot{chapter}{}{}{}
-\aliaspagestyle{chapter}{empty}
 %
 \copypagestyle{crpPre}{headings}
 \makeheadfootruleprefix{crp}{\color{crp1}}{\color{crp1}}
@@ -188,18 +185,13 @@
 %\renewcommand{\printchaptername}{\LARGE\bfseries\sffamily\color{crp2}}
 \renewcommand{\chaptitlefont}{\huge\bfseries\sffamily\color{crp2}}
 \setlength{\afterchapskip}{8\baselineskip}
-\renewcommand{\chapterheadstart}{\thispagestyle{empty}\vspace*{\beforechapskip}}
 }
 %
 \chapterstyle{CRP01}
 % ----------------------- %
 % NAVEGAÇÃO & FORMULÁRIOS %
 % ----------------------- %
-% Nota: a opção `urlbreaks` foi removida porque, quando \DocumentMetadata
-% está ativo, `url` é carregado antes de xurl e não reconhece essa opção,
-% gerando erro fatal. As quebras de URL continuam cobertas por `hyphens`
-% e `spaces`.
-\usepackage[obeyspaces, spaces, hyphens]{xurl}
+\usepackage[obeyspaces, spaces, hyphens, urlbreaks]{xurl}
 \usepackage{hyperref}
 \hypersetup{
 	colorlinks=true,
@@ -208,7 +200,13 @@
 	urlcolor=crp1,
 }
 \urlstyle{same}
+\usepackage[skins, breakable]{tcolorbox}
 %
+% REVISÃO E PREPARAÇÃO DE TEXTO %
+%
+\usepackage{changes}
+\definechangesauthor[name="Angelo Cuissi"]{cuissi}
+\sethighlightmarkup{\footnotesize}
 % -------------- %
 % NOVOS COMANDOS %
 % -------------- %
@@ -348,12 +346,11 @@
 %
 \newcommand{\setetoques}{\rule{6em}{0.4pt}}
 %
-% Nota: definição de \Caso estava truncada no arquivo original.
-% Fechada com implementação mínima para evitar erro de compilação.
-% Este comando não é utilizado no documento atual.
 \newcommand{\Caso}[1]{%
-    \clearpage
+\clearpage
     \begin{center}
-        \color{crp1}#1
+ %   \color{crp1}\rule{0.618\linewidth}{0.4pt}\\
+  %  \vspace{0.618\baselineskip}
+    \color{crp1}\sffamily\textbf{#1}
     \end{center}
 }

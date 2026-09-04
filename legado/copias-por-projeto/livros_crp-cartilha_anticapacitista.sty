@@ -1,45 +1,43 @@
-\ProvidesPackage{livros_crp_memoir_original}[2026/09/04 v0.1.0-alfa Base memoir original]
+\ProvidesPackage{livros_crp-cartilha_anticapacitista}[2025/09/26 v0.4.0-beta Copia da cartilha anticapacitista; primeira tentativa de PDF acessivel]
 % ---------- %
 % TIPOGRAFIA %
 % ---------- %
 \usepackage[no-math]{fontspec}
 \setmainfont{Lora}[
-    Path=./,
-    Extension=.ttf,
-    UprightFont = Lora-Regular,
-    BoldFont=Lora-Bold,
-    ItalicFont=Lora-Italic,
-    BoldItalicFont=Lora-BoldItalic,
+    UprightFont = *-Regular,
+    BoldFont=*-Bold,
+    ItalicFont=*-Italic,
+    BoldItalicFont=*-BoldItalic,
 ]
-\setsansfont{NEWJUNE}[
-    UprightFont = NEWJUNE-REGULAR.OTF,
-    BoldFont=NEWJUNE-BOLD.OTF,
-    ItalicFont=NEWJUNE-REGULAR-ITALIC.OTF,
-    BoldItalicFont=NEWJUNE-BOLD-ITALIC.OTF,
+\setsansfont{NewJune}[
+    UprightFont = *-Regular,
+    BoldFont=*-Bold,
+    ItalicFont=*-Regular-Italic,
+    BoldItalicFont=*-Bold-Italic,
 ]
-\newfontfamily{\media}{NEWJUNE-Medium}[%
-    UprightFont = NEWJUNE-MEDIUM.OTF,
-    ItalicFont = NEWJUNE-MEDIUM-ITALIC.OTF,
+\newfontfamily{\media}{NewJune-Medium}[%
+    UprightFont = NewJune-Medium,
+    ItalicFont = NewJune-Medium-Italic,
 ]
-\newfontfamily{\fininha}{NEWJUNE-FINE}[%
-    UprightFont = NEWJUNE-FINE.OTF,
-    ItalicFont = NEWJUNE-FINE-ITALIC.OTF,
+\newfontfamily{\fininha}{NewJune-Fine}[%
+    UprightFont = NewJune-Fine,
+    ItalicFont = NewJune-Fine-Italic,
 ]
-\newfontfamily{\Light}{NEWJUNE-LIGHT}[%
-    UprightFont = NEWJUNE-LIGHT.OTF,
-    ItalicFont = NEWJUNE-LIGHT-ITALIC.OTF,
+\newfontfamily{\Light}{NewJune-Light}[%
+    UprightFont = NewJune-Light,
+    ItalicFont = NewJune-Light-Italic,
 ]
-\newfontfamily{\fontebook}{NEWJUNE-BOOK}[%
-    UprightFont = NEWJUNE-BOOK.OTF,
-    ItalicFont = NEWJUNE-BOOK-ITALIC.OTF,
+\newfontfamily{\fontebook}{NewJune-Book}[%
+    UprightFont = NewJune-Book,
+    ItalicFont = NewJune-Book-Italic,
 ]
-\newfontfamily{\serifada}{NEWJUNESerif}[%
-    UprightFont = NEWJUNE-REGULAR.OTF,
-    ItalicFont = NEWJUNE-REGULAR-ITALIC.OTF,
+\newfontfamily{\serifada}{NewJuneSerif}[%
+    UprightFont = *-Regular,
+    ItalicFont = *-Regular-Italic,
 ]
-\newfontfamily{\pesada}{NEWJUNE-ULTRABOLD}[%
-    UprightFont = NEWJUNE-ULTRABOLD.OTF,
-    ItalicFont = NEWJUNE-ULTRABOLD-ITALIC.OTF,
+\newfontfamily{\pesada}{NewJune-Ultrabold}[%
+    UprightFont = NewJune-Ultrabold,
+    ItalicFont = NewJune-Ultrabold-Italic,
     ]
 \usepackage{microtype}
 \usepackage{hyphenat}
@@ -54,15 +52,16 @@
 % CORES & GRÁFICOS %
 % ---------------- %
 \usepackage{graphicx}
-\usepackage{epstopdf}
-\epstopdfsetup{update}
 \usepackage{background}
 \usepackage[dvipsnames]{xcolor}
-\definecolor{crp1}{RGB}{4, 88, 110}
-\definecolor{crp2}{RGB}{25, 159, 175}
-\definecolor{crp3}{RGB}{191, 115, 171}
+%\definecolor{crp1}{RGB}{66, 44, 115}
+%\definecolor{crp2}{RGB}{165, 93, 166}
+%\definecolor{crp3}{RGB}{191, 115, 171}
+\definecolor{crp1}{RGB}{36, 107, 135}
+\definecolor{crp2}{RGB}{36, 135, 98}
+\definecolor{crp3}{RGB}{36, 135, 132}
 \fboxsep=0pt
-\usepackage[skins, breakable]{tcolorbox}
+\usepackage{tcolorbox}
 \usepackage{multirow}
 \usepackage{array}
 \newcolumntype{P}[1]{>{\centering\arraybackslash}p{#1}}
@@ -143,7 +142,6 @@
 \makeoddfoot{chapter}{}{}{}
 \makeevenhead{chapter}{}{}{}
 \makeevenfoot{chapter}{}{}{}
-\aliaspagestyle{chapter}{empty}
 %
 \copypagestyle{crpPre}{headings}
 \makeheadfootruleprefix{crp}{\color{crp1}}{\color{crp1}}
@@ -188,31 +186,26 @@
 %\renewcommand{\printchaptername}{\LARGE\bfseries\sffamily\color{crp2}}
 \renewcommand{\chaptitlefont}{\huge\bfseries\sffamily\color{crp2}}
 \setlength{\afterchapskip}{8\baselineskip}
-\renewcommand{\chapterheadstart}{\thispagestyle{empty}\vspace*{\beforechapskip}}
 }
 %
 \chapterstyle{CRP01}
 % ----------------------- %
 % NAVEGAÇÃO & FORMULÁRIOS %
 % ----------------------- %
-% Nota: a opção `urlbreaks` foi removida porque, quando \DocumentMetadata
-% está ativo, `url` é carregado antes de xurl e não reconhece essa opção,
-% gerando erro fatal. As quebras de URL continuam cobertas por `hyphens`
-% e `spaces`.
-\usepackage[obeyspaces, spaces, hyphens]{xurl}
+\usepackage[obeyspaces, spaces, hyphens, urlbreaks]{xurl}
 \usepackage{hyperref}
 \hypersetup{
 	colorlinks=true,
 	linkcolor=black,
 	filecolor=black,
-	urlcolor=crp1,
+	urlcolor=black,
 }
 \urlstyle{same}
-%
+\usepackage[skins, breakable]{tcolorbox}
 % -------------- %
 % NOVOS COMANDOS %
 % -------------- %
-%\renewcommand{\baselinestretch}{1.069}
+\renewcommand\baselinestretch{1.069}
 \newcommand{\SubTituloUm}[1]{%
 \vspace{-8\baselineskip}
     \noindent\raggedright\large\itshape #1
@@ -348,12 +341,11 @@
 %
 \newcommand{\setetoques}{\rule{6em}{0.4pt}}
 %
-% Nota: definição de \Caso estava truncada no arquivo original.
-% Fechada com implementação mínima para evitar erro de compilação.
-% Este comando não é utilizado no documento atual.
 \newcommand{\Caso}[1]{%
-    \clearpage
+\clearpage
     \begin{center}
-        \color{crp1}#1
+ %   \color{crp1}\rule{0.618\linewidth}{0.4pt}\\
+  %  \vspace{0.618\baselineskip}
+    \color{crp1}\sffamily\textbf{#1}
     \end{center}
 }

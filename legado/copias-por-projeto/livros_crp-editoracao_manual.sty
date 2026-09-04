@@ -1,46 +1,20 @@
-\ProvidesPackage{livros_crp_memoir_original}[2026/09/04 v0.1.0-alfa Base memoir original]
+\ProvidesPackage{livros_crp-editoracao_manual}[2026/09/04 v0.1.0 Copia do Manual de Direitos Humanos original em editoracao; fase a confirmar]
 % ---------- %
 % TIPOGRAFIA %
 % ---------- %
 \usepackage[no-math]{fontspec}
-\setmainfont{Lora}[
-    Path=./,
-    Extension=.ttf,
-    UprightFont = Lora-Regular,
-    BoldFont=Lora-Bold,
-    ItalicFont=Lora-Italic,
-    BoldItalicFont=Lora-BoldItalic,
+\setmainfont{NewJune}[
+    UprightFont = *-Regular,
+    BoldFont=*-Bold,
+    ItalicFont=*-Regular-Italic,
+    BoldItalicFont=*-Bold-Italic,
 ]
-\setsansfont{NEWJUNE}[
-    UprightFont = NEWJUNE-REGULAR.OTF,
-    BoldFont=NEWJUNE-BOLD.OTF,
-    ItalicFont=NEWJUNE-REGULAR-ITALIC.OTF,
-    BoldItalicFont=NEWJUNE-BOLD-ITALIC.OTF,
+\setsansfont{NewJune}[
+    UprightFont = *-Regular,
+    BoldFont=*-Bold,
+    ItalicFont=*-Regular-Italic,
+    BoldItalicFont=*-Bold-Italic,
 ]
-\newfontfamily{\media}{NEWJUNE-Medium}[%
-    UprightFont = NEWJUNE-MEDIUM.OTF,
-    ItalicFont = NEWJUNE-MEDIUM-ITALIC.OTF,
-]
-\newfontfamily{\fininha}{NEWJUNE-FINE}[%
-    UprightFont = NEWJUNE-FINE.OTF,
-    ItalicFont = NEWJUNE-FINE-ITALIC.OTF,
-]
-\newfontfamily{\Light}{NEWJUNE-LIGHT}[%
-    UprightFont = NEWJUNE-LIGHT.OTF,
-    ItalicFont = NEWJUNE-LIGHT-ITALIC.OTF,
-]
-\newfontfamily{\fontebook}{NEWJUNE-BOOK}[%
-    UprightFont = NEWJUNE-BOOK.OTF,
-    ItalicFont = NEWJUNE-BOOK-ITALIC.OTF,
-]
-\newfontfamily{\serifada}{NEWJUNESerif}[%
-    UprightFont = NEWJUNE-REGULAR.OTF,
-    ItalicFont = NEWJUNE-REGULAR-ITALIC.OTF,
-]
-\newfontfamily{\pesada}{NEWJUNE-ULTRABOLD}[%
-    UprightFont = NEWJUNE-ULTRABOLD.OTF,
-    ItalicFont = NEWJUNE-ULTRABOLD-ITALIC.OTF,
-    ]
 \usepackage{microtype}
 \usepackage{hyphenat}
 \def\hyph{-\penalty 0\hskip 0pt\relax}
@@ -54,15 +28,13 @@
 % CORES & GRÁFICOS %
 % ---------------- %
 \usepackage{graphicx}
-\usepackage{epstopdf}
-\epstopdfsetup{update}
 \usepackage{background}
 \usepackage[dvipsnames]{xcolor}
-\definecolor{crp1}{RGB}{4, 88, 110}
-\definecolor{crp2}{RGB}{25, 159, 175}
+\definecolor{crp1}{RGB}{66, 44, 115}
+\definecolor{crp2}{RGB}{165, 93, 166}
 \definecolor{crp3}{RGB}{191, 115, 171}
 \fboxsep=0pt
-\usepackage[skins, breakable]{tcolorbox}
+\usepackage{tcolorbox}
 \usepackage{multirow}
 \usepackage{array}
 \newcolumntype{P}[1]{>{\centering\arraybackslash}p{#1}}
@@ -73,15 +45,12 @@
 % ----------- %
 % DIAGRAMAÇÃO %
 % ----------- %
-\usepackage{svg}
 \usepackage{multicol}
 \usepackage{pdfpages}
-\usepackage[title={}]{colophon}
 \usepackage{lastpage}
 \usepackage{ragged2e}
-%\setstocksize{230mm}{168.5mm}
-%\settrims{10mm}{10mm}
-%\trimXmarks
+%\setstocksize{337mm}{250mm}
+%\settrims{20mm}{20mm}
 \semiisopage
 \clubpenalty=9996
 \widowpenalty=9999
@@ -112,17 +81,10 @@
 \setlength{\paragrafounico}{\widthof{\bfseries Paragrafo unico. }}
 \newlength{\sepcredito}
 \setlength{\sepcredito}{\widthof{\bfseries | }}
-\newlength{\numfrances}
-\setlength{\numfrances}{\widthof{10 \space}}
-\newlength{\numfrancesdois}
-\setlength{\numfrancesdois}{\widthof{10\space}}
-\newlength{\TOCVSpace}
-\setlength{\TOCVSpace}{3\baselineskip}
 \setsecnumdepth{none}
 \maxsecnumdepth{none}
 \usepackage{tocvsec2}
 \setcounter{tocdepth}{0}
-\renewcommand{\aftertoctitle}{\vspace*{\TOCVSpace}}
 \renewcommand*{\sectionmark}[1]{\markright{#1}}
 %
 \makepagestyle{pretext}
@@ -135,21 +97,20 @@
 \copypagestyle{crp}{headings}
 \makeheadfootruleprefix{crp}{\color{crp1}}{\color{crp1}}
 \makeheadrule{crp}{\textwidth}{\normalrulethickness}
-\makeevenhead{crp}{\color{crp1}\Light\small\thepage}{}{\color{crp1}\Light\small\leftmark}
-\makeoddhead{crp}{\color{crp1}\Light\small\rightmark}{}{\small\Light\color{crp1}\thepage}
+\makeevenhead{crp}{\color{crp1}\small\thepage}{}{\color{crp1}\small\itshape\leftmark}
+\makeoddhead{crp}{\color{crp1}\small\itshape\rightmark}{}{\small\color{crp1}\thepage}
 %
 \copypagestyle{chapter}{pretext}
 \makeoddhead{chapter}{}{}{}
 \makeoddfoot{chapter}{}{}{}
 \makeevenhead{chapter}{}{}{}
 \makeevenfoot{chapter}{}{}{}
-\aliaspagestyle{chapter}{empty}
 %
 \copypagestyle{crpPre}{headings}
 \makeheadfootruleprefix{crp}{\color{crp1}}{\color{crp1}}
 \makeheadrule{crp}{\textwidth}{\normalrulethickness}
-\makeevenhead{crp}{\color{crp1}\fontebook\small\thepage}{}{\color{crp1}\fontebook\small\itshape\leftmark}
-\makeoddhead{crp}{\color{crp1}\fontebook\small\itshape\rightmark}{}{\small\fontebook\color{crp1}\thepage}
+\makeevenhead{crp}{\color{crp1}\small\thepage}{}{\color{crp1}\small\itshape\leftmark}
+\makeoddhead{crp}{\color{crp1}\small\itshape\rightmark}{}{\small\color{crp1}\thepage}
 %
 \makeatletter
 \renewcommand{\hangsecnum}{%
@@ -163,16 +124,15 @@
 }
 \makeatother
 %
-\setsecheadstyle{\color{crp1}\sffamily\Large\bfseries}
-\setaftersecskip{0.618\baselineskip}
-\setsubsecheadstyle{\color{crp1}\sffamily\normalsize\bfseries}
-\setaftersubsecskip{0.618\baselineskip}
-\setsubsubsecheadstyle{\color{crp1}\sffamily\normalsize\itshape}
-\setaftersubsubsecskip{0.618\baselineskip}
-\setparaheadstyle{\color{crp1}\sffamily\normalsize\bfseries}
-\setafterparaskip{0.618\baselineskip}
-\setsubparaheadstyle{\color{crp1}\sffamily\normalsize\color}
-\setaftersubparaskip{0.618\baselineskip}
+\setsecheadstyle{\sffamily\Large\bfseries}
+\setaftersecskip{\baselineskip}
+\setsubsecheadstyle{\sffamily\large\bfseries}
+\setaftersubsecskip{\baselineskip}
+\setsubsubsecheadstyle{\sffamily\large\itshape}
+\setparaheadstyle{\sffamily\normalsize\bfseries}
+\setafterparaskip{\baselineskip}
+\setsubparaheadstyle{\sffamily\normalsize\color}
+\setaftersubparaskip{\baselineskip}
 %
 \renewcommand{\printparttitle}{\flushright\HUGE\bfseries\color{crp1}\thepart}
 \renewcommand{\beforepartskip}{\vspace*{\fill}}
@@ -185,37 +145,30 @@
 %
 \nouppercaseheads
 \makechapterstyle{CRP01}{%
-%\renewcommand{\printchaptername}{\LARGE\bfseries\sffamily\color{crp2}}
-\renewcommand{\chaptitlefont}{\huge\bfseries\sffamily\color{crp2}}
+\renewcommand{\printchaptername}{{\sffamily\LARGE\bfseries}}
 \setlength{\afterchapskip}{8\baselineskip}
-\renewcommand{\chapterheadstart}{\thispagestyle{empty}\vspace*{\beforechapskip}}
 }
 %
 \chapterstyle{CRP01}
 % ----------------------- %
 % NAVEGAÇÃO & FORMULÁRIOS %
 % ----------------------- %
-% Nota: a opção `urlbreaks` foi removida porque, quando \DocumentMetadata
-% está ativo, `url` é carregado antes de xurl e não reconhece essa opção,
-% gerando erro fatal. As quebras de URL continuam cobertas por `hyphens`
-% e `spaces`.
-\usepackage[obeyspaces, spaces, hyphens]{xurl}
+\usepackage{xurl}
 \usepackage{hyperref}
 \hypersetup{
 	colorlinks=true,
 	linkcolor=black,
 	filecolor=black,
-	urlcolor=crp1,
+	urlcolor=black,
 }
 \urlstyle{same}
-%
 % -------------- %
 % NOVOS COMANDOS %
 % -------------- %
-%\renewcommand{\baselinestretch}{1.069}
+\renewcommand\baselinestretch{1.069}
 \newcommand{\SubTituloUm}[1]{%
 \vspace{-8\baselineskip}
-    \noindent\raggedright\large\itshape #1
+    \noindent\raggedleft\large\itshape #1
     \normalfont\normalsize\color{black}\justifying
     \vspace{8\baselineskip}
     }%
@@ -228,7 +181,7 @@
     {\bfseries{XVII Plenário}\normalfont}
 \newcommand{\assinaapresenta}[1]%
     {\begin{flushright}
-       % \vspace{-0.5\baselineskip}
+        \vspace{-0.5\baselineskip}
     \noindent%
     Conselho Regional de Psicologia de São Paulo\\
     #1%
@@ -241,45 +194,43 @@
 % ------------------- %
 \newcommand{\CreditoInstitucionalUm}[1]{%
     \raggedright
-        \sffamily\normalsize\bfseries\color{crp1}#1
+        \large\bfseries\color{crp1}#1
         \vspace{-0.382\baselineskip}%
         \normalsize\normalfont\color{black}
         }
 \newcommand{\CreditoInstitucionalDois}[1]{%
     \raggedright
         \vspace{0.2\baselineskip}
-        \sffamily\footnotesize\bfseries\color{crp1}#1
+        \small\bfseries\color{crp1}#1
        \vspace{-1.382\baselineskip}
         \normalsize\normalfont\color{black}
     }
 \newenvironment{CreditoInstitucional}{%
     \raggedright
     \noindent
-    \scriptsize
+    \footnotesize
     \setasuspacing{\SingleSpacing}
     }{}%
 \newenvironment{CreditoInstitucionalDestaque}{%
     \raggedright
     \noindent
-    \scriptsize
+    \footnotesize
     \setasuspacing{\SingleSpacing}
     }%
     {%\vspace{-1\baselineskip}
     }
 \newcommand{\CargoNosCreditos}[1]{%
-\sffamily\scriptsize\raggedright
+\footnotesize\raggedleft
     \setlength{\tabcolsep}{0pt}
     \begin{tabular}{p{0.6\linewidth} p{0.4\linewidth}}
-     \fontebook%
      #1
     \end{tabular}
     \vspace{-0.618\baselineskip}
     }
-\newcommand{\NomeNosCreditos}[1]{%
-\sffamily\scriptsize\raggedright
+    \newcommand{\NomeNosCreditos}[1]{%
+\footnotesize\raggedleft
     \setlength{\tabcolsep}{0pt}
     \begin{tabular}{p{\linewidth}}
-     \fontebook%
      #1
     \end{tabular}
     }
@@ -288,7 +239,7 @@
         \vspace{-1.618\baselineskip}
             \setlength{\tabcolsep}{0pt}
       \begin{tabular}{p{0.3\linewidth} p{0.618\linewidth}}
-        \sffamily\scriptsize\bfseries\color{crp1}#1 &
+        \footnotesize\bfseries\color{crp1}#1 &
         \normalfont\color{black}#2 \\
     \end{tabular}
         \vspace{-1\baselineskip}
@@ -300,15 +251,15 @@
     \end{minipage}%
     \begin{minipage}{\boxementa}
         \justifying
-        \sffamily\footnotesize\noindent #1
+        \footnotesize\noindent #1
     \end{minipage}
     \noindent%
     }
 \newcommand{\Entretitulo}[1]{%
+    \vspace{1.618\baselineskip}%
+    \noindent\bfseries\ #1
     \vspace{0.618\baselineskip}%
-\color{crp1}\Light\noindent#1
-    \vspace{0.382\baselineskip}%
-    \normalfont\normalsize\color{black}%
+    \normalfont\normalsize%
     }
 \newcommand{\LegArtigo}[2]{%
     \begin{description}[align= left,leftmargin=!,labelwidth=\indicartigo,labelsep=1em]
@@ -347,13 +298,3 @@
 	}
 %
 \newcommand{\setetoques}{\rule{6em}{0.4pt}}
-%
-% Nota: definição de \Caso estava truncada no arquivo original.
-% Fechada com implementação mínima para evitar erro de compilação.
-% Este comando não é utilizado no documento atual.
-\newcommand{\Caso}[1]{%
-    \clearpage
-    \begin{center}
-        \color{crp1}#1
-    \end{center}
-}
