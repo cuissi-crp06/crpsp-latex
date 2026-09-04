@@ -22,3 +22,6 @@ indent.log
 *.code-workspace
 *.loc
 *.soc
+
+# PDFs de formularios/ deixam de ser versionados — gerar sob demanda a partir do .tex
+formularios/**/*.pdf
