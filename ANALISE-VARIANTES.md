@@ -99,3 +99,49 @@ O git guarda o histórico: uma variante pode ser **apagada** num commit e
 continuar recuperável. `legado/` existe para o intervalo entre "não sei se
 presta" e "decidi" — não é destino permanente. Depois da decisão, o que não
 for canônico sai da árvore, com a justificativa na mensagem do commit.
+
+---
+
+# Resolução — 2026-09-04
+
+As cinco perguntas acima foram fechadas, e o levantamento que as originou foi
+ampliado: ele varreu o disco de uma máquina, e faltavam os outros repositórios
+do GitHub. Contando-os, a linhagem `livros_crp` tem quinze conteúdos distintos,
+não sete cópias em seis versões.
+
+**1. A revisão do Claude.** Confirmada: a base é posterior, e `livros_crp-rev_cld.sty`
+fica como variante arquivada, com nome de pacote próprio. Segue valendo portar o
+`urlbreaks` do `xurl`.
+
+**2. `book` × `book_old`.** O canônico `book-crpsp_acessivel.sty` 0.5.0 fixa a
+paleta azul (RGB 4, 88, 110) — a mesma de `book_old.sty`. O sufixo `_old` engana:
+o ramo não seguido é o púrpura. A pergunta, porém, deixou de valer para a linha
+nova: `crpsp-base.sty` define a paleta por publicação, com padrões neutros e os
+setters `\crpspCorPrincipal`, `\crpspCorSecundaria` e `\crpspCorAcessoria`. A
+partir dali a paleta não é propriedade do pacote.
+
+**3. `formularios.sty`.** A de 105 linhas segue como canônica em `crpsp-forms/`;
+as outras duas ficam arquivadas com nome próprio. A segunda cópia de
+`form-sem-logo.sty` era byte a byte idêntica e foi removida.
+
+**4. As cópias por projeto.** Não são lixo. A do Manual de Direitos Humanos deu
+origem aos comandos `\Leg*` e ao pipeline de normativas. Ficam, com procedência
+registrada em `legado/copias-por-projeto/PROVENIENCIA.md`.
+
+**5. `livros_crp_v7` × `livros_crp_comentado`.** O v7 entra na linha memoir como
+0.4.0-beta: é a geração das primeiras tentativas de PDF acessível. O rótulo
+`v7.0` vinha de outro esquema e não se ordenava com a série `0.x`, embora sua
+data (2025/09/26) fosse posterior à da base `v0.2` (2025/04/06). O `comentado` é
+a versão anotada do mesmo trabalho.
+
+## O defeito que o levantamento não tinha visto
+
+Não era a ausência de versão, era o rótulo repetido. Três arquivos de conteúdo
+distinto declaravam `v7.0` de 2025/09/26 e três declaravam `v0.5.0` de
+2026/07/10. Como `\@ifpackagelater` compara a data declarada, e não o conteúdo,
+eram indistinguíveis para o LaTeX.
+
+A correção tem duas partes: o pacote implantado mantém o nome sob o qual é
+carregado (`livros_crp`, `livros_crp_acessivel_book`, `formularios`), e toda
+variante que não é implantada passa a declarar o próprio nome de arquivo. Feito
+isso, nenhum nome declarado se repete no repositório.
