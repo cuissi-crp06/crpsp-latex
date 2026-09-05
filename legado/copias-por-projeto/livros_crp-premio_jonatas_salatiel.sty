@@ -1,0 +1,90 @@
+\ProvidesPackage{livros_crp-premio_jonatas_salatiel}[2024/10/21 v0.1.0 Copia do cadernoB, premio Jonatas Salatiel]
+% ---------- %
+% TIPOGRAFIA %
+% ---------- %
+\usepackage{fontspec}
+\setmainfont{NewJune}[
+    UprightFont = *-Regular,
+    BoldFont=*-Bold,
+    ItalicFont=*-Regular-Italic,
+    BoldItalicFont=*-Bold-Italic,
+]
+\setsansfont{NewJune}[
+    UprightFont = *-Regular,
+    BoldFont=*-Bold,
+    ItalicFont=*-Regular-Italic,
+    BoldItalicFont=*-Bold-Italic,]
+\usepackage[protrusion=true]{microtype}
+% ------ %
+% IDIOMA %
+% ------ %
+\usepackage[brazil]{babel}
+% ---------------- %
+% CORES & GRÁFICOS %
+% ---------------- %
+%\usepackage{graphicx}
+\usepackage[dvipsnames,table]{xcolor}
+\definecolor{crp1}{RGB}{66, 44, 115}
+\definecolor{crp2}{RGB}{165, 93, 166}
+\definecolor{crp3}{RGB}{191, 115, 171}
+\fboxsep=0pt
+\usepackage{framed}
+\usepackage{xhfill}
+% ----------- %
+% DIAGRAMAÇÃO %
+% ----------- %
+\usepackage{lastpage}
+\nonzeroparskip
+\raggedbottom
+\newcommand*{\setasuspacing}[1]{%
+  \let\AsuSpacing#1
+  \AsuSpacing}
+\setasuspacing{\OnehalfSpacing}
+\usepackage{calc}
+\newlength{\boxlarg}
+\setlength{\boxlarg}{2em}
+\newlength{\virgula}
+\setlength{\virgula}{0.5em}
+\setlength{\parindent}{0pt}
+\setsecnumdepth{subparagraph}
+\maxsecnumdepth{subparagraph}
+\usepackage[%
+  a4paper,
+  left = 1.5cm, right = 2cm, top = 3.5cm, bottom = 2cm,
+  headheight = 3.5cm,
+  headsep = \baselineskip,
+  paperwidth=210mm,
+  paperheight=297mm,
+]%
+{geometry}
+\addtopsmarks{headings}{}{
+  \createmark{chapter}{both}{shownumber}{}{. \ }
+}
+\copypagestyle{crp}{headings}
+\makeheadfootruleprefix{crp}{\color{crp2}}{\color{crp2}}
+\makeheadrule{crp}{\textwidth}{\normalrulethickness}
+\makeoddhead{crp}{\includegraphics[width=1.2cm,height=1.2cm]{logo-crp.png}}{}{\color{crp1}\small\textit{Estudos técnicos}}
+\makeevenhead{crp}{}{}{}
+\makeoddfoot{crp}{}{}{\color{crp2}\thepage}
+\makeevenfoot{crp}{\color{crp2}\thepage}{}{}
+\nouppercaseheads
+\usepackage{pdflscape}
+\usepackage{tabularx}
+% ----------------------- %
+% NAVEGAÇÃO & FORMULÁRIOS %
+% ----------------------- %
+\usepackage{hyperref}
+\hypersetup{
+	colorlinks=true,
+	linkcolor=crp1,
+	filecolor=crp2,
+	urlcolor=crp1,
+	pdfpagemode=FullScreen,
+}
+\urlstyle{same}
+\usepackage{url}
+% -------------- %
+% NOVOS COMANDOS %
+% -------------- %
+\renewcommand\baselinestretch{1.069}
+
