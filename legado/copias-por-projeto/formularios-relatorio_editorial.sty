@@ -1,0 +1,93 @@
+\ProvidesPackage{formularios-relatorio_editorial}[2025/09/23 v0.1.0 Copia de formularios do relatorio_editorial; identica a do cadernoB intranet/relatorio]
+% ---------- %
+% Tipografia %
+% ---------- %
+\usepackage[no-math]{fontspec}
+\setmainfont{NewJune}[
+    UprightFont = *-Regular,
+    BoldFont=*-Bold,
+    ItalicFont=*-Regular-Italic,
+    BoldItalicFont=*-Bold-Italic,
+]
+\setsansfont{NewJune}[
+    UprightFont = *-Regular,
+    BoldFont=*-Bold,
+    ItalicFont=*-Regular-Italic,
+    BoldItalicFont=*-Bold-Italic,]
+\fontsize{12pt}{18pt}
+\usepackage{microtype}
+% ---------------- %
+% Cores & gráficos %
+% ---------------- %
+\usepackage{graphicx}
+\usepackage[dvipsnames]{xcolor}
+\definecolor{crp1}{RGB}{66, 44, 115}
+\definecolor{crp2}{RGB}{165, 93, 166}
+\definecolor{crp3}{RGB}{191, 115, 171}
+\fboxsep=0pt
+\usepackage{framed}
+\usepackage{xhfill}
+% ----------- %
+% Diagramação %
+% ----------- %
+\usepackage{sectionbreak}
+\usepackage{lastpage}
+\usepackage[%
+    a4paper,
+    left = 1.5cm, right = 2cm, top = 3.5cm, bottom = 2cm,
+    headheight = 3.5cm,
+    headsep = \baselineskip,
+]%
+{geometry}
+\makepagestyle{crp}
+\makeoddhead{crp}{}{\includegraphics[height = 2cm]{logo-crp.png}}{}
+\makeoddfoot{crp}{}{\thepage/\pageref{LastPage}}{}
+\usepackage{ragged2e}
+\newcommand*{\setasuspacing}[1]{%
+    \let\AsuSpacing#1
+    \AsuSpacing}
+\setasuspacing{\SingleSpacing}
+%\renewcommand\LayoutCheckField[2]{#2#1}
+\usepackage{calc}
+\newlength{\boxlarg}
+\setlength{\boxlarg}{2em}
+\newlength{\virgula}
+\setlength{\virgula}{0.5em}
+\newlength{\fimdelinha}
+\setlength{\fimdelinha}{\textwidth-1.5\boxlarg}
+\setsecnumdepth{none}
+\maxsecnumdepth{none}
+\setsecheadstyle{\Large\bfseries\color{crp1}\MakeUppercase}
+\setaftersecskip{\baselineskip}
+\setsubsecheadstyle{\large\bfseries\color{crp1}}
+\setaftersubsecskip{\baselineskip}
+\setsubsubsecheadstyle{\normalsize\color{crp1}}
+% ----------------------- %
+% Navegação & formulários %
+% ----------------------- %
+\usepackage{hyperref}
+\hypersetup{
+	colorlinks=true,
+	linkcolor=crp1,
+	filecolor=crp2,
+	urlcolor=crp1,
+	pdfpagemode=FullScreen,
+}
+\urlstyle{same}
+\usepackage{url}
+% -------------- %
+% Novos comandos %
+% -------------- %
+\newcommand{\caixasel}[2]{\centering\raisebox{-2pt}{\fbox{\CheckBox[name=#2,bordercolor=black, height=#1pt, width=#1pt]{\null}}}}
+\newcommand{\preenctext}[4]{\noindent\TextField[name=#2, width=#3, bordercolor=gray, color=black, backgroundcolor=white, height=#1pt]{#4}}
+\newcommand{\dataabrev}[2]{%
+    \preenctext{#1}{dia{#2}}{2em}{\null} / %
+    \preenctext{#1}{mes{#2}}{2em}{\null} / %
+    \preenctext{#1}{ano{#2}}{3em}{\null}%
+}
+\newcommand{\dataextenso}[1]{%
+    \raggedright%
+    \preenctext{14}{cidade}{18em}{\null}
+    \preenctext{14}{diaext#1}{3em}{ , }
+    \preenctext{14}{mesext#1}{8em}{ de }
+    \preenctext{14}{anoext#1}{4em}{ de } .}

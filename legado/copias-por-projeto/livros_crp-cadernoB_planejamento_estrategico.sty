@@ -1,0 +1,184 @@
+\ProvidesPackage{livros_crp-cadernoB_planejamento_estrategico}[2025/01/09 v0.1.0 Copia do cadernoB, planejamento estrategico; difere da PE2025 em publicacoes]
+% ---------- %
+% TIPOGRAFIA %
+% ---------- %
+\usepackage[no-math]{fontspec}
+\setmainfont{NewJune}[
+    UprightFont = *-Regular,
+    BoldFont=*-Bold,
+    ItalicFont=*-Regular-Italic,
+    BoldItalicFont=*-Bold-Italic,
+]
+\setsansfont{NewJune}[
+    UprightFont = *-Regular,
+    BoldFont=*-Bold,
+    ItalicFont=*-Regular-Italic,
+    BoldItalicFont=*-Bold-Italic,]
+%\fontsize{10pt}{12pt}
+\usepackage{microtype}
+% ------ %
+% IDIOMA %
+% ------ %
+\usepackage[brazil]{babel}
+% ---------------- %
+% CORES & GRÁFICOS %
+% ---------------- %
+\usepackage{graphicx}
+\usepackage[dvipsnames]{xcolor}
+\definecolor{crp1}{RGB}{66, 44, 115}
+\definecolor{crp2}{RGB}{165, 93, 166}
+\definecolor{crp3}{RGB}{191, 115, 171}
+\fboxsep=0pt
+\usepackage{framed}
+\usepackage{xhfill}
+% ----------- %
+% DIAGRAMAÇÃO %
+% ----------- %
+\usepackage{lastpage}
+%\usepackage{ragged2e}
+%\setstocksize{148.5mm}{210mm}
+%\setpagebl{148.5mm}{210mm}{*}
+\setlrmarginsandblock{10mm}{10mm}{*}
+\setulmarginsandblock{25mm}{20mm}{*}
+\setheadfoot{10mm}{5mm}
+\checkandfixthelayout[fixed]
+\nonzeroparskip
+\raggedbottom
+\newcommand*{\setasuspacing}[1]{%
+    \let\AsuSpacing#1
+    \AsuSpacing}
+\setasuspacing{\OnehalfSpacing}
+\usepackage{calc}
+\newlength{\boxlarg}
+\setlength{\boxlarg}{2em}
+\newlength{\virgula}
+\setlength{\virgula}{0.5em}
+\setsecnumdepth{none}
+\maxsecnumdepth{none}
+\setsecheadstyle{\Large\bfseries\color{crp1}}
+\setaftersecskip{\baselineskip}
+\setsubsecheadstyle{\large\bfseries\color{crp1}}
+\setaftersubsecskip{\baselineskip}
+\setsubsubsecheadstyle{\large\color{crp1}}
+\setparaheadstyle{\normalsize\itshape\color{crp1}}
+\setafterparaskip{\baselineskip}
+\setsubparaheadstyle{\normalsize\color{crp1}}
+\setaftersubparaskip{\baselineskip}
+%
+\makeatletter
+\makechapterstyle{CRP}{%
+    \setlength{\afterchapskip}{40pt}
+    \renewcommand*{\chapterheadstart}{\vspace*{40pt}}
+    \renewcommand*{\afterchapternum}{\par\nobreak\vskip 10pt}
+    \renewcommand*{\chapnamefont}{\normalfont\Large\flushleft}
+    \renewcommand*{\chapnumfont}{\bfseries\huge}
+    \renewcommand*{\chaptitlefont}{\normalfont\huge\bfseries\flushleft\color{crp1}}
+    \renewcommand*{\printchaptername}{}%\color{crp1}}
+    \renewcommand*{\chapternamenum}{}
+
+    \newlength{\redbarheight}
+    \setlength{\redbarheight}{0.5em}		% Setting the height of the bar
+
+    \newlength{\chapnumboxlength}
+    \setlength{\chapnumboxlength}{2em}	% Setting the length of the box containing chapter number
+
+    \newlength{\leftbarlength}
+    \setlength{\leftbarlength}{1em}  		% Setting length of the bar left to the chapter number
+
+    \newlength{\chapnumboxheight}
+    \setlength{\chapnumboxheight}{10pt}
+
+    \newlength{\rightbarlength}
+    \setlength{\rightbarlength}{\textwidth}
+    \addtolength{\rightbarlength}{-\leftbarlength}
+    \addtolength{\rightbarlength}{-\chapnumboxlength}	% Adjusting the right bar to fit the text margin
+    \addtolength{\rightbarlength}{-0.5em} % "By eye" adjustment.. - shouldn't really be there :(
+
+    \renewcommand*{\printchapternum}{%
+        \makebox[0pt][l]{%
+            \color{crp2}\rule{\leftbarlength}{\redbarheight}											% Left bar
+            \resizebox{\chapnumboxlength}{!}{\color{crp1}\chapnumfont\thechapter}	% Chapter number
+            \color{crp2}\rule{\rightbarlength}{\redbarheight}											% Right bar
+        }%
+    }%
+}
+\makeatother
+\addtopsmarks{headings}{}{
+	\createmark{chapter}{both}{nonumber}{}{. \ }
+}
+\copypagestyle{crp}{headings}
+\makeheadfootruleprefix{crp}{\color{crp2}}{\color{crp2}}
+\makeheadrule{crp}{\textwidth}{\normalrulethickness}
+\makeoddhead{crp}{\color{crp2}\thepage}{}{\color{crp2}\itshape\leftmark}
+\makeevenhead{crp}{\color{crp2}\itshape\rightmark}{}{\color{crp2}\thepage}
+\makeoddfoot{plain}{}{}{}
+\makeatletter
+\renewcommand{\hangsecnum}{%
+	\def\@seccntformat##1{%
+		\makebox[0pt][r]{%
+			\color{crp2}%
+			\csname the##1\endcsname\hspace*{0.5\virgula}
+			%
+		}%
+	}%
+}
+\makeatother
+\setsechook{\hangsecnum}
+\setsubsechook{\hangsecnum}
+\AtBeginDocument{\addtocontents{toc}{\protect\thispagestyle{empty}}}
+\AtBeginDocument{\addtocontents{chapter}{\protect\thispagestyle{empty}}}
+%
+\makepagestyle{pretext}
+\makeoddhead{pretext}{}{}{}
+\makeoddfoot{pretext}{}{}{}
+\makeevenhead{pretext}{}{}{}
+\makeevenfoot{pretext}{}{}{}
+\aliaspagestyle{pretext}{chapter}
+%
+\chapterstyle{CRP}
+\nouppercaseheads
+%
+% ----------------------- %
+% NAVEGAÇÃO & FORMULÁRIOS %
+% ----------------------- %
+\usepackage{hyperref}
+\hypersetup{
+	colorlinks=true,
+	linkcolor=crp1,
+	filecolor=crp2,
+	urlcolor=crp1,
+	pdfpagemode=FullScreen,
+}
+\urlstyle{same}
+\usepackage{url}
+% -------------- %
+% NOVOS COMANDOS %
+% -------------- %
+\renewcommand\baselinestretch{1.069}
+% ------------------- %
+% Páginas de créditos %
+% ------------------- %
+\newcommand{\CreditoInstitucionalUm}[1]{%
+    \begin{flushleft}
+        \large\bfseries\color{crp2}#1
+        \vspace{-2.5\baselineskip}
+    \end{flushleft}}
+\newcommand{\CreditoInstitucionalDois}[1]{%
+    \begin{flushleft}
+        \small\bfseries\color{crp3}#1
+        \vspace{-3\baselineskip}
+    \end{flushleft}}
+\newcommand{\CreditoTecnicoUm}[1]{%
+    \begin{flushright}
+        \large\bfseries\color{crp2}#1
+    \end{flushright}}
+\newcommand{\CreditoTecnicoDois}[1]{%
+    \begin{flushright}
+    \normalsize\bfseries\color{crp3}#1
+    \end{flushleft}}
+\newenvironment{CreditoInstitucional}%
+{\begin{flushleft}%
+        \noindent%
+        \footnotesize
+        \setasuspacing{\SingleSpacing}}
+        {\end{flushleft}}
