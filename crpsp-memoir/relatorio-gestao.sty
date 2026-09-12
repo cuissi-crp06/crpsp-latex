@@ -1,0 +1,273 @@
+%% relatorio-gestao.sty — Relatório de Gestão CRP SP
+%%
+%% Camada de apresentação: cores (paleta por parte), fontes, títulos, boxes,
+%% tabelas/quadros e decoração de página (arte do designer). A estrutura do
+%% conteúdo vem dos Markdown em partes/, convertidos por pandoc +
+%% filtros/filtro_rg.lua; tabelas em tabelas/ vêm de gerar_tabelas.py (ver gerar.ps1).
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{relatorio-gestao}[2026/06/16 v0.5.0 Relatorio de Gestao CRP-SP, linha memoir]
+
+\RequirePackage{etoolbox}
+\RequirePackage[brazilian]{babel}
+\RequirePackage{xcolor}
+\RequirePackage{microtype}
+
+%% ---------------------------------------------------------------- Cores
+%% Paleta por parte: \rgpaleta{nome} redefine rg1–rg3 (e a cor das barras de
+%% fundo do designer). Cada parte tem sua paleta (ver especificacoes.md);
+%% amostradas da arte final. rgtexto = texto sobre fundos rg2/rg3 (branco não
+%% contrasta o suficiente neles; sobre rg1 o texto do box é branco).
+%% \rgpaleta{cor} seleciona a paleta da parte (cores da arte final do designer).
+%% rg1 = banda de cabeçalho (escura); rg2 = média; rg3 = clara (sub-cabeçalho).
+%% \rgfundo = nome da barra de fundo (decor/fundo-<cor>-...). \rgboxbranco
+%% (true/false) define se o texto em box rg1 é branco (paletas escuras) ou
+%% rgtexto (paleta clara, p.ex. laranja).
+\definecolor{rgtexto}{HTML}{2A1610}
+\newcommand*{\rgfundo}{marrom}
+\newif\ifrgboxbranco \rgboxbrancotrue
+\newcommand{\rgpaleta}[1]{%
+  \ifstrequal{#1}{roxo}{%           Mensagem — roxo
+    \definecolor{rg1}{HTML}{4E2879}\definecolor{rg2}{HTML}{7B5AA6}%
+    \definecolor{rg3}{HTML}{B29FC6}\definecolor{rgtexto}{HTML}{241138}%
+    \renewcommand*{\rgfundo}{roxo}\rgboxbrancotrue}{}%
+  \ifstrequal{#1}{verde}{%          Parte I — verde
+    \definecolor{rg1}{HTML}{2B5625}\definecolor{rg2}{HTML}{4A7A42}%
+    \definecolor{rg3}{HTML}{9FBF98}\definecolor{rgtexto}{HTML}{172E13}%
+    \renewcommand*{\rgfundo}{verde}\rgboxbrancotrue}{}%
+  \ifstrequal{#1}{vermelho}{%       Parte II (Riscos) — vermelho
+    \definecolor{rg1}{HTML}{A31D16}\definecolor{rg2}{HTML}{C0453A}%
+    \definecolor{rg3}{HTML}{E0A39C}\definecolor{rgtexto}{HTML}{3A0C08}%
+    \renewcommand*{\rgfundo}{vermelho}\rgboxbrancotrue}{}%
+  \ifstrequal{#1}{marrom}{%         Parte III (Governança) — marrom
+    \definecolor{rg1}{HTML}{512920}\definecolor{rg2}{HTML}{744F45}%
+    \definecolor{rg3}{HTML}{9E8077}\definecolor{rgtexto}{HTML}{2A1610}%
+    \renewcommand*{\rgfundo}{marrom}\rgboxbrancotrue}{}%
+  \ifstrequal{#1}{laranja}{%        Parte IV — laranja (paleta clara)
+    \definecolor{rg1}{HTML}{B5650D}\definecolor{rg2}{HTML}{DA7D0C}%
+    \definecolor{rg3}{HTML}{F7C68A}\definecolor{rgtexto}{HTML}{4A2A05}%
+    \renewcommand*{\rgfundo}{laranja}\rgboxbrancotrue}{}%
+  \ifstrequal{#1}{cinza}{%          Backmatter (anexos) — neutro
+    \definecolor{rg1}{HTML}{4A4A4A}\definecolor{rg2}{HTML}{767676}%
+    \definecolor{rg3}{HTML}{B8B8B8}\definecolor{rgtexto}{HTML}{1F1F1F}%
+    \renewcommand*{\rgfundo}{cinza}\rgboxbrancotrue}{}%
+  \colorlet{rgfio}{rg3!60}}%        fios internos de tabelas/quadros
+\rgpaleta{marrom}  % default; relatorio.tex seleciona por parte
+
+%% ---------------------------------------------------------------- Fontes
+\RequirePackage{fontspec}
+\setmainfont{Lora}[
+  Path           = fontes/,
+  UprightFont    = Lora-Regular.ttf,
+  ItalicFont     = Lora-Italic.ttf,
+  BoldFont       = Lora-Bold.ttf,
+  BoldItalicFont = Lora-BoldItalic.ttf,
+]
+%% Família de títulos: New June (substitui a Vinila Test). Tem acentos e
+%% parênteses, então NÃO há fallback. Sem larguras condensed/extended — a
+%% hierarquia de títulos é feita por PESO.
+\setsansfont{New June}[
+  Path           = fontes/,
+  UprightFont    = NEWJUNE-REGULAR.OTF,
+  ItalicFont     = NEWJUNE-REGULAR-ITALIC.OTF,
+  BoldFont       = NEWJUNE-BOLD.OTF,
+  BoldItalicFont = NEWJUNE-BOLD-ITALIC.OTF,
+]
+%% Pesos de New June usados nos títulos (do mais pesado ao mais leve)
+\newfontfamily\njHeavy{NEWJUNE-HEAVY.OTF}[Path=fontes/]
+\newfontfamily\njExtraBold{NEWJUNE-EXTRABOLD.OTF}[Path=fontes/]
+\newfontfamily\njBold{NEWJUNE-BOLD.OTF}[Path=fontes/]
+\newfontfamily\njSemiBold{NEWJUNE-SEMIBOLD.OTF}[Path=fontes/]
+\newfontfamily\njMedium{NEWJUNE-MEDIUM.OTF}[Path=fontes/]
+
+%% ---------------------------------------------------------------- Página
+%% A4, frente e verso; margem externa 3 cm, demais 2 cm
+\setlrmarginsandblock{2cm}{3cm}{*}
+\setulmarginsandblock{2cm}{2cm}{*}
+\checkandfixthelayout
+
+%% Justificação vertical tolerante: permite a página terminar um pouco curta em
+%% vez de esticar a cola vertical (melhor com muitas tabelas/boxes indivisíveis).
+\sloppybottom
+
+%% Fólio na margem externa, em New June
+\makepagestyle{rg}
+\makeevenfoot{rg}{\njBold\color{rg1}\thepage}{}{}
+\makeoddfoot{rg}{}{}{\njBold\color{rg1}\thepage}
+\aliaspagestyle{chapter}{rg}
+\pagestyle{rg}
+
+%% Decoração de fundo — arte final do designer (barras laterais de página inteira,
+%% par/ímpar, na cor da parte). Arquivos copiados por sincronizar_assets.ps1 em
+%% decor/fundo-<cor>-<par|impar>.png. Fallback: sem fundo se o arquivo faltar.
+\RequirePackage{eso-pic}
+\RequirePackage{pdflscape}  % páginas em paisagem para os anexos (backmatter)
+%% A cor da barra de fundo segue o NÚMERO DA PARTE no momento do shipout (não o
+%% \rgfundo, que muda cedo demais nas páginas de transição). Backmatter = cinza.
+%% \ifrgsemfundo suprime a barra (pré-textual e capas — "empty", não decoradas).
+\newif\ifrgbackmatter
+\newif\ifrgsemfundo
+\AddToShipoutPictureBG{%
+  \ifrgsemfundo\else
+    \ifodd\value{page}\def\rgparidade{impar}\else\def\rgparidade{par}\fi
+    \ifrgbackmatter\def\rgff{cinza}\else
+      \ifcase\value{part}\def\rgff{cinza}\or\def\rgff{roxo}\or\def\rgff{verde}%
+        \or\def\rgff{vermelho}\or\def\rgff{marrom}\or\def\rgff{laranja}\else
+        \def\rgff{cinza}\fi
+    \fi
+    \IfFileExists{decor/fundo-\rgff-\rgparidade.png}%
+      {\put(0,0){\includegraphics[width=\paperwidth,height=\paperheight]{decor/fundo-\rgff-\rgparidade.png}}}%
+      {}%
+  \fi}
+
+%% \rgcapa{decor/capa}: página inteira full-bleed, sem fólio nem barra de fundo.
+\newcommand{\rgcapa}[1]{%
+  \clearpage\thispagestyle{empty}%
+  \AddToShipoutPictureBG*{\put(0,0){\includegraphics[width=\paperwidth,height=\paperheight]{#1}}}%
+  \null\clearpage}
+
+%% ---------------------------------------------------------------- Títulos
+%% Abertura de parte = imagem de página inteira do designer (decor/abertura-NN.png,
+%% NN = número da parte). Sem arte, cai no título tipográfico de fallback.
+\RenewDocumentCommand{\part}{s o m}{%
+  \cleardoublepage
+  \refstepcounter{part}%
+  \addcontentsline{toc}{part}{\thepart\hspace{0.6em}#3}% entra no sumário
+  \IfFileExists{decor/abertura-\two@digits{\value{part}}.png}{%
+    \thispagestyle{empty}%
+    \AddToShipoutPictureBG*{\put(0,0){\includegraphics[width=\paperwidth,height=\paperheight]{decor/abertura-\two@digits{\value{part}}.png}}}%
+    \null\clearpage}{%
+    \rgparttipografica{#3}}}
+%% Fallback tipográfico (Vinila Extended Black) quando não há imagem de abertura
+\newcommand{\rgparttipografica}[1]{%
+  \cleardoublepage\thispagestyle{empty}%
+  \null\vskip 6\baselineskip
+  {\njMedium\huge\color{rg2}Parte \thepart\par\vskip\baselineskip}%
+  {\njExtraBold\fontsize{30}{36}\selectfont\color{rg1}\raggedright #1\par}%
+  \clearpage}
+
+\makechapterstyle{rg}{%
+  \renewcommand*{\printchaptername}{}%
+  \renewcommand*{\chapnumfont}{\njHeavy\fontsize{40}{40}\selectfont\color{rg2}}%
+  \renewcommand*{\printchapternum}{\chapnumfont\thechapter}%
+  \renewcommand*{\afterchapternum}{\par\nobreak\vskip 8pt}%
+  \renewcommand*{\chaptitlefont}{\njExtraBold\fontsize{24}{29}\selectfont\color{rg1}\raggedright}%
+  \renewcommand*{\afterchaptertitle}{\par\nobreak\vskip 6pt
+    {\color{rg2}\rule{\textwidth}{1.5pt}}\par\nobreak\vskip\afterchapskip}%
+}
+\chapterstyle{rg}
+
+\setsecheadstyle{\njBold\Large\color{rg1}\raggedright}
+\setsubsecheadstyle{\njSemiBold\large\color{rg1}\raggedright}
+\setsubsubsecheadstyle{\njSemiBold\color{rg1}\raggedright}
+\setparaheadstyle{\njSemiBold\color{rg1}}
+\setsecnumdepth{chapter}
+\maxsecnumdepth{chapter}
+\settocdepth{chapter}   % sumário = partes + capítulos
+
+%% ---------------------------------------------------------------- Boxes
+\RequirePackage{tcolorbox}
+\tcbuselibrary{breakable,skins}
+\tcbset{
+  rgboxbase/.style={enhanced jigsaw, breakable, frame hidden, boxrule=0pt,
+    arc=2mm, left=12pt, right=12pt, top=10pt, bottom=10pt,
+    before skip=\baselineskip, after skip=\baselineskip},
+  rgbox/rg1/.style={rgboxbase, colback=rg1, coltext=white},
+  rgbox/rg2/.style={rgboxbase, colback=rg2, coltext=rgtexto},
+  rgbox/rg3/.style={rgboxbase, colback=rg3, coltext=rgtexto},
+}
+%% Uso: \begin{rgbox}{rg1} ... \end{rgbox}
+\NewDocumentEnvironment{rgbox}{m}{%
+  \begin{tcolorbox}[rgbox/#1]%
+  \ifstrequal{#1}{rg1}%
+    {\hypersetup{urlcolor=white, linkcolor=white}}%
+    {\hypersetup{urlcolor=rgtexto, linkcolor=rgtexto}}%
+}{\end{tcolorbox}}
+%% Título interno de box (gerado pelo filtro a partir de # dentro do ::: box)
+\newcommand*{\rgboxtitulo}[1]{{\njSemiBold\large #1\par\medskip}}
+
+%% ------------------------------------------------------- Tabelas e quadros
+%% Classificação IBGE: tabela (numérica, aberta nas laterais) e quadro
+%% (textual, fechado). Tema comum via tabularray; arquivos em tabelas/.
+\RequirePackage{tabularray}
+%% O rótulo (Tabela/Quadro N) é impresso por \rgtabela/\rgquadro; a legenda
+%% interna do longtblr é suprimida e o aviso de continuação, traduzido.
+\DefTblrTemplate{caption}{default}{}
+\DefTblrTemplate{capcont}{default}{}
+\DefTblrTemplate{contfoot-text}{default}{continua na página seguinte}
+\SetTblrInner[tblr,longtblr]{
+  rowsep = 3pt, colsep = 5pt,
+  cells = {font=\footnotesize},
+  row{1} = {font=\njSemiBold\footnotesize, fg=white, bg=rg1, rowsep=4pt},
+  hlines = {0.2pt, rgfio},
+  hline{1} = {0.8pt, rg1},
+  hline{2} = {0.4pt, rg1},
+  hline{Z} = {0.8pt, rg1},
+}
+
+%% O rótulo "Tabela N"/"Quadro N" (N = índice da planilha) é impresso pelo
+%% próprio arquivo gerado, via \rgrotulo, antes do ambiente longtblr.
+\newcommand*{\rgrotulofonte}{\njSemiBold\small\color{rg1}}
+\newcommand{\rgrotulo}[2]{{\noindent\rgrotulofonte #1 #2}\par\nobreak\addvspace{2pt}}
+
+%% \rgtabela{nome}: insere a tabela gerada em tabelas/nome.tex
+\NewDocumentCommand{\rgtabela}{m}{%
+  \par\addvspace{\baselineskip}%
+  \input{tabelas/#1.tex}%
+  \par\addvspace{\baselineskip}}
+
+%% Legenda/nota abaixo da tabela (tag ::: tabela_legenda)
+\NewDocumentEnvironment{rglegenda}{}{%
+  \par\vspace{-0.6\baselineskip}\begingroup
+  \noindent\footnotesize\color{rgtexto}\raggedright
+}{\par\endgroup\addvspace{\baselineskip}}
+
+%% Cabeçalho de anexo (usado dentro de landscape, que já abre nova página):
+%% \rganexo{I}{Planilha de contratações (2025)}
+\newcommand{\rganexo}[2]{%
+  \thispagestyle{rg}%
+  {\noindent\njExtraBold\fontsize{22}{26}\selectfont\color{rg1}\raggedright Anexo #1\par}%
+  \vskip 4pt{\noindent\njSemiBold\large\color{rg2}\raggedright #2\par}%
+  \vskip 6pt{\color{rg2}\rule{\linewidth}{1.5pt}}\par\vskip\baselineskip}
+
+%% --------------------------------------------- Pré-textual (créditos)
+%% Comandos de crédito (adaptados do modelo acessibilidade\LaTeX\paratextos para
+%% New June/Lora + paleta neutra). Usados em partes/0.pre-textual.editoracao.tex.
+\newcommand{\CreditoInstitucionalUm}[1]{%
+  \par\vspace{1.4\baselineskip}%
+  {\noindent\njExtraBold\LARGE\color{rg1} #1\par}%
+  \vskip 3pt{\color{rg2}\rule{\linewidth}{1pt}}\par\vspace{0.4\baselineskip}}
+\newcommand{\CreditoInstitucionalDois}[1]{%
+  \par\vspace{0.6\baselineskip}%
+  {\noindent\njSemiBold\large\color{rg1} #1\par}}
+\NewDocumentEnvironment{CreditoInstitucional}{}{%
+  \par\begingroup\setlength{\parindent}{0pt}\small\color{rgtexto}%
+}{\par\endgroup\vspace{0.3\baselineskip}}
+%% \CargoNosCreditos{nome}{cargo}  — nome em destaque, cargo ao lado
+\newcommand{\CargoNosCreditos}[2]{\par\noindent{\njSemiBold #1}\quad #2\par\smallskip}
+%% \NomeNosCreditos{lista com \\}  — lista de nomes em Lora
+\newcommand{\NomeNosCreditos}[1]{{\raggedright #1\par}}
+
+%% ------------------------------------------------------ Imagens e figuras
+%% \rgfigura{figura_NN}: arte final do designer em figuras/figura_NN.pdf
+%% (copiada por sincronizar_assets.ps1), centrada e limitada à mancha.
+%% \rgimagem{imagem_NN}: fotos ainda não mapeadas → placeholder numerado.
+\RequirePackage{graphicx}
+\newcommand*{\rgvisual}[2]{% #1 = pasta, #2 = nome
+  \par\addvspace{\baselineskip}%
+  \begingroup\centering
+  \edef\rgnome{\detokenize{#2}}% nome com '_' em catcode seguro (texto e arquivo)
+  \IfFileExists{#1/\rgnome.pdf}%
+    {\includegraphics[width=\linewidth,height=0.82\textheight,keepaspectratio]{#1/\rgnome.pdf}}%
+    {\IfFileExists{#1/\rgnome.png}%
+      {\includegraphics[width=\linewidth,height=0.82\textheight,keepaspectratio]{#1/\rgnome.png}}%
+      {\fbox{\parbox[c][3.5cm][c]{\dimexpr\linewidth-2\fboxsep\relax}%
+        {\centering\njMedium\color{rg2}\large[\rgnome]\par\footnotesize(arte pendente)}}}}%
+  \par\endgroup\addvspace{\baselineskip}}
+\newcommand*{\rgfigura}[1]{\rgvisual{figuras}{#1}}
+\newcommand*{\rgimagem}[1]{\rgvisual{imagens}{#1}}
+
+%% -------------------------------------------------------------- Diversos
+%% Listas compactas geradas pelo pandoc
+\providecommand{\tightlist}{\setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+\RequirePackage[colorlinks=true, linkcolor=rg1, urlcolor=rg1, citecolor=rg1]{hyperref}

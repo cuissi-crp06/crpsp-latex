@@ -1,0 +1,76 @@
+\documentclass[openright, oneside, a4paper, article, brazil]{abntex2}
+\usepackage[no-math]{fontspec}
+\setmainfont{NewJune}[
+	UprightFont = *-Regular,
+	BoldFont=*-Bold,
+	ItalicFont=*-Regular-Italic,
+	BoldItalicFont=*-Bold-Italic,
+]
+\fontsize{12pt}{18pt}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\hypersetup{colorlinks=false, allbordercolors=white}
+\usepackage{sectionbreak}
+\usepackage[%
+    a4paper,
+    left = 1.5cm, right = 2cm, top = 2.5cm, bottom = 2cm,
+    ]%
+{geometry}
+\usepackage{graphicx}
+\usepackage{microtype}
+\usepackage{ragged2e}
+\usepackage{xhfill}
+\makepagestyle{crp}
+\makeoddhead{crp}{\includegraphics[height = 1.5cm]{logo-crp.png}}{}{}
+\DoubleSpacing
+\nonzeroparskip
+\title{Requerimento de cancelamento de inscrição de pessoa física}
+\author{Conselho Regional de Psicologia de São Paulo}
+%
+\begin{document}
+\pagestyle{crp}
+%\vspace*{2\baselineskip}
+\centering
+\Form
+\section*{REQUERIMENTO DE CANCELAMENTO DE INSCRIÇÃO DE PESSOA FÍSICA}
+\vspace*{\baselineskip}
+
+\textbf{Exma./Exmo. Presidenta/e do Conselho Regional de Psicologia do Estado de São Paulo (CRP~SP)}
+\vspace*{\baselineskip}
+
+\justifying
+
+\noindent\TextField[bordercolor={ }, backgroundcolor={ }, width=11cm]{Eu,}, \TextField[bordercolor={ }, backgroundcolor={ }]{CRP~SP nº}, \\
+	\TextField[bordercolor={ }, backgroundcolor={ }]{RG}, \TextField[bordercolor={ }, backgroundcolor={ }]{CPF}, \TextField[bordercolor={ }, backgroundcolor={ }]{data de nascimento},\\
+	\TextField[bordercolor={ }, backgroundcolor={ },width=11cm]{endereço p/ correspondência}, \TextField[bordercolor={ }, backgroundcolor={ },width=3em]{nº},\\
+	\TextField[bordercolor={ }, backgroundcolor={ },width=6em]{complemento}, \TextField[bordercolor={ }, backgroundcolor={ }]{bairro},	\TextField[bordercolor={ }, backgroundcolor={ }]{CEP},\\
+	\TextField[bordercolor={ }, backgroundcolor={ }]{cidade}, \TextField[bordercolor={ }, backgroundcolor={ }]{UF},\\
+	\TextField[bordercolor={ }, backgroundcolor={ }]{tel. residencial (c/ DDD)}, \TextField[bordercolor={ }, backgroundcolor={ }]{tel. comercial (c/ DDD)},\\
+	\TextField[bordercolor={ }, backgroundcolor={ }]{tel. celular (c/ DDD)}, \TextField[bordercolor={ }, backgroundcolor={ }]{\textit{e-mail}}, venho respeitosamente requerer o cancelamento da inscrição por não estar exercendo a profissão, compromentendo-me a requerê-la novamente, quando retornar às atividades profissionais.
+
+Estou ciente, também, de que o cancelamento da inscrição não quita débitos anteriores com este Conselho, e de que a anuidade do ano em curso será cobrada proporcionalmente, tendo como base o mês anterior a esta solicitação.
+
+%\fbox
+%\begin{minipage}{14cm}
+%    Caso encaminhe pelo correio, o \crp orienta que este este documento seja enviado por meio de carta registrada, por medida de segurança.
+%\end{minipage}
+
+\subsection*{ATENÇÃO}
+Para deferimento da presente solicitação, faz-se necessário devolver a carteira de identidade profissional (CIP) ou, quando isto não for possível, justificar a não entrega por um dos motivos abaixo, anexando o boletim de ocorrência correspondente:
+
+\textbf{Motivo para não entregar a CIP:} \ChoiceMenu[radio=true,name=Motivo]{extravio}{roubo}
+%
+%\CheckBox{ } extravio;
+%
+%\CheckBox{ } furto/roubo.
+
+\vspace*{1.5\baselineskip}
+
+\noindent A/o psicóloga/o acima caracterizada/o, que a seguir assina, afirma serem verdadeiros os dados aqui informados.
+\vspace*{1.5\baselineskip}
+
+\centering
+\rule{21em}{0.4pt}\\
+Assinatura
+
+\end{document}

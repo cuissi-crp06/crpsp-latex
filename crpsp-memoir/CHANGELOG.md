@@ -5,6 +5,35 @@ esse o nome que `crpsp-memoir.sty` declara. As demais variantes desta pasta
 declaram o próprio nome de arquivo: nenhuma é implantada, e sem isso quatro
 arquivos diferentes disputariam o mesmo nome de pacote.
 
+## 0.5.0 — 2026/06/16
+
+`relatorio-gestao.sty`, trazido de fora do monorepo em 2026-09-12 — procedência e
+somas de verificação em `legado/copias-por-projeto/PROVENIENCIA.md`. É a linha do
+Relatório de Gestão: `memoir`, carregado por
+`\usepackage{relatorio-gestao}` pelo documento de `3.editoracao/`, com
+`tabularray` para as tabelas de dados e `pdflscape` para os anexos em paisagem.
+
+**Não confundir com a linha `relatorio` de `crpsp-book/desenvolvimento/v2/`.**
+São duas respostas ao mesmo problema, em bases diferentes: esta é `memoir` e de
+junho; aquela é `book`, de 2026/07/29, e declara `v0.1.0-alfa`. Dos 251 versos de
+corpo desta, 5 aparecem na `livros_crp_v7.sty`, que foi o vizinho mais próximo que
+o repositório tinha — ou seja, quase nada. É código novo, não variante.
+
+### Sobre o remapeamento
+
+A origem declarava `v0.2`, e esse rótulo não se ordena com a série `0.x` daqui: a
+`0.2.0-alfa` desta pasta é de 2025/04/06, catorze meses antes. É o mesmo caso do
+`v7.0` abaixo — numeração de outro esquema, herdada do projeto. O remapeamento
+para 0.5.0 o põe depois da `0.4.0-beta`, que é a ordem em que foram escritos.
+
+A declaração do arquivo foi reescrita para `v0.5.0`, como nos demais desta pasta,
+e a data de autoria (2026/06/16) ficou. **O corpo é idêntico verso por verso ao da
+origem**: só a linha de identidade mudou.
+
+**Sem sufixo de fase**, e de propósito. A fase é propriedade da publicação, não do
+arquivo, e o Relatório de Gestão estava em revisão diagramada quando esta cópia
+foi tirada: não há como afirmar que a edição servida por este pacote circulou.
+
 ## 0.4.0-beta — 2025/09/26
 
 `livros_crp_v7.sty`, antes rotulado `v7.0`. Reengenharia do carregador de fontes.

@@ -1,0 +1,106 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{requerimento}
+%---------%
+% Idiomas %
+%---------%
+%\RequirePackage[%
+%		brazilian,
+%		hyphenmap=first
+%		]%
+%	{babel}
+%----------------------%
+% Ajustes tipográficos %
+%----------------------%
+% Fontes %
+%\RequirePackage{%
+%	fontspec}
+%\setmainfont{NewJune}[
+%	UprightFont = *-Regular,
+%	BoldFont=*-Bold,
+%	ItalicFont=*-Regular-Italic,
+%	BoldItalicFont=*-Bold-Italic,
+%]
+%\defaultfontfeatures{Ligatures=TeX}
+%\XeTeXprotrudechars=2
+% Elipses %
+\RequirePackage[%
+	oldmla
+	]%
+	{xellipsis}
+		\setlength{\xelipgap}{1pt}
+		\setlength{\xelipbef}{1pt}
+		\setlength{\xelipaft}{1pt}
+		\setlength{\xelipprebef}{1pt}
+		\setlength{\xelippostaft}{1pt}
+\RequirePackage[]%
+	{sectionbreak}
+
+% -----------------%
+% Layout da página %
+% -----------------%
+% Margens, recuo e espaçamento %
+\RequirePackage[%
+a4paper,
+%xetex,
+left = 1.5cm, right = 2cm, top = 2cm, bottom = 2cm,
+%footskip=1.5cm,
+]%
+{geometry}
+% Parâmetros para linhas órfãs e viúvas %
+%\clubpenalty=9996
+%\widowpenalty=9999
+%\brokenpenalty=4991
+%\postdisplaypenalty=1549
+%\displaywidowpenalty=1602
+% Microtipografia %
+\RequirePackage{%
+	microtype}
+\fboxrule=0.5pt
+\fboxsep=1.5pt
+\usepackage{hyperref}
+\usepackage[HTML]{xcolor}
+\hypersetup{colorlinks=false, allbordercolors=white}
+%--------%
+% Floats %
+%--------%
+%\newcommand{\figura}[3]{%
+%	\caption{#1}
+%}
+%----------------%
+% Novos comandos %
+%----------------%
+% Entretítulos %
+\newcommand{\entretitulo}[1]%
+	{\vspace{\baselineskip}\noindent \textbf{#1}}
+% Citação de exemplo %
+\newcommand{\exemplo}[2]%
+	{\noindent\textit{#1} \upshape {(#2)}}
+% Linha separadora %
+\newcommand{\linhacentral}%
+	{\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}}
+%
+% Comandos para inserção de texto %
+% 
+% Vocativo
+\newcommand{\vocativo}{%
+Exma./Exmo. Presidenta/e do Conselho Regional de Psicologia do Estado de São Paulo (CRP~SP).
+\vspace*{\baselineskip}
+}
+% Qualificação
+\newcommand{\qualificacao}{%
+	\noindent\TextField[bordercolor={ }, backgroundcolor={ }, width=11cm]{Eu,}, \TextField[bordercolor={ }, backgroundcolor={ }]{CRP~SP nº}, \\
+	\TextField[bordercolor={ }, backgroundcolor={ }]{RG}, \TextField[bordercolor={ }, backgroundcolor={ }]{CPF}, \TextField[bordercolor={ }, backgroundcolor={ }]{data de nascimento},\\
+	\TextField[bordercolor={ }, backgroundcolor={ },width=11cm]{endereço p/ correspondência}, \TextField[bordercolor={ }, backgroundcolor={ },width=3em]{nº},\\
+	\TextField[bordercolor={ }, backgroundcolor={ },width=6em]{complemento}, \TextField[bordercolor={ }, backgroundcolor={ }]{bairro},	\TextField[bordercolor={ }, backgroundcolor={ }]{CEP},\\
+	\TextField[bordercolor={ }, backgroundcolor={ }]{cidade}, \TextField[bordercolor={ }, backgroundcolor={ }]{UF},\\
+	\TextField[bordercolor={ }, backgroundcolor={ }]{tel. residencial (c/ DDD)}, \TextField[bordercolor={ }, backgroundcolor={ }]{tel. comercial (c/ DDD)},\\
+	\TextField[bordercolor={ }, backgroundcolor={ }]{tel. celular (c/ DDD)}, \TextField[bordercolor={ }, backgroundcolor={ }]{\textit{e-mail}},\\
+	\vspace*{\baselineskip}
+	}
+% CRP SP
+\newcommand{\crp}{CRP~SP }
+% Assinatura
+\newcommand{\assina}{%
+	\TextField[width=11cm]{São Paulo, } de \Textfield{} de \TextField{ }.\\
+	\vspace*{2\baselineskip}
+	Assinatura da/o psicóloga/o}
