@@ -78,6 +78,68 @@ mesmo conteúdo:
 - `apresentacoes_acessiveis/livros_crp.sty`, `cartilha_anticapacitista/livros_crp.sty`
   e `editoracao/manual/livros_crp.sty` já estavam aqui desde 2026-09-04.
 
+## Trazida de fora do monorepo em 2026-09-12
+
+Varredura dos `.sty` do workbench durante o encerramento da máquina Windows
+doméstica. Dos 46 corpos distintos que o workbench carrega, 44 já estavam
+absorvidos — a comparação foi pelo corpo, como na varredura de 2026-09-05, e
+incluiu `\ProvidesFile` na declaração descartada, que a primeira tentativa
+esquecera. Sem isso o `crpsp-leg.sty` aparecia como inédito, quando é o mesmo
+arquivo de `crpsp-book/` linha por linha.
+
+| arquivo | origem | sha256 (12) da origem | sha256 (12) do blob |
+|---|---|---|---|
+| `requerimento.sty` | `trabalho`, `production/editorial/formularios/requerimentos/` | `703e6d939e1e` | `50e12421cf86` |
+
+Duas colunas porque os dois números são diferentes, e a razão está na seção
+seguinte.
+
+**Nenhum documento o carrega.** Os sete `.tex` daquela pasta são `abntex2` e
+declaram os próprios pacotes com `\usepackage` linha a linha; nenhum tem
+`\usepackage{requerimento}`. Por isso ele vem para cá, e não para
+`crpsp-forms/`: é pacote escrito e não implantado, que é exatamente o que esta
+pasta guarda. Compartilha 6 dos 104 versos de corpo com o `crpsp-forms/formularios.sty`,
+então também não é variante dele.
+
+Mantém o nome `requerimento`, que já é o seu e que ninguém mais disputa. A regra
+de renomear vale para os doze `livros_crp`, que disputavam a mesma identidade.
+
+Os dois `.tex` que faltavam da mesma pasta foram para `formularios/`, onde os
+outros cinco já estavam:
+
+| arquivo | sha256 (12) da origem | sha256 (12) do blob |
+|---|---|---|
+| `requerimento.tex` | `0f999ec78c99` | `b161e0b1d78f` |
+| `requerimento_interativo.tex` | `32b6b238fcbf` | `5d55e476ab28` |
+
+### Correção: os bytes **não** são os da origem
+
+A seção de 2026-09-04 afirma que, por não haver `.gitattributes`, os bytes
+gravados são os da origem. **Isso está errado**, e quem tentar conferir as
+tabelas antigas vai tropeçar nisso: este clone tem `core.autocrlf=true`, que
+normaliza CRLF para LF **ao gravar no índice**, independentemente de
+`.gitattributes`. O que a configuração faz é justamente o que a ausência do
+arquivo não impede.
+
+Dos quatro trazidos hoje, três estavam em CRLF na origem e foram normalizados. O
+quarto, `relatorio-gestao.sty`, já era LF e escapou da conversão — mas o blob dele
+também difere da origem, por outro motivo: a linha de identidade foi reescrita ao
+arquivar, de `v0.2` para `v0.5.0`, como manda a série de `crpsp-memoir/`.
+
+| arquivo | destino | sha256 (12) da origem | sha256 (12) do blob |
+|---|---|---|---|
+| `relatorio-gestao.sty` | `crpsp-memoir/` | `712b68c08530` | `3445eb889e84` |
+
+Nesse o corpo é idêntico verso por verso ao da origem; a diferença é só a
+declaração. É o mesmo caso descrito na varredura de 2026-09-05, em que a linha de
+identidade é justamente o que se reescreve ao arquivar.
+
+Por isso as entradas de hoje trazem os dois números: o da origem, que é o que se
+confere contra o workbench, e o do blob, que é o que `git show` devolve.
+
+As tabelas anteriores trazem um número só, e não foi reconferido qual dos dois
+é — quem precisar auditá-las deve considerar as duas possibilidades.
+
 ## Limite
 
 A fase de duas delas não está determinada. O `livros_crp-editoracao_manual.sty`

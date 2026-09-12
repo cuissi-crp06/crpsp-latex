@@ -12,6 +12,14 @@ Pacote com estilos e macros para a criação de formulários.
 
 Formulário com exemplos para ser utilizado como base.
 
+[Requerimento](requerimento.tex)
+
+Requerimento genérico.
+
+[Requerimento interativo](requerimento_interativo.tex)
+
+O mesmo requerimento com campos preenchíveis no PDF.
+
 ### Formulários para pessoas físicas
 
 [Cancelamento de inscrição](pf-cancelamento_inscricao.tex)

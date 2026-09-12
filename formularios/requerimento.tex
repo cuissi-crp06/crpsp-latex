@@ -1,0 +1,120 @@
+\documentclass[openright, oneside, a4paper, article, brazil]{abntex2}
+\usepackage[no-math]{fontspec}
+\setmainfont{NewJune}[
+	UprightFont = *-Regular,
+	BoldFont=*-Bold,
+	ItalicFont=*-Regular-Italic,
+	BoldItalicFont=*-Bold-Italic,
+]
+\setsansfont{NewJune}[
+	UprightFont = *-Regular,
+	BoldFont=*-Bold,
+	ItalicFont=*-Regular-Italic,
+	BoldItalicFont=*-Bold-Italic,]
+\fontsize{12pt}{18pt}
+\usepackage{xcolor}
+\usepackage%[
+	%bookmarks=true, 
+	%bookmarksopen=true
+	%]
+	{hyperref}
+\hypersetup{%
+	colorlinks=false, 
+	allbordercolors=white,
+	pdftitle = {Requerimento de cancelamento de inscrição de pessoa fisica},
+	pdfauthor = {Conselho Regional de Psicologia de São Paulo},
+	pdfsubject = {Cancelamento de registro no CRP SP — pessoa física},
+	pdfkeywords = {%
+		CRP, 
+		inscrição, 
+		registro,
+		cancelamento, 
+		pessoa física}
+	}
+\usepackage{sectionbreak}
+\usepackage[%
+    a4paper,
+    left = 1.5cm, right = 2cm, top = 2.5cm, bottom = 2cm,
+    ]%
+{geometry}
+\usepackage{graphicx}
+\usepackage{microtype}
+\usepackage{ragged2e}
+\usepackage{xhfill}
+\makepagestyle{crp}
+\makeoddhead{crp}{}{\includegraphics[height = 2.2cm]{logo-crp.png}}{}
+\DoubleSpacing
+%\nonzeroparskip
+\usepackage{enumitem,amssymb}
+\newlist{todolist}{itemize}{2}
+\setlist[todolist]{label=$\square$}
+\title{Requerimento de cancelamento de inscrição de pessoa física}
+\author{Conselho Regional de Psicologia de São Paulo}
+%
+\begin{document}
+\pagestyle{crp}
+\vspace*{\baselineskip}
+\centering
+\Form
+\section*{REQUERIMENTO DE CANCELAMENTO DE INSCRIÇÃO DE PESSOA FÍSICA}%
+\addcontentsline{toc}{section}{Requerimento de cancelamento de inscrição de pessoa física}
+\vspace*{0.618\baselineskip}
+
+\textbf{Exma./Exmo. Presidenta/e do Conselho Regional de Psicologia do Estado de São Paulo (CRP~SP)}
+\vspace*{\baselineskip}
+
+\justifying
+\noindent
+\begin{minipage}[t]{0.995\textwidth}
+	Eu, \xrfill[0pt]{0.4pt}\\%
+	CRP~SP~nº \rule{8em}{0.4pt} , %
+	RG \rule{16em}{0.4pt} , 
+	CPF \xrfill[0pt]{0.4pt}\\%
+	endereço para correspondência \xrfill[0pt]{0.4pt}\\%
+	nº \rule{3em}{0.4pt} , %
+	complemento \rule{4em}{0.4pt} , %
+	bairro \rule{18em}{0.4pt} , %
+	CEP \xrfill[0pt]{0.4pt}\\
+	cidade \rule{16em}{0.4pt} , %
+	UF \rule{3em}{0.4pt} , %
+	tel. residencial ( \rule{1.5em}{0.4pt} ) \xrfill[0pt]{0.4pt}\\% %
+	tel. comercial ( \rule{1.5em}{0.4pt} ) \rule{16em}{0.4pt} , %
+	tel. celular ( \rule{1.5em}{0.4pt} ) \xrfill[0pt]{0.4pt}\\%
+	\vspace{\dp0}%
+\end{minipage}%
+\begin{minipage}[t]{0.005\textwidth}
+	\raggedleft
+	,\\
+	,\\
+	,\\
+	,\\
+	,\\
+	,\\
+\end{minipage}
+%
+
+\vspace{-0.37\baselineskip}
+\noindent \textit{e-mail} \rule{20em}{0.4pt} , venho respeitosamente requerer o cancelamento da inscrição por não estar exercendo a profissão, com\-pro\-me\-ten\-do-me a requerê-la novamente quando retornar às atividades profissionais.
+
+Estou ciente, também, de que o cancelamento da inscrição não quita débitos anteriores com este Conselho, e de que a anuidade do ano em curso será cobrada proporcionalmente, tendo como base o mês anterior a esta solicitação.
+
+\subsection*{ATENÇÃO}%
+\addcontentsline{toc}{subsection}{Atenção}
+Para deferimento da presente solicitação, faz-se necessário devolver a carteira de identidade profissional (CIP); caso encaminhe pelo correio, o CRP~SP orienta que este este documento seja enviado por meio de carta registrada, por medida de segurança. Quando isto não for possível, justificar a não entrega por um dos motivos abaixo, anexando o boletim de ocorrência correspondente:
+
+\subsubsection*{Motivo para não entregar a CIP:}%
+\addcontentsline{toc}{subsubsection}{Motivo para não entregar a CIP}
+
+\begin{todolist}[labelwidth=2em]
+\item extravio;
+\item roubo.
+\end{todolist}
+
+A/o psicóloga/o acima caracterizada/o, que a seguir assina, afirma serem verdadeiros os dados aqui informados.
+
+\vspace*{1.618\baselineskip}
+\centering
+\rule{21em}{0.4pt}\\
+Assinatura
+
+\end{document}

@@ -145,3 +145,59 @@ A correção tem duas partes: o pacote implantado mantém o nome sob o qual é
 carregado (`livros_crp`, `livros_crp_acessivel_book`, `formularios`), e toda
 variante que não é implantada passa a declarar o próprio nome de arquivo. Feito
 isso, nenhum nome declarado se repete no repositório.
+
+---
+
+# Varredura do workbench — 2026-09-12
+
+As varreduras anteriores olharam o disco de uma máquina e os repositórios do
+GitHub. Esta olhou o workbench do Nextcloud, ao encerrar a máquina Windows
+doméstica, e é a primeira a cobrir as cópias **de produção** — que, pelo
+`README.md`, moram fora deste repositório de propósito.
+
+**Dos 46 corpos distintos de `.sty`/`.cls` do workbench, 44 já estavam
+absorvidos.** Os dois inéditos foram trazidos: `relatorio-gestao.sty` para
+`crpsp-memoir/` e `requerimento.sty` para `legado/copias-por-projeto/`.
+
+## As cópias de produção que ficam onde estão
+
+Quatro corpos não batem exatamente com nada daqui, e nenhum precisa vir. São
+cópias de produção que ficaram atrás do que o repositório já registra:
+
+| cópia no workbench | parente mais próximo aqui | corpo em comum |
+|---|---|---|
+| `livros_crp_acessivel_book.sty` (apresentações acessíveis) | `crpsp-book/book-crpsp_acessivel.sty` | 737 de 753 versos |
+| `livros_crp_acessivel_book.sty` (manual DH, caderno 12) | `crpsp-book/book-crpsp_acessivel.sty` | 654 de 737 versos |
+| `livros_crp.sty` v0.2 (caderno 12, `v2/`) | `crpsp-memoir/livros_crp-rev_cld.sty` | 429 de 438 versos |
+| `formularios.sty` (requerimentos) | `legado/copias-por-projeto/formularios-raiz.sty` | 79 de 80 versos |
+
+A última torna **quatro** as versões da seção 3, e não muda a decisão de lá: é a
+de 81 versos outra vez, com um verso de diferença.
+
+## Sobre as versões declaradas: são secundárias
+
+Entre cópia de produção e arquivo daqui, o rótulo declarado divergiu em vários
+casos — `v0.3.0` contra `v0.3.0-beta`, texto acentuado contra ASCII, `v0.1`
+quebrado em dois versos contra `v0.1.0-alfa` num só. **Tratamos essas
+divergências como secundárias:** têm a ver com o ambiente e com a passagem de
+arquivamento em que cada cópia foi escrita, não com o conteúdo. Ficam
+registradas, e não abrem decisão.
+
+O caso mais claro é o `crpsp-leg.sty`: cinco cópias no workbench, todas byte a
+byte iguais entre si, e o corpo **idêntico verso por verso** ao
+`crpsp-book/crpsp-leg.sty`. A única diferença é a linha de declaração. Ele usa
+`\ProvidesFile`, e não `\ProvidesPackage` — detalhe que fez a primeira passada
+desta varredura acusá-lo como inédito.
+
+## O defeito do rótulo repetido persiste fora do repositório
+
+A seção anterior fechou, aqui dentro, o problema de arquivos de conteúdo distinto
+declararem o mesmo rótulo. **No workbench ele continua:** as duas cópias de
+`livros_crp_acessivel_book.sty` da tabela acima têm corpos diferentes entre si —
+89% e 98% do canônico — e as duas declaram `v0.5.0` de `2026/07/10`. Para o
+`\@ifpackagelater`, que compara a data declarada e não o conteúdo, seguem
+indistinguíveis.
+
+Não é decisão deste repositório: são cópias de produção, e o remédio é a
+publicação passar a carregar o pacote comum em vez de trazer o seu. Fica
+registrado porque é o mesmo defeito, um nível abaixo.
