@@ -1,0 +1,25 @@
+# Fins de linha iguais no Linux e no Windows.
+#
+# Texto é gravado e extraído com LF nas duas máquinas, independentemente de
+# core.autocrlf: o atributo eol vence a configuração local. LuaLaTeX e MiKTeX
+# leem LF sem problema, e assim o hash de um arquivo extraído é o mesmo nos dois
+# sistemas — que é o que o PROVENIENCIA.md e o comparar-corpo.py precisam.
+* text=auto eol=lf
+
+# Scripts do Windows precisam de CRLF para rodar.
+*.bat text eol=crlf
+*.cmd text eol=crlf
+*.ps1 text eol=crlf
+
+# Binários: nunca converter.
+*.pdf  binary
+*.png  binary
+*.jpg  binary
+*.jpeg binary
+*.eps  binary
+*.otf  binary
+*.OTF  binary
+*.ttf  binary
+*.docx binary
+*.odt  binary
+*.zip  binary

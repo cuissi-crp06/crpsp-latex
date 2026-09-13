@@ -152,8 +152,8 @@ todos os blobs do histórico, a varredura dá os mesmos 46 corpos distintos, mas
 **quatro** fora do repositório antes do PR #3, e não dois:
 
 - `relatorio-gestao.sty` e `requerimento.sty`, trazidos acima;
-- a cópia de `livros_crp_acessivel_book.sty` em `production/editorial/publicacoes/cartilhas/apresentacoes_acessiveis/LaTeX/`, que é o canônico da linha `book` com o ambiente `NomesDuasColunas` a mais. Entrou em `crpsp-book/` como 0.5.1, e procedência e somas estão em `crpsp-book/CHANGELOG.md`, porque não é cópia por projeto;
-- `production/editorial/publicacoes/gestao/caderno_12_corepsi/v2/livros_crp.sty` (gravado em 2026-04-09), variante da `crpsp-memoir/livros_crp-rev_cld.sty`: acrescenta `epstopdf`, tira o `urlbreaks` do `xurl` e o `\fontebook` das listas de cargos e nomes, e põe `\sffamily` num bloco. É a tentativa `memoir` do Caderno 12, que depois saiu pela linha `book` 0.5.0. **Não foi trazida**: pelo precedente de 2026-09-05 caberia aqui como cópia por projeto, e fica para decisão.
+- a cópia de `livros_crp_acessivel_book.sty` em `production/editorial/publicacoes/cartilhas/apresentacoes_acessiveis/LaTeX/`, que é o canônico da linha `book` com o ambiente `NomesDuasColunas` a mais. Entrou em `crpsp-book/` como 0.5.1, hoje 0.5.2-beta, e procedência e somas estão em `crpsp-book/CHANGELOG.md`, porque não é cópia por projeto;
+- `production/editorial/publicacoes/gestao/caderno_12_corepsi/v2/livros_crp.sty` (gravado em 2026-04-09), variante da `crpsp-memoir/livros_crp-rev_cld.sty`: acrescenta `epstopdf`, tira o `urlbreaks` do `xurl` e o `\fontebook` das listas de cargos e nomes, e põe `\sffamily` num bloco. É a tentativa `memoir` do Caderno 12, cuja outra tentativa, em `editorial/templates/`, usa a linha `book` 0.5.0-alfa. Trazida no mesmo dia; ver a seção seguinte.
 
 Uma segunda armadilha de comparação apareceu na mesma conferência. Descartar só a
 **linha** do `\Provides*` não basta quando a declaração ocupa duas:
@@ -161,6 +161,41 @@ Uma segunda armadilha de comparação apareceu na mesma conferência. Descartar 
 linha e a descrição na seguinte. Com o filtro por linha, a continuação sobra no
 corpo, e os dois parecem diferentes dos daqui sem ser. É preciso descartar a
 declaração inteira, do `\Provides` até o `]` que a fecha.
+
+## Trazida e renormalizada em 2026-09-13
+
+O Caderno 12 CoREPSI está **pausado, não inativo**, e por isso a variante da
+pasta `v2/` entra, em vez de ficar só no workbench:
+
+| arquivo | origem | sha256 (12) da origem | sha256 (12) do blob |
+|---|---|---|---|
+| `livros_crp-caderno_12_corepsi.sty` | `trabalho`, `production/editorial/publicacoes/gestao/caderno_12_corepsi/v2/livros_crp.sty` | `acb57e3b45b3` | `ef0dff908fe6` |
+
+A origem declarava `livros_crp` `[2025/04/06 v0.2 …]`, a data e o rótulo da base
+de que deriva. Aqui declara o próprio nome, como toda cópia desta pasta, com a
+data da última gravação da origem (2026/04/09). O corpo é idêntico.
+
+**O `.gitattributes` mudou quatro blobs desta pasta.** Estavam gravados com
+CRLF e passaram a LF; os corpos são os mesmos, porque o `comparar-corpo.py`
+descarta CR:
+
+| arquivo | blob antes | blob depois |
+|---|---|---|
+| `formularios-relatorio_editorial.sty` | `748e37265a99` | `87819385bc5d` |
+| `formularios-pasta.sty` | `de9a681958b9` | `aaedbc4e5492` |
+| `livros_crp-publicacoes-politica.sty` | `74df9814d53d` | `fe795a5a40c2` |
+| `livros_crp-publicacoes.sty` | `924a284b0d25` | `7cd5361bfe3c` |
+
+Isso responde, para uma entrada ao menos, a dúvida deixada acima sobre as
+tabelas antigas: o `0dd85ab5e9b4` da tabela de 2026-09-05 para
+`formularios-relatorio_editorial.sty` não é o do blob, que era `748e37265a99`.
+É o da origem.
+
+Mudaram também, pela renumeração da linha book e pela fase do Relatório de
+Gestão, os blobs de dois arquivos fora desta pasta:
+`crpsp-memoir/relatorio-gestao.sty` passa de `3445eb889e84` para `8ba63d7da353`
+(`v0.5.0-beta`), e `crpsp-book/book-crpsp_acessivel.sty` de `e37beef89d62` para
+`618f08928891` (`v0.5.2-beta`).
 
 ## Limite
 

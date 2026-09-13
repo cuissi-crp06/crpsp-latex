@@ -30,6 +30,35 @@ por trás do Nextcloud, e esse backend não preserva o bit de execução — o
 `chmod +x` não sobrevive, e a execução direta falha com
 `bad interpreter: Permission denied`.
 
+## Fontes
+
+Desde 2026-09-13 a **New June não está no git**: é proprietária, e a pasta
+`mwe/` guarda só a Lora (OFL). O pacote da linha book a carrega pelo nome do
+arquivo (`NEWJUNE-REGULAR.OTF` etc.), sem `Path`, então basta que o motor a
+encontre. A origem é `editorial/fonts/NewJune/`, no Nextcloud.
+
+**Linux, motor local** — expor a pasta como fonte do usuário e reindexar:
+
+```sh
+mkdir -p ~/.local/share/fonts
+ln -s ~/Documentos/trabalho/editorial/fonts ~/.local/share/fonts/crpsp
+fc-cache -f ~/.local/share/fonts && luaotfload-tool --update
+luaotfload-tool --find NEWJUNE-REGULAR.OTF   # deve responder com o caminho
+```
+
+**Windows (MiKTeX)** — instalar os `.OTF` de `editorial\fonts\NewJune\` para o
+usuário (botão direito → *Instalar*), e rodar `luaotfload-tool --update`.
+
+**Podman** — a imagem não vê as fontes do usuário. Montar a pasta e apontar o
+`OSFONTDIR` para ela (ainda não testado com a imagem, que não está no Fedora):
+
+```sh
+podman --cgroup-manager=cgroupfs run --rm \
+  -v "$PWD":/work:Z -v ~/Documentos/trabalho/editorial/fonts:/fontes:ro \
+  -e OSFONTDIR=/fontes// -w /work crpsp-latex:dev \
+  lualatex -interaction=nonstopmode arquivo.tex
+```
+
 ## Pacote adicional sob demanda
 
 Se um erro apontar pacote faltando:
