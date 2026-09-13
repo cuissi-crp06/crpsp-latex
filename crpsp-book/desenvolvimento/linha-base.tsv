@@ -1,0 +1,22 @@
+arquivo	motor	paginas	objetos	erros_tagging	fatais	primeiro_erro
+mwe/mwe_acessivel_book.tex	lualatex-dev	11	131	0	0	
+mwe/mwe_acessivel.tex	lualatex	15	130	54	2	! Undefined control sequence.
+mwe/mwe_book_tagging.tex	lualatex	9	72	0	0	
+mwe/mwe_fcolorbox_phase3.tex	lualatex	1	42	0	0	
+mwe/mwe_fundo_esopic.tex	lualatex-dev	3	14	0	0	
+mwe/mwe_leg_completo.tex	lualatex-dev	78	1866	0	0	
+mwe/mwe_leg_glossario.tex	lualatex-dev	9	99	0	0	
+mwe/mwe_leg_headings.tex	lualatex-dev	4	45	0	0	
+mwe/mwe_leg_listas.tex	lualatex-dev	2	91	0	0	
+mwe/mwe_list_pagebreak_bug.tex	lualatex-dev	75	189	0	24	! LaTeX Error: Too deeply nested.
+mwe/mwe_minimal.tex	lualatex-dev	3	21	0	0	
+mwe/mwe_sty_manual.tex	lualatex-dev	4	27	0	0	
+mwe/mwe_sty_minimal.tex	lualatex-dev	3	19	0	0	
+mwe/mwe_sty_notitlesec.tex	lualatex-dev	3	19	0	0	
+mwe/mwe_tabelas2_phase3.tex	lualatex	1	95	0	0	
+mwe/mwe_tabelas_phase3.tex	lualatex	1	88	48	0	
+v2/crpsp-v2-doc.tex	lualatex	6	-	0	0	
+v2/exemplo-formulario.tex	lualatex	1	-	0	0	
+v2/exemplo-guia-visual.tex	lualatex	6	75	0	0	
+v2/exemplo-relatorio.tex	lualatex	2	149	0	0	
+v2/guia-exemplo.tex	lualatex	8	-	0	0	
