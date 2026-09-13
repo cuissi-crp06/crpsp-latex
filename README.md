@@ -40,9 +40,16 @@ Fontes `.tex` dos formulários e documentos institucionais em uso.
 Variantes e cópias históricas fora do monorepo, preservadas para
 proveniência (`legado/copias-por-projeto/PROVENIENCIA.md`).
 
-[publicacoes](/publicacoes/)
+[CONVENCAO-VERSIONAMENTO.md](/CONVENCAO-VERSIONAMENTO.md)
 
-Estilos e exemplos de publicações (livros, cartilhas etc.).
+Como numerar versão, data, fase e nome declarado — e por que dois corpos nunca
+podem compartilhar a mesma declaração.
+
+**O que não fica aqui.** Conteúdo de publicação (a antiga pasta `publicacoes/`,
+removida em 2026-09-13; cópia em `editorial/arquivo_latex/publicacoes/` no
+Nextcloud) e a fonte institucional New June, que é proprietária
+(`editorial/fonts/NewJune/` no Nextcloud). Os dois continuam recuperáveis pelo
+histórico do git, mas não voltam para a árvore.
 
 [ferramentas](/ferramentas/)
 
