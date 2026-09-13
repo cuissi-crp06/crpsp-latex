@@ -145,13 +145,15 @@ confere contra o workbench, e o do blob, que é o que `git show` devolve.
 As tabelas anteriores trazem um número só, e não foi reconferido qual dos dois
 é — quem precisar auditá-las deve considerar as duas possibilidades.
 
-### Correção de 2026-09-13: eram 43, não 44
+### Correção de 2026-09-13: eram 42, não 44
 
-A contagem acima deixou passar um corpo. A cópia de `livros_crp_acessivel_book.sty`
-em `production/editorial/publicacoes/cartilhas/apresentacoes_acessiveis/LaTeX/`
-não estava absorvida: é o canônico da linha `book` com o ambiente
-`NomesDuasColunas` a mais. Entrou em `crpsp-book/` como 0.5.1, e procedência e
-somas estão em `crpsp-book/CHANGELOG.md`, porque não é cópia por projeto.
+Refeita com `ferramentas/comparar-corpo.py --repo .`, que procura cada corpo em
+todos os blobs do histórico, a varredura dá os mesmos 46 corpos distintos, mas
+**quatro** fora do repositório antes do PR #3, e não dois:
+
+- `relatorio-gestao.sty` e `requerimento.sty`, trazidos acima;
+- a cópia de `livros_crp_acessivel_book.sty` em `production/editorial/publicacoes/cartilhas/apresentacoes_acessiveis/LaTeX/`, que é o canônico da linha `book` com o ambiente `NomesDuasColunas` a mais. Entrou em `crpsp-book/` como 0.5.1, e procedência e somas estão em `crpsp-book/CHANGELOG.md`, porque não é cópia por projeto;
+- `production/editorial/publicacoes/gestao/caderno_12_corepsi/v2/livros_crp.sty` (gravado em 2026-04-09), variante da `crpsp-memoir/livros_crp-rev_cld.sty`: acrescenta `epstopdf`, tira o `urlbreaks` do `xurl` e o `\fontebook` das listas de cargos e nomes, e põe `\sffamily` num bloco. É a tentativa `memoir` do Caderno 12, que depois saiu pela linha `book` 0.5.0. **Não foi trazida**: pelo precedente de 2026-09-05 caberia aqui como cópia por projeto, e fica para decisão.
 
 Uma segunda armadilha de comparação apareceu na mesma conferência. Descartar só a
 **linha** do `\Provides*` não basta quando a declaração ocupa duas:

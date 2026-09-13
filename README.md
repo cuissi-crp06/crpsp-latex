@@ -44,6 +44,14 @@ proveniência (`legado/copias-por-projeto/PROVENIENCIA.md`).
 
 Estilos e exemplos de publicações (livros, cartilhas etc.).
 
+[ferramentas](/ferramentas/)
+
+`comparar-corpo.py` — diz se um `.sty`/`.cls` já está em algum commit
+comparando pelo corpo (sem a declaração `\Provides*` inteira, sem CR, sem as
+quebras finais). É o teste antes de trazer qualquer cópia de produção:
+
+    python3 ferramentas/comparar-corpo.py ~/Documentos/trabalho --repo .
+
 [ANALISE-VARIANTES.md](/ANALISE-VARIANTES.md)
 
 Levantamento mecânico de divergências entre variantes `.sty` — evidência
