@@ -101,6 +101,11 @@ declaram os próprios pacotes com `\usepackage` linha a linha; nenhum tem
 pasta guarda. Compartilha 6 dos 104 versos de corpo com o `crpsp-forms/formularios.sty`,
 então também não é variante dele.
 
+A origem declarava só `\ProvidesPackage{requerimento}`, sem data nem versão. Em
+2026-09-13 a declaração ganhou `[2024/07/19 v0.1.0-alfa …]`: a data é a da última
+gravação do arquivo de origem, e `alfa` porque nunca foi implantado. O corpo não
+mudou, mas o blob sim: passa de `50e12421cf86` para `479f6669d0c7`.
+
 Mantém o nome `requerimento`, que já é o seu e que ninguém mais disputa. A regra
 de renomear vale para os doze `livros_crp`, que disputavam a mesma identidade.
 
@@ -139,6 +144,23 @@ confere contra o workbench, e o do blob, que é o que `git show` devolve.
 
 As tabelas anteriores trazem um número só, e não foi reconferido qual dos dois
 é — quem precisar auditá-las deve considerar as duas possibilidades.
+
+### Correção de 2026-09-13: eram 42, não 44
+
+Refeita com `ferramentas/comparar-corpo.py --repo .`, que procura cada corpo em
+todos os blobs do histórico, a varredura dá os mesmos 46 corpos distintos, mas
+**quatro** fora do repositório antes do PR #3, e não dois:
+
+- `relatorio-gestao.sty` e `requerimento.sty`, trazidos acima;
+- a cópia de `livros_crp_acessivel_book.sty` em `production/editorial/publicacoes/cartilhas/apresentacoes_acessiveis/LaTeX/`, que é o canônico da linha `book` com o ambiente `NomesDuasColunas` a mais. Entrou em `crpsp-book/` como 0.5.1, e procedência e somas estão em `crpsp-book/CHANGELOG.md`, porque não é cópia por projeto;
+- `production/editorial/publicacoes/gestao/caderno_12_corepsi/v2/livros_crp.sty` (gravado em 2026-04-09), variante da `crpsp-memoir/livros_crp-rev_cld.sty`: acrescenta `epstopdf`, tira o `urlbreaks` do `xurl` e o `\fontebook` das listas de cargos e nomes, e põe `\sffamily` num bloco. É a tentativa `memoir` do Caderno 12, que depois saiu pela linha `book` 0.5.0. **Não foi trazida**: pelo precedente de 2026-09-05 caberia aqui como cópia por projeto, e fica para decisão.
+
+Uma segunda armadilha de comparação apareceu na mesma conferência. Descartar só a
+**linha** do `\Provides*` não basta quando a declaração ocupa duas:
+`crpsp-base.sty` e `relatorio.sty` do workbench trazem `[2026/07/03 v0.1` numa
+linha e a descrição na seguinte. Com o filtro por linha, a continuação sobra no
+corpo, e os dois parecem diferentes dos daqui sem ser. É preciso descartar a
+declaração inteira, do `\Provides` até o `]` que a fecha.
 
 ## Limite
 

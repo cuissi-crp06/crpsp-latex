@@ -1,4 +1,4 @@
-\ProvidesPackage{livros_crp_acessivel_book}[2026/07/10 v0.5.0-beta Pacote editorial CRP-SP, variante PDF/UA (book)]
+\ProvidesPackage{livros_crp_acessivel_book}[2026/08/10 v0.5.1 Pacote editorial CRP-SP, variante PDF/UA (book)]
 
 % Diretório deste .sty, capturado ANTES de qualquer \RequirePackage.
 % \CurrentFilePath (ltfilehook, kernel 2020+) vale enquanto ESTE
@@ -188,6 +188,8 @@
 % ===================================================================
 
 \usepackage{multicol}
+\setlength{\columnsep}{1em}
+\raggedcolumns
 \usepackage{pdfpages}
 \usepackage{ragged2e}
 \usepackage{calc}
@@ -790,6 +792,21 @@
 \newcommand{\NomeNosCreditos}[1]{%
     \sffamily\scriptsize\raggedright
     \noindent #1\par
+}
+
+% --- Lista de nomes em duas colunas (quebra de página automática) ---
+% Substitui pares \parbox{0.49\linewidth} manuais, que não quebram
+% página e causam overfull \vbox quando a lista é longa.
+% Usa multicol: as colunas fluem por quantas páginas forem necessárias.
+% Cada \\ vira \par, de modo que cada nome vira um parágrafo próprio
+% na árvore de tags, preservando a ordem de leitura em PDF/UA.
+\newenvironment{NomesDuasColunas}{%
+    \begin{multicols}{2}%
+    \begingroup
+    \let\\\par
+}{%
+    \endgroup
+    \end{multicols}%
 }
 
 % ---------------------------------------------------------------

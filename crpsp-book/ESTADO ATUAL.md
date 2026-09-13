@@ -164,7 +164,10 @@ primeira que exercitar vai esbarrar nisso sem aviso claro.
 
 ## Controle de versão
 
-Esta pasta é um repositório git desde 2026-07-29 (commit inicial `c9d1450`).
+Esta pasta foi um repositório git próprio de 2026-07-29 (commit inicial
+`c9d1450`) a 2026-09-03, quando entrou no monorepo `cuissi-crp06/crpsp-latex`
+como `crpsp-book/`, com o histórico preservado (`940a787`). O monorepo acompanha
+a genealogia; as cópias de produção continuam no workbench.
 O restante do workspace — inclusive `production/` e `.agents/skills/` — **não é
 versionado**: alterações lá não têm histórico.
 
