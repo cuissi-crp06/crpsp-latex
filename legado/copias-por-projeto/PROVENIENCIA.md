@@ -140,6 +140,21 @@ confere contra o workbench, e o do blob, que é o que `git show` devolve.
 As tabelas anteriores trazem um número só, e não foi reconferido qual dos dois
 é — quem precisar auditá-las deve considerar as duas possibilidades.
 
+### Correção de 2026-09-13: eram 43, não 44
+
+A contagem acima deixou passar um corpo. A cópia de `livros_crp_acessivel_book.sty`
+em `production/editorial/publicacoes/cartilhas/apresentacoes_acessiveis/LaTeX/`
+não estava absorvida: é o canônico da linha `book` com o ambiente
+`NomesDuasColunas` a mais. Entrou em `crpsp-book/` como 0.5.1, e procedência e
+somas estão em `crpsp-book/CHANGELOG.md`, porque não é cópia por projeto.
+
+Uma segunda armadilha de comparação apareceu na mesma conferência. Descartar só a
+**linha** do `\Provides*` não basta quando a declaração ocupa duas:
+`crpsp-base.sty` e `relatorio.sty` do workbench trazem `[2026/07/03 v0.1` numa
+linha e a descrição na seguinte. Com o filtro por linha, a continuação sobra no
+corpo, e os dois parecem diferentes dos daqui sem ser. É preciso descartar a
+declaração inteira, do `\Provides` até o `]` que a fecha.
+
 ## Limite
 
 A fase de duas delas não está determinada. O `livros_crp-editoracao_manual.sty`
