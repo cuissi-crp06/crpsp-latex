@@ -1,5 +1,9 @@
 # Análise das variantes `.sty` — o que precisa de decisão
 
+> **As cinco decisões pendentes abaixo foram fechadas** — ver
+> [Resolução — 2026-09-04](#resolução--2026-09-04), no fim do arquivo. O texto
+> original fica como estava, porque é a evidência.
+
 > Levantamento mecânico de 03/09/2026. **Nada foi consolidado**: as comparações
 > abaixo são a evidência; qual versão é canônica é julgamento de Angelo. Fecha
 > perguntas que `editorial/inventario-latex/latex-sistema.md` deixou em aberto

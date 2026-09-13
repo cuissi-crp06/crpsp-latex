@@ -14,6 +14,13 @@ Pacote `book-crpsp_acessivel.sty` — variante acessível (PDF/UA-2) da linha
 editorial de livros, incluindo estado atual e monitoramento de dependências
 CTAN.
 
+Em `desenvolvimento/v2/` mora a linha seguinte, que não é só `book`:
+`crpsp-base.sty` (paleta por publicação) e as linhas `guia`, `guia_visual`,
+`formulario` e `relatorio`. O `formulario` de lá é o candidato a formulário
+acessível, e não se confunde com os de `crpsp-forms/`, que são `memoir`. Ficou
+dentro de `crpsp-book/` porque o workbench espelha esta pasta
+(`editorial/arquivo_latex/crpsp-book/`); mover quebra esse caminho.
+
 [crpsp-forms](/crpsp-forms/)
 
 Pacotes de formulários (`formularios.sty`, `form-sem-logo.sty`).
@@ -21,7 +28,8 @@ Pacotes de formulários (`formularios.sty`, `form-sem-logo.sty`).
 [crpsp-memoir](/crpsp-memoir/)
 
 Linhagem `livros_crp*.sty` baseada em `memoir` — base histórica da linha
-`book` antes da migração para a classe `book`.
+`book` antes da migração para a classe `book`, e ainda linha ativa:
+`relatorio-gestao.sty` 0.5.0 serve o Relatório de Gestão.
 
 [formularios](/formularios/)
 
@@ -39,4 +47,4 @@ Estilos e exemplos de publicações (livros, cartilhas etc.).
 [ANALISE-VARIANTES.md](/ANALISE-VARIANTES.md)
 
 Levantamento mecânico de divergências entre variantes `.sty` — evidência
-para decisões de consolidação, ainda não fechadas.
+para decisões de consolidação, fechadas na seção "Resolução — 2026-09-04".

@@ -101,6 +101,11 @@ declaram os próprios pacotes com `\usepackage` linha a linha; nenhum tem
 pasta guarda. Compartilha 6 dos 104 versos de corpo com o `crpsp-forms/formularios.sty`,
 então também não é variante dele.
 
+A origem declarava só `\ProvidesPackage{requerimento}`, sem data nem versão. Em
+2026-09-13 a declaração ganhou `[2024/07/19 v0.1.0-alfa …]`: a data é a da última
+gravação do arquivo de origem, e `alfa` porque nunca foi implantado. O corpo não
+mudou, mas o blob sim: passa de `50e12421cf86` para `479f6669d0c7`.
+
 Mantém o nome `requerimento`, que já é o seu e que ninguém mais disputa. A regra
 de renomear vale para os doze `livros_crp`, que disputavam a mesma identidade.
 

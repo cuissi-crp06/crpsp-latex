@@ -2,7 +2,10 @@
 
 Linha acessível, sobre a classe `book` com LuaLaTeX, alvo PDF/UA-2.
 Convenção de numeração em `editorial/inventario-latex/convencao-versionamento.md`,
-no repositório `trabalho`.
+no repositório `trabalho` — arquivo que **não foi encontrado** no workbench em
+2026-09-13. Até ele reaparecer, a convenção está nos próprios changelogs: `0.x.y`,
+segundo dígito por geração, e sufixo de fase só quando a circulação da publicação
+está registrada.
 
 O pacote canônico é implantado nos projetos sob o nome `livros_crp_acessivel_book.sty`,
 e é esse o nome que ele declara — o nome do arquivo aqui (`book-crpsp_acessivel.sty`)
@@ -80,7 +83,7 @@ ser propriedade do pacote.
 
 ## Etiqueta
 
-A etiqueta `book-v0.5.0` já existe. Depois que esta branch entrar em `main`,
-criar as demais sobre o commit de merge:
-
-    git tag book-v0.5.0-beta && git tag leg-v0.3.0-beta
+A etiqueta `book-v0.5.0` já existe, sobre o estado de 2026-09-03. As
+`book-v0.5.0-beta` e `leg-v0.3.0-beta`, que esta seção pedia depois do merge,
+só foram criadas em 2026-09-13, sobre `e2eb35f` (o último `main` com a 0.5.0-beta).
+A `book-v0.5.1` vai sobre o commit de merge que a traz.
