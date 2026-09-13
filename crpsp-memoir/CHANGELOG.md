@@ -5,7 +5,7 @@ esse o nome que `crpsp-memoir.sty` declara. As demais variantes desta pasta
 declaram o próprio nome de arquivo: nenhuma é implantada, e sem isso quatro
 arquivos diferentes disputariam o mesmo nome de pacote.
 
-## 0.5.0 — 2026/06/16
+## 0.5.0-beta — 2026/06/16
 
 `relatorio-gestao.sty`, trazido de fora do monorepo em 2026-09-12 — procedência e
 somas de verificação em `legado/copias-por-projeto/PROVENIENCIA.md`. É a linha do
@@ -26,13 +26,15 @@ A origem declarava `v0.2`, e esse rótulo não se ordena com a série `0.x` daqu
 `v7.0` abaixo — numeração de outro esquema, herdada do projeto. O remapeamento
 para 0.5.0 o põe depois da `0.4.0-beta`, que é a ordem em que foram escritos.
 
-A declaração do arquivo foi reescrita para `v0.5.0`, como nos demais desta pasta,
+A declaração do arquivo foi reescrita para `v0.5.0` (hoje `v0.5.0-beta`), como nos demais desta pasta,
 e a data de autoria (2026/06/16) ficou. **O corpo é idêntico verso por verso ao da
 origem**: só a linha de identidade mudou.
 
-**Sem sufixo de fase**, e de propósito. A fase é propriedade da publicação, não do
-arquivo, e o Relatório de Gestão estava em revisão diagramada quando esta cópia
-foi tirada: não há como afirmar que a edição servida por este pacote circulou.
+**Beta**, porque o Relatório de Gestão circulou fora do CRP SP. Até 2026-09-13
+esta entrada se chamava 0.5.0, sem sufixo, porque a circulação não estava
+registrada quando a cópia foi tirada — a cópia era de uma edição em revisão
+diagramada. Pela [convenção](../CONVENCAO-VERSIONAMENTO.md), a ausência de
+sufixo fica reservada para versão estável.
 
 ## 0.4.0-beta — 2025/09/26
 
