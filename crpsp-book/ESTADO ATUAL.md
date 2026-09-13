@@ -5,7 +5,60 @@ atravessam mais de uma linha. Para a análise detalhada da linha `book`, ver
 `README.md`; para os contornos de tagging com os MWEs que os reproduzem, ver
 `.agents/skills/latex-dev/references/workarounds.md`.
 
-**Última atualização:** 2026-08-04
+**Última atualização:** 2026-09-13
+
+---
+
+## RODADA 2026-09-13 — Fedora como máquina de desenvolvimento, e a régua
+
+**Motor.** O Fedora passa a ser a máquina de desenvolvimento, com **TeX Live
+upstream** em `~/texlive/2026` (`scheme-full`, `tlmgr`), à frente do TeX Live da
+distribuição pelo `~/.bashrc.d/texlive.sh`. Kernel `LaTeX2e <2026-11-01>
+pre-release-1` no `lualatex-dev`. Fontes do Nextcloud expostas por
+`~/.local/share/fonts/crpsp` (ver `desenvolvimento/docker/README.md`).
+
+⚠️ **O TeX Live do Fedora não serve para esta linha.** O `texlive-latex-lab` da
+distribuição (svn76739, fim de 2025) não traz `latex-lab-testphase-sec-template`
+nem o `latex-base-dev`: o `lualatex-dev` dele carrega o kernel `2025-11-01`. Sem o
+módulo, o `\@ifpackagelater{latex-lab-testphase-sec-template}{2026/05/25}` do
+pacote book cai no ramo antigo, que pede o template `display`, também inexistente
+ali — `The template 'display' of type 'heading' is unknown`. O pacote supõe dois
+estados do upstream (antes e depois de 2026/05/25), e há um terceiro: **módulo
+ausente**. Ver a pendência 4.
+
+**A régua.** `desenvolvimento/verificar.sh` compila cada MWE e exemplo v2 duas
+vezes, numa cópia temporária, e imprime TSV. A primeira rodada virou
+`desenvolvimento/linha-base.tsv` — 21 arquivos em 58 s. Com o pacote book
+**0.5.2-beta**:
+
+- `mwe_acessivel_book`: 11 páginas, 131 objetos, zero erro;
+- `mwe_leg_completo`: 78 páginas, 1866 objetos, zero erro; `mwe_leg_glossario`: 9 páginas, 99 objetos — as mesmas 9 páginas de 2026-07-13;
+- os cinco exemplos v2 compilam sem erro (`exemplo-relatorio`: 149 objetos; `exemplo-guia-visual`: 75).
+
+**Erros esperados na linha-base** — não são regressão:
+
+| arquivo | por quê |
+|---|---|
+| `mwe_list_pagebreak_bug` | reprodução do bug de `\hsize` em lista × quebra de página; `Too deeply nested` é o sintoma |
+| `mwe_tabelas_phase3` | a variante `tblr` do `tabularray` reproduz o WA-08 (48 erros de tagging) |
+| `mwe_acessivel` | testa `legado/book-variantes/livros_crp_acessivel.sty` v0.2, variante arquivada |
+
+Sem contagem de objetos (`-`): `crpsp-v2-doc` (`ltxdoc`), `exemplo-formulario` e
+`guia-exemplo`, que não declaram `\DocumentMetadata` com tagging.
+
+**Uso na pendência 1.** Antes de trocar `testphase` por `tagging=on` numa linha,
+rodar `sh crpsp-book/desenvolvimento/verificar.sh > rodada.tsv` e comparar com a
+linha-base: mesmo número de objetos, nenhum erro novo.
+
+---
+
+## PENDÊNCIA 4 — o ramo do `sec-template` supõe que o módulo existe
+
+**Prioridade: baixa**, porque MiKTeX e TeX Live atualizados trazem o módulo.
+Mas um motor sem ele (TeX Live de distribuição, MiKTeX desatualizado) falha com
+erro fatal em vez de cair num padrão. Conferir `\@ifpackageloaded` antes do
+`\@ifpackagelater` e decidir o que fazer no terceiro estado: aviso e formato
+padrão do `latex-lab`, ou erro com mensagem clara pedindo atualização.
 
 ---
 
