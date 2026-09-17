@@ -127,6 +127,17 @@ pipeline (banco) → JSON de nominata → gerador → .tex → \input pela class
 O `.tex` gerado fica versionado junto da publicação, como os `COE.tex` de hoje.
 A classe só precisa saber **onde** procurá-lo e **como** compor a página.
 
+## O produto final
+
+**Decidido em 17/09.** O gerador emite `.tex`, nesta granularidade:
+
+- **um arquivo para Plenário e Diretoria**, que andam juntos na página;
+- **um arquivo por comissão**.
+
+É a granularidade que a pasta `paratextos/comissoes/` do Guia já pratica, com
+`COE.tex`, `COF.tex` e `ComCom.tex` — a diferença é que passam a ser gerados, e
+não digitados.
+
 ## O que a classe faz, então
 
 Uma interface declarativa no preâmbulo, resolvida contra os `.tex` gerados:
@@ -153,14 +164,19 @@ título e o ambiente de colunas; quem preenche os nomes é o fragmento gerado.
 
 ## Decisões em aberto
 
-- [ ] **Onde mora o gerador.** `scripts/normativas/` (perto dos dados, e o
-      espelho já existe) ou `editorial/` do repositório `scripts` (perto do
-      `gerar_listagem_creditos.py`, que ele substitui)?
-- [ ] **O formato intermediário.** JSON de nominata, como o `latexgen.py` faz,
-      ou `.tex` direto do banco? O JSON permite conferir antes de compor.
-- [ ] **Recuperar o `atualizar_creditos.py`** a partir do `.pyc`, ou tratá-lo
-      como perdido e escrever do zero? O `.pyc` é de Python 3.14 e pode ser
-      descompilado o bastante para revelar a intenção.
+- [x] ~~**Onde mora o gerador.**~~ **Decidido em 17/09: no
+      `cuissi-crp06/normativas-pipeline`.** O gerador se relaciona com o
+      **sprint 10** do pipeline, ainda não definido, e é natural que fique lá —
+      junto dos dados e do `latexgen.py`, que já faz o mesmo tipo de travessia.
+      Chega ao workbench pelo espelho `scripts/normativas/`, no sentido repo →
+      espelho, nunca o contrário.
+- [ ] **O formato intermediário.** Em aberto, com **aposta em JSON** — é o que o
+      `latexgen.py` já usa, e permite conferir a nominata antes de compor a
+      página. A confirmar no sprint 10.
+- [ ] **Recuperar o `atualizar_creditos.py`** a partir do `.pyc`, ou escrever do
+      zero? **Fica para o sprint 10 definir.** O `.pyc` é de Python 3.14 e pode
+      ser descompilado o bastante para revelar a intenção — a pergunta é se vale
+      o trabalho, ou se o que se sabe da saída dele já basta.
 - [ ] **O que fazer com o `plenario_e_comissoes 1.md`** e o
       `gerar_listagem_creditos.py`: aposentar quando o gerador novo existir, ou
       manter como conferência independente do que veio do banco?
