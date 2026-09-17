@@ -64,7 +64,7 @@ Os números abaixo usam a Luciole em 12 pt. Com a Lora, as sobras aumentam cerca
 
 A adoção da Luciole em todas as classes depende de avaliar o contraste com a NEWJUNE, esbelta, frente à Luciole, mais larga. Com a troca, some o contraste de gênero que existe hoje (Lora com serifa, NEWJUNE sem serifa); restam largura, peso e proporção.
 
-**Luciole.** Desenvolvida para pessoas com deficiência visual pelo Centre Technique Régional pour la Déficience Visuelle e pelo estúdio typographies.fr ([luciole-vision.com](https://luciole-vision.com/)). Quatro estilos: regular, negrito, itálico e negrito itálico. Fontes de texto sob CC BY 4.0, que exige atribuição; a Luciole Math sai sob OFL. Pacote `luciole` no CTAN, v0.71 de 07/07/2026, incluído no TeX Live e no MiKTeX ([CTAN](https://ctan.org/pkg/luciole)). Não está instalada no TeX Live do ambiente de teste.
+**Luciole.** Desenvolvida para pessoas com deficiência visual pelo Centre Technique Régional pour la Déficience Visuelle e pelo estúdio typographies.fr ([luciole-vision.com](https://luciole-vision.com/)). Quatro estilos: regular, negrito, itálico e negrito itálico. Fontes de texto sob CC BY 4.0, que exige atribuição; a Luciole Math sai sob OFL. Pacote `luciole` no CTAN, v0.75, incluído no TeX Live e no MiKTeX ([CTAN](https://ctan.org/pkg/luciole)). Não traz `luciole.sty` para `\usepackage`: entrega os quatro `.ttf` de texto, o `Luciole.fontspec` e o `luciole-math.sty` — em texto, o uso é por fontspec. **Instalada** no TeX Live upstream do Fedora (ver errata de 17/09).
 
 **NEWJUNE hoje no `book`.** Os `.OTF` não estão no repositório; o pacote os referencia por nome, sem `Path`.
 
@@ -150,3 +150,36 @@ As referências abaixo foram conferidas por busca durante a sessão; as URLs com
 Sem conferência: Abubaker e Lu (2012), Karatay e Unal (2023), Galiano et al., regra alfabeto × 1,75 e "16–18 pt" para CPS.
 
 **Luciole:** [luciole-vision.com](https://luciole-vision.com/) · [CTAN, pacote luciole](https://ctan.org/pkg/luciole).
+
+## Errata — 17/09/2026
+
+Este briefing foi escrito no **WSL doméstico**, a máquina que a pendência C do
+`ESTADO ATUAL.md` registra como incapaz de compilar. Três afirmações de
+ambiente descrevem os limites daquela máquina, não os do projeto. Conferido no
+Fedora, que é a máquina de desenvolvimento desde 13/09:
+
+| Afirmação | Situação real |
+|---|---|
+| "Luciole… não está instalada no ambiente de teste" | Instalada, v0.75, no TeX Live upstream. E o pacote não tem `.sty` de texto |
+| Os `.OTF` da NEWJUNE não estão disponíveis | Os 24 `.OTF` estão em `editorial/fonts/NewJune/`, ligados a `~/.local/share/fonts/crpsp` desde 13/09 |
+
+**A comparação Luciole × NEWJUNE, que o plano tratava como caminho crítico, não
+estava bloqueada.** Foi feita em 17/09 e está em
+[`../desenvolvimento/medida/LEIA.md`](../desenvolvimento/medida/LEIA.md), com a
+sonda que a produziu e o espécime.
+
+O que a medição no motor devolveu a este briefing:
+
+- **As métricas verticais do fontTools estavam certas** — altura-x e x/eme da
+  Lora e da Luciole bateram na terceira casa.
+- **As de largura, não.** 80 caracteres em Luciole pedem **167 mm** de mancha,
+  não os ~164 mm da tabela de "Consequências por classe": sobram 43 mm para as
+  duas margens do A4, não 46.
+- **A premissa da seção "Tipografia" cai.** A altura-x da NEWJUNE Regular é
+  2,294 mm contra 2,299 mm da Luciole, e a NEWJUNE é 3,5% mais estreita. O que
+  falha no critério de baixa visão não é a fonte: é o corpo. `\footnotesize`
+  (10 pt) dá 1,912 mm e `\scriptsize` (8 pt) dá 1,530 mm, ambos abaixo do
+  mínimo de 2,0 mm da RNIB — e em Luciole dariam 1,915 mm e 1,532 mm. A
+  pendência "decidir se a NEWJUNE fica só em títulos grandes e a Luciole assume
+  os usos em corpo pequeno" resolveria um problema que a fonte não causa.
+- **O espécime que a seção pede está feito**, com as três situações reais.

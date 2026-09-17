@@ -78,10 +78,15 @@ que valem mais que o briefing inteiro:
    As duas linhas estão ativas e compartilham `crpsp-base`.
 2. **11 pt → 12 pt no `relatorio`** invalida a paginação do relatório do Jornal
    Psi e parte da `linha-base.tsv`.
-3. **Luciole não está instalada** na imagem `crpsp-latex:dev`.
-4. **NEWJUNE:** os `.OTF` não estão no repositório (saíram da árvore em 13/09,
-   são proprietários). A comparação Luciole × NEWJUNE trava a decisão de
-   tipografia, que trava a medida, que trava a geometria.
+3. ~~**Luciole não está instalada** na imagem `crpsp-latex:dev`.~~
+   **Resolvido em 17/09:** não está na imagem, mas está no TeX Live upstream do
+   Fedora (v0.75), que é onde o `verificar.sh` roda. A imagem segue pendente
+   para o WSL, não para a máquina de desenvolvimento.
+4. ~~**NEWJUNE:** os `.OTF` não estão no repositório.~~ **Resolvido em 17/09:**
+   não estão no repositório porque são proprietários, mas estão no workbench
+   (`editorial/fonts/NewJune/`, 24 arquivos) e expostos por fontconfig desde
+   13/09. A comparação foi feita: ver
+   [`../desenvolvimento/medida/LEIA.md`](../desenvolvimento/medida/LEIA.md).
 5. **Destino do `book-crpsp_acessivel.sty` e da linha `guia`** quando a
    `cartilha` existir.
 
@@ -95,7 +100,9 @@ que tudo depende da tipografia. Não depende.
 1. Rodar `monitor_ctan.py` e `sh crpsp-book/desenvolvimento/verificar.sh` para
    **re-estabelecer a linha-base** antes de qualquer mudança (a atual é de
    13/09).
-2. Instalar `luciole` na imagem e fixar no `Containerfile`.
+2. ~~Instalar `luciole` na imagem e fixar no `Containerfile`.~~ Continua
+   valendo para a imagem, mas **não é pré-requisito**: o `verificar.sh` compila
+   com o TeX Live nativo, não com podman, e lá a Luciole já está.
 3. Fechar a **pendência 4** do `ESTADO ATUAL.md` (terceiro estado do
    `sec-template`: módulo ausente → aviso e formato padrão, ou erro claro). É o
    passo 1 do próprio briefing e não depende de tipografia.
@@ -125,8 +132,9 @@ antes de remover arquivo.
 
 - [ ] **Paleta institucional:** azul `#04586E` ou roxo `422C73` como `cor1` da
       base? `manual`/`cartilha` usam paleta fixa ou paleta por publicação?
-- [ ] **NEWJUNE:** enviar os `.OTF` (Regular, Bold, Light, Medium). Caminho
-      crítico.
+- [x] ~~**NEWJUNE:** enviar os `.OTF`. Caminho crítico.~~ Nunca esteve
+      bloqueado: os `.OTF` estão no workbench. Medido em 17/09 — e o resultado
+      reabre a pergunta, porque a altura-x da NEWJUNE empata com a da Luciole.
 - [ ] **Destino do `book-crpsp_acessivel.sty` e da linha `guia`** quando a
       `cartilha` existir.
 - [ ] **Relatório:** 12 pt repaginando o Jornal Psi, ou o `relatorio` fica em
@@ -134,5 +142,15 @@ antes de remover arquivo.
 - [ ] Herdadas do briefing `Leg`: agrupadores como headings? `\LegTitulo` como
       alias?
 
-As duas primeiras são o caminho crítico. As fases 0 e 1 andam sem nenhuma
-delas — por isso estão primeiro.
+~~As duas primeiras são o caminho crítico.~~ **Revisto em 17/09:** a segunda
+nunca foi bloqueio, e a medida que dependia dela está feita. O caminho crítico
+que resta é a **paleta**, e a decisão do `relatorio`, que agora tem número: o
+mesmo conteúdo ocupa +37% de altura ao ir de 11/13,2 para 12/18, e +79% se
+entrar também o espaço entre parágrafos do WCAG — dois custos separáveis. Pesa
+a favor de subir: a Lora em 11 pt tem altura-x de 1,933 mm, **abaixo do mínimo
+da RNIB**, então o `relatorio` de hoje já não cumpre o critério do sistema.
+
+As fases 0 e 1 andam sem nenhuma decisão pendente — por isso estão primeiro. Em
+17/09 a fase 0 andou: linha-base reconferida (idêntica, 22 linhas), CTAN
+verificado, e a fase 1 ganhou a régua de medida em
+`desenvolvimento/medida/`.
