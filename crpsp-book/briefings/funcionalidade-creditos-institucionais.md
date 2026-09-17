@@ -164,14 +164,25 @@ título e o ambiente de colunas; quem preenche os nomes é o fragmento gerado.
 - [ ] **O que fazer com o `plenario_e_comissoes 1.md`** e o
       `gerar_listagem_creditos.py`: aposentar quando o gerador novo existir, ou
       manter como conferência independente do que veio do banco?
-- [ ] **Nome e registro na mesma linha.** Hoje é
-      `\NomeNosCreditos{nome (CRP~06/registro)}`, com o registro dentro do
-      texto. Separar em dois argumentos ajudaria o tagging e a acessibilidade —
-      e é mudança de API, com alias deprecado, pela disciplina do briefing do
-      formulário.
-- [ ] **Qual a fonte da nominata "atual"**: o registro institucional, ou o
-      replay de `eventos_institucionais` até hoje? Se as duas divergirem, qual
-      manda — e a divergência é achado a investigar.
+- [x] ~~**Nome e registro na mesma linha.**~~ **Decidido em 17/09: separar em
+      dois argumentos.** Hoje é `\NomeNosCreditos{nome (CRP~06/registro)}`, com
+      o registro dentro do texto — o tagging não distingue um do outro, e o
+      leitor de tela lê o número como parte do nome. A classe adota a forma
+      melhor, com alias deprecado para os `.tex` existentes, pela disciplina do
+      briefing do formulário. É aplicação do princípio de consolidação
+      registrado nas [decisões de 17/09](decisoes-2026-09-17.md).
+
+      O nome do comando também está em aberto: `\NomeNosCreditos` descreve onde
+      ele aparece, não o que ele é.
+- [x] ~~**Qual a fonte da nominata "atual"**~~ **Decidido em 17/09: o registro
+      institucional.** É o quadro corrente, materializado por
+      `institucional_link.py`, e não depende de reproduzir atos. O
+      `eventos_institucionais` fica para as composições **com data**, que é o
+      que só ele sabe responder.
+
+      Continua valendo conferir: se o replay até hoje divergir do registro, a
+      divergência é achado a investigar no pipeline — não empate a desempatar
+      na hora de compor a página.
 
 ## Relacionados
 
