@@ -288,7 +288,7 @@ valem como registro do que foi decidido e feito, não como trabalho a executar.
 
 | Arquivo | Data | Do que trata | Estado |
 |---|---|---|---|
-| [`briefing-crpsp-livro-relatorio.md`](briefings/briefing-crpsp-livro-relatorio.md) | 2026-09-16 | Classes `crpsp-livro.cls` (`manual`/`cartilha`) e `crpsp-relatorio.cls` (`interno`/`externo`): medida por papel, corpo 12 pt e adoção condicional da Luciole | **Ativo.** Decisões registradas; implementação não iniciada |
+| [`briefing-crpsp-livro-relatorio.md`](briefings/briefing-crpsp-livro-relatorio.md) | 2026-09-16 | Classes `crpsp-livro.cls` (`manual`/`cartilha`) e `crpsp-relatorio.cls` (`interno`/`externo`): medida por papel, corpo 12 pt e adoção condicional da Luciole | **Ativo.** A metade `relatorio` está feita (0.2.0-alfa, 2026-09-17, com `interno`/`externo`); a `livro` não começou. ⚠️ A tipografia do briefing foi superada: o corpo do `relatorio` é Atkinson, não Luciole, e a mancha é de 75 caracteres — ver `decisoes-2026-09-17.md` |
 | [`briefing-crpsp-formulario.md`](briefings/briefing-crpsp-formulario.md) | 2026-07-03 | Linha `formulario` da v2 (`crpsp-formulario.cls` + `formulario.sty`) e migração dos requerimentos de `formularios/` | **Ativo.** Implementado em `desenvolvimento/v2/`; não se confunde com os `.sty` memoir de `crpsp-forms/` |
 | [`briefing-leg-book-acessivel.md`](briefings/briefing-leg-book-acessivel.md) | 2026-07-10 | Camada `Leg` no `book-crpsp_acessivel.sty` (tipos LeXML) e gerador normativas→LaTeX | Arquivar as fases 2 e 3 (gerador, Manual de DH). A camada em si é código vivo: `crpsp-leg.sty` v0.3.0, previsto como módulo `leg` da linha `livro` |
 | [`briefing-manual-dh-acabamento.md`](briefings/briefing-manual-dh-acabamento.md) | 2026-07-11 | Acabamento visual e de acessibilidade do Manual de DH v1 | Arquivar |
@@ -307,4 +307,7 @@ insumos do briefing de 2026-06-24 — arquivar junto com ele), `insumos-jornal/`
 relatório que alimentaram o relatório do Jornal Psi) e
 `issue-draft-list-csname-tagging.md` + `issue-link-prefilled.txt` (rascunho de
 issue para o upstream do tagging: `\hsize` corrompido quando um `description`
-na forma csname atravessa quebra de página).
+na forma csname atravessa quebra de página) e
+[`relato-atkinson-u0060.md`](briefings/relato-atkinson-u0060.md) (rascunho de
+e-mail ao mantenedor do pacote CTAN `atkinson`: o `.otf` embarcado não mapeia
+U+0060, e a convenção de aspas do TeX falha em silêncio sob fontspec).
