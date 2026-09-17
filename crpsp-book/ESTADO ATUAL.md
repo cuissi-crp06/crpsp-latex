@@ -5,7 +5,52 @@ atravessam mais de uma linha. Para a análise detalhada da linha `book`, ver
 `README.md`; para os contornos de tagging com os MWEs que os reproduzem, ver
 `.agents/skills/latex-dev/references/workarounds.md`.
 
-**Última atualização:** 2026-09-16
+**Última atualização:** 2026-09-17
+
+---
+
+## RODADA 2026-09-17 — o Fedora alinhado ao upstream
+
+**Motivo:** escrever a `crpsp-livro.cls` e revisar a `crpsp-relatorio.cls` exige
+a máquina habilitada em qualquer circunstância. O detalhe está em
+`briefings/preparo-ambiente-2026-09-17.md`; aqui fica o que muda a operação.
+
+**Documentação e fontes passam a existir.** O TeX Live estava com
+`docfiles = 0` e `srcfiles = 0` — 4,8 GB de runtime e 8,2 MB de doc. Agora são
+11 GB, com **4,9 GB de documentação e 471 MB de fontes**. `texdoc tagpdf` e
+`texdoc latex-lab-sec-template` abrem local, e os `.dtx` estão em
+`texmf-dist/source/latex/latex-lab/`.
+
+**Núcleo dev na pre-release 2** (`latex-base-dev` e `latex-lab-dev`, 79901 →
+80282), com `tlmgr update --all --backup` — o backup é o caminho de volta.
+
+⚠️ **A linha-base foi regravada, e a mudança é benigna.** Os **11** arquivos que
+rodam em `lualatex-dev` perderam de 1 a 5 objetos de estrutura; os **10** em
+`lualatex` não mudaram em nada. Páginas, erros de tagging, fatais e faltantes
+idênticos em todos os 21. É simplificação do upstream, não regressão.
+
+**veraPDF 1.30.2 em `~/verapdf`**, fora do workbench. O `mwe_acessivel_book.pdf`
+dá **PASS em `ua2`** — primeira linha-base de conformidade desta máquina. O
+critério de aceitação do briefing do Manual de DH deixa de ser inverificável
+aqui:
+
+```sh
+~/verapdf/verapdf --format text --flavour ua2 <arquivo>.pdf
+```
+
+**Duas ferramentas novas do upstream entram no fluxo:**
+
+- `texlua $(kpsewhich --progname=texlua show-pdf-tags.lua) --tree <pdf>` — árvore
+  de tags legível, com papel, namespace e atributos. Enxerga o que os contadores
+  de `grep` da régua não enxergam.
+- `check-tagging-status = listfiles` no `\DocumentMetadata` — relatório do
+  estado de tagging de cada pacote do documento, com dado do upstream.
+
+**Orçamento de pacotes das classes novas.** Incompatíveis: `tabularray`,
+`titlesec` e — achado novo — **`pdfpages`**, por onde entra a capa do Guia de
+Apresentações Acessíveis. Parciais: `tcolorbox`, `eso-pic`, `hyperref`, `svg`,
+`ragged2e`, `tikz`. O `enumitem` não conta: sob `tagging=on` o latex-lab o
+substitui pela emulação.
 
 ---
 
@@ -144,6 +189,22 @@ erro fatal em vez de cair num padrão. Conferir `\@ifpackageloaded` antes do
 `\@ifpackagelater` e decidir o que fazer no terceiro estado: aviso e formato
 padrão do `latex-lab`, ou erro com mensagem clara pedindo atualização.
 
+**Verificado em 17/09/2026:** com o pacote ausente, o `\@ifpackagelater` entrega
+o **ramo falso** — "versão antiga" e "módulo ausente" são indistinguíveis por
+ele. O terceiro estado é real.
+
+**E metade da pendência some pelo desenho.** O manual do `sec-template` (52
+páginas, agora instalado) documenta `\EditInstance` para mudar só as chaves que
+interessam. Das treze chaves que o `book-crpsp_acessivel.sty:425-470` declara,
+**só três diferem do upstream** — `heading-decls`, `number-decls` e
+`title-decls`. As outras dez repetem o padrão, e é essa repetição que obriga a
+classe a acompanhar renomeação de chave: foi o que criou o ramo duplo do
+`\@ifpackagelater{...}{2026/05/25}`.
+
+Com `\EditInstance` nomeando as três, o ramo duplo deixa de ser necessário e
+resta só o `\@ifpackageloaded` em volta de um bloco curto. Ver
+`briefings/preparo-ambiente-2026-09-17.md`.
+
 ---
 
 ## RODADA 2026-08-04 — upstream se mexeu
@@ -171,9 +232,23 @@ reconferidos com MWE nesta data.
 **Pendente de conferência visual:** `tcolorbox` inline (WA-09) não emite
 mais erro de tagging; falta ver se ainda força `\par`.
 
-**Não migrar:** a emulação de `enumitem` aceita de novo as chaves de
-`description`, mas o `\LegArtigo` por `\hangindent` fica como está — ele
-contorna o bug de `\hsize` na quebra de página, não as chaves.
+~~**Não migrar:** … o `\LegArtigo` por `\hangindent` … contorna o bug de
+`\hsize` na quebra de página.~~
+
+⚠️ **Corrigido em 17/09/2026: não há bug de `\hsize`.** A issue
+[latex3/tagging-project#1484](https://github.com/latex3/tagging-project/issues/1484)
+foi **fechada em 08/08/2026**, e o veredito é outro. Frank Mittelbach: *"for me
+`\description ... \enddescription` without appropriate grouping is (and always
+was) unsupported usage"*. David Carlisle: *"If I add the missing group then it
+runs without error and no overfull box warnings"*.
+
+É uso não suportado, não defeito do tagging, e o conserto suportado é
+acrescentar o grupo. Isso **reabre a possibilidade de simplificar o
+`crpsp-leg.sty`**: o `\hangindent` do `\LegArtigo` pode não ser mais
+necessário. Conferir antes de mexer.
+
+Regra dura para as classes novas, que já valia e agora tem a razão registrada:
+**nunca invocar ambiente por csname.**
 
 ---
 

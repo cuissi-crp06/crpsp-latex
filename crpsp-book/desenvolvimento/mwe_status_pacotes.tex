@@ -1,0 +1,48 @@
+% !TeX program = lualatex-dev
+%% mwe_status_pacotes.tex
+%% Relatório de status de tagging dos pacotes que as classes pretendem usar.
+%%
+%% A chave check-tagging-status do \DocumentMetadata (latex-lab) lê os dados
+%% de latex-tagging-status.ltx, derivados de
+%% https://latex3.github.io/tagging-project/tagging-status/full, e imprime no
+%% terminal, ao fim do documento, a classe e cada pacote carregado agrupados
+%% por estado: 1 unsupported, 2 currently incompatible, 3 partially
+%% compatible, 4 compatible, 0 unknown.
+%%
+%% Serve para decidir o que a crpsp-livro.cls e a crpsp-relatorio.cls podem
+%% carregar, com dado do upstream em vez de memória.
+
+\DocumentMetadata{
+    lang                 = pt-BR,
+    pdfstandard          = ua-2,
+    pdfversion           = 2.0,
+    tagging              = on,
+    check-tagging-status = listfiles,
+}
+\documentclass[a5paper, 12pt]{book}
+
+% ── O que as linhas carregam hoje ───────────────────────────────────
+\usepackage{fontspec}
+\usepackage[brazilian]{babel}
+\usepackage{xcolor}
+\usepackage{graphicx}
+\usepackage{geometry}
+\usepackage{fancyhdr}
+\usepackage{setspace}
+\usepackage{ragged2e}
+\usepackage{hyphenat}
+\usepackage[shortcuts]{extdash}
+\usepackage[obeyspaces, spaces, hyphens]{xurl}
+\usepackage{eso-pic}
+\usepackage{longtable}
+\usepackage{booktabs}
+\usepackage{microtype}
+\usepackage{svg}
+\usepackage{tcolorbox}
+\usepackage{enumitem}
+\usepackage{hyperref}
+
+\begin{document}
+\chapter{Sonda}
+Documento mínimo: o que interessa é o relatório no terminal.
+\end{document}
