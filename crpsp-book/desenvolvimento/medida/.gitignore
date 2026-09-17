@@ -1,0 +1,4 @@
+# medir-fontes.pdf é só o subproduto da sonda — a saída dela são os dois TSV.
+# O especime-fontes.pdf, ao contrário, É versionado: a máquina doméstica não
+# compila (pendência C do ESTADO ATUAL.md) e precisa poder abrir o espécime.
+medir-fontes.pdf

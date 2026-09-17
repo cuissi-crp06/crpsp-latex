@@ -1,0 +1,31 @@
+%% amostra-pt.tex
+%% Amostra de texto em português para medição de largura média.
+%%
+%% Definida UMA vez e versionada, para que duas medições feitas em datas
+%% diferentes sejam comparáveis. O briefing de 16/09/2026 mediu sobre uma
+%% amostra de 169 caracteres que não está no repositório: os números de
+%% largura dele não são reproduzíveis, e esta amostra NÃO é aquela.
+%%
+%% Critérios: português institucional corrente, com os doze caracteres
+%% acentuados da língua (à á â ã ç é ê í ó ô õ ú), pontuação usual e
+%% extensão suficiente para a média estabilizar.
+%%
+%% \AmostraPT    — o texto
+%% \AmostraPTN   — caracteres COM espaços (é o que define linha cheia:
+%%                 o teto de 80/60 caracteres do WCAG e de Bringhurst
+%%                 conta os espaços)
+%% \AmostraPTNsp — caracteres SEM espaços, para conferência
+
+\def\AmostraPT{%
+A psicóloga inscrita no Conselho Regional exerce função pública e está sujeita
+à fiscalização ética; o órgão zela pela qualidade técnica, pela justiça e pela
+inclusão das pessoas. Três princípios sustentam a atuação: o compromisso com os
+direitos humanos, a defesa da ciência e a construção coletiva. A câmara propôs
+questões de método. Não há exercício profissional sem responsabilidade, nem
+avaliação séria sem informação clara.%
+}
+
+\def\AmostraPTN{430}
+\def\AmostraPTNsp{366}
+
+\endinput
