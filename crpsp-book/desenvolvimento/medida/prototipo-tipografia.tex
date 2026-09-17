@@ -72,4 +72,26 @@
 \renewcommand{\Huge}{\fontsize{27.27}{31.36}\selectfont}
 \renewcommand{\huge}{\fontsize{22.73}{26.14}\selectfont}
 
+% ── Alinhamento à esquerda, sem hifenação ───────────────────────────
+% "Texto não justificado" é um dos cinco itens do próprio WCAG 1.4.8, junto
+% com a largura de linha e a entrelinha. O texto justificado abre buracos
+% irregulares entre palavras, que atrapalham quem tem dislexia e quem lê com
+% ampliação. A hifenação sai à parte: quebra de palavra obriga a remontar o
+% termo, e o alinhamento à esquerda não precisa dela para fechar a linha.
+% \exhyphenpenalty cuida dos hifens já presentes no texto ("cão-guia").
+%
+% ⚠️ O \RaggedRight do ragged2e sozinho NÃO basta. O esticamento padrão dele
+% à direita é finito (2em): serrilha menos a margem, mas conta com a
+% hifenação para fechar as linhas difíceis. Sem ela as linhas transbordam --
+% medido no capítulo de teste, 8 a 9 linhas por versão passavam da mancha,
+% uma delas em 24 pt, 8 mm de texto dentro da margem. Com esticamento
+% infinito não há transbordo possível por espacejamento: a linha termina
+% mais cedo, que é o que o alinhamento à esquerda quer dizer.
+\setlength{\RaggedRightRightskip}{0pt plus 1fil}
+\AtBeginDocument{%
+  \RaggedRight
+  \hyphenpenalty=10000
+  \exhyphenpenalty=10000
+}
+
 \endinput

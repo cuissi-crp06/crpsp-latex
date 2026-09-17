@@ -343,3 +343,36 @@ não a família. A comparação fica sendo só de leitura e de contraste com o
 título.
 
 Os PDFs não estão aqui: são conteúdo de publicação e ficam no workbench.
+
+## Alinhamento à esquerda — o item do 1.4.8 que passou
+
+O WCAG 1.4.8 tem cinco itens. Adotamos a largura de linha e a entrelinha, e
+**"texto não justificado" passou despercebido** na primeira leitura. A hifenação
+saiu junto por decisão do Angelo.
+
+**O `\RaggedRight` do ragged2e sozinho não resolve.** O esticamento padrão dele
+à direita é finito (`0pt plus 2em`): serrilha menos a margem, mas conta com a
+hifenação para fechar as linhas difíceis. Desligada a hifenação, as linhas
+transbordam. Medido no capítulo de teste, antes da correção:
+
+| Versão | Linhas transbordando | Maior transbordo |
+|---|---|---|
+| Lora | 9 | 17,7 pt |
+| Luciole | 9 | 12,0 pt |
+| NEWJUNE Serif | 8 | 14,2 pt |
+| Atkinson | 3 | 9,2 pt |
+
+Uma delas chegou a 24 pt — 8 mm de texto dentro da margem, e numa publicação com
+decoração de margem isso é colisão, não só feiura. A Atkinson transborda menos
+por ser a mais estreita.
+
+Com `\RaggedRightRightskip` em `0pt plus 1fil` não há transbordo possível por
+espacejamento: a linha simplesmente termina mais cedo, que é o que o alinhamento
+à esquerda quer dizer. Depois da correção, nas quatro versões:
+
+| | Páginas | Fatais | Erros de tagging | Transbordo | Hifens no fim de linha |
+|---|---|---|---|---|---|
+| todas as quatro | 5 | 0 | 0 | **0** | **0** |
+
+A mudança de alinhamento **não mexeu na paginação**: as quatro continuam em 5
+páginas.
