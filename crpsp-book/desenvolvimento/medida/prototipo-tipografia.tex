@@ -1,0 +1,57 @@
+%% prototipo-tipografia.tex
+%% O bloco tipográfico decidido em 17/09/2026, como protótipo do que vai
+%% para a crpsp-base.sty: Luciole no corpo, NEWJUNE nos títulos, 12 pt,
+%% WCAG 1.4.8 inteiro.
+%%
+%% Verificado em 17/09 sobre um capítulo do Guia de Apresentações
+%% Acessíveis, com a mancha e o fundo decorativo reais da publicação:
+%% zero erro fatal e zero erro de tagging, 4 páginas -> 5 (+25%).
+%%
+%% ⚠️ O documento de teste NÃO está aqui. O capítulo é conteúdo de
+%% publicação e fica no workbench
+%% (production/editorial/publicacoes/cartilhas/apresentacoes_acessiveis/).
+%% Para repetir o teste: carregar este bloco depois do pacote da linha,
+%% com a classe em 12pt.
+%%
+%% Como usar sobre o livros_crp_acessivel_book:
+%%   \documentclass[twoside, a5paper, openright, 12pt]{book}
+%%   \usepackage{livros_crp_acessivel_book}
+%%   \input{prototipo-tipografia}
+
+% ── Corpo em Luciole ────────────────────────────────────────────────
+% O pacote da linha book põe Lora no corpo e NEWJUNE na sem-serifa. Só o
+% corpo muda: os títulos já são \bfseries\sffamily, e continuam NEWJUNE.
+% A Luciole vem do TeX Live (pacote `luciole`, quatro .ttf de texto); não
+% há .sty a carregar, o uso é por fontspec.
+\setmainfont{Luciole}[
+    UprightFont    = Luciole-Regular.ttf,
+    BoldFont       = Luciole-Bold.ttf,
+    ItalicFont     = Luciole-Italic.ttf,
+    BoldItalicFont = Luciole-BoldItalic.ttf,
+]
+
+% ── WCAG 1.4.8, as duas metades ─────────────────────────────────────
+% A entrelinha já vem do \setasuspacing{\onehalfspacing} do pacote: 17,99 pt
+% em 12 pt, porque o setspace calibra por tamanho de fonte e não pela
+% entrelinha simples. O que falta é o espaço entre parágrafos, que o pacote
+% deixa em 0.5\baselineskip.
+\AtBeginDocument{%
+  \setlength{\parskip}{1.5\baselineskip}%
+  \setlength{\parindent}{0pt}%
+}
+
+% ⚠️ O \parskip global sozinho PIORA o resultado: soma-se ao afterskip do
+% \@startsection (0.618\baselineskip na \section do pacote) e o título fica
+% mais longe do próprio texto do que os parágrafos ficam entre si — o
+% contrário do que a hierarquia pede. O critério fala de espaço ENTRE
+% PARÁGRAFOS, não entre título e texto.
+%
+% Aqui o parágrafo logo depois de um título perde o \parskip; os demais
+% mantêm. Não dá para resolver pelo afterskip: 0.618 - 1.5 é negativo, e
+% afterskip negativo no \@startsection significa título embutido na linha.
+\makeatletter
+\let\crpsp@afterheading\@afterheading
+\renewcommand{\@afterheading}{\crpsp@afterheading\vspace{-\parskip}}
+\makeatother
+
+\endinput
