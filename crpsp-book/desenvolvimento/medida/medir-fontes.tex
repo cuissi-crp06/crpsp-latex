@@ -35,6 +35,11 @@
 \newfontfamily\fNJRegular{NEWJUNE}[UprightFont = NEWJUNE-REGULAR.OTF]
 \newfontfamily\fNJLight{NEWJUNE-Light}[UprightFont = NEWJUNE-LIGHT.OTF]
 \newfontfamily\fNJMedium{NEWJUNE-Medium}[UprightFont = NEWJUNE-MEDIUM.OTF]
+% A serifada institucional. Está na pasta de fontes e não é referenciada em
+% lugar nenhum do repositório: o \serifada do book (linha 96) aponta para a
+% NEWJUNE-REGULAR.OTF, que é a SEM serifa. É a única candidata a corpo de
+% texto que preservaria o contraste de gênero com os títulos.
+\newfontfamily\fNJSerif{NEWJUNESERIF}[UprightFont = NEWJUNESERIF-REGULAR.OTF]
 
 \newlength{\crpspwd}
 \directlua{dofile("medir-fontes.lua")}
@@ -59,6 +64,7 @@
 \medir{\fNJRegular}{NEWJUNE-Regular}{12}
 \medir{\fNJMedium}{NEWJUNE-Medium}{12}
 \medir{\fNJLight}{NEWJUNE-Light}{12}
+\medir{\fNJSerif}{NEWJUNE-Serif}{12}
 
 % ── 11 pt: o corte do relatorio (crpsp-relatorio.cls:48) ────────────
 \medir{\fLora}{Lora}{11}
