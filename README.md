@@ -16,7 +16,10 @@ CTAN.
 
 Em `desenvolvimento/v2/` mora a linha seguinte, que não é só `book`:
 `crpsp-base.sty` (paleta por publicação) e as linhas `guia`, `guia_visual`,
-`formulario` e `relatorio`. O `formulario` de lá é o candidato a formulário
+`formulario` e `relatorio`. Desde 2026-09-16 o desenvolvimento se concentra em
+`relatorio`, `livro` (cartilha/manual) e `formulario`, todas acessíveis; a
+linha `guia_visual` foi cancelada (o 16:9 migra para GitHub Pages) e o `guia`
+não consta do escopo ativo. O `formulario` de lá é o candidato a formulário
 acessível, e não se confunde com os de `crpsp-forms/`, que são `memoir`. Ficou
 dentro de `crpsp-book/` porque o workbench espelha esta pasta
 (`editorial/arquivo_latex/crpsp-book/`); mover quebra esse caminho.
