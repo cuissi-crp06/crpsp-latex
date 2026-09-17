@@ -2,7 +2,7 @@
 tipo: relato-upstream
 destino: "Bob Tennent (rdt at cs.queensu.ca), mantenedor do pacote CTAN `atkinson`"
 meio: e-mail (o pacote não tem issue tracker; o README dá só o endereço)
-estado: "RASCUNHO — aguarda leitura e envio pelo Angelo. Revisto em 2026-09-17: ver 'Revisões'"
+estado: "GRAVADO nos rascunhos do Gmail em 2026-09-17, não enviado — aguarda envio pelo Angelo. Revisto antes de gravar: ver 'Revisões'"
 criado: 2026-09-17
 mwe: neste arquivo, seção "Minimal example"
 ---
@@ -178,6 +178,26 @@ Na mesma releitura, três imprecisões:
   menos. Agora está separado, e o número aparece.
 - O `<TEXMFDIST>` do exemplo mínimo ganhou como obtê-lo
   (`kpsewhich --var-value TEXMFDIST`), para o exemplo ser copiável.
+
+## Como o corpo chega ao e-mail
+
+O texto acima é a fonte de verdade; o corpo do e-mail é derivado dele, não
+mantido em paralelo. A conversão para texto puro, em 17/09/2026:
+
+- sai a ênfase do Markdown (`**`), que em texto puro apareceria literal;
+- **ficam as crases** de identificador técnico — é convenção corrente entre
+  gente de TeX, e o destinatário é mantenedor de pacote;
+- o exemplo mínimo perde a cerca de código e ganha indentação de quatro
+  espaços, que é como se distingue código num e-mail em texto puro;
+- tudo requebrado em 72 colunas.
+
+O `<TEXMFDIST>` fica como marcador: a frase anterior diz como obtê-lo
+(`kpsewhich --var-value TEXMFDIST`), e o caminho desta máquina não serviria
+para o destinatário.
+
+⚠️ **O endereço foi desofuscado.** O README do pacote escreve
+"rdt **at** cs.queensu.ca", contra robôs; o rascunho foi para
+`rdt@cs.queensu.ca`. É a única parte do endereço que não vem literal da fonte.
 
 ## Depois de enviar
 
