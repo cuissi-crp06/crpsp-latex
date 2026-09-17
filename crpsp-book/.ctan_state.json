@@ -1,7 +1,7 @@
 {
   "packages": {
     "latex-base-dev": {
-      "last_known_version": "pre-release 0",
+      "last_known_version": "pre-release 2",
       "last_known_date": "2026-11-01",
       "history": [
         {
@@ -13,6 +13,11 @@
           "version": "pre-release 0",
           "date": "2026-11-01",
           "checked_at": "2026-08-04T12:20:29.429081"
+        },
+        {
+          "version": "pre-release 2",
+          "date": "2026-11-01",
+          "checked_at": "2026-09-17T08:15:16.969940"
         }
       ]
     },
@@ -29,12 +34,17 @@
           "version": "2026-06-01a",
           "date": "",
           "checked_at": "2026-08-04T12:20:30.459759"
+        },
+        {
+          "version": "2026-06-01a",
+          "date": "",
+          "checked_at": "2026-09-17T08:15:17.902678"
         }
       ]
     },
     "tagpdf": {
-      "last_known_version": "1.0d",
-      "last_known_date": "2026-07-25",
+      "last_known_version": "1.0e",
+      "last_known_date": "2026-08-21",
       "history": [
         {
           "version": "1.0b",
@@ -45,9 +55,14 @@
           "version": "1.0d",
           "date": "2026-07-25",
           "checked_at": "2026-08-04T12:20:31.519128"
+        },
+        {
+          "version": "1.0e",
+          "date": "2026-08-21",
+          "checked_at": "2026-09-17T08:15:18.610215"
         }
       ]
     }
   },
-  "last_checked": "2026-08-04T12:20:31.519168"
+  "last_checked": "2026-09-17T08:15:18.610230"
 }
