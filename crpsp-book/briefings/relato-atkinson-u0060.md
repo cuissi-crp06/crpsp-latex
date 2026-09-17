@@ -2,7 +2,7 @@
 tipo: relato-upstream
 destino: "Bob Tennent (rdt at cs.queensu.ca), mantenedor do pacote CTAN `atkinson`"
 meio: e-mail (o pacote não tem issue tracker; o README dá só o endereço)
-estado: "RASCUNHO — aguarda leitura e envio pelo Angelo"
+estado: "RASCUNHO — aguarda leitura e envio pelo Angelo. Revisto em 2026-09-17: ver 'Revisões'"
 criado: 2026-09-17
 mwe: neste arquivo, seção "Minimal example"
 ---
@@ -78,9 +78,13 @@ ligatures under fontspec
 
 > Dear Bob Tennent,
 >
-> Thank you for maintaining the `atkinson` package — we use Atkinson
-> Hyperlegible Next as the text face of an accessible-PDF publishing system at
-> a Brazilian professional council, and it has served us well.
+> Thank you for maintaining the `atkinson` package. I am developing a set of
+> LaTeX document classes for accessible PDF (PDF/UA-2) at a Brazilian
+> professional council, and we are adopting Atkinson Hyperlegible Next as the
+> text face of one of them. The work is still pre-release and nothing has been
+> published with it yet, so I am afraid I cannot point you at a finished
+> document — everything below comes from the development machine, and the
+> minimal example reproduces it from scratch.
 >
 > I think I have found a problem with the bundled OpenType files, and I would
 > be glad to be told I am wrong.
@@ -88,15 +92,16 @@ ligatures under fontspec
 > The `AtkinsonHyperlegibleNext-*.otf` shipped in the package (TeX Live 2026,
 > package dated 2026-01-16) do not map **U+0060 GRAVE ACCENT**. Under
 > `fontspec` with `Ligatures=TeX`, the TeX quoting convention `` '' therefore
-> fails: the character is dropped before OpenType processing, so luaotfload's
-> synthetic `tlig` never fires, and the output PDF contains glyphs with no
-> Unicode mapping — `pdftotext` returns U+FFFD. For documents targeting
+> fails: the character is dropped before OpenType processing, so the `tlig`
+> ligature never fires, and the output PDF contains glyphs with no Unicode
+> mapping — `pdftotext` returns U+FFFD. For documents targeting
 > PDF/UA this is a conformance and accessibility problem rather than a
 > cosmetic one, and it is silent: it produces only a `Missing character`
 > warning, not an error.
 >
-> Minimal example (with `Path` set to the package's own font directory, to
-> rule out another copy installed system-wide):
+> Minimal example (with `Path` set to the package's own font directory — from
+> `kpsewhich --var-value TEXMFDIST` — to rule out another copy installed
+> system-wide):
 >
 > ```latex
 > \documentclass{article}
@@ -123,8 +128,9 @@ ligatures under fontspec
 > the other spacing diacritics (U+00A8, U+00AF, U+00B4, U+00B8, U+02C6,
 > U+02C7, U+02D8, U+02D9, U+02DA, U+02DB, U+02DC, U+02DD) and U+0139/U+013A
 > (L with acute). I compared the two in the engine: **the metrics are
-> identical** — x-height, em, and the width of a 430-character sample agree to
-> five decimal places — so this looks like a difference between upstream
+> identical** — x-height and em agree exactly, and the width of a
+> 430-character sample agrees to five decimal places (2297.41652pt in both) —
+> so this looks like a difference between upstream
 > exports rather than a design revision. The CTAN copy's version string
 > carries a Glyphs build stamp (`Version 2.001;Glyphs 3.2.3 (3260)`, vendor
 > code `UKWN` in the unique ID); the other has a plain version string and
@@ -136,11 +142,42 @@ ligatures under fontspec
 > Institute — a text face without U+0060 breaks the TeX convention for every
 > Unicode-engine user.
 >
-> Happy to test a candidate build, or to provide the comparison script.
+> I am glad to test a candidate build on this machine, which has both copies
+> installed, and to answer anything about the comparison — the full list of the
+> fifteen codepoints is above.
 >
 > Best regards,
 > Angelo Cuissi
 > Conselho Regional de Psicologia de São Paulo (CRP-06)
+
+## Revisões
+
+**2026-09-17.** Duas frases prometiam o que não se pode cumprir, e saíram:
+
+- *"we use Atkinson… and it has served us well"* — **não é verdade**. A linha
+  está em `-alfa` e nenhuma publicação servida por ela circulou. O texto agora
+  diz que o trabalho é pré-release e que **por isso** não há documento acabado
+  para mostrar, o que responde à pergunta antes de ela ser feita.
+- *"or to provide the comparison script"* — não existe script versionado para
+  entregar. A comparação de cobertura foi feita com um analisador de `cmap`
+  ad hoc, no scratchpad da sessão. Em lugar da oferta, o e-mail aponta para a
+  lista dos quinze codepoints, que já está no corpo, e oferece o que a máquina
+  de fato permite: **testar um build candidato**, já que ela tem as duas cópias
+  instaladas.
+
+Regra que fica: neste tipo de correspondência, só oferecer o que está pronto
+para ser entregue no dia seguinte.
+
+Na mesma releitura, três imprecisões:
+
+- *"luaotfload's synthetic `tlig`"* — que a feature seja sintética do
+  luaotfload é leitura de implementação, não coisa que eu tenha conferido. O
+  que observei foi a ligadura não disparar, e é só isso que o texto diz agora.
+- *"x-height, em, and the width … agree to five decimal places"* — só a largura
+  da amostra tem cinco casas (2297,41652 pt); altura-x e eme o TeX imprime com
+  menos. Agora está separado, e o número aparece.
+- O `<TEXMFDIST>` do exemplo mínimo ganhou como obtê-lo
+  (`kpsewhich --var-value TEXMFDIST`), para o exemplo ser copiável.
 
 ## Depois de enviar
 
