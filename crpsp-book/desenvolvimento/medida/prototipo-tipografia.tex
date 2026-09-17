@@ -94,4 +94,15 @@
   \exhyphenpenalty=10000
 }
 
+% ── Aspas: usar Unicode, não a convenção do TeX ─────────────────────
+% ⚠️ Não é configuração, é regra de escrita do .tex, registrada aqui porque
+% foi descoberta neste teste. A convenção `` '' do TeX passa pelo glifo da
+% CRASE (U+0060), e nem toda fonte tem. A Atkinson Hyperlegible Next não
+% tem: as aspas saíram como glifo sem mapeamento Unicode (U+FFFD no texto
+% extraído), com 38 avisos `Missing character` e zero erro nas outras
+% colunas. Leitor de tela não lê, e PDF/UA exige mapeamento.
+%
+% `Ligatures = TeX` não resolve: a ligadura opera sobre o glifo, e o glifo
+% não existe. Escrever “ ” direto no .tex resolve para qualquer fonte.
+
 \endinput

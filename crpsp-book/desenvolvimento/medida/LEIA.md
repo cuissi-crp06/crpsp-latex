@@ -376,3 +376,49 @@ espacejamento: a linha simplesmente termina mais cedo, que é o que o alinhament
 
 A mudança de alinhamento **não mexeu na paginação**: as quatro continuam em 5
 páginas.
+
+## A Atkinson não tem o glifo da crase — e o PDF saiu sem mapeamento Unicode
+
+Apontado pelo Angelo como "artefatos no lugar das aspas". Não era só o desenho.
+
+A publicação escreve aspas pela convenção do TeX, `` e ''. Ela depende de a
+fonte ter o glifo da **crase, U+0060**, que é onde a ligadura começa. Conferido
+com `font.getfont` sobre a face carregada:
+
+| Glifo | Atkinson Next |
+|---|---|
+| U+201C, U+201D (aspas duplas) | tem |
+| U+2018, U+2019 (aspas simples) | tem |
+| U+2026, U+2014 | tem |
+| **U+0060 (crase)** | **não tem** |
+
+Sem o glifo, o caractere sai do LaTeX como **aviso** `Missing character` — 38
+deles neste capítulo — e o PDF fica com glifo sem mapeamento Unicode: o texto
+extraído devolve **dois U+FFFD** onde as outras três fontes devolvem U+201C.
+
+| Versão | `Missing character` | Aspas no texto extraído |
+|---|---|---|
+| Lora | 0 | U+201C |
+| Luciole | 0 | U+201C |
+| NEWJUNE Serif | 0 | U+201C |
+| **Atkinson Next** | **38** | **U+FFFD U+FFFD** |
+
+**Isso é falha de acessibilidade, não de aparência.** Um leitor de tela não tem
+o que ler ali, e o PDF/UA exige mapeamento Unicode para todo caractere. Passou
+por zero erro fatal, zero erro de tagging e zero transbordo.
+
+`Ligatures = TeX` **não resolve**: a ligadura opera sobre o glifo, e o glifo não
+existe. O conserto é na origem — **aspas Unicode reais (“ ”) no lugar da
+convenção `` ''**, que não dependem de a fonte ter a crase. Feito na cópia de
+teste; a publicação deveria fazer o mesmo.
+
+### A régua ganhou uma coluna
+
+O `verificar.sh` não olhava para isto: `Missing character` é aviso, e as colunas
+de erro não o alcançam. Passou a haver a coluna **`faltantes`**, entre
+`erros_tagging` e `fatais`. A `linha-base.tsv` foi regravada com ela — as demais
+colunas estão idênticas, conferidas uma a uma, e os 21 arquivos da régua têm
+zero faltantes.
+
+É a classe de defeito que a régua existe para pegar: silencioso, invisível na
+compilação, e destrói justamente a acessibilidade que a linha promete.

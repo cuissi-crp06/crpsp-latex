@@ -46,11 +46,11 @@ if [ $# -eq 0 ]; then
     set -- $(cd "$DEV" && ls mwe/*.tex v2/*.tex)
 fi
 
-printf 'arquivo\tmotor\tpaginas\tobjetos\terros_tagging\tfatais\tprimeiro_erro\n'
+printf 'arquivo\tmotor\tpaginas\tobjetos\terros_tagging\tfaltantes\tfatais\tprimeiro_erro\n'
 for rel in "$@"; do
     tex="$DEV/$rel"
     if [ ! -f "$tex" ]; then
-        printf '%s\t-\t-\t-\t-\t-\tarquivo inexistente\n' "$rel"
+        printf '%s\t-\t-\t-\t-\t-\t-\tarquivo inexistente\n' "$rel"
         continue
     fi
     dir=$(dirname "$tex"); base=$(basename "$tex" .tex)
@@ -65,7 +65,14 @@ for rel in "$@"; do
     pags=$(grep -oE 'Output written on .*\(([0-9]+) pages?' "$log" 2>/dev/null | grep -oE '\(([0-9]+)' | tr -d '(')
     objs=$(grep -oE '[0-9]+ structure objects' "$log" 2>/dev/null | tail -1 | grep -oE '^[0-9]+')
     errt=$(grep -cE 'not allowed|text-unit|differ|open structure' "$log" 2>/dev/null)
+    # Caractere que a fonte nao tem sai do LaTeX como AVISO, nao como erro, e
+    # vira glifo sem mapeamento Unicode no PDF -- leitor de tela nao le, e
+    # PDF/UA exige mapeamento para todo caractere. Em 17/09 a Atkinson
+    # Hyperlegible Next entrou no teste sem o glifo da crase (U+0060) e
+    # produziu 38 avisos e dois U+FFFD por aspas, com zero erro nas outras
+    # colunas. Esta coluna existe por causa disso.
+    falta=$(grep -c 'Missing character' "$log" 2>/dev/null)
     fatais=$(grep -c '^! ' "$log" 2>/dev/null)
     prim=${estado:-$(grep -m1 '^! ' "$log" 2>/dev/null | cut -c1-90)}
-    printf '%s\t%s\t%s\t%s\t%s\t%s\t%s\n' "$rel" "$motor" "${pags:--}" "${objs:--}" "${errt:-0}" "${fatais:-0}" "$prim"
+    printf '%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n' "$rel" "$motor" "${pags:--}" "${objs:--}" "${errt:-0}" "${falta:-0}" "${fatais:-0}" "$prim"
 done
