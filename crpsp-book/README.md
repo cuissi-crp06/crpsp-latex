@@ -270,3 +270,29 @@ Para executar a verificação manualmente:
 ```bash
 python monitor_ctan.py
 ```
+
+---
+
+## B. Briefings (`briefings/`)
+
+Especificação escrita antes da implementação: cada linha editorial nova, ou
+cada mudança grande numa existente, entra primeiro como briefing e só depois
+vira `.cls`/`.sty`. Ler o briefing relevante por completo antes de mexer no
+código correspondente.
+
+| Arquivo | Data | Do que trata | Estado |
+|---|---|---|---|
+| [`briefing-crpsp-guia_visual.md`](briefings/briefing-crpsp-guia_visual.md) | 2026-06-24 | Classe 16:9 (`crpsp-guia_visual.cls` + `guia-visual.sty`) e extração de `crpsp-base.sty` a partir de `crpsp_acessivel.cls` | Implementado em `desenvolvimento/v2/` |
+| [`briefing-crpsp-formulario.md`](briefings/briefing-crpsp-formulario.md) | 2026-07-03 | Linha `formulario` da v2 (`crpsp-formulario.cls` + `formulario.sty`) e migração dos requerimentos de `formularios/` | Implementado em `desenvolvimento/v2/`; não se confunde com os `.sty` memoir de `crpsp-forms/` |
+| [`briefing-leg-book-acessivel.md`](briefings/briefing-leg-book-acessivel.md) | 2026-07-10 | Camada `Leg` no `book-crpsp_acessivel.sty` (tipos LeXML) e gerador normativas→LaTeX | Pronto para execução |
+| [`briefing-manual-dh-acabamento.md`](briefings/briefing-manual-dh-acabamento.md) | 2026-07-11 | Acabamento visual e de acessibilidade do Manual de DH v1 | Pronto para execução |
+| [`briefing-manual-dh-normas-restantes.md`](briefings/briefing-manual-dh-normas-restantes.md) | 2026-07-11 | Ingestão das 20 normas restantes do Manual de DH | Executado em 2026-07-13 (18/20) |
+| [`briefing-crpsp-livro-relatorio.md`](briefings/briefing-crpsp-livro-relatorio.md) | 2026-09-16 | Classes `crpsp-livro.cls` (`manual`/`cartilha`) e `crpsp-relatorio.cls` (`interno`/`externo`): medida por papel, corpo 12 pt e adoção condicional da Luciole | Decisões registradas; implementação não iniciada |
+
+Na mesma pasta, fora da série: [`guia_visual.md`](briefings/guia_visual.md) e
+`guia_visual.excalidraw.md` (organização fixa dos guias e esboço de layout,
+insumos do briefing de 2026-06-24), `insumos-jornal/` (expedientes, paleta e
+relatório que alimentaram o relatório do Jornal Psi) e
+`issue-draft-list-csname-tagging.md` + `issue-link-prefilled.txt` (rascunho de
+issue para o upstream do tagging: `\hsize` corrompido quando um `description`
+na forma csname atravessa quebra de página).
