@@ -9,6 +9,56 @@ atravessam mais de uma linha. Para a análise detalhada da linha `book`, ver
 
 ---
 
+## RODADA 2026-09-17 (2) — `relatorio` 0.2.0-alfa, com a variante `externo`
+
+As decisões de 17/09 aplicadas ao código, mais a camada que espera o designer.
+Detalhe no `CHANGELOG.md`; aqui fica o que muda a operação.
+
+**A linha `relatorio` não compila mais sem as fontes do Nextcloud.** Decisão do
+Angelo: os títulos são NEWJUNE, que é proprietária, e a classe emite **erro
+claro** em vez de substituir a face. Isso liga esta linha à pendência C (o WSL
+doméstico, que não compila) por um motivo novo: lá falta também a fonte. Quem
+precisar compilar fora do Fedora tem de receber `editorial/fonts/NewJune/`
+antes.
+
+⚠️ **Havia duas Atkinson Hyperlegible Next nesta máquina**, com md5 diferentes:
+a do pacote `atkinson` do TeX Live e a do pacote de fontes do Fedora, em
+`/usr/share/fonts`. Declarar a fonte pelo nome do arquivo **não bastava**: o
+luaotfload resolvia Regular e Bold por uma cópia e o itálico pela outra, dois
+builds da mesma família no mesmo PDF. E só a do TeX Live não tem o glifo
+U+0060, de modo que o defeito das aspas da convenção do TeX **dependia de qual
+máquina compilava**. O `Path` agora é resolvido pelo kpathsea e fixa o
+diretório. **Vale conferir o mesmo nas outras linhas**, que declaram fontes por
+nome.
+
+⚠️ **O atributo `TextAlign` mentia.** O `\RaggedRight` do ragged2e muda o
+espacejamento mas não passa pela instância `para/raggedright` do latex-lab: o
+PDF saía alinhado à esquerda aos olhos e marcado `/Layout /TextAlign /Justify`
+na árvore de tags — 9 parágrafos assim, num exemplo que dava veraPDF **PASS**.
+O `\raggedright` do kernel resolve os dois lados de uma vez, e o ragged2e sai do
+orçamento de pacotes. **Também vale conferir na linha `book`.**
+
+**A régua ganhou dois arquivos** e a `linha-base.tsv` foi regravada: 23 linhas.
+Só as do `relatorio` mudaram — `exemplo-relatorio` de 2 para 3 páginas e de 149
+para 151 objetos (corpo de 12 pt e o espaço entre parágrafos do WCAG), e
+`exemplo-relatorio-externo` é novo, com 2 páginas e 80 objetos. Os outros 20
+arquivos saíram idênticos, conferidos um a um.
+
+**Critério de aceitação, cumprido nos dois exemplos:** zero erro, zero erro de
+tagging, zero `Missing character`, zero transbordo, veraPDF **PASS em ua2** e
+**zero nó `Figure`** vindo da decoração.
+
+⚠️ **Ao contar `Figure` na árvore, casar o nó** (`grep -cE '─Figure \('`), não a
+palavra: o exemplo do `externo` escreve "Figure" na prosa e numa célula, e um
+`grep -c Figure` devolve 3 com a árvore limpa. O falso positivo já custou uma
+investigação.
+
+**O `\tracinglostchars = 3` não vira `! `.** Ele acrescenta contexto de erro à
+mensagem `Missing character`, mas a linha do log não começa com `!` — quem pega
+é a coluna `faltantes` da régua, não `fatais`.
+
+---
+
 ## RODADA 2026-09-17 — o Fedora alinhado ao upstream
 
 **Motivo:** escrever a `crpsp-livro.cls` e revisar a `crpsp-relatorio.cls` exige
@@ -260,7 +310,7 @@ Regra dura para as classes novas, que já valia e agora tem a razão registrada:
 | `guia` | `crpsp_acessivel.cls` + `guia-crpsp_acessivel.sty` | A5 | Desenvolvimento |
 | `guia_visual` | `crpsp-guia_visual.cls` + `guia-visual.sty` | 16:9 | Implementada 2026-07-03 |
 | `formulario` | `crpsp-formulario.cls` + `formulario.sty` | A4 AcroForm | Implementada |
-| `relatorio` | `crpsp-relatorio.cls` + `relatorio.sty` | A4 retrato | Implementada 2026-07-29 |
+| `relatorio` | `crpsp-relatorio.cls` + `relatorio.sty` | A4 retrato | **0.2.0-alfa (2026-09-17)**, com `interno`/`externo` |
 | `livro` | — | — | Não iniciada |
 
 Infraestrutura comum: `crpsp-base.sty` (verificação de engine, fontspec

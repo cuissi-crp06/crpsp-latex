@@ -1,15 +1,25 @@
 %% crpsp-base.sty
 %% Infraestrutura compartilhada do sistema editorial acessível CRP-SP
-%% Usado por: crpsp_acessivel.cls, crpsp-guia_visual.cls
+%% Usado por: crpsp_acessivel.cls, crpsp-guia_visual.cls,
+%%            crpsp-formulario.cls, crpsp-relatorio.cls
 %% Engine obrigatória: LuaLaTeX
 %%
 %% Fornece:
 %%   0. Verificação de engine (aborta se não for LuaLaTeX)
 %%   1. Detecção e carga condicional de fontspec (\ifcrpsp@fontspec)
 %%   2. Sistema de cores por publicação (cor1/cor2/cor3 + setters)
+%%   3. Declaração de fonte por ARQUIVO, com erro claro (§3)
+%%   4. \crpspTipografiaWCAG — o bloco do WCAG 1.4.8, OPT-IN (§4)
+%%   5. Régua de medida: caracteres por linha, no log (§5)
+%%
+%% ⚠️ Os itens 4 e 5 NÃO agem ao carregar o pacote. Quem os quer chama
+%% \crpspTipografiaWCAG no preâmbulo. O motivo é que este pacote é
+%% compartilhado por quatro linhas: mexer em \parskip e alinhamento por
+%% efeito colateral tiraria da linha-base as linhas que não decidiram
+%% nada a respeito.
 %%
 \NeedsTeXFormat{LaTeX2e}[2023/11/01]
-\ProvidesPackage{crpsp-base}[2026/07/03 v0.1.0-alfa Infraestrutura compartilhada CRP-SP]
+\ProvidesPackage{crpsp-base}[2026/09/17 v0.2.0-alfa Infraestrutura compartilhada CRP-SP]
 
 % ──────────────────────────────────────────────
 % 0. Verificação de engine — aborta se não for LuaLaTeX
@@ -51,13 +61,22 @@
 
 % ──────────────────────────────────────────────
 % 2. Interface de paleta de cores por publicação
-%    Valores padrão neutros (preto/cinza escuro)
+%
+%    Padrão: o ROXO institucional #422C73 (decisão de 17/09/2026).
+%    O azul #04586E que a linha book declarava como institucional era
+%    específico do Guia de Apresentações Acessíveis; o roxo aparece no
+%    memoir, no forms e em quatro cópias do legado/.
+%
+%    Contrastes medidos sobre papel branco (WCAG):
+%      cor1 Her Highness      #422C73 — 11,4:1  texto e títulos (AAA)
+%      cor2 Midsummer Nights  #0511F2 —  8,9:1  links (AAA)
+%      cor3 Royal Pretender   #A55DA6 —  4,45:1 SÓ elemento gráfico
 % ──────────────────────────────────────────────
 \RequirePackage{xcolor}
 
-\definecolor{crpsp@cor1}{HTML}{1A1A1A}
-\definecolor{crpsp@cor2}{HTML}{333333}
-\definecolor{crpsp@cor3}{HTML}{555555}
+\definecolor{crpsp@cor1}{HTML}{422C73}
+\definecolor{crpsp@cor2}{HTML}{0511F2}
+\definecolor{crpsp@cor3}{HTML}{A55DA6}
 
 \newcommand{\crpspCorPrincipal}[1]{%
   \definecolor{crpsp@cor1}{HTML}{#1}%
@@ -76,5 +95,265 @@
 \colorlet{cor1}{crpsp@cor1}
 \colorlet{cor2}{crpsp@cor2}
 \colorlet{cor3}{crpsp@cor3}
+
+% ══════════════════════════════════════════════
+%  3. DECLARAÇÃO DE FONTE POR ARQUIVO
+%
+%  ⚠️ Declarar fonte por NOME deixa o fontspec substituir a face em
+%  silêncio e devolver as métricas de outro corte. Toda fonte destas
+%  linhas é declarada por ARQUIVO. É a forma do medir-fontes.tex e do
+%  book-crpsp_acessivel.sty:92-97.
+%
+%  \crpspExigeFonte{<arquivo>}{<nome da familia>}{<onde conseguir>}
+%    Aborta com mensagem clara se o arquivo não for encontrado. Serve
+%    para fonte proprietária, que não viaja com o pacote: é melhor não
+%    compilar do que entregar PDF com outra face.
+% ══════════════════════════════════════════════
+\newcommand{\crpspExigeFonte}[3]{%
+  \IfFontExistsTF{#1}{}{%
+    \PackageError{crpsp-base}{%
+      Fonte ausente: #2 (arquivo #1)%
+    }{%
+      Esta linha editorial declara suas fontes por ARQUIVO e nao\MessageBreak
+      aceita substituicao silenciosa.\MessageBreak
+      Onde conseguir: #3\MessageBreak
+      No Linux, ligue a pasta em ~/.local/share/fonts/crpsp e rode\MessageBreak
+      fc-cache -f, depois luaotfload-tool --update.%
+    }%
+  }%
+}
+
+% ══════════════════════════════════════════════
+%  4. \crpspTipografiaWCAG — WCAG 1.4.8, OPT-IN
+%
+%  Os cinco itens do critério que tocam a diagramação; adotamos os três
+%  que dependem da classe:
+%    - entrelinha >= 1,5 (fica com a linha, que conhece o próprio corpo);
+%    - espaço entre parágrafos >= 1,5 x entrelinha;
+%    - texto NÃO justificado.
+%  A hifenação sai junto, por decisão de 17/09/2026: quebra de palavra
+%  obriga a remontar o termo, e o alinhamento à esquerda não precisa
+%  dela para fechar a linha.
+%
+%  Verificado em 17/09 sobre um capítulo do Guia de Apresentações
+%  Acessíveis, com a mancha e o fundo decorativo reais: zero erro fatal,
+%  zero erro de tagging, zero transbordo, 4 páginas -> 5.
+%  Ver desenvolvimento/medida/prototipo-tipografia.tex.
+% ══════════════════════════════════════════════
+
+% O \parskip do WCAG fica registrado num comprimento próprio porque
+% \parbox aplica \@parboxrestore, que o zera: todo box que contenha
+% parágrafos precisa restaurá-lo a partir daqui.
+\newlength{\crpspParskip}
+
+\newif\ifcrpsp@wcag \crpsp@wcagfalse
+
+\newcommand{\crpspTipografiaWCAG}{%
+  \ifcrpsp@wcag
+    \PackageWarning{crpsp-base}{\string\crpspTipografiaWCAG\space chamado
+      duas vezes; a segunda chamada foi ignorada}%
+  \else
+    \crpsp@wcagtrue
+    \crpsp@wcag@alinhamento
+    \crpsp@wcag@parskip
+    \crpsp@wcag@afterheading
+  \fi
+}
+\@onlypreamble\crpspTipografiaWCAG
+
+% ── Alinhamento à esquerda, sem hifenação ──────────────────────────
+% Usa o \raggedright DO KERNEL, e não o \RaggedRight do ragged2e. Duas
+% razões, e a segunda só apareceu ao ler a árvore de tags:
+%
+% 1. ESTICAMENTO. O \RaggedRight do ragged2e tem esticamento finito à
+%    direita (0pt plus 2em): serrilha menos a margem, mas conta com a
+%    hifenação para fechar as linhas difíceis. Desligada a hifenação, as
+%    linhas transbordam — medido em 17/09, 8 a 9 linhas por versão
+%    passavam da mancha, uma delas em 24 pt. O \raggedright do kernel
+%    usa \@flushglue (0pt plus 1fil): com esticamento infinito não há
+%    transbordo possível por espacejamento, que é o que o alinhamento à
+%    esquerda quer dizer.
+%
+% 2. ⚠️ O ATRIBUTO NO PDF. Sob tagging, o latex-lab redefine
+%    \raggedright como a instância `para/raggedright`, que marca
+%    /Layout /TextAlign /Start na árvore de tags. O \RaggedRight do
+%    ragged2e não passa por essa instância: muda o espacejamento e
+%    deixa o atributo em `justify`, que é o padrão aplicado pelo
+%    \justifying do latex-lab-testphase-block. O PDF sairia alinhado à
+%    esquerda aos olhos e JUSTIFICADO para quem lê o atributo —
+%    tecnologia assistiva e reflow. Medido no exemplo do `externo`:
+%    9 parágrafos com TextAlign "Justify" antes desta correção, 0
+%    depois.
+%
+% Some junto a dependência de ragged2e, que o orçamento de pacotes
+% listava como compatibilidade parcial.
+%
+% \exhyphenpenalty cuida dos hifens já presentes no texto ("cão-guia").
+\newcommand{\crpsp@wcag@alinhamento}{%
+  \AddToHook{begindocument/end}{%
+    \raggedright
+    \hyphenpenalty=10000
+    \exhyphenpenalty=10000
+  }%
+}
+
+% ── Espaço entre parágrafos ────────────────────────────────────────
+% Fixado no hook 'begindocument/end' porque só ali \baselineskip já vale
+% a entrelinha real: em tempo de carregamento é a da fonte default da
+% classe, e em 'begindocument' ainda é 0pt.
+% Rígido, sem plus/minus: os boxes de altura livre das linhas dependem
+% de espaçamento previsível para alinhar.
+\newcommand{\crpsp@wcag@parskip}{%
+  \setlength{\parindent}{0pt}%
+  \AddToHook{begindocument/end}{%
+    \setlength{\crpspParskip}{1.5\baselineskip}%
+    \setlength{\parskip}{\crpspParskip}%
+  }%
+}
+
+% ── O parágrafo depois de um título não leva \parskip ──────────────
+% ⚠️ O \parskip global sozinho PIORA o resultado: soma-se ao afterskip
+% do \@startsection e o título passa a ficar mais longe do próprio texto
+% do que os parágrafos ficam entre si — o contrário do que a hierarquia
+% pede. O critério fala de espaço ENTRE PARÁGRAFOS, não entre título e
+% texto. Não dá para resolver pelo afterskip: com 1,5\baselineskip de
+% \parskip a conta fica negativa, e afterskip negativo no
+% \@startsection significa título embutido na linha.
+\newcommand{\crpsp@wcag@afterheading}{%
+  \let\crpsp@afterheading\@afterheading
+  \renewcommand{\@afterheading}{\crpsp@afterheading\vspace{-\parskip}}%
+}
+
+% ── Títulos proporcionais ao corpo ─────────────────────────────────
+% ⚠️ O \Huge e o \huge das classes padrão SATURAM: valem 24,88 e 20,74
+% pt em base 11 pt, e 24,88 e 24,88 pt em base 12 pt. Ao subir o corpo
+% de 10,95 para 12 pt (+9,6%), um título em \Huge NÃO cresce e a razão
+% título/corpo cai de 2,27x para 2,07x, enquanto um em \huge cresce 20%.
+% Subir o corpo comprime a hierarquia em silêncio.
+%
+% Os dois voltam à proporção do desenho original, multiplicando os
+% valores de 11 pt por 12/10,95. A entrelinha dos títulos fica em 1,15x
+% o corpo da fonte, e não herda a entrelinha de 1,5 do texto: num título
+% de três linhas o 1,5 solta demais. Isto NÃO fere o WCAG 1.4.8, cujo
+% critério vale para blocos de texto.
+\newcommand{\crpspTituloCapa}{\fontsize{27.27}{31.36}\selectfont}
+\newcommand{\crpspTituloParte}{\fontsize{22.73}{26.14}\selectfont}
+
+% ══════════════════════════════════════════════
+%  4b. SONDA DE GLIFO DE CONVENÇÃO
+%
+%  ⚠️ ACHADO DE 17/09/2026, e é por isto que esta sonda existe.
+%
+%  A convenção de aspas do TeX (`` '') passa pelo glifo da CRASE,
+%  U+0060. Sem ele, o caractere é descartado ANTES do processamento
+%  OpenType — o nó nunca existe, a ligadura `tlig` não tem sobre o que
+%  operar, e o PDF fica com glifo sem mapeamento Unicode: o texto
+%  extraído devolve U+FFFD, o leitor de tela não tem o que ler, e o
+%  PDF/UA exige mapeamento para todo caractere.
+%
+%  E o pior: DEPENDE DA MÁQUINA. Havia duas Atkinson Hyperlegible Next
+%  neste Fedora, com md5 diferentes:
+%    - /usr/share/fonts/atkinson-hyperlegible-next-fonts/  TEM U+0060
+%    - texmf-dist/fonts/opentype/public/atkinson/ (TeX Live)  NÃO TEM
+%  Qual das duas o luaotfload carrega depende da base de nomes. O mesmo
+%  .tex sai correto numa máquina e quebrado na outra, sem nada no
+%  código mudar.
+%
+%  Consertar o glifo NÃO resolve: suprir characters[0x60] pelo
+%  luaotfload.patch_font tira o aviso e devolve mapeamento válido, mas
+%  a ligadura continua sem disparar (o `tlig` é regra GSUB compilada no
+%  carregamento, antes do patch) e as aspas saem como U+2018 U+2018 em
+%  vez de U+201C. Testado em 17/09. Trocar um defeito silencioso por
+%  outro não é conserto.
+%
+%  O que resolve é a REGRA DE ESCRITA — aspas Unicode reais (“ ”) no
+%  .tex, que não dependem de glifo nenhum — com \tracinglostchars = 3
+%  para que a violação não passe calada. Esta sonda fecha o cerco pelo
+%  outro lado: REGISTRA NO LOG, no carregamento, qual face não tem o
+%  glifo — antes de o documento sequer começar. É informação, não
+%  aviso: quem denuncia a violação de verdade é o \tracinglostchars,
+%  no ponto de uso. Um aviso que dispara em toda compilação e não pede
+%  ação nenhuma só ensina a ignorar avisos.
+% ══════════════════════════════════════════════
+\newcommand{\crpspSondaGlifos}{%
+  \ifcrpsp@fontspec
+    \directlua{
+      if luatexbase and luatexbase.add_to_callback then
+        luatexbase.add_to_callback("luaotfload.patch_font", function(fontdata)
+          local chars = fontdata.characters
+          if chars and not chars[0x60] then
+            local nome = fontdata.filename or fontdata.fullname or "?"
+            texio.write_nl("Package crpsp-base Info: face sem o glifo U+0060 "
+              .. "(crase): " .. nome)
+            texio.write_nl("(crpsp-base)             Aspas pela convencao do TeX (dois "
+              .. "acentos graves) nao funcionam nesta face.")
+            texio.write_nl("(crpsp-base)             Use aspas Unicode reais no .tex. "
+              .. "Se escapar uma, o tracinglostchars a denuncia.")
+          end
+        end, "crpsp.sonda.glifos")
+      end
+    }%
+  \fi
+}
+\@onlypreamble\crpspSondaGlifos
+
+% ══════════════════════════════════════════════
+%  5. RÉGUA DE MEDIDA — caracteres por linha, no log
+%
+%  Mede no MOTOR, com kerning e ligaduras, na fonte e no corpo
+%  correntes. O método do memoir mede só o alfabeto minúsculo e fixa 45
+%  e 65; este mede português institucional com os doze acentuados da
+%  língua, e conta os caracteres COM espaços — é assim que o WCAG e o
+%  Bringhurst contam a linha cheia.
+%
+%  \crpspMedida{<teto>} mede a linha cheia. O piso de caracteres para
+%  conteúdo aninhado (listas, camada Leg) NÃO é medido aqui: exige medir
+%  dentro do nível mais profundo do enumitem, e fica para quando a linha
+%  `livro` precisar dele.
+%
+%  ⚠️ A amostra abaixo é a MESMA de desenvolvimento/medida/amostra-pt.tex,
+%  que a sonda medir-fontes.tex usa. Os dois corpos têm de ficar
+%  idênticos: se divergirem, as medições feitas em datas diferentes
+%  deixam de ser comparáveis.
+% ══════════════════════════════════════════════
+\def\crpspAmostraPT{%
+A psicóloga inscrita no Conselho Regional exerce função pública e está sujeita
+à fiscalização ética; o órgão zela pela qualidade técnica, pela justiça e pela
+inclusão das pessoas. Três princípios sustentam a atuação: o compromisso com os
+direitos humanos, a defesa da ciência e a construção coletiva. A câmara propôs
+questões de método. Não há exercício profissional sem responsabilidade, nem
+avaliação séria sem informação clara.%
+}
+\def\crpspAmostraPTN{430}
+
+\newlength{\crpsp@amostrawd}
+
+% \crpspMedida{<teto>} — teto de caracteres na linha cheia (0 só registra).
+% A conta é inteira e feita em sp: largura média de caractere =
+% <largura da amostra> / N, e caracteres por linha = \textwidth dividido
+% por ela. Dividir ANTES de multiplicar evita o estouro de \numexpr
+% (\textwidth x 430 passa de 2^31).
+\newcommand{\crpspMedida}[1]{%
+  \AddToHook{begindocument/end}{%
+    \settowidth{\crpsp@amostrawd}{\crpspAmostraPT}%
+    \ifdim\crpsp@amostrawd>\z@
+      \edef\crpsp@cpl{%
+        \the\numexpr\number\textwidth
+          /(\number\crpsp@amostrawd/\crpspAmostraPTN)\relax}%
+      \PackageInfo{crpsp-base}{%
+        Medida: \crpsp@cpl\space caracteres na linha cheia,
+        textwidth \the\textwidth\space(teto #1)%
+      }%
+      \ifnum#1>\z@
+        \ifnum\crpsp@cpl>#1\relax
+          \PackageWarning{crpsp-base}{%
+            Linha cheia de \crpsp@cpl\space caracteres, acima do teto
+            de #1. Reveja a mancha ou o corpo%
+          }%
+        \fi
+      \fi
+    \fi
+  }%
+}
 
 \endinput

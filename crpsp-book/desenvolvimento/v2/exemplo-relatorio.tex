@@ -1,8 +1,16 @@
 %% exemplo-relatorio.tex
-%% Documento mínimo de teste — linha Relatório A4 CRP-SP
+%% Documento mínimo de teste — linha Relatório A4 CRP-SP, variante
+%% `interno` (o padrão): relatório técnico, sem decoração.
 %% Exercita: seccionamento, boxes paralelos, tabela com linha
 %% destacada, box de destaque, listas e figura com alt.
-%% Compilar 2x com: sh lualatex-podman.sh exemplo-relatorio.tex
+%%
+%% A variante `externo` tem exemplo próprio:
+%% exemplo-relatorio-externo.tex.
+%%
+%% ⚠️ Aspas Unicode reais (“ ”), nunca `` '': a Atkinson não tem o
+%% glifo da crase, e esta linha compila com \tracinglostchars=3.
+%%
+%% Compilar 2x com: lualatex exemplo-relatorio.tex
 
 \DocumentMetadata{
   lang        = pt-BR,
@@ -11,13 +19,13 @@
   tagging     = on,
 }
 
-\documentclass{crpsp-relatorio}
+\documentclass[interno]{crpsp-relatorio}
 
-% --- Paleta desta publicação (CRP-SP) ---
-\crpspCorPrincipal{422C73}   % Her Highness      — 11,4:1 sobre branco
-\crpspCorSecundaria{0511F2}  % Midsummer Nights  —  8,9:1
-\crpspCorAcessoria{A55DA6}   % Royal Pretender   —  4,45:1, só gráfico
-\crpspCorAlarme{EE05F2}      % Piquant Pink      —  3,54:1, só moldura
+% --- Paleta ---
+% Nesta linha a paleta institucional é FIXA e já vem da crpsp-base
+% (roxo #422C73 e derivadas, decisão de 17/09/2026). Os setters
+% \crpspCorPrincipal e irmãos continuam existindo para manual e
+% cartilha, que têm paleta por publicação; aqui não se usam.
 
 \hypersetup{
   pdftitle  = {Exemplo de Relatório CRP-SP},
@@ -33,8 +41,13 @@
 \section{A decisão}
 
 Parágrafo de abertura, para dar contexto de fluxo ao tagging e
-verificar a medida de linha resultante das margens de 25\,mm.
-O corpo do texto vai em preto sobre branco, contraste de 19,4:1.
+verificar a medida de linha resultante das margens de 35\,mm — a
+régua de medida registra no log os caracteres da linha cheia, que
+devem ficar em torno de 75. O corpo vai em preto sobre branco,
+contraste de 19,4:1.
+
+Segundo parágrafo, para conferir a olho o espaço entre parágrafos do
+WCAG 1.4.8: “um e meio da entrelinha”, que em 12/18 dá 27\,pt.
 
 \subsection{Um subtítulo}
 

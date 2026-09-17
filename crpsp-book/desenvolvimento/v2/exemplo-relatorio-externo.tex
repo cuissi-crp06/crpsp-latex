@@ -1,0 +1,98 @@
+%% exemplo-relatorio-externo.tex
+%% Documento mínimo de teste — linha Relatório A4 CRP-SP, variante
+%% `externo`: divulgação, com a camada de decoração.
+%%
+%% Exercita o que o `interno` não tem:
+%%   - \relCapaArte + \relCapa, capa full-bleed SEM pdfpages;
+%%   - \relDecoracao, faixas no topo e no pé por \AddToShipoutPictureBG;
+%%   - a marcação de ARTEFATO das três, que é o ponto: nenhuma delas
+%%     pode aparecer na árvore de tags como <Figure>.
+%%
+%% ⚠️ A arte é de TESTE, gerada por arte-teste/gerar.sh — não é do
+%% designer e não é conteúdo de publicação. Quando a arte real chegar,
+%% muda só o caminho nos dois comandos abaixo.
+%%
+%% ⚠️ Aspas Unicode reais (“ ”), nunca `` '': a Atkinson não tem o
+%% glifo da crase, e esta linha compila com \tracinglostchars=3.
+%%
+%% Compilar 2x com: lualatex exemplo-relatorio-externo.tex
+%% Conferir:
+%%   ~/verapdf/verapdf --format text --flavour ua2 exemplo-relatorio-externo.pdf
+%%   texlua $(kpsewhich --progname=texlua show-pdf-tags.lua) --tree \
+%%     exemplo-relatorio-externo.pdf | grep -cE '─Figure \('   # tem de dar 0
+%%
+%% ⚠️ O grep tem de casar o NÓ de estrutura (`─Figure (`), não a palavra
+%% solta: este documento escreve "Figure" na prosa e numa célula de
+%% tabela, e um `grep -c Figure` devolve 3 com a árvore perfeitamente
+%% limpa. O falso positivo já custou uma investigação.
+
+\DocumentMetadata{
+  lang        = pt-BR,
+  pdfversion  = 2.0,
+  pdfstandard = ua-2,
+  tagging     = on,
+}
+
+\documentclass[externo]{crpsp-relatorio}
+
+\hypersetup{
+  pdftitle  = {Exemplo de Relatório Externo CRP-SP},
+  pdfauthor = {Conselho Regional de Psicologia de São Paulo},
+}
+
+\title{Exemplo de Relatório Externo}
+\author{Conselho Regional de Psicologia de São Paulo}
+\date{Setembro de 2026}
+
+% A camada do designer, declarada por arquivo. Faltando o arquivo, a
+% faixa fica vazia com aviso e a capa cai na versão tipográfica — é o
+% que permite adiantar a classe antes de a arte existir.
+\relCapaArte{arte-teste/capa.pdf}
+\relDecoracao{arte-teste/faixa-topo.pdf}{arte-teste/faixa-pe.pdf}
+
+\begin{document}
+
+\relCapa
+
+\section{A decoração}
+
+A capa acima e as faixas no topo e no pé desta página são arte de
+teste. As três entram como \emph{artefato}: o leitor de tela não as
+encontra na ordem de leitura, e a árvore de tags não traz nenhum
+\texttt{Figure} vindo delas.
+
+Segundo parágrafo, para conferir que o fluxo de texto passa por cima
+da decoração sem colidir com ela — a mancha tem 35\,mm de margem em
+todos os lados, e é essa faixa que a arte ocupa.
+
+\subsection{O que muda em relação ao interno}
+
+\begin{itemize}
+  \item A variante \texttt{interno} não carrega \texttt{eso-pic} e não
+        define capa nem faixas.
+  \item A variante \texttt{externo} define as duas coisas, e ambas
+        degradam para nada quando o arquivo de arte falta.
+  \item As duas são mutuamente exclusivas: combinadas, a classe emite
+        erro.
+\end{itemize}
+
+\section{O resto continua igual}
+
+\begin{destaque}{Critério de aceitação}
+  A decoração só está certa se o veraPDF der \textbf{PASS em ua2} e a
+  árvore de tags não tiver nenhum \texttt{Figure} vindo da arte.
+  Passar por zero erro fatal não basta: decoração na árvore de leitura
+  é defeito silencioso.
+\end{destaque}
+
+\begin{tabular}{L{0.4\linewidth}L{0.45\linewidth}}
+  \linhacab \celcab{Elemento} & \celcab{Marcação} \\
+  Faixa do topo & Artefato \\
+  Faixa do pé & Artefato \\
+  \linhadestaque \textbf{Capa} & \textbf{Artefato} \\
+  Gráfico no fluxo & \texttt{Figure} com \texttt{alt} \\
+\end{tabular}
+
+Parágrafo final, fechando o documento de teste.
+
+\end{document}
