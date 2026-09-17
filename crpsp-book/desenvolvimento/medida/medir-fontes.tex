@@ -40,6 +40,10 @@
 % NEWJUNE-REGULAR.OTF, que é a SEM serifa. É a única candidata a corpo de
 % texto que preservaria o contraste de gênero com os títulos.
 \newfontfamily\fNJSerif{NEWJUNESERIF}[UprightFont = NEWJUNESERIF-REGULAR.OTF]
+% Atkinson Hyperlegible Next — do Braille Institute, no TeX Live (pacote
+% `atkinson`), família completa de sete pesos com itálicos. Entra na
+% comparação por ser a outra fonte de acessibilidade livre além da Luciole.
+\newfontfamily\fAtkinson{AtkinsonHyperlegibleNext}[UprightFont = AtkinsonHyperlegibleNext-Regular.otf]
 
 \newlength{\crpspwd}
 \directlua{dofile("medir-fontes.lua")}
@@ -65,6 +69,7 @@
 \medir{\fNJMedium}{NEWJUNE-Medium}{12}
 \medir{\fNJLight}{NEWJUNE-Light}{12}
 \medir{\fNJSerif}{NEWJUNE-Serif}{12}
+\medir{\fAtkinson}{Atkinson}{12}
 
 % ── 11 pt: o corte do relatorio (crpsp-relatorio.cls:48) ────────────
 \medir{\fLora}{Lora}{11}

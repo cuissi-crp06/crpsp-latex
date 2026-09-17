@@ -54,4 +54,22 @@
 \renewcommand{\@afterheading}{\crpsp@afterheading\vspace{-\parskip}}
 \makeatother
 
+% ── Títulos proporcionais ao corpo ──────────────────────────────────
+% ⚠️ O \Huge das classes padrão SATURA: vale 24,88 pt tanto em 11 pt quanto
+% em 12 pt de base. Ao subir o corpo de 10,95 para 12 pt (+9,6%), o título de
+% capítulo -- que é `title-decls = \Huge` no pacote book -- NÃO cresce, e a
+% razão título/corpo cai de 2,27x para 2,07x. O número do capítulo (\huge)
+% faz o contrário: cresce 20%, mais que o corpo. Ou seja, subir o corpo
+% comprime a hierarquia em silêncio.
+%
+% Os dois voltam à proporção do desenho original, multiplicando os valores de
+% 11 pt por 12/10,95:
+%     \Huge  24,88 -> 27,27        \huge  20,74 -> 22,73
+%
+% A entrelinha dos títulos fica em 1,15x o corpo da fonte em vez de herdar a
+% entrelinha de 1,5 do texto: num título de três linhas o 1,5 solta demais.
+% Isto NÃO fere o WCAG 1.4.8, cujo critério vale para blocos de texto.
+\renewcommand{\Huge}{\fontsize{27.27}{31.36}\selectfont}
+\renewcommand{\huge}{\fontsize{22.73}{26.14}\selectfont}
+
 \endinput

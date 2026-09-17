@@ -267,3 +267,79 @@ parágrafos exige — sem recuo, o espaço é o único separador.
   obrigatório" não o alcança ao pé da letra.
 - **O número de caracteres de cada classe**, que agora se lê como orçamento de
   margem: escolher a margem externa desejada e ler o número na tabela.
+
+---
+
+# Segunda rodada — 17/09, tarde
+
+Entraram na medição a **Atkinson Hyperlegible Next** (Braille Institute, pacote
+`atkinson` do TeX Live, família completa de sete pesos) e o teste das quatro
+fontes sobre publicação real.
+
+## A Atkinson tem altura-x menor que a Lora
+
+| Fonte | Altura-x | x/eme | x/maiúsc. | mm/car. |
+|---|---|---|---|---|
+| Luciole | 2,299 mm | 0,545 | 0,714 | 2,0874 |
+| NEWJUNE Regular | 2,294 mm | 0,544 | 0,731 | 2,0149 |
+| NEWJUNE Serif | 2,142 mm | 0,508 | 0,683 | 2,0055 |
+| Lora | 2,109 mm | 0,500 | 0,714 | 1,9611 |
+| **Atkinson Next** | **2,092 mm** | **0,496** | 0,743 | **1,8778** |
+
+Resultado contraintuitivo para uma fonte de acessibilidade, e confirmado com a
+face declarada por arquivo (`AtkinsonHyperlegibleNext-Regular.otf`) — não é
+substituição silenciosa. **A Atkinson busca legibilidade por diferenciação de
+letra** (distinguir I/l/1, O/0, b/d) **e não por altura-x.** É também a mais
+estreita das cinco: 10% mais estreita que a Luciole, o que devolve muita margem
+externa ou muitos caracteres de linha.
+
+Os dois critérios de acessibilidade não são o mesmo critério. A régua da RNIB
+mede altura-x; a Atkinson otimiza outra coisa.
+
+## O `\Huge` satura, e subir o corpo comprime a hierarquia
+
+| Base | corpo | `\huge` | `\Huge` |
+|---|---|---|---|
+| 11 pt | 10,95 | 20,74 | 24,88 |
+| 12 pt | 12 | 24,88 | **24,88** |
+| variação | +9,6% | +20% | **0%** |
+
+O `\Huge` das classes padrão vale 24,88 pt nas duas bases. O título de capítulo
+do pacote book é `title-decls = \Huge`: ao subir o corpo para 12 pt, **o título
+não cresce** e a razão título/corpo cai de 2,27× para 2,07×. O número do
+capítulo, que é `\huge`, faz o oposto e cresce 20%.
+
+Nenhuma das duas coisas é visível sem medir — a hierarquia comprime em silêncio.
+A correção está em [`prototipo-tipografia.tex`](prototipo-tipografia.tex), com
+os valores de 11 pt multiplicados por 12/10,95.
+
+## A NEWJUNE Serif não tem negrito
+
+Só existem `NEWJUNESERIF-REGULAR.OTF` e `NEWJUNESERIF-REGULAR-ITALIC.OTF`:
+**dois cortes, sem negrito nem negrito itálico.** Para o teste foi usado
+`AutoFakeBold`, que sintetiza o peso — serve para avaliar, não para produção.
+
+Pesa contra usá-la em bloco de texto: qualquer `\textbf` no corpo, qualquer
+termo em destaque, cai num negrito falso. Some-se a isso a altura-x de 2,142 mm,
+na faixa do mínimo. Para chegar aos 2,3 mm da meta da RNIB ela precisaria de
+**12,9 pt** de corpo.
+
+## O teste das quatro sobre publicação real
+
+Capítulo "Acessibilidade para pessoas com deficiência visual" do Guia de
+Apresentações Acessíveis, com a mancha e o fundo decorativo reais. Todas em
+12 pt, com o WCAG inteiro, NEWJUNE nos títulos e os títulos já corrigidos:
+
+| Corpo | Páginas | Fatais | Erros de tagging |
+|---|---|---|---|
+| Lora | 5 | 0 | 0 |
+| Luciole | 5 | 0 | 0 |
+| NEWJUNE Serif | 5 | 0 | 0 |
+| Atkinson Next | 5 | 0 | 0 |
+
+**A escolha de fonte não muda a paginação deste capítulo** — as quatro dão 5
+páginas. O que muda o número de páginas é o corpo e o espaço entre parágrafos,
+não a família. A comparação fica sendo só de leitura e de contraste com o
+título.
+
+Os PDFs não estão aqui: são conteúdo de publicação e ficam no workbench.
