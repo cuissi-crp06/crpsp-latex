@@ -173,9 +173,10 @@ título e o ambiente de colunas; quem preenche os nomes é o fragmento gerado.
 - [ ] **O formato intermediário.** Em aberto, com **aposta em JSON** — é o que o
       `latexgen.py` já usa, e permite conferir a nominata antes de compor a
       página. A confirmar no sprint 10.
-- [ ] **A conversão nominata → TEX sai em Lua?** Decisão do Angelo em 17/09:
-      **avaliar Lua, aproveitando o motor de compilação.** Ver a seção abaixo —
-      há uma bifurcação a resolver antes de escrever qualquer coisa.
+- [x] ~~**A conversão nominata → TEX sai em Lua?**~~ **Resolvido em 17/09 pela
+      norma de linguagem:** `crpsp-latex` em TeX e Lua, `normativas-pipeline` em
+      Python. O gerador mora no pipeline, então **sai em Python**, ao lado do
+      `latexgen.py`. Ver a seção abaixo e o README da raiz.
 - [ ] **Recuperar o `atualizar_creditos.py`** a partir do `.pyc`, ou escrever do
       zero? **Fica para o sprint 10 definir.** O `.pyc` é de Python 3.14 e pode
       ser descompilado o bastante para revelar a intenção — a pergunta é se vale
@@ -230,18 +231,18 @@ compõe os créditos direto, sem `.tex` intermediário. Mais curto, mas:
 - o JSON passa a ser dependência de compilação da publicação, e a página de
   créditos deixa de ser auditável pelo diff do `.tex`.
 
-**A avaliação deve começar pela A**, que é a que cabe no que já foi decidido. A
-B só se justifica se a conferência prévia deixar de importar — e para uma página
-que nomeia pessoas reais, ela importa.
+**Resolvido em 17/09: fica a A, em Python.** Os dois pontos práticos que
+pesavam contra a Lua aqui viraram norma de repositório (README da raiz):
 
-Dois pontos práticos para o sprint 10:
+- o `normativas-pipeline` é um pipeline **Python**, e um `texlua` ali não
+  compartilharia ambiente virtual, dependências nem testes com o resto;
+- o `latexgen.py` já faz JSON → LaTeX em Python. Um gerador em Lua criaria
+  **dois caminhos diferentes** para a mesma travessia no mesmo repositório.
 
-- o gerador vai morar no `normativas-pipeline`, que é um pipeline **Python**.
-  Um `texlua` ali é um corpo estranho: não compartilha ambiente virtual,
-  dependências nem testes com o resto. Pesa contra, e precisa ser pesado.
-- o `latexgen.py` já faz JSON → LaTeX em Python, com o contrato descrito. Se o
-  gerador de créditos for em Lua, passam a existir **dois caminhos diferentes**
-  para a mesma travessia no mesmo repositório.
+A norma: `crpsp-latex` em TeX e Lua, `normativas-pipeline` em Python; travessia
+que cruza os dois é escrita na linguagem **do repositório onde mora**. Lua segue
+disponível — para o que roda dentro das classes, que é onde o motor de fato
+está.
 
 ## Relacionados
 

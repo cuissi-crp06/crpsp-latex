@@ -66,3 +66,23 @@ quebras finais). É o teste antes de trazer qualquer cópia de produção:
 
 Levantamento mecânico de divergências entre variantes `.sty` — evidência
 para decisões de consolidação, fechadas na seção "Resolução — 2026-09-04".
+
+## Linguagem por repositório
+
+Norma de 17/09/2026, para que a mesma travessia não tenha dois caminhos.
+
+| Repositório | Linguagem |
+|---|---|
+| `crpsp-latex` | **TeX e Lua** |
+| `normativas-pipeline` | **Python** |
+
+Uma travessia que atravessa os dois — o gerador de créditos institucionais é o
+primeiro caso — é escrita na linguagem **do repositório onde mora**, não na do
+destino. O gerador vive no `normativas-pipeline`: sai em Python, ao lado do
+`latexgen.py`, que já faz JSON → LaTeX. Lua fica para o que roda dentro das
+classes, aqui.
+
+A regra existe porque um `texlua` no pipeline não compartilharia ambiente
+virtual, dependências nem testes com o resto dele — e porque dois caminhos
+diferentes para a mesma conversão, no mesmo repositório, é dívida técnica
+nascendo pronta.
