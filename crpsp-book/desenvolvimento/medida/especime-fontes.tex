@@ -1,0 +1,148 @@
+% !TeX program = lualatex
+%% especime-fontes.tex
+%% Espécime visual — Lora, Luciole e NEWJUNE nas situações reais da linha.
+%%
+%% Uso:
+%%   cd crpsp-book/desenvolvimento/medida && lualatex especime-fontes.tex
+%%
+%% Artefato de julgamento visual: não passa em teste automático e fica fora
+%% do verificar.sh. Serve para decidir, olhando, o que medidas-fontes.tsv
+%% só descreve.
+%%
+%% Cada página traz a mancha, o corpo e a página REAIS em disputa — A5 para
+%% cartilha, A4 para manual e relatorio — com as três situações que o
+%% briefing de 16/09/2026 pede:
+%%   1. título de capítulo sobre parágrafo  (\Huge\bfseries\sffamily)
+%%   2. título de caixa em corpo pequeno    (\sffamily\footnotesize\bfseries, book:755)
+%%   3. cabeçalho em corpo pequeno          (\Light\small, book:321-324)
+%%
+%% O MESMO conteúdo em todas as páginas: o que varia é quanta altura ele
+%% ocupa, medida e impressa na legenda. É assim que se lê o custo de
+%% paginação de 11 pt -> 12 pt sem repaginar nada de verdade.
+%%
+%% A diagramação é feita no nível baixo (\pagewidth, \hoffset) e NÃO com
+%% geometry: \newgeometry não aceita mudança de tamanho de papel, e o
+%% resultado é mancha de A4 desenhada em folha A5.
+
+\documentclass{article}
+\usepackage{fontspec}
+\usepackage{xcolor}
+
+\definecolor{crp1}{RGB}{4, 88, 110}
+\definecolor{nota}{RGB}{110, 110, 110}
+
+\newfontfamily\fLora{Lora}
+\newfontfamily\fLuciole{Luciole}
+\newfontfamily\fNJ{NEWJUNE}[UprightFont = NEWJUNE-REGULAR.OTF,
+                            BoldFont    = NEWJUNE-BOLD.OTF]
+\newfontfamily\fNJLight{NEWJUNE-Light}[UprightFont = NEWJUNE-LIGHT.OTF]
+
+\pagestyle{empty}
+\parindent=1.5em
+\setlength{\topmargin}{0pt}   \setlength{\headheight}{0pt}
+\setlength{\headsep}{0pt}     \setlength{\oddsidemargin}{0pt}
+\setlength{\evensidemargin}{0pt} \setlength{\marginparwidth}{0pt}
+\setlength{\marginparsep}{0pt}   \setlength{\footskip}{0pt}
+
+\newlength{\margemv}  \setlength{\margemv}{18mm}
+\newsavebox{\corpobox}
+\newlength{\corpoalt}
+
+% ── Texto corrido de amostra ────────────────────────────────────────
+\newcommand{\Corrido}{%
+A psicóloga inscrita no Conselho Regional exerce função pública e está sujeita
+à fiscalização ética. O órgão zela pela qualidade técnica do exercício
+profissional, pela justiça das decisões e pela inclusão das pessoas atendidas,
+em todo o território da sexta região.\par
+Três princípios sustentam a atuação: o compromisso com os direitos humanos, a
+defesa da ciência psicológica e a construção coletiva das orientações. Não há
+exercício profissional sem responsabilidade, nem avaliação séria sem informação
+clara. A câmara propôs questões de método que seguem em discussão.\par}
+
+\newcommand{\CorridoCurto}{%
+Três princípios sustentam a atuação: o compromisso com os direitos humanos, a
+defesa da ciência psicológica e a construção coletiva das orientações. Não há
+exercício profissional sem responsabilidade, nem avaliação séria sem informação
+clara.\par}
+
+% ── Uma página de espécime ──────────────────────────────────────────
+% #1 largura papel  #2 altura papel  #3 mancha  #4 corpo  #5 entrelinha
+% #6 família de texto  #7 legenda
+% O fator opcional multiplica a entrelinha para obter o espaço entre
+% parágrafos (WCAG 1.4.8 pede >= 1,5). Passar 0 mostra o estado atual de
+% uma linha que ainda não cumpre o critério.
+\NewDocumentCommand{\Pagina}{O{1.5} m m m m m m m}{%
+  \pagewidth=#2 \pageheight=#3
+  \setlength{\textwidth}{#4}%
+  \setlength{\textheight}{\dimexpr#3-2\margemv\relax}%
+  \setlength{\hoffset}{\dimexpr(#2-#4)/2-1in\relax}%
+  \setlength{\voffset}{\dimexpr\margemv-1in\relax}%
+  #7\fontsize{#5}{#6}\selectfont
+  % 3. cabeçalho em corpo pequeno
+  {\fNJLight\small\color{crp1}\noindent Espécime CRP-SP\hfill\thepage\par}%
+  \vspace{1mm}{\color{crp1}\hrule height 0.4pt}\vspace{6mm}%
+  % 1. título de capítulo sobre parágrafo
+  {\fNJ\Huge\bfseries\color{crp1}\noindent Fiscalização\par}%
+  \vspace{4mm}%
+  % Corpo medido: o mesmo texto em toda página, a altura é que varia.
+  \begin{lrbox}{\corpobox}%
+    \begin{minipage}{\textwidth}%
+      #7\fontsize{#5}{#6}\selectfont
+      % Espaço entre parágrafos do WCAG 1.4.8, e sem recuo: com parágrafo
+      % em bloco o recuo é redundante.
+      \setlength{\parindent}{0pt}%
+      \setlength{\parskip}{#1\baselineskip}%
+      \Corrido
+      % 2. título de caixa em corpo pequeno
+      \noindent\fbox{\parbox{\dimexpr\textwidth-2\fboxsep-2\fboxrule}{%
+        \setlength{\parskip}{0pt}%
+        {\fNJ\footnotesize\bfseries\color{crp1}Nota técnica\par}%
+        \vspace{1mm}#7\footnotesize
+        O prazo de manifestação corre a partir da ciência do interessado, na
+        forma do regimento. A contagem exclui o dia do começo e inclui o do
+        vencimento.\par}}\par
+    \end{minipage}%
+  \end{lrbox}%
+  \setlength{\corpoalt}{\dimexpr\ht\corpobox+\dp\corpobox\relax}%
+  \noindent\usebox{\corpobox}%
+  \vfill
+  {\fNJLight\scriptsize\color{nota}\noindent #8\\
+   Altura do bloco de corpo: \the\corpoalt\ numa mancha vertical de
+   \the\textheight.\par}%
+  \clearpage
+}
+
+\begin{document}
+
+% ═══ Parte 1 — as três fontes na cartilha A5, mancha atual ══════════
+\Pagina{148mm}{210mm}{98.7mm}{12}{18}{\fLora}%
+  {A5 · mancha 98,7 mm · Lora 12/18 · 50 car./linha · altura-x 2,109 mm (mínimo RNIB, abaixo da meta)}
+\Pagina{148mm}{210mm}{98.7mm}{12}{18}{\fLuciole}%
+  {A5 · mancha 98,7 mm · Luciole 12/18 · 47 car./linha · altura-x 2,299 mm (na meta RNIB)}
+\Pagina{148mm}{210mm}{98.7mm}{12}{18}{\fNJ}%
+  {A5 · mancha 98,7 mm · NEWJUNE Regular 12/18 · 48 car./linha · altura-x 2,294 mm (na meta RNIB)}
+
+% ═══ Parte 2 — a mancha da cartilha: manter ou alargar ══════════════
+\Pagina{148mm}{210mm}{105mm}{12}{18}{\fLuciole}%
+  {A5 · mancha alargada 105 mm · Luciole 12/18 · 50 car./linha · margens somam 43 mm}
+\Pagina{148mm}{210mm}{110mm}{12}{18}{\fLuciole}%
+  {A5 · mancha alargada 110 mm · Luciole 12/18 · 52 car./linha · margens somam 38 mm}
+
+% ═══ Parte 3 — A4: o teto de 80 car. contra os ~70 do manual ════════
+\Pagina{210mm}{297mm}{167mm}{12}{18}{\fLuciole}%
+  {A4 · mancha 167 mm · Luciole 12/18 · 80 car./linha, o teto · margens somam 43 mm}
+\Pagina{210mm}{297mm}{146mm}{12}{18}{\fLuciole}%
+  {A4 · mancha 146 mm · Luciole 12/18 · 70 car./linha · margens somam 64 mm: cabe ilustração externa}
+
+% ═══ Parte 4 — o corte do relatorio: 11 pt contra 12 pt ═════════════
+% Mesma mancha nas três, para isolar o efeito do corpo na paginação.
+\Pagina[0]{210mm}{297mm}{160mm}{11}{13.2}{\fLora}%
+  {A4 · mancha 160 mm · Lora 11/13,2 — o relatorio HOJE · 89 car./linha · altura-x 1,933 mm: ABAIXO do mínimo RNIB}
+\Pagina[0]{210mm}{297mm}{160mm}{12}{18}{\fLora}%
+  {A4 · mancha 160 mm · Lora 12/18 SEM espaço entre parágrafos · isola o custo de corpo + entrelinha}
+\Pagina{210mm}{297mm}{160mm}{12}{18}{\fLora}%
+  {A4 · mancha 160 mm · Lora 12/18, entrelinha e espaço entre parágrafos WCAG · 82 car./linha · altura-x 2,109 mm}
+\Pagina{210mm}{297mm}{160mm}{12}{18}{\fLuciole}%
+  {A4 · mancha 160 mm · Luciole 12/18 · 77 car./linha · altura-x 2,299 mm}
+
+\end{document}

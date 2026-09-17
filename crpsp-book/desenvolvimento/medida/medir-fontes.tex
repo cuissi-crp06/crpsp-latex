@@ -1,0 +1,82 @@
+% !TeX program = lualatex
+%% medir-fontes.tex
+%% Sonda de métricas tipográficas — Lora, Luciole e NEWJUNE.
+%%
+%% Mede no MOTOR, com kerning, o que o briefing de 16/09/2026 estimou com
+%% fontTools. O próprio briefing registra que aquele método subestimou a
+%% largura da Lora em até 4%; as métricas verticais bateram.
+%%
+%% Uso:
+%%   cd crpsp-book/desenvolvimento/medida && lualatex medir-fontes.tex
+%%
+%% Escreve medidas-fontes.tsv (métricas por fonte e corpo) e
+%% medidas-mancha.tsv (caracteres por linha nas manchas em disputa).
+%% O lado Lua está em medir-fontes.lua.
+%%
+%% Fica FORA de mwe/ e v2/ de propósito: o verificar.sh sem argumentos
+%% varre essas duas pastas, e um arquivo aqui entraria na régua e deixaria
+%% a linha-base.tsv desatualizada por efeito colateral.
+%%
+%% Requer as fontes do Nextcloud instaladas (editorial/fonts, ligada a
+%% ~/.local/share/fonts/crpsp). Ver docker/README.md, "Fontes".
+
+\documentclass{article}
+\usepackage{fontspec}
+\input{amostra-pt}
+
+% ── Famílias ────────────────────────────────────────────────────────
+% A NEWJUNE é declarada por ARQUIVO, não por nome: por nome o fontspec
+% pode substituir a face em silêncio e devolver as métricas de outro
+% corte. É a forma que o book-crpsp_acessivel.sty já usa (linhas 92-97).
+% A coluna `face` do TSV registra o que o motor de fato carregou — é a
+% conferência de que nenhuma substituição passou despercebida.
+\newfontfamily\fLora{Lora}
+\newfontfamily\fLuciole{Luciole}
+\newfontfamily\fNJRegular{NEWJUNE}[UprightFont = NEWJUNE-REGULAR.OTF]
+\newfontfamily\fNJLight{NEWJUNE-Light}[UprightFont = NEWJUNE-LIGHT.OTF]
+\newfontfamily\fNJMedium{NEWJUNE-Medium}[UprightFont = NEWJUNE-MEDIUM.OTF]
+
+\newlength{\crpspwd}
+\directlua{dofile("medir-fontes.lua")}
+
+\newcommand{\medir}[3]{%
+  % #1 família  #2 rótulo  #3 corpo em pt
+  \begingroup
+    #1\fontsize{#3}{#3}\selectfont
+    \settowidth{\crpspwd}{\AmostraPT}%
+    \directlua{crpsp.row("#2", #3,
+      \number\fontdimen5\font, \number\fontdimen6\font,
+      \number\fontcharht\font`\H, \number\crpspwd, \AmostraPTN,
+      [==[\fontname\font]==])}%
+  \endgroup
+}
+
+\begin{document}
+
+% ── Corpo de texto: a disputa principal ─────────────────────────────
+\medir{\fLora}{Lora}{12}
+\medir{\fLuciole}{Luciole}{12}
+\medir{\fNJRegular}{NEWJUNE-Regular}{12}
+\medir{\fNJMedium}{NEWJUNE-Medium}{12}
+\medir{\fNJLight}{NEWJUNE-Light}{12}
+
+% ── 11 pt: o corte do relatorio (crpsp-relatorio.cls:48) ────────────
+\medir{\fLora}{Lora}{11}
+\medir{\fLuciole}{Luciole}{11}
+
+% ── Os corpos pequenos REAIS da linha book, sobre base 12 pt ────────
+%   \small        10.95pt — cabeçalho \Light\small (book:321-324)
+%   \footnotesize    10pt — título de caixa \sffamily\footnotesize\bfseries (:755)
+%   \scriptsize       8pt — CreditoInstitucional \sffamily\scriptsize (:738)
+% É aqui que o critério de baixa visão se decide, não no corpo de texto.
+\medir{\fNJLight}{NEWJUNE-Light}{10.95}
+\medir{\fNJRegular}{NEWJUNE-Regular}{10}
+\medir{\fNJRegular}{NEWJUNE-Regular}{8}
+\medir{\fLuciole}{Luciole}{10.95}
+\medir{\fLuciole}{Luciole}{10}
+\medir{\fLuciole}{Luciole}{8}
+
+\directlua{crpsp.fechar()}
+
+Medição concluída. Ver medidas-fontes.tsv e medidas-mancha.tsv.
+\end{document}
