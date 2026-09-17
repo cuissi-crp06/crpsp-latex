@@ -5,7 +5,91 @@ atravessam mais de uma linha. Para a análise detalhada da linha `book`, ver
 `README.md`; para os contornos de tagging com os MWEs que os reproduzem, ver
 `.agents/skills/latex-dev/references/workarounds.md`.
 
-**Última atualização:** 2026-09-13
+**Última atualização:** 2026-09-16
+
+---
+
+## RODADA 2026-09-16 — WSL doméstico, e o que não viaja junto
+
+Primeira sessão no **WSL da máquina doméstica**, reproduzido a partir do
+levantamento de 2026-08-18 feito sobre a máquina de referência do trabalho
+(WSL2, Debian 13). A reprodução pegou o que estava documentado — os dois
+mounts rclone, o `wsl.conf` sandboxed, os settings do Claude Code — e por isso
+herdou também os defeitos do original. **As três pendências abaixo são para
+resolver no notebook corporativo**, que é onde as origens estão.
+
+**Genealogia encerrada.** `editorial/latex_acessivel/` — o repositório local sem
+remote, aposentado em 03/09 quando virou `crpsp-book/` neste monorepo — foi
+**removida em 2026-09-16**. Conferido arquivo a arquivo antes: as cinco
+modificações não commitadas que restavam lá ou eram bit a bit idênticas ao que
+já estava aqui, ou eram subconjunto do que o monorepo levou adiante (o `.sty`
+local era 0.5.1-alfa contra a 0.5.2-beta daqui). O clone de trabalho passa a ser
+`editorial/arquivo_latex/`, e é o único.
+
+### Pendência A — as skills do workspace não existem em lugar nenhum que viaje
+
+O `CLAUDE.md` documenta seis skills em `skills/` — `latex-dev`,
+`linguagem-simples`, `normativas-cfp`, `normativas-crp-sp`,
+`extrair-ato-convenio`, `extrair-edital`. Procuradas nesta máquina: **não estão
+no Nextcloud** (não há pasta `skills/` nem `.agents/` na raiz montada), **não
+estão em nenhum dos três repositórios** (`crpsp-latex`, `scripts`,
+`normativas-pipeline`) e **não estão entre as skills sincronizadas da conta**
+(chegam 11, todas genéricas: `pandoc`, `my-writing-style`,
+`classificar-processos-sei`, `docx`, `pdf`, `pptx`, `xlsx`, `learn`, `docs`,
+`mcp-builder`, `skill-creator`).
+
+Pesa nesta linha em particular: o cabeçalho deste arquivo manda ler
+`.agents/skills/latex-dev/references/workarounds.md`, e a `latex-dev` é a skill
+que carrega os workarounds de tagging (WA-01 a WA-10). Num ambiente novo, a
+referência aponta para o vazio e os workarounds precisam ser redescobertos.
+
+- [ ] No corporativo, publicar as seis onde viajem — repositório versionado ou
+      skills sincronizadas da conta — e corrigir os caminhos citados aqui e no
+      `CLAUDE.md`, que hoje descrevem `skills/` e `.agents/skills/`, dois lugares
+      que não existem na árvore sincronizada.
+
+### Pendência B — o mount de escopo Claude Code não entrega o `CLAUDE.md`
+
+O `rclone-crpsp.service` monta o Nextcloud filtrado para o escopo do agente:
+libera oito diretórios e fecha com `- **`. O `- **` também nega os **arquivos**
+da raiz, e nenhuma regra os recupera — então `CLAUDE.md` **não chega em
+`~/crpsp`**. O mount desenhado para o Claude Code é justamente o único onde ele
+roda sem as instruções do projeto; esta sessão só as teve porque rodou em
+`~/nextcloud`, o mount completo.
+
+Não é defeito local: a unidade é cópia literal da do host de referência, e lá
+vale o mesmo.
+
+- [ ] Acrescentar `--filter "+ /CLAUDE.md"` **antes** do `- **`, nas duas
+      máquinas. Enquanto isso, abrir o agente em `~/nextcloud`.
+- [ ] Decidir sobre a sobreposição dos dois mounts (`~/nextcloud` completo e
+      `~/crpsp` filtrado, mesmo remote), já registrada como pendência conhecida
+      no levantamento de 18/08.
+
+### Pendência C — esta máquina não compila
+
+Sem `podman` e sem `pandoc` instalados, e ambos exigem `sudo` com senha
+interativa. Enquanto não forem instalados, o WSL doméstico serve para ler,
+editar e versionar, **não** para rodar `verificar.sh` nem para conferir a régua
+de `linha-base.tsv`: qualquer alteração feita aqui atravessa sem prova de
+compilação.
+
+- [ ] Instalar `podman` e construir a imagem `crpsp-latex:dev`, ou assumir a
+      máquina como somente de edição e sempre compilar no Fedora.
+
+### Fora do escopo deste arquivo
+
+Dois achados da mesma varredura pertencem ao `SINCRONIA.md`, que vive no clone
+do `normativas-pipeline` e não existe nesta máquina — **transcrever de lá,
+quando estiver no corporativo**: (1) o ambiente do pipeline não existe aqui
+(nem `~/repos/`, nem `~/venv-normativas`, nem `~/normativas-run`, nem
+`~/.config/crpsp/key.env`, nem as variáveis `NORMATIVAS_*`); (2) o `scripts/` do
+Nextcloud está defasado do repositório `cuissi-crp06/scripts` — lá existem
+`assessoria/`, `editorial/`, `jornal_psi/`, `pesquisa/`, `relatorio_eventos/`,
+`transcricao/` e `verificar_chaves.py`, que aqui não existem, e aqui há ~35
+arquivos soltos na raiz que lá foram para `arquivo/`. Não mexido de propósito: é
+o vaivém que o `ESPELHO.md` registra ter custado trabalho três vezes, e pede
+conferência item a item.
 
 ---
 
@@ -219,8 +303,10 @@ primeira que exercitar vai esbarrar nisso sem aviso claro.
 
 Esta pasta foi um repositório git próprio de 2026-07-29 (commit inicial
 `c9d1450`) a 2026-09-03, quando entrou no monorepo `cuissi-crp06/crpsp-latex`
-como `crpsp-book/`, com o histórico preservado (`940a787`). O monorepo acompanha
-a genealogia; as cópias de produção continuam no workbench.
+como `crpsp-book/`, com o histórico preservado (`940a787`). A pasta antiga
+(`editorial/latex_acessivel/`) foi removida em 2026-09-16 — ver a rodada daquela
+data. O monorepo acompanha a genealogia; as cópias de produção continuam no
+workbench.
 O restante do workspace — inclusive `production/` e `.agents/skills/` — **não é
 versionado**: alterações lá não têm histórico.
 
