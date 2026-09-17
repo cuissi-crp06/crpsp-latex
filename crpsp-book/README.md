@@ -290,10 +290,16 @@ valem como registro do que foi decidido e feito, não como trabalho a executar.
 |---|---|---|---|
 | [`briefing-crpsp-livro-relatorio.md`](briefings/briefing-crpsp-livro-relatorio.md) | 2026-09-16 | Classes `crpsp-livro.cls` (`manual`/`cartilha`) e `crpsp-relatorio.cls` (`interno`/`externo`): medida por papel, corpo 12 pt e adoção condicional da Luciole | **Ativo.** Decisões registradas; implementação não iniciada |
 | [`briefing-crpsp-formulario.md`](briefings/briefing-crpsp-formulario.md) | 2026-07-03 | Linha `formulario` da v2 (`crpsp-formulario.cls` + `formulario.sty`) e migração dos requerimentos de `formularios/` | **Ativo.** Implementado em `desenvolvimento/v2/`; não se confunde com os `.sty` memoir de `crpsp-forms/` |
-| [`briefing-leg-book-acessivel.md`](briefings/briefing-leg-book-acessivel.md) | 2026-07-10 | Camada `Leg` no `book-crpsp_acessivel.sty` (tipos LeXML) e gerador normativas→LaTeX | Arquivar |
+| [`briefing-leg-book-acessivel.md`](briefings/briefing-leg-book-acessivel.md) | 2026-07-10 | Camada `Leg` no `book-crpsp_acessivel.sty` (tipos LeXML) e gerador normativas→LaTeX | Arquivar as fases 2 e 3 (gerador, Manual de DH). A camada em si é código vivo: `crpsp-leg.sty` v0.3.0, previsto como módulo `leg` da linha `livro` |
 | [`briefing-manual-dh-acabamento.md`](briefings/briefing-manual-dh-acabamento.md) | 2026-07-11 | Acabamento visual e de acessibilidade do Manual de DH v1 | Arquivar |
 | [`briefing-manual-dh-normas-restantes.md`](briefings/briefing-manual-dh-normas-restantes.md) | 2026-07-11 | Ingestão das 20 normas restantes do Manual de DH | Arquivar (executado em 2026-07-13, 18/20) |
 | [`briefing-crpsp-guia_visual.md`](briefings/briefing-crpsp-guia_visual.md) | 2026-06-24 | Classe 16:9 (`crpsp-guia_visual.cls` + `guia-visual.sty`) e extração de `crpsp-base.sty` a partir de `crpsp_acessivel.cls` | **Cancelado** em 2026-09-16 (migra para GitHub Pages); os arquivos seguem em `desenvolvimento/v2/`, e a extração do `crpsp-base.sty` que ele motivou continua valendo |
+
+O plano de retomada
+[`plano-2026-09-16-linhas-ativas.md`](briefings/plano-2026-09-16-linhas-ativas.md)
+lê os briefings em conjunto: o que incorporar dos arquivados, as colisões
+abertas (paleta, 11 pt × 12 pt no `relatorio`, destino do `book` e da linha
+`guia`) e a ordem de trabalho proposta.
 
 Na mesma pasta, fora da série: [`guia_visual.md`](briefings/guia_visual.md) e
 `guia_visual.excalidraw.md` (organização fixa dos guias e esboço de layout,
