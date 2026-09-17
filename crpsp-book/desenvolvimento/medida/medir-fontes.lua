@@ -16,7 +16,7 @@ crpsp.mancha   = io.open("medidas-mancha.tsv", "w")
 crpsp.metricas:write(table.concat({
   "fonte", "corpo_pt", "altura_x_mm", "maiuscula_mm", "eme_pt",
   "x_eme", "maiusc_eme", "x_maiusc", "mm_por_car",
-  "car80_mm", "car70_mm", "car60_mm", "car45_mm", "rnib", "face"
+  "car80_mm", "car70_mm", "car60_mm", "car45_mm", "rnib", "face", "arquivo"
 }, "\t") .. "\n")
 
 crpsp.mancha:write(table.concat({
@@ -35,6 +35,20 @@ local function rnib(xmm)
   return "ABAIXO"
 end
 
+-- Caminho do arquivo que o motor de fato abriu.
+--
+-- ⚠️ A coluna `face` registra a ESPECIFICAÇÃO (\fontname), não o arquivo
+-- resolvido: "[AtkinsonHyperlegibleNext-Regular.otf]" não diz QUAL cópia
+-- entrou. Em 17/09/2026 havia duas Atkinson Hyperlegible Next nesta
+-- máquina — a do pacote `atkinson' do TeX Live e a do pacote de fontes do
+-- Fedora, mesma versão 2.001 e métricas idênticas, mas a do TeX Live sem
+-- 15 codepoints (U+0060 e os acentos soltos). A sonda existe para pegar
+-- substituição silenciosa e não teria pegado essa. Daí esta coluna.
+function crpsp.arquivo()
+  local dados = font.getfont(font.current())
+  return (dados and (dados.filename or dados.name)) or "?"
+end
+
 -- Uma medição: recebe sp inteiros do TeX e emite as duas linhas de saída.
 function crpsp.row(rotulo, corpo, xsp, emsp, capsp, amsp, ncar, face)
   local xmm, capmm, empt = mm(xsp), mm(capsp), pt(emsp)
@@ -43,7 +57,7 @@ function crpsp.row(rotulo, corpo, xsp, emsp, capsp, amsp, ncar, face)
     rotulo, f(corpo, 2), f(xmm, 3), f(capmm, 3), f(empt, 2),
     f(xsp / emsp, 3), f(capsp / emsp, 3), f(xsp / capsp, 3), f(porcar, 4),
     f(porcar * 80, 1), f(porcar * 70, 1), f(porcar * 60, 1), f(porcar * 45, 1),
-    rnib(xmm), face
+    rnib(xmm), face, crpsp.arquivo()
   }, "\t") .. "\n")
   for _, largura in ipairs(crpsp.manchas) do
     crpsp.mancha:write(table.concat({

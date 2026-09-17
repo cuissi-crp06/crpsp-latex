@@ -29,6 +29,37 @@ essas duas pastas (`verificar.sh:46`); um arquivo ali entraria na régua e
 deixaria a `linha-base.tsv` desatualizada por efeito colateral. Conferido em
 17/09: com a pasta criada, a régua segue idêntica à linha-base, 22 linhas.
 
+## ⚠️ Duas cópias da mesma fonte — achado de 17/09/2026, à tarde
+
+Esta máquina tinha **duas Atkinson Hyperlegible Next**, com md5 diferentes:
+
+| Cópia | Codepoints | U+0060 |
+|---|---|---|
+| `texmf-dist/fonts/opentype/public/atkinson/` (pacote `atkinson` do TeX Live) | 347 | **não** |
+| `/usr/share/fonts/atkinson-hyperlegible-next-fonts/` (pacote do Fedora) | 362 | sim |
+
+**Mesma versão (2.001) e métricas idênticas** — largura da amostra, altura-x e
+eme batem até a quinta casa, medidos no motor com as duas fixadas por `Path`.
+A da distribuição é um superconjunto: os 15 codepoints a mais são U+0060 e os
+demais **acentos soltos** (`¨ ¯ ´ ¸ ˆ ˇ ˘ ˙ ˚ ˛ ˜ ˝`), mais `Ĺ/ĺ`. Nada disso
+afeta o português, que usa os precompostos — o único efeito prático é que a
+convenção de aspas do TeX (`` '') não funciona na cópia do TeX Live.
+
+**A sonda não teria pegado.** A coluna `face` registra a *especificação*
+(`\fontname`), não o arquivo aberto: `[AtkinsonHyperlegibleNext-Regular.otf]`
+serve para as duas. Duas correções, em 17/09:
+
+1. **Atkinson e Luciole fixadas pelo kpathsea** (`\AtkinsonDir`, `\LucioleDir`),
+   na mesma cópia que o `relatorio.sty` embarca — a medida tem de descrever a
+   fonte que a classe usa, não uma vizinha de mesmo nome. Lora e NEWJUNE vêm do
+   Nextcloud por fontconfig, fora de árvore TEXMF, e ficam sem `Path`.
+2. **Coluna `arquivo` no TSV**, com o caminho que o motor abriu. É ela que
+   responde por Lora e NEWJUNE, e é a conferência que faltava.
+
+Conferido depois da mudança: as métricas e a tabela de mancha saem **idênticas**,
+e a medida da Atkinson (1,8778 mm/car., que sustenta a mancha do `relatorio`)
+era mesmo a da cópia do TeX Live.
+
 ## Método
 
 - Altura-x por `\fontdimen5`, eme por `\fontdimen6`, altura de maiúscula por

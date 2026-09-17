@@ -28,10 +28,41 @@
 % A NEWJUNE é declarada por ARQUIVO, não por nome: por nome o fontspec
 % pode substituir a face em silêncio e devolver as métricas de outro
 % corte. É a forma que o book-crpsp_acessivel.sty já usa (linhas 92-97).
-% A coluna `face` do TSV registra o que o motor de fato carregou — é a
-% conferência de que nenhuma substituição passou despercebida.
+%
+% ⚠️ E NOME DE ARQUIVO NÃO BASTA quando há duas cópias instaladas. Em
+% 17/09/2026 esta máquina tinha duas Atkinson Hyperlegible Next — a do
+% pacote `atkinson' do TeX Live e a do pacote de fontes do Fedora, em
+% /usr/share/fonts. Mesma versão 2.001 e métricas idênticas, mas a do
+% TeX Live sem 15 codepoints (U+0060 e os acentos soltos). A coluna
+% `face' não pegava a diferença: ela registra a ESPECIFICAÇÃO, não o
+% arquivo aberto. Duas correções:
+%
+%   1. a Atkinson é fixada pelo kpathsea, na MESMA cópia que o
+%      relatorio.sty usa — a medida tem de descrever a fonte que a
+%      classe de fato embarca, não uma vizinha de mesmo nome;
+%   2. o TSV ganhou a coluna `arquivo', com o caminho que o motor
+%      abriu (medir-fontes.lua).
+%
+% Lora e NEWJUNE ficam sem Path: vêm do Nextcloud por fontconfig, fora
+% de qualquer árvore TEXMF, e um caminho absoluto aqui seria específico
+% desta máquina. Para elas quem responde é a coluna `arquivo'.
+
+\edef\AtkinsonDir{%
+  \directlua{
+    local achado = kpse.find_file("AtkinsonHyperlegibleNext-Regular.otf",
+                                  "opentype fonts")
+    if achado then tex.sprint(-2, (achado:gsub("[^/]*$", ""))) end
+  }%
+}
+\edef\LucioleDir{%
+  \directlua{
+    local achado = kpse.find_file("Luciole-Regular.ttf", "truetype fonts")
+    if achado then tex.sprint(-2, (achado:gsub("[^/]*$", ""))) end
+  }%
+}
 \newfontfamily\fLora{Lora}
-\newfontfamily\fLuciole{Luciole}
+\newfontfamily\fLuciole{Luciole}[Path = \LucioleDir,
+  UprightFont = Luciole-Regular.ttf]
 \newfontfamily\fNJRegular{NEWJUNE}[UprightFont = NEWJUNE-REGULAR.OTF]
 \newfontfamily\fNJLight{NEWJUNE-Light}[UprightFont = NEWJUNE-LIGHT.OTF]
 \newfontfamily\fNJMedium{NEWJUNE-Medium}[UprightFont = NEWJUNE-MEDIUM.OTF]
@@ -43,7 +74,8 @@
 % Atkinson Hyperlegible Next — do Braille Institute, no TeX Live (pacote
 % `atkinson`), família completa de sete pesos com itálicos. Entra na
 % comparação por ser a outra fonte de acessibilidade livre além da Luciole.
-\newfontfamily\fAtkinson{AtkinsonHyperlegibleNext}[UprightFont = AtkinsonHyperlegibleNext-Regular.otf]
+\newfontfamily\fAtkinson{AtkinsonHyperlegibleNext}[Path = \AtkinsonDir,
+  UprightFont = AtkinsonHyperlegibleNext-Regular.otf]
 
 \newlength{\crpspwd}
 \directlua{dofile("medir-fontes.lua")}

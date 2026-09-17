@@ -31,8 +31,23 @@
 \definecolor{crp1}{RGB}{4, 88, 110}
 \definecolor{nota}{RGB}{110, 110, 110}
 
+% ⚠️ Fonte com duas cópias instaladas não se resolve por nome NEM por
+% nome de arquivo: em 17/09/2026 havia duas Atkinson Hyperlegible Next
+% nesta máquina (TeX Live e pacote do Fedora), com cobertura diferente.
+% O que estiver numa árvore TEXMF é fixado pelo kpathsea; o que vem do
+% Nextcloud por fontconfig (Lora, NEWJUNE) não tem caminho estável e
+% fica sem Path. Quem acrescentar a Atkinson a este espécime: fixe-a,
+% como em medir-fontes.tex.
+\edef\LucioleDir{%
+  \directlua{
+    local achado = kpse.find_file("Luciole-Regular.ttf", "truetype fonts")
+    if achado then tex.sprint(-2, (achado:gsub("[^/]*$", ""))) end
+  }%
+}
+
 \newfontfamily\fLora{Lora}
-\newfontfamily\fLuciole{Luciole}
+\newfontfamily\fLuciole{Luciole}[Path = \LucioleDir,
+                            UprightFont = Luciole-Regular.ttf]
 \newfontfamily\fNJ{NEWJUNE}[UprightFont = NEWJUNE-REGULAR.OTF,
                             BoldFont    = NEWJUNE-BOLD.OTF]
 \newfontfamily\fNJLight{NEWJUNE-Light}[UprightFont = NEWJUNE-LIGHT.OTF]
