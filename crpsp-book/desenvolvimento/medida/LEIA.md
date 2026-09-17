@@ -137,3 +137,133 @@ A escolha de fonte, de mancha e de corpo é do Angelo. Este arquivo entrega a
 evidência; o espécime entrega o que o número não mostra — cor, textura e o
 contraste entre título em NEWJUNE e texto em Luciole, que é a pergunta que abriu
 a comparação.
+
+---
+
+# Análise sob os critérios de 17/09
+
+Leitura das medidas depois das [decisões de
+17/09](../../briefings/decisoes-2026-09-17.md). As tabelas de geometria estão
+em [`geometria.md`](geometria.md), gerado por `geometria.py` a partir do TSV —
+rodar de novo se as medidas mudarem.
+
+Entrou na medição a **NEWJUNE Serif**, que estava na pasta de fontes sem ser
+referenciada em lugar nenhum do repositório. Era a única candidata capaz de
+preservar o contraste serifa/sem-serifa entre título e corpo.
+
+## 1. O teto de caracteres deixou de ser a restrição
+
+A decisão "a margem externa é sempre maior" morde bem antes dos tetos de
+medida. Com margem interna de 15 mm na `cartilha` e 20 mm no `manual`:
+
+| Classe | Teto decidido | Último caractere em que a externa ainda é maior que a interna | Faixa útil |
+|---|---|---|---|
+| `cartilha` A5 | 60 car. | Luciole **56** · NEWJUNE **58** · Lora 60 | ~45–55 car. |
+| `manual` A4 | 80 car. | Luciole **81** · NEWJUNE **84** · Lora 86 | ~50–70 car. |
+
+**Os 60 caracteres do A5 são inalcançáveis pelas fontes que passam no critério
+de altura-x**: a Luciole estoura em 56 e a NEWJUNE em 58. Só a Lora chega aos
+60 — e a Lora é justamente a que falha na altura-x. O teto de 60 e o critério
+da decoração não cabem juntos.
+
+Os 80 do manual passam, mas por pouco e sem folga real: a 80 caracteres sobram
+23 mm de margem externa em Luciole, contra 20 mm de interna. Cumpre a letra do
+critério e não cumpre o propósito — 23 mm não é espaço de artefato
+decorativo.
+
+**Na prática, quem escolhe o número de caracteres é o orçamento de decoração,
+não o teto de legibilidade.** A faixa flexível de 45 a 80 do `manual` é real, e
+o extremo de 45 caracteres dá 96 mm de margem externa: um formato de margem
+larga, coerente com uma publicação ilustrada.
+
+Vale notar o que a decisão sobre a `cartilha` já resolveu: sem `Leg` e sem
+listas aninhadas, o piso de caracteres para conteúdo aninhado desaparece, e a
+mancha passa a depender só da linha cheia. Uma restrição a menos.
+
+## 2. Nenhuma serifada passa no critério de altura-x
+
+| Fonte | Altura-x | x/eme | x/maiúsc. | RNIB |
+|---|---|---|---|---|
+| Luciole | 2,299 mm | 0,545 | 0,714 | mínimo, na meta por arredondamento |
+| NEWJUNE Regular | 2,294 mm | 0,544 | 0,731 | idem |
+| **NEWJUNE Serif** | **2,142 mm** | 0,508 | **0,683** | mínimo |
+| Lora | 2,109 mm | 0,500 | 0,714 | mínimo |
+
+A serifada institucional é melhor que a Lora, mas por pouco: 1,6% de altura-x a
+mais, custando 2,3% de largura. Continua na faixa do mínimo, longe da meta de
+2,3 mm. E tem a **menor razão x/maiúscula das quatro** (0,683) — minúsculas
+pequenas em relação às maiúsculas, que é o oposto do que a baixa visão pede.
+
+**Consequência para o `\serifada`:** a serifada institucional não pode carregar
+bloco de texto sob o critério de acessibilidade adotado. O contraste de gênero
+entre título e corpo, que o briefing lamentava perder, **não é recuperável por
+essa via** — some de qualquer jeito, e o que resta decidir é qual sem-serifa
+fica no corpo. O `\serifada` só pode ser face de destaque, e a correção do
+apontamento (hoje `book:96` aponta para a `NEWJUNE-REGULAR.OTF`, que é a sem
+serifa) passa a ser higiene, não decisão de sistema.
+
+## 3. A disputa real: Luciole × NEWJUNE Regular
+
+Empatam onde mais importa: **2,299 mm contra 2,294 mm de altura-x** — 0,2%,
+invisível. Separam-se na largura, e a largura agora vale margem de decoração:
+
+| | `cartilha` a 50 car. | `manual` a 65 car. |
+|---|---|---|
+| Luciole | 29 mm de margem externa | 54 mm |
+| NEWJUNE Regular | **32 mm** | **59 mm** |
+
+A NEWJUNE é 3,5% mais estreita e devolve 3 mm de margem na cartilha e 5 mm no
+manual, com a mesma altura-x. Pelo critério da decoração, ela ganha.
+
+O que pesa do outro lado não é métrica:
+
+- **Licença e distribuição.** A NEWJUNE é proprietária: não vai para o
+  repositório, não viaja com o pacote, e qualquer máquina nova precisa recebê-la
+  à parte. A Luciole é CC BY 4.0, vem no TeX Live, e a atribuição no colofão
+  resolve a obrigação.
+- **Contraste.** A NEWJUNE é a fonte dos títulos. Usá-la também no corpo apaga
+  qualquer distinção de família entre título e texto — sobra tamanho e peso. Com
+  a Luciole no corpo, o contraste se mantém, agora entre duas sem-serifas
+  diferentes em vez de entre serifa e sem-serifa.
+- **Propósito.** A Luciole foi desenhada para baixa visão; a NEWJUNE, para
+  identidade de marca. Num sistema que declara acessibilidade como critério, a
+  procedência da fonte é argumento defensável para fora.
+
+Os 3 a 5 mm de margem que a NEWJUNE devolve compram-se de outro jeito: tirando
+dois ou três caracteres da linha. Em `cartilha` a 48 caracteres a Luciole dá 32
+mm de margem externa — a mesma da NEWJUNE a 50. **A escolha é entre economizar
+caracteres e economizar dependência.**
+
+## 4. A entrelinha já está feita; o que falta é o espaço entre parágrafos
+
+Medido no `\onehalfspacing` do setspace, em 12 pt: **17,99 pt**. O pacote
+calibra por tamanho de fonte, não pela entrelinha simples — ou seja, o
+`book-crpsp_acessivel.sty`, que já usa `\setasuspacing{\onehalfspacing}`
+(linha 278), **já cumpre a entrelinha do WCAG**, e os 12/18 do espécime são
+exatamente a configuração de hoje.
+
+O que falta nas duas linhas é a outra metade do critério:
+
+| Linha | Espaço entre parágrafos hoje | O WCAG 1.4.8 pede |
+|---|---|---|
+| `book` | `0.5\baselineskip` = 9 pt (`book:268`) | 1,5 × entrelinha = 27 pt |
+| `relatorio` | `0.6\baselineskip` (`relatorio.sty:41`) | idem |
+
+**Nenhuma das duas está perto**, e cumprir triplica esse espaço. É o que
+explica os números medidos: sair do estado atual do `relatorio` (11 pt, entrelinha
+simples) para 12/18 custa +37% de altura; acrescentar o espaço entre parágrafos
+leva a +79%.
+
+Os dois parâmetros também já combinam com o resto: o `book` usa
+`\parindent = 0pt` (linha 269), que é a diagramação em bloco que o espaço entre
+parágrafos exige — sem recuo, o espaço é o único separador.
+
+## 5. O que estas medidas não decidem
+
+- **Qual sem-serifa fica no corpo** — a análise mostra o que cada escolha custa,
+  não qual custo vale mais.
+- **Se o espaço entre parágrafos do WCAG entra.** É o parâmetro de maior efeito
+  em número de páginas de todo o sistema, e a decisão "entrelinhamento
+  obrigatório" não o alcança ao pé da letra.
+- **O número de caracteres de cada classe**, que agora se lê como orçamento de
+  margem: escolher a margem externa desejada e ler o número na tabela.
