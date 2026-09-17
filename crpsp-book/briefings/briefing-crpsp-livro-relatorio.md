@@ -108,6 +108,10 @@ Os resultados entram como colunas na `verificar.sh`.
 2. `manual`, com geometria parametrizada por papel.
 3. `relatorio`: variantes `interno`/`externo`, paleta travada, tabelas portadas de `relatorio.sty` sem `tabularray` (pendência 2).
 4. Módulos opcionais: `leg` (fora da `cartilha`), `creditos`, `svg`.
+   O `creditos` tem especificação própria desde 17/09: ver
+   [`funcionalidade-creditos-institucionais.md`](funcionalidade-creditos-institucionais.md)
+   — recupera Plenário, Diretoria e comissões do pipeline de normativas,
+   com nominata atual por padrão e composição por data.
 5. Template pandoc e filtros Lua, testados com publicação real.
 6. Exemplos da classe na `verificar.sh` desde o passo 1.
 
