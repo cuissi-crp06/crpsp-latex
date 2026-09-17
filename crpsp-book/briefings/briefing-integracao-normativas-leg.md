@@ -74,6 +74,51 @@ docstring dele, e é a mesma fonte do viewer HTML.
 `LegIncisos`/`LegAlineas`/`LegItens`), `\LegDisp`, `\LegDispDecimal`, `\LegTermo`,
 `\LegAncora`, `\LegRef`, `\LegNotaAlteracao`, `\LegRevogado`, `\LegFecho`, `\LegAssina`.
 
+### O contrato fecha: 11 de 11 tipos
+
+Cruzando a tabela do `crpsp-leg.sty` com os tipos que o banco de trabalho **realmente
+produz** (`SELECT tipo, count(*) FROM dispositivos GROUP BY tipo`), não há tipo sem
+comando:
+
+| Tipo no banco | Dispositivos | Comando na camada Leg |
+|---|---:|---|
+| `artigo` | 5.800 | `\LegArtigo{label}{caput}` (+ forma ambiente) |
+| `inciso` | 5.584 | `\LegInciso` dentro de `LegIncisos` |
+| `paragrafo` | 3.258 | `\LegParagrafo` |
+| `alinea` | 2.736 | `\LegAlinea` dentro de `LegAlineas` |
+| `item` | 2.132 | `\LegDispDecimal` |
+| `capitulo` | 368 | `\LegAgrup[prof]` |
+| `termo` | 325 | `\LegTermo` (fragmento de glossário à parte) |
+| `secao` | 197 | `\LegAgrup[prof]` |
+| `titulo` | 86 | `\LegAgrup[prof]` |
+| `livro` | 18 | `\LegAgrup[prof]` |
+| `subsecao` | 10 | `\LegAgrup[prof]` |
+
+A ementa tem o seu (`\LegEmenta`), e os paratextos de norma também — epígrafe, preâmbulo,
+fecho e assinatura —, mais os transversais `\LegNotaAlteracao`, `\LegRef`/`\LegAncora` e
+`\LegRevogado`.
+
+Três observações que a tabela esconde:
+
+- **O caput não é comando próprio.** O `cpt` do LeXML entra como segundo argumento do
+  `\LegArtigo`; não há linha de caput no banco. É por isso que o contrato insiste no rótulo
+  completo sem prefixo automático (obrigação 1): é o que separa rótulo de caput.
+- ⚠️ **Três tipos estão previstos e nunca foram exercitados por dado real.**
+  `item_legal` → `\LegItem`/`LegItens`: o banco escreve `item` (que vai para
+  `\LegDispDecimal`) e **`item_legal` não aparece em nenhuma linha**. O `ite` do LeXML tem
+  comando, ambiente e MWE na régua (`mwe_leg_listas`), e zero dado. O mesmo vale para
+  `parte` e `agrupamento`, que estão no `_ORDEM_AGRUPADOR` (`latexgen.py:230`) e na
+  calibração da árvore de headings sem nenhuma norma que os use.
+- **O `\LegDisp` é rede de segurança, não tipo.** É o `else` do gerador
+  (`latexgen.py:482`), para o que não for artigo, parágrafo, agrupador, inciso, alínea,
+  item ou termo. Com os 11 tipos mapeados, ele não dispara hoje — é por onde o `dpg` do
+  LeXML (pena, disposição avulsa) entraria se aparecesse.
+
+**Consequência para a seção 4:** a lacuna do `\LegAnexo` é **isolada**. Não é a ponta de
+uma lista de tags faltando — e não é nem um tipo de dispositivo: é um **paratexto de
+norma**, ao lado de preâmbulo e fecho, que são justamente os dois paratextos que já têm
+comando.
+
 ### As cinco obrigações que o `.sty` atribui ao gerador
 
 Estão nos comentários do `crpsp-leg.sty` e são o que quebra silenciosamente se alguém
@@ -332,6 +377,7 @@ Tudo verificado nesta máquina, em leitura. Nada foi inferido de registro anteri
 
 | Afirmação | Como conferir |
 |---|---|
+| 11 de 11 tipos com comando; `item_legal`/`parte`/`agrupamento` sem dado | `SELECT tipo, count(*) FROM dispositivos GROUP BY tipo`, contra a tabela do `crpsp-leg.sty` (l. 17-45) |
 | 1 documento, 1 anexo, 193 blocos | Varredura de `documentos.metadados_json` no banco de trabalho, chave `anexos` |
 | 459 × 463 dispositivos | `ls -l export/latex/lei13146.tex` × `SELECT count(*) FROM dispositivos WHERE doc_id=2232` |
 | Genealogia sem dívida | `ferramentas/comparar-corpo.py` (seção 6) |
