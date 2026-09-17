@@ -1,0 +1,64 @@
+%% gerar-arte-teste.tex
+%% Gera a arte de teste da variante `externo`: duas faixas e uma capa.
+%%
+%% ⚠️ NÃO é arte do designer, e não é conteúdo de publicação. São marcas
+%% geométricas na paleta institucional, feitas só para que
+%% exemplo-relatorio-externo.tex exercite o caminho real do
+%% \includegraphics marcado como artefato — sem esperar o designer e sem
+%% trazer material de publicação para o repositório.
+%%
+%% Fica FORA do alcance da régua de propósito: verificar.sh varre
+%% `v2/*.tex`, não os subdiretórios. Um arquivo aqui dentro não entra na
+%% linha-base. Por isso este arquivo também não declara \DocumentMetadata:
+%% é um gerador de arte, não uma peça acessível.
+%%
+%% As faixas saem com 210 x 35 mm, a medida de \relDecoracaoAltura; a capa
+%% sai A4 inteiro. O tamanho de página tem de sair certo do gerador: o
+%% \includegraphics da classe ESCALA o que receber para a caixa, e uma
+%% faixa em proporção de A4 sairia esmagada.
+%%
+%% Regerar (raro):
+%%   cd crpsp-book/desenvolvimento/v2/arte-teste && sh gerar.sh
+
+\ifdefined\ARTE\else\def\ARTE{capa}\fi
+
+\documentclass{article}
+\usepackage{ifthen}
+\usepackage{tikz}
+\usepackage{xcolor}
+
+\definecolor{cor1}{HTML}{422C73}
+\definecolor{cor3}{HTML}{A55DA6}
+
+% A altura da fileira de círculos distingue topo e pé a olho no PDF de
+% prova. Resolvida ANTES do tikzpicture: \ifthenelse dentro de uma
+% coordenada do TikZ não sobrevive ao analisador de coordenadas.
+\ifthenelse{\equal{\ARTE}{topo}}{\def\ALTURA{24mm}}{\def\ALTURA{11mm}}
+
+\ifthenelse{\equal{\ARTE}{capa}}{%
+  \usepackage[papersize={210mm,297mm}, margin=0pt]{geometry}%
+}{%
+  \usepackage[papersize={210mm,35mm}, margin=0pt]{geometry}%
+}
+
+\pagestyle{empty}
+\parindent=0pt
+
+\begin{document}
+\noindent\begin{tikzpicture}[remember picture, overlay]
+  \fill[cor1] (current page.south west) rectangle (current page.north east);
+  \ifthenelse{\equal{\ARTE}{capa}}{%
+    % Capa: uma banda clara para o título respirar por cima.
+    \fill[cor3, opacity=0.5]
+      ([shift={(0mm,-90mm)}] current page.north west)
+      rectangle ([shift={(0mm,-150mm)}] current page.north east);
+  }{%
+    \foreach \i in {0,...,19} {
+      \fill[cor3, opacity=0.55]
+        ([shift={(\i*10mm+5mm, \ALTURA)}] current page.south west)
+        circle (3.5mm);
+    }
+  }%
+\end{tikzpicture}
+\null
+\end{document}

@@ -1,74 +1,177 @@
 %% relatorio.sty
 %% Implementação de layout da linha Relatório A4 do CRP-SP:
 %% geometria, tipografia, seccionamento, boxes paralelos, tabelas
-%% com linha destacada, box de destaque e figuras com alt.
+%% com linha destacada, box de destaque, figuras com alt e — na
+%% variante `externo` — a camada de decoração.
 %% Requer: crpsp-relatorio.cls (que carrega crpsp-base.sty)
 %%
+%% ⚠️ REGRA DE ESCRITA DOS .tex DESTA LINHA: aspas Unicode reais
+%% (“ ”, ‘ ’), nunca a convenção `` '' do TeX. A convenção passa pelo
+%% glifo da CRASE (U+0060), que a Atkinson não tem — ver §2b. Com o
+%% \tracinglostchars=3 desta linha, escrever `` '' é ERRO de
+%% compilação, não aviso silencioso.
+%%
 \NeedsTeXFormat{LaTeX2e}[2023/11/01]
-\ProvidesPackage{relatorio}[2026/07/29 v0.1.0-alfa Linha relatorio A4 CRP-SP]
+\ProvidesPackage{relatorio}[2026/09/17 v0.2.0-alfa Linha relatorio A4 CRP-SP]
 
 \RequirePackage{etoolbox}
 
 % ══════════════════════════════════════════════
-%  1. GEOMETRIA E TIPOGRAFIA
+%  1. GEOMETRIA
+%
+%  Margem de 35 mm nos QUATRO lados (decisão de 17/09/2026):
+%    - mancha de 140 mm = ~75 caracteres em Atkinson 12 pt
+%      (1,878 mm/car., medido no motor com kerning);
+%    - a decoração do `externo` vai nas margens superior e inferior,
+%      e são esses 35 mm que ela ocupa;
+%    - como a exigência lateral é menor que a de manual/cartilha —
+%      que precisam de margem externa para ilustração —, a lateral
+%      fica simétrica e igual à vertical.
+%
+%  Altura: 227 mm de mancha, ~35 linhas por página com entrelinha
+%  de 18 pt.
+%
+%  O fólio divide a faixa inferior com a arte: \relDecoracaoAltura
+%  é o comprimento nomeado contra o qual o designer trabalha, e
+%  \footskip põe o número de página a 12 mm da última linha, dentro
+%  da faixa.
 % ══════════════════════════════════════════════
 
-% Margens de 25mm dão ~68 caracteres por linha em 11pt — o mesmo
-% critério de medida do artefato HTML de origem (max-width: 70ch).
+\newlength{\relDecoracaoAltura}
+\setlength{\relDecoracaoAltura}{35mm}
+
 \geometry{%
   a4paper,
-  top    = 25mm,
-  bottom = 25mm,
-  left   = 25mm,
-  right  = 25mm,
+  top      = \relDecoracaoAltura,
+  bottom   = \relDecoracaoAltura,
+  left     = 35mm,
+  right    = 35mm,
   footskip = 12mm,
 }
 
-% Parágrafos sem indentação, separados por espaço vertical.
-% Fixado no hook 'begindocument/end' porque só ali \baselineskip já
-% vale a entrelinha real (em tempo de carregamento é a da fonte
-% default da classe; em 'begindocument' ainda é 0pt).
-% O valor fica guardado em \crpsprel@parskip porque \parbox aplica
-% \@parboxrestore, que zera \parskip — os boxes da §3 e da §5
-% precisam restaurá-lo a partir daqui.
-\setlength{\parindent}{0pt}
-\newlength{\crpsprel@parskip}
-% Rígido (sem plus/minus): os boxes de altura livre da §5 dependem
-% de espaçamento previsível para alinhar. E, na prática, um registro
-% de skip seguido de `plus` não é cola válida — o resto acaba
-% impresso como texto.
-\AddToHook{begindocument/end}{%
-  \setlength{\crpsprel@parskip}{0.6\baselineskip}%
-  \setlength{\parskip}{\crpsprel@parskip}%
-}
+% ══════════════════════════════════════════════
+%  2. TIPOGRAFIA
+%
+%  Corpo: Atkinson Hyperlegible Next (Braille Institute, pacote
+%  `atkinson` do TeX Live, sete pesos com itálicos). É a fonte que
+%  esta linha já usava, e a decisão de 17/09 a manteve.
+%
+%  ⚠️ O que ela custa, registrado: altura-x de 2,092 mm — passa o
+%  mínimo de 2,0 mm da RNIB, não a meta de 2,3 mm que a Luciole
+%  (2,299) e a NEWJUNE (2,294) alcançam. A Atkinson busca
+%  legibilidade por DIFERENCIAÇÃO DE LETRA (I/l/1, O/0, b/d), não
+%  por altura-x: são dois critérios de acessibilidade distintos. Em
+%  troca é a mais estreita das cinco medidas (10% menos que a
+%  Luciole), e é isso que devolve os 35 mm de margem uniforme.
+%
+%  Títulos: NEWJUNE, a fonte institucional. É PROPRIETÁRIA e não
+%  viaja com o pacote: a máquina que não a tiver não compila esta
+%  linha, por decisão de 17/09/2026. O erro sai claro, pelo
+%  \crpspExigeFonte da base.
+%
+%  ⚠️ Toda fonte é declarada por ARQUIVO, nunca por nome: por nome o
+%  fontspec substitui a face em silêncio e devolve as métricas de
+%  outro corte.
+%
+%  ⚠️ E NÃO BASTA O NOME DO ARQUIVO — tem de ser o CAMINHO. Achado de
+%  17/09/2026: este Fedora tem duas Atkinson Hyperlegible Next, com
+%  md5 diferentes (a do pacote `atkinson' do TeX Live e a do pacote
+%  de fontes da distribuição, em /usr/share/fonts). Com o nome solto,
+%  o luaotfload resolvia Regular e Bold pela cópia da distribuição e
+%  o ITÁLICO pela do TeX Live: dois builds da mesma família no mesmo
+%  PDF, e só um deles com o glifo U+0060. Daí o \crpsprel@atkinson
+%  abaixo, que fixa o diretório pelo kpathsea — a cópia do TeX Live é
+%  a dependência declarada, e é a que existe em qualquer máquina com
+%  o pacote instalado.
+% ══════════════════════════════════════════════
 
-% Cadeia de fallback de fontes, idêntica às demais linhas v2:
-% Atkinson Hyperlegible Next > TeX Gyre Heros > CM Sans
-\ifcrpsp@fontspec
-  \IfFontExistsTF{Atkinson Hyperlegible Next}{%
-    \setmainfont{Atkinson Hyperlegible Next}%
-    \setsansfont{Atkinson Hyperlegible Next}%
-  }{%
-    \IfFontExistsTF{TeX Gyre Heros}{%
-      \setmainfont{TeX Gyre Heros}%
-      \setsansfont{TeX Gyre Heros}%
-    }{%
-      \PackageWarning{relatorio}{%
-        Nenhuma fonte OpenType sans-serif encontrada.\MessageBreak
-        Usando Computer Modern Sans como fallback%
-      }%
-      \renewcommand{\familydefault}{\sfdefault}%
-    }%
+% Diretório da Atkinson do TeX Live, resolvido pelo kpathsea. Fixar o
+% caminho é o que garante que os quatro cortes venham do mesmo build.
+% O Lua só IMPRIME o diretório, e o \edef captura. Tentar montar um
+% \def dentro do \directlua não funciona: o TeX expande o \string
+% antes de o Lua ver a cadeia, e "\def" vira escape inválido em Lua.
+% O -2 do tex.sprint imprime com catcode 12, para que caractere
+% especial no caminho (~, _) não seja interpretado.
+\edef\crpsprel@atkinson{%
+  \directlua{
+    local achado = kpse.find_file("AtkinsonHyperlegibleNext-Regular.otf",
+                                  "opentype fonts")
+    if achado then tex.sprint(-2, (achado:gsub("[^/]*$", ""))) end
   }%
-  \IfFontExistsTF{Atkinson Hyperlegible Mono}{%
-    \setmonofont{Atkinson Hyperlegible Mono}%
+}
+\ifx\crpsprel@atkinson\@empty
+  \PackageError{relatorio}{Atkinson Hyperlegible Next nao encontrada}{%
+    O kpathsea nao resolveu AtkinsonHyperlegibleNext-Regular.otf.\MessageBreak
+    Instale o pacote `atkinson' do TeX Live: tlmgr install atkinson%
+  }%
+\fi
+
+\ifcrpsp@fontspec
+  \crpspExigeFonte{AtkinsonHyperlegibleNext-Regular.otf}%
+    {Atkinson Hyperlegible Next}%
+    {pacote `atkinson' do TeX Live (tlmgr install atkinson)}%
+  \crpspExigeFonte{NEWJUNE-REGULAR.OTF}%
+    {NEWJUNE (institucional, proprietaria)}%
+    {editorial/fonts/NewJune/ no Nextcloud}%
+  \setmainfont{AtkinsonHyperlegibleNext}[
+    Path           = \crpsprel@atkinson,
+    UprightFont    = AtkinsonHyperlegibleNext-Regular.otf,
+    ItalicFont     = AtkinsonHyperlegibleNext-RegularItalic.otf,
+    BoldFont       = AtkinsonHyperlegibleNext-Bold.otf,
+    BoldItalicFont = AtkinsonHyperlegibleNext-BoldItalic.otf,
+    Ligatures      = TeX,
+  ]
+  \setsansfont{NEWJUNE}[
+    UprightFont    = NEWJUNE-REGULAR.OTF,
+    ItalicFont     = NEWJUNE-REGULAR-ITALIC.OTF,
+    BoldFont       = NEWJUNE-BOLD.OTF,
+    BoldItalicFont = NEWJUNE-BOLD-ITALIC.OTF,
+    Ligatures      = TeX,
+  ]
+  \IfFontExistsTF{AtkinsonHyperlegibleMono-Regular.otf}{%
+    \setmonofont{AtkinsonHyperlegibleMono}[
+      Path           = \crpsprel@atkinson,
+      UprightFont    = AtkinsonHyperlegibleMono-Regular.otf,
+      ItalicFont     = AtkinsonHyperlegibleMono-RegularItalic.otf,
+      BoldFont       = AtkinsonHyperlegibleMono-Bold.otf,
+      BoldItalicFont = AtkinsonHyperlegibleMono-BoldItalic.otf,
+    ]%
   }{}%
 \else
-  \renewcommand{\familydefault}{\sfdefault}%
+  \PackageError{relatorio}{%
+    Esta linha exige fontspec com luaotfload funcional%
+  }{%
+    Sem fontspec nao ha como declarar as fontes por arquivo, e\MessageBreak
+    declarar por nome permitiria substituicao silenciosa da face.%
+  }
 \fi
 
 % ══════════════════════════════════════════════
-%  2. CORES DERIVADAS DA PALETA
+%  2b. FALHAR ALTO EM CARACTERE AUSENTE
+%
+%  ⚠️ Caractere que a fonte não tem sai do LaTeX como AVISO, e o PDF
+%  fica com glifo sem mapeamento Unicode: o leitor de tela não tem o
+%  que ler ali, e o PDF/UA exige mapeamento para TODO caractere. É
+%  defeito silencioso — passa por zero erro fatal, zero erro de
+%  tagging e zero transbordo.
+%
+%  Medido em 17/09/2026: a Atkinson não tem o glifo da CRASE
+%  (U+0060), que é por onde a convenção `` '' do TeX monta as aspas.
+%  Num único capítulo de teste deu 38 avisos `Missing character` e
+%  aspas que o texto extraído devolvia como U+FFFD U+FFFD.
+%
+%  \tracinglostchars = 3 torna isso ERRO. O LaTeX usa 2 (aviso).
+%  Fecha a classe inteira de defeito, para qualquer fonte e qualquer
+%  caractere — não só para a crase.
+% ══════════════════════════════════════════════
+\AtBeginDocument{\tracinglostchars=3\relax}
+
+% ══════════════════════════════════════════════
+%  3. CORES DERIVADAS DA PALETA
+%
+%  A paleta institucional é ROXA e, nesta linha, FIXA (decisão de
+%  17/09/2026). Os padrões vêm de crpsp-base §2; o documento pode
+%  sobrescrevê-los pelos setters, mas não deveria.
 %
 %  Contrastes medidos sobre papel branco (WCAG):
 %    cor1 Her Highness      #422C73 — 11,4:1  texto e títulos (AAA)
@@ -103,10 +206,22 @@
 }
 
 % ══════════════════════════════════════════════
-%  3. SECCIONAMENTO
+%  4. SECCIONAMENTO
 %     Via \@startsection — NUNCA titlesec, que é incompatível
-%     com phase-III (WA-03: "number of automatic begin/end
+%     com o tagging (WA-03: "number of automatic begin/end
 %     text-unit para hooks differ").
+%
+%     Os skips foram relidos em 17/09 contra o \parskip do WCAG,
+%     que nesta linha vale 1,5 x 18 pt = 27 pt:
+%       - beforeskip MAIOR que o \parskip, senão o título não se
+%         distingue de uma quebra de parágrafo qualquer;
+%       - afterskip pequeno, porque o compensador do \@afterheading
+%         (crpsp-base §4) já tira o \parskip do parágrafo que segue
+%         o título. O resultado é o título perto do próprio texto e
+%         longe do bloco anterior, que é o que a hierarquia pede.
+%
+%     Títulos em \sffamily = NEWJUNE. O contraste com o corpo é de
+%     família, não de gênero: as duas são sem serifa.
 % ══════════════════════════════════════════════
 
 \setcounter{secnumdepth}{-1}
@@ -117,17 +232,17 @@
 % cabeçalho. Se for desejada, o caminho seguro é uma régua explícita
 % no documento (\crpspregua), não embutida no seccionamento.
 \renewcommand\section{\@startsection{section}{1}{0pt}%
-  {1.6\baselineskip}{0.6\baselineskip}%
-  {\normalfont\Large\bfseries\color{crpsp@cor1}}}
+  {2\baselineskip}{0.5\baselineskip}%
+  {\normalfont\sffamily\Large\bfseries\color{crpsp@cor1}}}
 \renewcommand\subsection{\@startsection{subsection}{2}{0pt}%
-  {1.1\baselineskip}{0.35\baselineskip}%
-  {\normalfont\large\bfseries\color{crpsp@cor1}}}
+  {1.5\baselineskip}{0.35\baselineskip}%
+  {\normalfont\sffamily\large\bfseries\color{crpsp@cor1}}}
 \renewcommand\subsubsection{\@startsection{subsubsection}{3}{0pt}%
-  {0.9\baselineskip}{0.25\baselineskip}%
-  {\normalfont\normalsize\bfseries\color{crpsp@cor1}}}
+  {1.2\baselineskip}{0.25\baselineskip}%
+  {\normalfont\sffamily\normalsize\bfseries\color{crpsp@cor1}}}
 
 % ══════════════════════════════════════════════
-%  4. HELPERS DE TAGGING
+%  5. HELPERS DE TAGGING
 %     \tagstructbegin/\tagstructend existem como no-ops
 %     (tagpdf-base) quando o documento não ativa
 %     \DocumentMetadata; o guard cobre formats sem tagpdf-base.
@@ -142,14 +257,31 @@
 \newcommand{\crpsprel@paraoff}{\ifdefined\tagpdfparaOff\tagpdfparaOff\fi}
 \newcommand{\crpsprel@paraon}{\ifdefined\tagpdfparaOn\tagpdfparaOn\fi}
 
+% Suspende a árvore de estrutura e marca o conteúdo do stream como
+% ARTEFATO. É o par verificado em mwe_fundo_esopic.tex: sem o
+% \tagmcbegin o conteúdo ficaria sem MC ("untagged content"); com
+% \includegraphics[alt={}] viraria <Figure> de Alt vazio, que o
+% veraPDF até aprova, mas que põe decoração na árvore de leitura.
+% ⚠️ `alt={}` NÃO marca artefato desde agosto/2026 (WA-10), e a
+% chave `artifact` do \includegraphics serve para arte NO FLUXO,
+% não para fundo de shipout.
+\newcommand{\crpsprel@artefatoinicio}{%
+  \ifdefined\tagstop\tagstop\fi
+  \ifdefined\tagmcbegin\tagmcbegin{artifact}\fi
+}
+\newcommand{\crpsprel@artefatofim}{%
+  \ifdefined\tagmcend\tagmcend\fi
+  \ifdefined\tagstart\tagstart\fi
+}
+
 % ══════════════════════════════════════════════
-%  5. BOXES PARALELOS  —  \begin{paralelos} + \boxlado
+%  6. BOXES PARALELOS  —  \begin{paralelos} + \boxlado
 %
 %  Reproduz os cards da seção "As duas opções" do relatório HTML.
 %
 %  Implementação em \fcolorbox{\parbox}, NÃO tcolorbox: sob
-%  phase-III o patch de tagging do tcolorbox força \par em volta
-%  da box mesmo com nobeforeafter, empilhando as colunas.
+%  tagging o patch do tcolorbox força \par em volta da box mesmo
+%  com nobeforeafter, empilhando as colunas.
 %  Validado em desenvolvimento/mwe/mwe_fcolorbox_phase3.tex.
 %
 %  A ordem das operações de tagging é decalque de colunas/\coluna
@@ -162,6 +294,10 @@
 %      ficam desbalanceados ("begin (12) and end (11) differ");
 %    - invertendo \par e tagend no fecho, a pilha de estruturas
 %      não fecha ("there is no open structure on the stack").
+%
+%  ⚠️ \parbox aplica \@parboxrestore, que ZERA o \parskip. Os boxes
+%  restauram o valor a partir de \crpspParskip, que é o registro
+%  que a crpsp-base §4 mantém justamente para isto.
 % ══════════════════════════════════════════════
 
 \newlength{\crpsprel@cardgap}
@@ -220,12 +356,11 @@
     \parbox[t]{\crpsprel@cardparwd}{%
       % alinha os TOPOS das duas caixas
       \vspace{0pt}%
-      \setlength{\parskip}{\crpsprel@parskip}%
-      % medida estreita: justificar aqui produz rios e underfull
-      \raggedright
+      \setlength{\parskip}{\crpspParskip}%
+      % medida estreita: o alinhamento à esquerda já vem da base
       \crpsprel@paraon
-      {\footnotesize\bfseries\color{crpsp@cor1}\MakeUppercase{#2}}\par
-      {\large\bfseries\color{crpsp@cor1}#3}\par
+      {\sffamily\footnotesize\bfseries\color{crpsp@cor1}\MakeUppercase{#2}}\par
+      {\sffamily\large\bfseries\color{crpsp@cor1}#3}\par
       #4\par
       \crpsprel@paraoff
     }%
@@ -235,7 +370,7 @@
 }
 
 % ══════════════════════════════════════════════
-%  6. BOX DE DESTAQUE  —  \begin{destaque}{rótulo}
+%  7. BOX DE DESTAQUE  —  \begin{destaque}{rótulo}
 %     Reproduz o callout "Caso documentado · 2026".
 %     Largura da mancha, fundo tingido a 10% e moldura no tom
 %     puro; todo o texto em preto sobre o fundo claro (17:1).
@@ -249,9 +384,9 @@
   \crpsprel@tagbegin{Sect}%
   \noindent\fcolorbox{crpsp@alarme}{alarmefundo}{%
     \parbox{\dimexpr\linewidth-2\fboxsep-2\fboxrule\relax}{%
-      \setlength{\parskip}{\crpsprel@parskip}%
+      \setlength{\parskip}{\crpspParskip}%
       \crpsprel@paraon
-      {\footnotesize\bfseries\color{crpsp@cor1}\MakeUppercase{#1}}\par
+      {\sffamily\footnotesize\bfseries\color{crpsp@cor1}\MakeUppercase{#1}}\par
       #2\par
       \crpsprel@paraoff
     }%
@@ -262,11 +397,11 @@
 }{}
 
 % ══════════════════════════════════════════════
-%  7. TABELAS  —  tabular / longtable + \rowcolor
+%  8. TABELAS  —  tabular / longtable + \rowcolor
 %
 %     NÃO tabularray: todo \end{tblr} emite relações de tag
-%     inválidas ('text' --> 'text-unit') sob phase-III, mesmo com
-%     o módulo `table` do testphase ativo. Verificado em
+%     inválidas ('text' --> 'text-unit') sob tagging, mesmo com
+%     o módulo `table` ativo. Verificado em
 %     desenvolvimento/mwe/mwe_tabelas_phase3.tex: tabular puro
 %     taggeia limpo, tblr não — com ou sem colspec X, com ou sem
 %     cor de linha.
@@ -280,32 +415,32 @@
 %     mais negrito, nunca de texto colorido.
 %
 %     PDF/UA proíbe tabular de LAYOUT; estas são de dados e têm
-%     cabeçalho. Para blocos lado a lado use 'paralelos' (§5).
+%     cabeçalho. Para blocos lado a lado use 'paralelos' (§6).
 %
 %     Uso:
-%       \begin{tabular}{p{.35\linewidth}p{.55\linewidth}}
+%       \begin{tabular}{L{.35\linewidth}L{.55\linewidth}}
 %         \linhacab \celcab{Etapa} & \celcab{Responsável} \\
 %         Definição de pauta & ComCom \\
 %         \linhadestaque \textbf{Checagem de fatos} & \textbf{Comunicação} \\
 %       \end{tabular}
 % ══════════════════════════════════════════════
 
-% Tipo de coluna L{largura}: como p{}, mas alinhada à esquerda.
-% Em coluna estreita a justificação força hifenação agressiva
-% ("res-ponsável", "reporta-gem") e abre rios — use L{} em vez de p{}
-% em toda coluna de texto de tabela.
-% Tipo de coluna L{largura}: como p{}, mas alinhada à esquerda.
-% Em coluna estreita a justificação força hifenação agressiva
-% ("res-ponsável", "reporta-gem") — use L{} em vez de p{} em toda
-% coluna de texto de tabela.
+% Tipo de coluna L{largura}: como p{}, mas alinhada à esquerda — use
+% L{} em vez de p{} em toda coluna de texto de tabela. Desde que o
+% alinhamento à esquerda virou regra da linha (WCAG 1.4.8, decisão de
+% 17/09), o p{} justificado não deveria aparecer em lugar nenhum; o
+% L{} continua existindo porque o array reinicia o alinhamento dentro
+% da célula e não herda o \raggedright global.
+%
+% O \raggedright aqui é o do kernel — que sob tagging é a instância
+% `para/raggedright` do latex-lab e marca /Layout /TextAlign /Start na
+% célula, o mesmo atributo do corpo. Ver crpsp-base §4.
 %
 % Resíduo conhecido: células muito curtas em coluna estreita geram
 % "Underfull \hbox (badness 10000)" — 4 ocorrências no relatório do
 % Jornal Psi. É ruído métrico, não defeito: a folga à direita é o
-% efeito pretendido do alinhamento à esquerda. Duas saídas foram
-% testadas e descartadas: \RaggedRight (ragged2e) gera underfull
-% ADICIONAL na longtable, por usar esticamento finito; e \hbadness
-% dentro do >{} não é honrado pelo array nessas células.
+% efeito pretendido do alinhamento à esquerda. O \hbadness dentro do
+% >{} não é honrado pelo array nessas células.
 \RequirePackage{array}
 \newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
 
@@ -325,9 +460,9 @@
 \newcommand{\vago}{\textbf{--- vago}}
 
 % ══════════════════════════════════════════════
-%  8. LISTAS
-%     Sem enumitem (incompatível com o módulo `block` do
-%     latex-lab). Apenas recoloração dos rótulos padrão.
+%  9. LISTAS
+%     Sem enumitem (sob tagging o latex-lab o substitui pela
+%     emulação). Apenas recoloração dos rótulos padrão.
 % ══════════════════════════════════════════════
 
 \renewcommand{\labelitemi}{\textcolor{crpsp@cor1}{\textbullet}}
@@ -335,7 +470,7 @@
 \renewcommand{\labelenumi}{\textcolor{crpsp@cor1}{\arabic{enumi}.}}
 
 % ══════════════════════════════════════════════
-%  9. FIGURAS  —  \graficocrp{arquivo}{título}{alt}{fonte}
+%  10. FIGURAS  —  \graficocrp{arquivo}{título}{alt}{fonte}
 %     O alt é OBRIGATÓRIO: os gráficos entram como PDF
 %     pré-renderizado, logo são imagem para o leitor de tela.
 %     Toda figura deve ser acompanhada da tabela de dados
@@ -345,7 +480,7 @@
 \newcommand{\graficocrp}[4]{%
   \par
   \crpsprel@tagbegin{Sect}%
-  {\normalfont\large\bfseries\color{crpsp@cor1}#2\par}
+  {\normalfont\sffamily\large\bfseries\color{crpsp@cor1}#2\par}
   \nobreak
   \noindent\includegraphics[width=\linewidth, alt={#3}]{#1}\par
   \nobreak
@@ -355,5 +490,177 @@
   \crpsprel@tagend
   \par
 }
+
+% ══════════════════════════════════════════════
+%  11. VARIANTE `externo` — A CAMADA DE DECORAÇÃO
+%
+%  Só existe com \documentclass[externo]{crpsp-relatorio}. No
+%  `interno` nada disto é definido, e o eso-pic nem é carregado.
+%
+%  A arte é do designer e ainda não existe: por isso tudo aqui é
+%  INTERFACE com fallback. Sem arquivo, nada é impresso e nada
+%  falha — quando a arte chegar, é um arquivo a mais, não uma
+%  reescrita.
+%
+%    \relDecoracao{<topo>}{<pé>}  declara as faixas (preâmbulo)
+%    \relCapaArte{<arquivo>}      declara a arte da capa (preâmbulo)
+%    \relCapa                     compõe a capa (documento)
+%    \relSemDecoracao / \relComDecoracao   liga e desliga as faixas
+%
+%  ⚠️ A decoração é ARTEFATO: entra pelo par \crpsprel@artefatoinicio
+%  / \crpsprel@artefatofim (§5), nunca como \includegraphics com
+%  alt={}. Verificar com show-pdf-tags.lua: zero <Figure> vindo daqui.
+%
+%  ⚠️ A capa NÃO usa pdfpages. O \includepdf é incompatível com
+%  tagging (achado de 17/09/2026, pelo Guia de Apresentações
+%  Acessíveis) e não pode entrar nesta linha.
+%
+%  EM ABERTO: o comportamento da decoração em páginas em paisagem.
+%  A pendência é do briefing de 16/09 e segue aberta — esta linha
+%  não carrega pdflscape, e anexos em paisagem ficam para a rodada
+%  que resolver isso.
+% ══════════════════════════════════════════════
+
+% ⚠️ O \newif fica FORA do \ifcrpsp@rel@externo, e não por gosto. Ao
+% pular um bloco condicional, o TeX não executa o \newif — mas o
+% analisador de salto também não reconhece \ifcrpsprel@decora como
+% condicional, porque ainda é um controle indefinido. O \fi
+% correspondente, esse ele conta: o bloco inteiro fecha cedo demais e
+% o erro sai a dezenas de linhas dali ("Too many }'s" seguido de
+% "Extra \fi"). Todo \newif de um bloco opcional tem de nascer antes
+% dele.
+\newif\ifcrpsprel@decora \crpsprel@decoratrue
+
+\ifcrpsp@rel@externo
+
+  \RequirePackage{eso-pic}
+
+  \newcommand{\relSemDecoracao}{\crpsprel@decorafalse}
+  \newcommand{\relComDecoracao}{\crpsprel@decoratrue}
+
+  \def\crpsprel@artetopo{}
+  \def\crpsprel@artepe{}
+  \def\crpsprel@artecapa{}
+
+  \newcommand{\relDecoracao}[2]{%
+    \def\crpsprel@artetopo{#1}%
+    \def\crpsprel@artepe{#2}%
+  }
+  \newcommand{\relCapaArte}[1]{\def\crpsprel@artecapa{#1}}
+
+  % Uma faixa com a largura do papel e a altura da faixa de decoração.
+  % Há duas porque a âncora difere: a do topo precisa descer a própria
+  % altura (o \AtPageUpperLeft ancora o canto superior esquerdo do
+  % papel, e o \includegraphics cresce para cima a partir da linha de
+  % base). \IfFileExists é a guarda: arte declarada mas ausente avisa e
+  % segue — a compilação não para por falta do designer.
+  \newcommand{\crpsprel@arte}[1]{%
+    \includegraphics[width=\paperwidth, height=\relDecoracaoAltura]{#1}%
+  }
+  \newcommand{\crpsprel@faltou}[1]{%
+    \PackageWarning{relatorio}{%
+      Arte de decoracao `#1' nao encontrada; a faixa fica vazia%
+    }%
+  }
+
+  \newcommand{\crpsprel@faixatopo}{%
+    \ifx\crpsprel@artetopo\@empty\else
+      \IfFileExists{\crpsprel@artetopo}{%
+        \AtPageUpperLeft{%
+          \raisebox{-\relDecoracaoAltura}[0pt][0pt]{%
+            \crpsprel@arte{\crpsprel@artetopo}}%
+        }%
+      }{\crpsprel@faltou{\crpsprel@artetopo}}%
+    \fi
+  }
+  \newcommand{\crpsprel@faixape}{%
+    \ifx\crpsprel@artepe\@empty\else
+      \IfFileExists{\crpsprel@artepe}{%
+        \AtPageLowerLeft{\crpsprel@arte{\crpsprel@artepe}}%
+      }{\crpsprel@faltou{\crpsprel@artepe}}%
+    \fi
+  }
+
+  \AddToShipoutPictureBG{%
+    \ifcrpsprel@decora
+      \crpsprel@artefatoinicio
+      \crpsprel@faixatopo
+      \crpsprel@faixape
+      \crpsprel@artefatofim
+    \fi
+  }
+
+  % \relCapa — página inteira, sem fólio e sem as faixas.
+  % Com arte: imagem full-bleed, marcada como artefato.
+  % Sem arte: capa tipográfica com \title, \author e \date, na paleta
+  % institucional. As duas caem na mesma página, e o documento não
+  % precisa saber qual saiu.
+  \newcommand{\relCapa}{%
+    \relSemDecoracao
+    \thispagestyle{empty}%
+    \crpsprel@capaarte
+    \clearpage
+    \relComDecoracao
+  }
+
+  \newcommand{\crpsprel@capaarte}{%
+    \ifx\crpsprel@artecapa\@empty
+      \crpsprel@capatipografica
+    \else
+      \IfFileExists{\crpsprel@artecapa}{%
+        \AddToShipoutPictureBG*{%
+          \crpsprel@artefatoinicio
+          \AtPageLowerLeft{%
+            \includegraphics[width=\paperwidth,
+                             height=\paperheight]{\crpsprel@artecapa}}%
+          \crpsprel@artefatofim
+        }%
+        \null
+      }{%
+        \PackageWarning{relatorio}{%
+          Arte de capa `\crpsprel@artecapa' nao encontrada;
+          usando a capa tipografica%
+        }%
+        \crpsprel@capatipografica
+      }%
+    \fi
+  }
+
+  % Fallback tipográfico. Enquanto o designer não responde, é esta que
+  % sai — e ela precisa ser uma capa apresentável, não um remendo.
+  % \@title é obrigatório: uma capa sem título não é capa, e o
+  % \hypersetup{pdftitle} que o veraPDF exige já obriga a ter um.
+  \newcommand{\crpsprel@capatipografica}{%
+    \ifdefined\@title\else
+      \PackageError{relatorio}{\string\relCapa\space sem \string\title}{%
+        A capa tipografica compoe \string\@title, \string\@author\space e
+        \string\@date.\MessageBreak
+        Declare ao menos \string\title{...} no preambulo.%
+      }%
+      \gdef\@title{}%
+    \fi
+    \null
+    \vskip 4\baselineskip
+    {\raggedright
+      {\sffamily\crpspTituloCapa\bfseries\color{crpsp@cor1}\@title\par}%
+      \vskip 1.5\baselineskip
+      {\color{crpsp@cor3}\rule{\linewidth}{2pt}}\par
+      \vskip 1.5\baselineskip
+      \ifdefined\@author
+        \ifx\@author\@empty\else
+          {\sffamily\large\color{crpsp@tinta}\@author\par}%
+        \fi
+      \fi
+      \ifdefined\@date
+        \ifx\@date\@empty\else
+          \vskip 0.5\baselineskip
+          {\sffamily\color{crpsp@tinta}\@date\par}%
+        \fi
+      \fi
+    }%
+    \vfill
+  }
+
+\fi
 
 \endinput

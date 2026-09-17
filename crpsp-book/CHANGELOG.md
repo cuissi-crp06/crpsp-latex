@@ -80,6 +80,67 @@ Camada de legislação acessível. Declarada com `\ProvidesFile`, não
 `\usepackage`. O argumento opcional é o mesmo nos dois comandos. Beta porque o
 mesmo corpo serve o guia de apresentações acessíveis, que circulou.
 
+## Linha `desenvolvimento/v2` — 0.2.0-alfa — 2026/09/17
+
+`crpsp-base`, `crpsp-relatorio` e `relatorio`, todos de `0.1.0-alfa` para
+`0.2.0-alfa`. É geração nova, não correção: aplica as decisões de 17/09/2026
+(ver `briefings/decisoes-2026-09-17.md`) e abre a variante `externo`.
+Permanecem em `-alfa` — o relatório do Jornal Psi, única publicação servida por
+esta linha, é interno e não circulou fora do CRP-SP.
+
+**`crpsp-base`.** Ganha três coisas, todas **opt-in**, porque o pacote é
+compartilhado por quatro linhas e efeito colateral aqui tiraria da linha-base
+quem não decidiu nada:
+
+- `\crpspTipografiaWCAG` — o WCAG 1.4.8 inteiro: espaço entre parágrafos de
+  1,5 × entrelinha, alinhamento à esquerda sem hifenação, e a compensação do
+  `\@afterheading` que impede o título de ficar mais longe do próprio texto do
+  que os parágrafos ficam entre si. Usa o `\raggedright` do kernel, não o
+  `\RaggedRight` do ragged2e: além do esticamento infinito, que é o que evita
+  transbordo com a hifenação desligada, é ele que marca `/Layout /TextAlign
+  /Start` na árvore de tags. Com o ragged2e o PDF saía alinhado à esquerda aos
+  olhos e **justificado** para quem lê o atributo — 9 parágrafos assim no
+  exemplo do `externo` antes da correção, 0 depois. O ragged2e sai do orçamento
+  de pacotes.
+- `\crpspMedida{<teto>}` — régua de medida: registra no log os caracteres da
+  linha cheia, medidos no motor com kerning sobre a mesma amostra de
+  `desenvolvimento/medida/amostra-pt.tex`, e avisa se passarem do teto.
+- `\crpspExigeFonte` e `\crpspSondaGlifos` — fonte declarada por arquivo com
+  erro claro quando falta, e registro em log da face que não tenha o glifo
+  U+0060.
+
+A paleta padrão passa do cinza neutro para o **roxo institucional `#422C73`**.
+
+**`crpsp-relatorio`.** Opções em chave-valor por `\DeclareKeys`, no lugar do
+`\DeclareOption` legado: `interno` (padrão) e `externo`, mutuamente exclusivas,
+mais o `semtoc` que já existia. Corpo de **11 pt para 12 pt** — a Lora em 11 pt
+tinha altura-x de 1,933 mm, abaixo do mínimo de 2,0 mm da RNIB, e a linha não
+cumpria o critério que o próprio sistema adota. O `pdfpages` entra na lista de
+incompatíveis com tagging.
+
+**`relatorio`.** Margem de **35 mm nos quatro lados** (mancha de 140 mm, 75
+caracteres medidos no motor, 35 linhas por página). Atkinson Hyperlegible Next
+no corpo e NEWJUNE nos títulos, ambas declaradas por arquivo **e com o
+diretório fixado**. `\tracinglostchars = 3`. A variante `externo` traz
+`\relDecoracao`, `\relCapaArte` e `\relCapa`, com a arte marcada como artefato
+(`\tagstop` + `\tagmcbegin{artifact}`) e fallback tipográfico quando o arquivo
+falta.
+
+**Duas armadilhas encontradas ao escrever isto, registradas nos arquivos:**
+
+- **Duas Atkinson na mesma máquina.** O Fedora tinha a do pacote `atkinson` do
+  TeX Live e a do pacote de fontes da distribuição, com md5 diferentes. Com a
+  fonte declarada só pelo *nome do arquivo*, o luaotfload resolvia Regular e
+  Bold por uma cópia e o **itálico** pela outra — dois builds da mesma família
+  no mesmo PDF. Pior: só a do TeX Live não tem o glifo U+0060, então o defeito
+  das aspas da convenção do TeX **depende da máquina**. O `Path` agora é
+  resolvido pelo kpathsea, e os oito cortes vêm do mesmo build.
+- **`\newif` dentro de bloco condicional.** Ao pular o `\ifcrpsp@rel@externo`, o
+  TeX não reconhece como condicional um `\if...` ainda indefinido, mas conta o
+  `\fi` correspondente: o bloco fecha cedo e o erro sai dezenas de linhas
+  adiante, como `Too many }'s`. Todo `\newif` de bloco opcional nasce antes
+  dele.
+
 ## Linha `desenvolvimento/v2` — 0.1.0-alfa
 
 `crpsp-base` (2026/07/03), `guia-crpsp_acessivel` (2026/05/25), `guia-visual`
