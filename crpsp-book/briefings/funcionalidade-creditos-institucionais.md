@@ -173,13 +173,19 @@ título e o ambiente de colunas; quem preenche os nomes é o fragmento gerado.
 - [ ] **O formato intermediário.** Em aberto, com **aposta em JSON** — é o que o
       `latexgen.py` já usa, e permite conferir a nominata antes de compor a
       página. A confirmar no sprint 10.
+- [ ] **A conversão nominata → TEX sai em Lua?** Decisão do Angelo em 17/09:
+      **avaliar Lua, aproveitando o motor de compilação.** Ver a seção abaixo —
+      há uma bifurcação a resolver antes de escrever qualquer coisa.
 - [ ] **Recuperar o `atualizar_creditos.py`** a partir do `.pyc`, ou escrever do
       zero? **Fica para o sprint 10 definir.** O `.pyc` é de Python 3.14 e pode
       ser descompilado o bastante para revelar a intenção — a pergunta é se vale
       o trabalho, ou se o que se sabe da saída dele já basta.
-- [ ] **O que fazer com o `plenario_e_comissoes 1.md`** e o
-      `gerar_listagem_creditos.py`: aposentar quando o gerador novo existir, ou
-      manter como conferência independente do que veio do banco?
+- [x] ~~**O que fazer com o `plenario_e_comissoes 1.md`** e o
+      `gerar_listagem_creditos.py`~~ **Decidido em 17/09: podem ser
+      aposentados.** Não ficam como conferência independente. O markdown é
+      conteúdo e sai pelo caminho de conteúdo; o `gerar_listagem_creditos.py`
+      está no `cuissi-crp06/scripts` e sai de lá quando o gerador novo existir —
+      **não antes**, para não abrir um vão sem substituto.
 - [x] ~~**Nome e registro na mesma linha.**~~ **Decidido em 17/09: separar em
       dois argumentos.** Hoje é `\NomeNosCreditos{nome (CRP~06/registro)}`, com
       o registro dentro do texto — o tagging não distingue um do outro, e o
@@ -199,6 +205,43 @@ título e o ambiente de colunas; quem preenche os nomes é o fragmento gerado.
       Continua valendo conferir: se o replay até hoje divergir do registro, a
       divergência é achado a investigar no pipeline — não empate a desempatar
       na hora de compor a página.
+
+## Lua na conversão — a avaliar, e a bifurcação
+
+Decisão do Angelo em 17/09: **avaliar Lua para converter a nominata em TEX,
+aproveitando o motor de compilação.** Faz sentido — o LuaTeX já está ali, e é o
+único motor que estas linhas aceitam.
+
+⚠️ **Mas "aproveitar o motor" admite duas leituras, e elas não são equivalentes.**
+
+**A. Script `texlua` autônomo.** Lê o JSON e grava os `.tex`, como o
+`latexgen.py` faz hoje com as normas. Roda no pipeline, fora da compilação do
+documento. Preserva a decisão já tomada — o produto é um `.tex` para
+Plenário/Diretoria e um por comissão — e mantém a nominata conferível antes de
+entrar na publicação.
+
+**B. Lua dentro do documento.** A classe lê o JSON em tempo de compilação e
+compõe os créditos direto, sem `.tex` intermediário. Mais curto, mas:
+
+- **contradiz a decisão do produto final** ser arquivo `.tex`;
+- move a validação para o tempo de compilação, onde a regra de *falhar alto*
+  (`pessoa_id` NULL, `confianca = nenhuma`) vira erro de LaTeX em vez de erro do
+  pipeline — pior lugar para tratar dado sujo;
+- o JSON passa a ser dependência de compilação da publicação, e a página de
+  créditos deixa de ser auditável pelo diff do `.tex`.
+
+**A avaliação deve começar pela A**, que é a que cabe no que já foi decidido. A
+B só se justifica se a conferência prévia deixar de importar — e para uma página
+que nomeia pessoas reais, ela importa.
+
+Dois pontos práticos para o sprint 10:
+
+- o gerador vai morar no `normativas-pipeline`, que é um pipeline **Python**.
+  Um `texlua` ali é um corpo estranho: não compartilha ambiente virtual,
+  dependências nem testes com o resto. Pesa contra, e precisa ser pesado.
+- o `latexgen.py` já faz JSON → LaTeX em Python, com o contrato descrito. Se o
+  gerador de créditos for em Lua, passam a existir **dois caminhos diferentes**
+  para a mesma travessia no mesmo repositório.
 
 ## Relacionados
 
