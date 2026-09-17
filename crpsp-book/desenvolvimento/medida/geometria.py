@@ -105,7 +105,7 @@ def tabela_por_classe(nome, cfg, fontes):
 
 def main():
     fontes = carregar()
-    ordem = ["Luciole", "NEWJUNE-Regular", "NEWJUNE-Serif", "Lora"]
+    ordem = ["Luciole", "NEWJUNE-Regular", "NEWJUNE-Serif", "Atkinson", "Lora"]
     fontes = {f: fontes[f] for f in ordem if f in fontes}
 
     doc = [

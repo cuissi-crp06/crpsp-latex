@@ -54,4 +54,55 @@
 \renewcommand{\@afterheading}{\crpsp@afterheading\vspace{-\parskip}}
 \makeatother
 
+% ── Títulos proporcionais ao corpo ──────────────────────────────────
+% ⚠️ O \Huge das classes padrão SATURA: vale 24,88 pt tanto em 11 pt quanto
+% em 12 pt de base. Ao subir o corpo de 10,95 para 12 pt (+9,6%), o título de
+% capítulo -- que é `title-decls = \Huge` no pacote book -- NÃO cresce, e a
+% razão título/corpo cai de 2,27x para 2,07x. O número do capítulo (\huge)
+% faz o contrário: cresce 20%, mais que o corpo. Ou seja, subir o corpo
+% comprime a hierarquia em silêncio.
+%
+% Os dois voltam à proporção do desenho original, multiplicando os valores de
+% 11 pt por 12/10,95:
+%     \Huge  24,88 -> 27,27        \huge  20,74 -> 22,73
+%
+% A entrelinha dos títulos fica em 1,15x o corpo da fonte em vez de herdar a
+% entrelinha de 1,5 do texto: num título de três linhas o 1,5 solta demais.
+% Isto NÃO fere o WCAG 1.4.8, cujo critério vale para blocos de texto.
+\renewcommand{\Huge}{\fontsize{27.27}{31.36}\selectfont}
+\renewcommand{\huge}{\fontsize{22.73}{26.14}\selectfont}
+
+% ── Alinhamento à esquerda, sem hifenação ───────────────────────────
+% "Texto não justificado" é um dos cinco itens do próprio WCAG 1.4.8, junto
+% com a largura de linha e a entrelinha. O texto justificado abre buracos
+% irregulares entre palavras, que atrapalham quem tem dislexia e quem lê com
+% ampliação. A hifenação sai à parte: quebra de palavra obriga a remontar o
+% termo, e o alinhamento à esquerda não precisa dela para fechar a linha.
+% \exhyphenpenalty cuida dos hifens já presentes no texto ("cão-guia").
+%
+% ⚠️ O \RaggedRight do ragged2e sozinho NÃO basta. O esticamento padrão dele
+% à direita é finito (2em): serrilha menos a margem, mas conta com a
+% hifenação para fechar as linhas difíceis. Sem ela as linhas transbordam --
+% medido no capítulo de teste, 8 a 9 linhas por versão passavam da mancha,
+% uma delas em 24 pt, 8 mm de texto dentro da margem. Com esticamento
+% infinito não há transbordo possível por espacejamento: a linha termina
+% mais cedo, que é o que o alinhamento à esquerda quer dizer.
+\setlength{\RaggedRightRightskip}{0pt plus 1fil}
+\AtBeginDocument{%
+  \RaggedRight
+  \hyphenpenalty=10000
+  \exhyphenpenalty=10000
+}
+
+% ── Aspas: usar Unicode, não a convenção do TeX ─────────────────────
+% ⚠️ Não é configuração, é regra de escrita do .tex, registrada aqui porque
+% foi descoberta neste teste. A convenção `` '' do TeX passa pelo glifo da
+% CRASE (U+0060), e nem toda fonte tem. A Atkinson Hyperlegible Next não
+% tem: as aspas saíram como glifo sem mapeamento Unicode (U+FFFD no texto
+% extraído), com 38 avisos `Missing character` e zero erro nas outras
+% colunas. Leitor de tela não lê, e PDF/UA exige mapeamento.
+%
+% `Ligatures = TeX` não resolve: a ligadura opera sobre o glifo, e o glifo
+% não existe. Escrever “ ” direto no .tex resolve para qualquer fonte.
+
 \endinput

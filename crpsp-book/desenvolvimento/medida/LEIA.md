@@ -267,3 +267,158 @@ parágrafos exige — sem recuo, o espaço é o único separador.
   obrigatório" não o alcança ao pé da letra.
 - **O número de caracteres de cada classe**, que agora se lê como orçamento de
   margem: escolher a margem externa desejada e ler o número na tabela.
+
+---
+
+# Segunda rodada — 17/09, tarde
+
+Entraram na medição a **Atkinson Hyperlegible Next** (Braille Institute, pacote
+`atkinson` do TeX Live, família completa de sete pesos) e o teste das quatro
+fontes sobre publicação real.
+
+## A Atkinson tem altura-x menor que a Lora
+
+| Fonte | Altura-x | x/eme | x/maiúsc. | mm/car. |
+|---|---|---|---|---|
+| Luciole | 2,299 mm | 0,545 | 0,714 | 2,0874 |
+| NEWJUNE Regular | 2,294 mm | 0,544 | 0,731 | 2,0149 |
+| NEWJUNE Serif | 2,142 mm | 0,508 | 0,683 | 2,0055 |
+| Lora | 2,109 mm | 0,500 | 0,714 | 1,9611 |
+| **Atkinson Next** | **2,092 mm** | **0,496** | 0,743 | **1,8778** |
+
+Resultado contraintuitivo para uma fonte de acessibilidade, e confirmado com a
+face declarada por arquivo (`AtkinsonHyperlegibleNext-Regular.otf`) — não é
+substituição silenciosa. **A Atkinson busca legibilidade por diferenciação de
+letra** (distinguir I/l/1, O/0, b/d) **e não por altura-x.** É também a mais
+estreita das cinco: 10% mais estreita que a Luciole, o que devolve muita margem
+externa ou muitos caracteres de linha.
+
+Os dois critérios de acessibilidade não são o mesmo critério. A régua da RNIB
+mede altura-x; a Atkinson otimiza outra coisa.
+
+## O `\Huge` satura, e subir o corpo comprime a hierarquia
+
+| Base | corpo | `\huge` | `\Huge` |
+|---|---|---|---|
+| 11 pt | 10,95 | 20,74 | 24,88 |
+| 12 pt | 12 | 24,88 | **24,88** |
+| variação | +9,6% | +20% | **0%** |
+
+O `\Huge` das classes padrão vale 24,88 pt nas duas bases. O título de capítulo
+do pacote book é `title-decls = \Huge`: ao subir o corpo para 12 pt, **o título
+não cresce** e a razão título/corpo cai de 2,27× para 2,07×. O número do
+capítulo, que é `\huge`, faz o oposto e cresce 20%.
+
+Nenhuma das duas coisas é visível sem medir — a hierarquia comprime em silêncio.
+A correção está em [`prototipo-tipografia.tex`](prototipo-tipografia.tex), com
+os valores de 11 pt multiplicados por 12/10,95.
+
+## A NEWJUNE Serif não tem negrito
+
+Só existem `NEWJUNESERIF-REGULAR.OTF` e `NEWJUNESERIF-REGULAR-ITALIC.OTF`:
+**dois cortes, sem negrito nem negrito itálico.** Para o teste foi usado
+`AutoFakeBold`, que sintetiza o peso — serve para avaliar, não para produção.
+
+Pesa contra usá-la em bloco de texto: qualquer `\textbf` no corpo, qualquer
+termo em destaque, cai num negrito falso. Some-se a isso a altura-x de 2,142 mm,
+na faixa do mínimo. Para chegar aos 2,3 mm da meta da RNIB ela precisaria de
+**12,9 pt** de corpo.
+
+## O teste das quatro sobre publicação real
+
+Capítulo "Acessibilidade para pessoas com deficiência visual" do Guia de
+Apresentações Acessíveis, com a mancha e o fundo decorativo reais. Todas em
+12 pt, com o WCAG inteiro, NEWJUNE nos títulos e os títulos já corrigidos:
+
+| Corpo | Páginas | Fatais | Erros de tagging |
+|---|---|---|---|
+| Lora | 5 | 0 | 0 |
+| Luciole | 5 | 0 | 0 |
+| NEWJUNE Serif | 5 | 0 | 0 |
+| Atkinson Next | 5 | 0 | 0 |
+
+**A escolha de fonte não muda a paginação deste capítulo** — as quatro dão 5
+páginas. O que muda o número de páginas é o corpo e o espaço entre parágrafos,
+não a família. A comparação fica sendo só de leitura e de contraste com o
+título.
+
+Os PDFs não estão aqui: são conteúdo de publicação e ficam no workbench.
+
+## Alinhamento à esquerda — o item do 1.4.8 que passou
+
+O WCAG 1.4.8 tem cinco itens. Adotamos a largura de linha e a entrelinha, e
+**"texto não justificado" passou despercebido** na primeira leitura. A hifenação
+saiu junto por decisão do Angelo.
+
+**O `\RaggedRight` do ragged2e sozinho não resolve.** O esticamento padrão dele
+à direita é finito (`0pt plus 2em`): serrilha menos a margem, mas conta com a
+hifenação para fechar as linhas difíceis. Desligada a hifenação, as linhas
+transbordam. Medido no capítulo de teste, antes da correção:
+
+| Versão | Linhas transbordando | Maior transbordo |
+|---|---|---|
+| Lora | 9 | 17,7 pt |
+| Luciole | 9 | 12,0 pt |
+| NEWJUNE Serif | 8 | 14,2 pt |
+| Atkinson | 3 | 9,2 pt |
+
+Uma delas chegou a 24 pt — 8 mm de texto dentro da margem, e numa publicação com
+decoração de margem isso é colisão, não só feiura. A Atkinson transborda menos
+por ser a mais estreita.
+
+Com `\RaggedRightRightskip` em `0pt plus 1fil` não há transbordo possível por
+espacejamento: a linha simplesmente termina mais cedo, que é o que o alinhamento
+à esquerda quer dizer. Depois da correção, nas quatro versões:
+
+| | Páginas | Fatais | Erros de tagging | Transbordo | Hifens no fim de linha |
+|---|---|---|---|---|---|
+| todas as quatro | 5 | 0 | 0 | **0** | **0** |
+
+A mudança de alinhamento **não mexeu na paginação**: as quatro continuam em 5
+páginas.
+
+## A Atkinson não tem o glifo da crase — e o PDF saiu sem mapeamento Unicode
+
+Apontado pelo Angelo como "artefatos no lugar das aspas". Não era só o desenho.
+
+A publicação escreve aspas pela convenção do TeX, `` e ''. Ela depende de a
+fonte ter o glifo da **crase, U+0060**, que é onde a ligadura começa. Conferido
+com `font.getfont` sobre a face carregada:
+
+| Glifo | Atkinson Next |
+|---|---|
+| U+201C, U+201D (aspas duplas) | tem |
+| U+2018, U+2019 (aspas simples) | tem |
+| U+2026, U+2014 | tem |
+| **U+0060 (crase)** | **não tem** |
+
+Sem o glifo, o caractere sai do LaTeX como **aviso** `Missing character` — 38
+deles neste capítulo — e o PDF fica com glifo sem mapeamento Unicode: o texto
+extraído devolve **dois U+FFFD** onde as outras três fontes devolvem U+201C.
+
+| Versão | `Missing character` | Aspas no texto extraído |
+|---|---|---|
+| Lora | 0 | U+201C |
+| Luciole | 0 | U+201C |
+| NEWJUNE Serif | 0 | U+201C |
+| **Atkinson Next** | **38** | **U+FFFD U+FFFD** |
+
+**Isso é falha de acessibilidade, não de aparência.** Um leitor de tela não tem
+o que ler ali, e o PDF/UA exige mapeamento Unicode para todo caractere. Passou
+por zero erro fatal, zero erro de tagging e zero transbordo.
+
+`Ligatures = TeX` **não resolve**: a ligadura opera sobre o glifo, e o glifo não
+existe. O conserto é na origem — **aspas Unicode reais (“ ”) no lugar da
+convenção `` ''**, que não dependem de a fonte ter a crase. Feito na cópia de
+teste; a publicação deveria fazer o mesmo.
+
+### A régua ganhou uma coluna
+
+O `verificar.sh` não olhava para isto: `Missing character` é aviso, e as colunas
+de erro não o alcançam. Passou a haver a coluna **`faltantes`**, entre
+`erros_tagging` e `fatais`. A `linha-base.tsv` foi regravada com ela — as demais
+colunas estão idênticas, conferidas uma a uma, e os 21 arquivos da régua têm
+zero faltantes.
+
+É a classe de defeito que a régua existe para pegar: silencioso, invisível na
+compilação, e destrói justamente a acessibilidade que a linha promete.
