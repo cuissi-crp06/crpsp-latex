@@ -2,7 +2,7 @@
 tipo: relato-upstream
 destino: "Bob Tennent (rdt at cs.queensu.ca), mantenedor do pacote CTAN `atkinson`"
 meio: e-mail (o pacote não tem issue tracker; o README dá só o endereço)
-estado: "GRAVADO nos rascunhos do Gmail em 2026-09-17, não enviado — aguarda envio pelo Angelo. Revisto antes de gravar: ver 'Revisões'"
+estado: "ENVIADO e RESPONDIDO em 2026-09-17. Bob Tennent reproduziu sob lualatex e encerrou o caso do lado dele; o relato segue para o Braille Institute. Ver 'Resposta do mantenedor'"
 criado: 2026-09-17
 mwe: neste arquivo, seção "Minimal example"
 ---
@@ -205,3 +205,105 @@ Atualizar o `estado` no cabeçalho deste arquivo, com a data, e registrar a
 resposta. Se a fonte for corrigida upstream, rever a §2b do `relatorio.sty` e
 a §4b do `crpsp-base.sty`: a regra de escrita (aspas Unicode) continua valendo
 de qualquer jeito, mas a sonda de glifos deixa de disparar.
+
+## Resposta do mantenedor — 17/09/2026
+
+Bob Tennent respondeu no mesmo dia. Em resumo: **reproduziu o defeito**, e
+**encerrou o caso do lado dele**.
+
+> After removing your Path setting which didn't work, I was able to produce
+> `Missing character: There is no ` (U+0060) in font [AtkinsonHyperlegibleNext-Reg`
+> using lualatex. But xelatex seemed to work fine. I suggest you contact the
+> Braille Institute with your issue. I only provide pdflatex support and am
+> not about to try debugging otf fonts.
+
+Três coisas a tirar dali.
+
+**1. O relato foi confirmado.** Ele viu o mesmo aviso, na mesma fonte, sob
+lualatex — e sem o `Path`, ou seja, na cópia que a máquina *dele* resolve.
+Isso é confirmação independente: não é artefato desta instalação.
+
+**2. O `Path` não funcionou porque `<TEXMFDIST>` era um marcador.** O e-mail
+explicava, na frase anterior, como obtê-lo (`kpsewhich --var-value TEXMFDIST`),
+e ainda assim o destinatário colou o exemplo literal. ⚠️ **Regra que fica:**
+em exemplo mínimo que vai para fora, nada de marcador a substituir — ou o
+caminho vai resolvido, ou o `.otf` vai anexo. O leitor de um relato não é
+obrigado a montar o teste.
+
+**3. ⚠️ "But xelatex seemed to work fine" não inocenta a fonte — e essa é a
+frase perigosa do e-mail dele.** Lida sem contexto, sugere defeito do
+lualatex, e é exatamente a leitura que faria o Braille Institute arquivar o
+caso. É falso, e foi medido aqui em 17/09:
+
+| Motor | `Ligatures=TeX` | Aviso | Texto extraído |
+| --- | --- | --- | --- |
+| lualatex | sim | 2× `Missing character` U+0060 | `U+FFFD U+FFFD ... U+201D` |
+| xelatex | sim | nenhum | `U+201C ... U+201D` |
+| lualatex | **não** | 1× `Missing character` U+0060 | `U+FFFD` |
+| xelatex | **não** | nenhum | `U+2018` |
+
+A última linha é a que explica tudo. **Sem** `Ligatures=TeX`, uma crase crua
+ainda sai como `‘` no xelatex. Não é ligadura: é o `mapping=tex-text` que o
+fontspec põe na própria string de carga da fonte sob XeTeX — confirmado no
+log:
+
+```
+AtkinsonHyperlegibleNext-Regular.otf]/OT:script=latn;language=dflt;mapping=tex-text;"
+```
+
+Esse mapeamento TECkit reescreve U+0060 → U+2018 **antes** da consulta à
+fonte. A fonte nunca chega a ser perguntada pelo caractere que não tem. No
+LuaTeX o `Ligatures=TeX` é a feature OpenType `tlig`, aplicada **dentro** da
+fonte — e uma feature não opera sobre um caractere que o `cmap` não mapeia.
+
+E não é diferença de *relato* de erro: o xelatex avisa normalmente quando o
+caractere de fato falta. Com `\char"05D0` (א) no mesmo preâmbulo ele emite
+`Missing character: There is no א (U+05D0)`. Só U+0060 passa — porque foi
+substituído antes.
+
+**Contraprova, no mesmo dia:** o build do Fedora, sob lualatex, com
+`Ligatures=TeX`, dá **zero** avisos e extrai `U+201C ... U+201D`. Mesmo motor,
+mesmo preâmbulo, só o `.otf` muda. Cobertura remedida sem `fontTools`, lendo
+o `cmap` direto: CTAN **347** codepoints, Fedora **362**, e os 15 da diferença
+são exatamente os já listados (U+0060, U+00A8, U+00AF, U+00B4, U+00B8,
+U+0139, U+013A, U+02C6, U+02C7, U+02D8, U+02D9, U+02DA, U+02DB, U+02DC,
+U+02DD). **Nenhum codepoint existe só no CTAN** — a cópia do CTAN é
+subconjunto próprio da outra.
+
+## Próximo passo: Braille Institute
+
+O caminho agora é upstream, como o Bob sugeriu. O que a própria fonte declara
+na tabela `name` do `.otf` do CTAN:
+
+- fabricante: `Applied Design Works, Letters from Sweden`
+- desenho: `Elliott Scott, Megan Eiswerth, Linus Boman, Theodore Petrosky, Letters from Sweden`
+- URL do fornecedor e da licença: `https://www.BrailleInstitute.org/`
+
+⚠️ **Não há endereço de contato na fonte nem no README do pacote** — só o
+domínio institucional. O canal de envio (formulário, e-mail de tipografia,
+repositório público) **ainda não foi verificado**: nenhuma consulta à web foi
+feita nesta sessão. Levantar isso é o primeiro passo, antes de escrever.
+
+Quando for escrito, o corpo muda de destinatário e por isso muda de ênfase:
+
+- **abrir pela contraprova**, não pelo TeX: dois builds da mesma `Version
+  2.001`, um com 362 codepoints e outro com 347, o segundo subconjunto do
+  primeiro. O interlocutor é dono do desenho, não usuário de LaTeX;
+- **nada de `<TEXMFDIST>`** — anexar o `.otf` em questão, ou dar o caminho
+  do CTAN por URL;
+- **antecipar a objeção do xelatex**, com a tabela acima em uma frase: o
+  XeTeX substitui o caractere antes de consultar a fonte, então o sucesso
+  dele não é evidência de que a fonte esteja completa;
+- **enquadrar como acessibilidade**, que é o terreno deles: uma face
+  desenhada para legibilidade produzindo, por essa lacuna, PDF sem
+  mapeamento Unicode — o oposto do propósito da família;
+- manter a regra de 17/09: **só oferecer o que está pronto**. A oferta que
+  se sustenta continua sendo testar um build candidato, porque esta máquina
+  tem as duas cópias instaladas.
+
+**O que não muda em produção.** A `crpsp-relatorio` e a `crpsp-base` seguem
+como estão: a regra de escrita é aspa Unicode literal (`“ ”`), que não passa
+por U+0060 e portanto não depende deste desfecho. A sonda de glifos continua
+sendo a rede de segurança. A revisão da §2b do `relatorio.sty` e da §4b do
+`crpsp-base.sty` segue condicionada à correção upstream — que agora, pela
+resposta do Bob, **não virá pelo pacote CTAN**.
