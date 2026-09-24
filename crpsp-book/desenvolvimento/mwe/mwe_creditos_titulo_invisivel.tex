@@ -51,6 +51,12 @@
 %%      proibição de partir uma pessoa entre colunas/páginas (\clubpenalty,
 %%      \widowpenalty e \interlinepenalty 10000 nos dois ambientes) —
 %%      no pe26 o registro de uma pessoa foi parar na página seguinte.
+%%   E  (terceira revisão, 24/09) cargos alinhados: \CargoNosCreditos
+%%      com o nome numa \parbox de largura fixa (\crpspCreditosNome,
+%%      0,56 \linewidth) e o cargo noutra, com o tagging do `paralelos'.
+%%      PASS; por pessoa, Div > Div(P nome + Span registro) + Div(P
+%%      cargo), na ordem certa, sem P vazio. O registro vai sempre na
+%%      linha de baixo: na coluna estreita ele ora cabia, ora não.
 %%   Fio: fora da árvore (nenhum nó novo), sem conteúdo não marcado.
 %%   Armadilhas achadas no caminho estão em comentário junto de cada
 %%   macro: \rule num parágrafo com o tagging suspenso desbalanceia os
@@ -60,7 +66,7 @@
 %%
 %% Compilar (2 passadas por variante):
 %%   export TEXINPUTS="$HOME/repos/crpsp-latex/crpsp-book/desenvolvimento/v2:"
-%%   for v in A B C; do for i in 1 2; do lualatex -jobname=mwe_creditos_$v \
+%%   for v in A B C E; do for i in 1 2; do lualatex -jobname=mwe_creditos_$v \
 %%     "\def\variante{$v}\input{mwe_creditos_titulo_invisivel}"; done; done
 %% Conferir:
 %%   ~/verapdf/verapdf --format text --flavour ua2 mwe_creditos_A.pdf
@@ -230,6 +236,46 @@
   \IfValueT{#1}{ \crpsp@registro{\crpsp@registro@fmt{#1}}}%
   \quad #3\par}
 
+% ── (E) cargos alinhados: \CargoNosCreditos com coluna fixa ───────
+% Terceira revisão do plan-est_2026, item 1: o book 0.5.1 tinha duas
+% \parbox (0,6/0,4) e os cargos saíam alinhados na vertical. Aqui a
+% mesma forma, com o tagging do `paralelos' (relatorio.sty §6): a
+% pessoa é um Div; cada \parbox abre o seu parágrafo (paraon dentro,
+% \par e paraoff antes de fechar). Leitura: nome → registro → cargo.
+%   \crpspCreditosNome   largura da coluna do nome (com o registro)
+%   \crpspCreditosVao    espaço entre as colunas
+\newlength{\crpspCreditosNome}
+\newlength{\crpspCreditosVao}
+\AtBeginDocument{%
+  \setlength{\crpspCreditosNome}{0.56\linewidth}%
+  \setlength{\crpspCreditosVao}{1em}}
+\newcommand{\CargoAlinhado}[3]{% #1 registro (ou vazio), #2 nome, #3 cargo
+  \par
+  \crpsprel@paraoff
+  \crpsprel@tagbegin{Div}%
+  \noindent
+  \parbox[t]{\crpspCreditosNome}{%
+    \raggedright\hangindent=1em\hangafter=1\relax
+    \crpsprel@paraon
+    \textbf{#2}%
+    % registro sempre na linha de baixo, como nas duas colunas: na
+    % coluna estreita ele ora cabia, ora não, e a lista ficava irregular
+    \ifx\relax#1\relax\else\newline\crpsp@registro{\crpsp@registro@fmt{#1}}\fi
+    \par\crpsprel@paraoff}%
+  \hspace{\crpspCreditosVao}%
+  \parbox[t]{\dimexpr\linewidth-\crpspCreditosNome-\crpspCreditosVao\relax}{%
+    \raggedright
+    \crpsprel@paraon
+    #3\par\crpsprel@paraoff}%
+  \par
+  \crpsprel@tagend
+  \crpsprel@paraon
+}
+\if E\variante
+  \RenewDocumentCommand{\CargoNosCreditos}{o m m}{%
+    \IfValueTF{#1}{\CargoAlinhado{#1}}{\CargoAlinhado{}}{#2}{#3}}
+\fi
+
 % CreditoInstitucional: o ambiente do modelo (RG e book) que envolve
 % um bloco de créditos. Cada pessoa é um parágrafo, e o \parskip do
 % WCAG (1,5 × a entrelinha, 21,75 pt) abria a lista demais. Aqui ele
@@ -276,7 +322,7 @@
 \begin{document}
 
 % ════════════════════════ página de créditos
-\if A\variante\creditosoculto{Créditos institucionais}\fi
+\if B\variante\else\if C\variante\else\creditosoculto{Créditos institucionais}\fi\fi
 \if B\variante\creditosaltvazio{Créditos institucionais}\fi
 
 \creditosgrupo{XVIII Plenário (2025–2028)}
@@ -319,12 +365,14 @@
 \clearpage
 % ════════════════════════ segunda página: título oculto no topo,
 % seguido direto de texto, para medir que nada foi empurrado
-\if A\variante\creditosoculto{Créditos técnico-administrativos}\fi
+\if B\variante\else\if C\variante\else\creditosoculto{Créditos técnico-administrativos}\fi\fi
 \if B\variante\creditosaltvazio{Créditos técnico-administrativos}\fi
 \creditosgrupo{Gerências}
 \begin{CreditoInstitucional}
 \CargoNosCreditos{Vanessa Valente}{gerente de Administração e Tecnologia da Informação}
 \CargoNosCreditos{Lilian Suzuki}{gerente Técnica e Política (interina)}
+\CargoNosCreditos[06/110639]{Maria Carolina Vitalino Pinto Ferraz Cabau}{subcoordenadora}
+\CargoNosCreditos{Adolfo Barros Benevenuto}{coordenador de Tecnologia da Informação e Comunicação}
 \end{CreditoInstitucional}
 
 \end{document}
