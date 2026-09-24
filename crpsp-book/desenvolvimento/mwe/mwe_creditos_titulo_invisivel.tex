@@ -1,0 +1,378 @@
+%% mwe_creditos_titulo_invisivel.tex
+%% Pergunta (P11 do plan-est_2026, segunda revisão de 24/09/2026):
+%%   o modelo de créditos do Relatório de Gestão pode ir para a linha
+%%   relatorio (PDF/UA-2) com a página de créditos SEM título impresso
+%%   ("Créditos institucionais" etc.), mas com o título na árvore de
+%%   tags, para o leitor de tela navegar?
+%%
+%% Variantes (por \def\variante na linha de comando):
+%%   A  título invisível com texto real: \@startsection de pele zero,
+%%      texto em Tr 3 (pdfrender), \smash\rlap, \topskip emulado.
+%%   B  título sem conteúdo: \tagstructbegin{tag=H1,alt=...} vazio.
+%%   C  sem título nenhum — a referência visual.
+%% E, nas três, o que o modelo do RG pede além do título:
+%%   - Plenário em duas colunas (o \parbox duplo do RG) pelo
+%%     NomesDuasColunas do book;
+%%   - \NomeNosCreditos e \CargoNosCreditos na interface do book 0.5.1,
+%%     com o registro separado do nome (decisão de 17/09);
+%%   - o fio sob o título de nível 2 (\CreditoInstitucionalUm) como
+%%     artefato.
+%%
+%% RESULTADO (2026-09-24, TL2026, lualatex, veraPDF ua2):
+%%   A  PASS. Árvore certa: Sect > H1 "Créditos institucionais" > Sect
+%%      > H2 … ; o /T do H1 é o texto limpo; pdftotext extrai o título.
+%%      A página sai IDÊNTICA à de C, pixel a pixel (pdftoppm -r 60 +
+%%      diferença de imagem vazia), e o título seguinte cai em
+%%      97,3956 pt nas duas. → É o padrão a portar.
+%%   B  PASS no veraPDF, mas a estrutura quebra: o H1 fica solto, sem
+%%      Sect, e o da 2ª página cai DENTRO do Sect de "Comissões
+%%      permanentes" da 1ª. Um H1 sem conteúdo também depende de o
+%%      leitor de tela ler /Alt em título, o que não é garantido.
+%%      → Descartada.
+%%   Nomes e cargos: interface do book 0.5.1 (book-crpsp_acessivel.sty
+%%      :781-810) com a decisão de 17/09 aplicada — registro separado
+%%      do nome, com o nome \NomeNosCreditos mantido (editor, 24/09):
+%%        \NomeNosCreditos{nome}{registro}       forma nova
+%%        \NomeNosCreditos{nome (CRP~06/nº)}     antiga, com aviso
+%%        \CargoNosCreditos[registro]{nome}{cargo}
+%%      Árvore: um P por pessoa, com o registro num Span próprio
+%%      (14 Span no MWE: 10 nomes + 4 da Diretoria). A forma antiga sai
+%%      como antes, nome e registro no mesmo MC.
+%%   Duas colunas: NomesDuasColunas do book (multicols, \\ vira \par).
+%%      Um P por pessoa, na ordem coluna 1 → coluna 2. O registro vai
+%%      sempre para a linha de baixo, recuado (aprovado pelo editor em
+%%      24/09). Não precisa do padrão de tagging do `paralelos'.
+%%   Espaço entre pessoas: \crpspCreditosSep (0,3 \baselineskip) no
+%%      CreditoInstitucional e no NomesDuasColunas. É exceção ao \parskip
+%%      do WCAG numa lista de nomes — A CONFIRMAR COM O EDITOR.
+%%      Do título ao primeiro nome: 5,67 pt nos dois ambientes.
+%%   Porte (plan-est_2026, comum.tex §5, 24/09): acrescentou a nota
+%%      opcional \NomeNosCreditos{nome}{registro}[licenciada] e a
+%%      proibição de partir uma pessoa entre colunas/páginas (\clubpenalty,
+%%      \widowpenalty e \interlinepenalty 10000 nos dois ambientes) —
+%%      no pe26 o registro de uma pessoa foi parar na página seguinte.
+%%   E  (terceira revisão, 24/09) cargos alinhados: \CargoNosCreditos
+%%      com o nome numa \parbox de largura fixa (\crpspCreditosNome,
+%%      0,56 \linewidth) e o cargo noutra, com o tagging do `paralelos'.
+%%      PASS; por pessoa, Div > Div(P nome + Span registro) + Div(P
+%%      cargo), na ordem certa, sem P vazio. O registro vai sempre na
+%%      linha de baixo: na coluna estreita ele ora cabia, ora não.
+%%   Fio: fora da árvore (nenhum nó novo), sem conteúdo não marcado.
+%%   Armadilhas achadas no caminho estão em comentário junto de cada
+%%   macro: \rule num parágrafo com o tagging suspenso desbalanceia os
+%%   hooks; o \vspace{-\parskip} da crpsp-base puxa o fio para cima do
+%%   título, o multicols e o primeiro nome para dentro dele; o tipo `g'
+%%   do ltcmd saiu do kernel.
+%%
+%% Compilar (2 passadas por variante):
+%%   export TEXINPUTS="$HOME/repos/crpsp-latex/crpsp-book/desenvolvimento/v2:"
+%%   for v in A B C E; do for i in 1 2; do lualatex -jobname=mwe_creditos_$v \
+%%     "\def\variante{$v}\input{mwe_creditos_titulo_invisivel}"; done; done
+%% Conferir:
+%%   ~/verapdf/verapdf --format text --flavour ua2 mwe_creditos_A.pdf
+%%   texlua $(kpsewhich show-pdf-tags.lua) --tree mwe_creditos_A.pdf
+%%   pdftotext -bbox mwe_creditos_A.pdf - | grep -E '>(XVIII|Gerências)<'
+%%
+%% ⚠️ Aspas Unicode reais, nunca `` '': a linha compila com
+%% \tracinglostchars=3 e a Atkinson não tem a crase.
+
+\DocumentMetadata{
+  lang        = pt-BR,
+  pdfversion  = 2.0,
+  pdfstandard = ua-2,
+  tagging     = on,
+}
+
+\documentclass[externo]{crpsp-relatorio}
+
+\providecommand{\variante}{A}
+
+\usepackage{multicol}
+\usepackage{pdfrender}
+
+\makeatletter
+
+% ── (A) título invisível com texto real ─────────────────────────
+% O \@startsection da classe abre a estrutura de seção (section → H1,
+% dentro de um Sect que engloba o que vem depois). O texto vai em Tr 3
+% (pdfrender): não pinta, mas é conteúdo marcado — extração, cópia e
+% leitor de tela o encontram.
+%   - \smash\rlap: a linha do título tem altura, profundidade e
+%     largura zero. Sem o \smash sobram 0,143 pt (a profundidade do
+%     texto invisível).
+%   - \texorpdfstring: sem ele o /T da estrutura sai
+%     "TextRenderingMode=InvisibleCréditos institucionais".
+%   - Depois do título, o próximo título (\creditosgrupo, \large) tem
+%     de cair onde cairia no topo de uma página sem nada: linha de base
+%     no \topskip. O \topskip só vale para a PRIMEIRA caixa da página,
+%     e aqui a primeira é a linha invisível. A emulação:
+%       \vskip-\topskip  volta a referência ao topo da mancha;
+%       \prevdepth       faz a cola entre linhas valer
+%                        \baselineskip(\large) − \prevdepth − h
+%                        = \topskip − h, que é a cola do \topskip.
+%     Medido (pdftotext -bbox): o título seguinte sai em 97,3956 pt,
+%     igual à página sem título (variante C). Só com \vspace{-\parskip}
+%     saía 3,7 pt acima; sem correção nenhuma, 17,9 pt abaixo.
+%   ⚠️ A conta supõe que o próximo título é \large. Se o título de
+%   nível 2 mudar de corpo, mudar aqui.
+\newlength{\crpsp@bs@grupo}
+\AtBeginDocument{{\large\global\crpsp@bs@grupo=\baselineskip}}
+\newcommand{\crpsp@titulo@invisivel}[1]{%
+  \textpdfrender{TextRenderingMode=Invisible}{#1}}
+\newcommand{\creditosoculto}[1]{%
+  \@startsection{section}{1}{0pt}{0pt}{1sp}%
+    {\normalfont\fontsize{1pt}{0pt}\selectfont}%
+    *{\texorpdfstring{\smash{\rlap{\crpsp@titulo@invisivel{\normalsize #1}}}}{#1}}%
+  \par
+  \vskip-\topskip
+  \prevdepth=\dimexpr\crpsp@bs@grupo-\topskip\relax
+}
+
+% ── (B) título sem conteúdo, só /Alt ────────────────────────────
+\newcommand{\creditosaltvazio}[1]{%
+  \tagstructbegin{tag=H1,alt={#1}}\tagstructend}
+
+% ── modelo do RG, com as cores e fontes da classe ────────────────
+% \CreditoInstitucionalUm → nível 2 com fio; Dois → nível 3.
+% (D) o fio é artefato (helper da classe, relatorio.sty §5).
+\newcommand{\creditosgrupo}[1]{%
+  \subsection*{#1}%
+  % O \@afterheading da crpsp-base já deixou um \vspace{-\parskip} (o
+  % parágrafo seguinte o devolveria). Sem devolver aqui, o fio sobe
+  % 21,75 pt e sai ACIMA do título. Depois do fio o desconto é refeito,
+  % para o que vier em seguida (lista, título) cair onde cairia.
+  \vspace{\parskip}\vspace{2pt}%
+  % em modo vertical (\hrule), não \rule num parágrafo: começar o
+  % parágrafo com o tagging suspenso desbalanceia os hooks de
+  % parágrafo ("begin (21) and end (24)"), um por fio.
+  \crpsprel@artefatoinicio
+  {\color{crpsp@cor3}\hrule height 1pt\relax}%
+  \crpsprel@artefatofim
+  \vspace{-\parskip}\vspace{0.4\baselineskip}%
+}
+% multicols logo depois de título: mesmo defeito do longtable
+% (comum.tex §2 do plan-est_2026). Não abre parágrafo, não devolve o
+% \parskip, e a primeira linha das colunas encavala no título.
+\AddToHook{env/multicols/before}{\if@nobreak\vspace{\parskip}\fi}
+\newcommand{\creditossub}[1]{\subsubsection*{#1}}
+
+% ── nomes, cargos e registro: interface do book 0.5.1 ─────────────
+% book-crpsp_acessivel.sty:781-810 (13/09/2026) tem \CargoNosCreditos
+% de dois argumentos, \NomeNosCreditos de um e o NomesDuasColunas. A
+% decisão de 17/09 (briefings/funcionalidade-creditos-institucionais.md)
+% separa o registro do nome, para que ele não seja lido como parte do
+% nome. Aqui o registro vira uma estrutura própria (Span) dentro do
+% parágrafo da pessoa.
+%
+% O nome fica \NomeNosCreditos (decisão do editor, 24/09/2026), e a
+% forma antiga continua aceita pelo mesmo nome: ver adiante.
+\ExplSyntaxOn
+% Fecha o MC do parágrafo, abre Span com MC próprio, e reabre o MC do
+% parágrafo: o par push/pop do tagpdf existe para isto.
+\cs_new_protected:Npn \crpsp_creditos_registro:n #1
+  {
+    \tag_mc_end_push:
+    \tag_struct_begin:n { tag = Span }
+    \tag_mc_begin:n { }
+    #1
+    \tag_mc_end:
+    \tag_struct_end:
+    \tag_mc_begin_pop:n { }
+  }
+\cs_new_eq:NN \crpsp@registro \crpsp_creditos_registro:n
+\ExplSyntaxOff
+% Separador entre nome e registro: espaço na largura da mancha; nas
+% duas colunas, quebra de linha com recuo (aprovado pelo editor em
+% 24/09: registro sempre embaixo, nunca solto pela largura da coluna).
+\newcommand{\crpsp@registro@sep}{ }
+\newcommand{\crpsp@registro@fmt}[1]{(CRP~#1)}
+
+% \NomeNosCreditos{nome}{registro}: uma pessoa, um parágrafo.
+%   \NomeNosCreditos{Beatris Guarita Dotta}{06/143345}
+% Forma antiga (book 0.5.1), um argumento com o registro no texto —
+% deprecada, com aviso:
+%   \NomeNosCreditos{Beatris Guarita Dotta (CRP~06/143345)}
+% As duas convivem no mesmo nome: depois do primeiro argumento, se o
+% próximo token (pulando espaços) for `{', é a forma nova. O tipo `g'
+% do ltcmd faria o mesmo, mas saiu do kernel ("Invalid argument type
+% 'g'") e só volta com o xparse obsoleto. ⚠️ A armadilha é a mesma do
+% `g': na forma antiga, se o que vem depois começar por `{', é engolido
+% como registro. Nos .tex existentes o que vem depois é outro
+% \NomeNosCreditos, \\, `}' ou linha em branco. Quando a forma antiga
+% sair, trocar por `m m'.
+\ExplSyntaxOn
+\NewDocumentCommand{\NomeNosCreditos}{m}
+  {
+    \peek_catcode_ignore_spaces:NTF \c_group_begin_token
+      { \crpsp_creditos_nome:nn {#1} }
+      {
+        \msg_warning:nn { crpsp-creditos } { nome-antigo }
+        \crpsp_creditos_nome_antigo:n {#1}
+      }
+  }
+\cs_new_protected:Npn \crpsp_creditos_nome:nn #1#2
+  {
+    \par\noindent\hangindent=1em\hangafter=1\relax
+    #1 \crpsp@registro@sep \crpsp@registro { \crpsp@registro@fmt {#2} }
+    \par
+  }
+\cs_new_protected:Npn \crpsp_creditos_nome_antigo:n #1
+  { \par\noindent #1 \par }
+\msg_new:nnn { crpsp-creditos } { nome-antigo }
+  {
+    \iow_char:N\\NomeNosCreditos~de~um~argumento~está~deprecado:~use~
+    \iow_char:N\\NomeNosCreditos\{nome\}\{registro\}.
+  }
+\ExplSyntaxOff
+
+% \CargoNosCreditos[registro]{nome}{cargo}: os dois obrigatórios são
+% os do book 0.5.1; o registro entra como opcional na frente para não
+% quebrar os .tex que já usam a forma de dois. Visual do RG
+% (relatorio-gestao.sty:246): nome em destaque, cargo ao lado. As duas
+% \parbox 0,6/0,4 do book não vieram: no RG o cargo segue o nome.
+\NewDocumentCommand{\CargoNosCreditos}{o m m}{%
+  \par\noindent\hangindent=1em\hangafter=1\relax
+  \textbf{#2}%
+  \IfValueT{#1}{ \crpsp@registro{\crpsp@registro@fmt{#1}}}%
+  \quad #3\par}
+
+% ── (E) cargos alinhados: \CargoNosCreditos com coluna fixa ───────
+% Terceira revisão do plan-est_2026, item 1: o book 0.5.1 tinha duas
+% \parbox (0,6/0,4) e os cargos saíam alinhados na vertical. Aqui a
+% mesma forma, com o tagging do `paralelos' (relatorio.sty §6): a
+% pessoa é um Div; cada \parbox abre o seu parágrafo (paraon dentro,
+% \par e paraoff antes de fechar). Leitura: nome → registro → cargo.
+%   \crpspCreditosNome   largura da coluna do nome (com o registro)
+%   \crpspCreditosVao    espaço entre as colunas
+\newlength{\crpspCreditosNome}
+\newlength{\crpspCreditosVao}
+\AtBeginDocument{%
+  \setlength{\crpspCreditosNome}{0.56\linewidth}%
+  \setlength{\crpspCreditosVao}{1em}}
+\newcommand{\CargoAlinhado}[3]{% #1 registro (ou vazio), #2 nome, #3 cargo
+  \par
+  \crpsprel@paraoff
+  \crpsprel@tagbegin{Div}%
+  \noindent
+  \parbox[t]{\crpspCreditosNome}{%
+    \raggedright\hangindent=1em\hangafter=1\relax
+    \crpsprel@paraon
+    \textbf{#2}%
+    % registro sempre na linha de baixo, como nas duas colunas: na
+    % coluna estreita ele ora cabia, ora não, e a lista ficava irregular
+    \ifx\relax#1\relax\else\newline\crpsp@registro{\crpsp@registro@fmt{#1}}\fi
+    \par\crpsprel@paraoff}%
+  \hspace{\crpspCreditosVao}%
+  \parbox[t]{\dimexpr\linewidth-\crpspCreditosNome-\crpspCreditosVao\relax}{%
+    \raggedright
+    \crpsprel@paraon
+    #3\par\crpsprel@paraoff}%
+  \par
+  \crpsprel@tagend
+  \crpsprel@paraon
+}
+\if E\variante
+  \RenewDocumentCommand{\CargoNosCreditos}{o m m}{%
+    \IfValueTF{#1}{\CargoAlinhado{#1}}{\CargoAlinhado{}}{#2}{#3}}
+\fi
+
+% CreditoInstitucional: o ambiente do modelo (RG e book) que envolve
+% um bloco de créditos. Cada pessoa é um parágrafo, e o \parskip do
+% WCAG (1,5 × a entrelinha, 21,75 pt) abria a lista demais. Aqui ele
+% cai para \crpspCreditosSep. Como no sumário (comum.tex §4 do
+% plan-est_2026), é exceção ao WCAG 1.4.8 numa lista de nomes, não em
+% texto corrido: CONFIRMAR COM O EDITOR.
+\newlength{\crpspCreditosSep}
+\setlength{\crpspCreditosSep}{0.3\baselineskip}
+% ⚠️ Logo depois de título, o \@afterheading da crpsp-base já
+% descontou o \parskip INTEIRO, e o primeiro parágrafo daqui só devolve
+% o \crpspCreditosSep: o primeiro nome encavalava no título. A diferença
+% é devolvida na abertura.
+\newenvironment{CreditoInstitucional}
+  {\par
+   \if@nobreak\vspace{\dimexpr\parskip-\crpspCreditosSep\relax}\fi
+   \begingroup\setlength{\parskip}{\crpspCreditosSep}}
+  {\par\endgroup}
+
+% NomesDuasColunas: o do book (multicols, \\ vira \par), com o
+% separador trocado por quebra de linha.
+% O \multicolsep (acima e abaixo das colunas) punha 17,6 pt entre o
+% título e o primeiro nome, contra 5,7 pt na Diretoria. Aqui ele fica
+% zerado: o espaço de cima é o do hook env/multicols/before e o de
+% baixo é o do título seguinte.
+\newenvironment{NomesDuasColunas}{%
+  \par\begingroup
+  \setlength{\multicolsep}{0pt}%
+  \begin{multicols}{2}%
+  \begingroup
+  \raggedright
+  \setlength{\parskip}{\crpspCreditosSep}%
+  \let\\\par
+  \renewcommand{\crpsp@registro@sep}{\newline}%
+}{%
+  \endgroup
+  \end{multicols}%
+  \endgroup
+}
+
+\makeatother
+
+\hypersetup{pdftitle={MWE — créditos com título invisível}}
+
+\begin{document}
+
+% ════════════════════════ página de créditos
+\if B\variante\else\if C\variante\else\creditosoculto{Créditos institucionais}\fi\fi
+\if B\variante\creditosaltvazio{Créditos institucionais}\fi
+
+\creditosgrupo{XVIII Plenário (2025–2028)}
+
+\creditossub{Diretoria}
+\begin{CreditoInstitucional}
+\CargoNosCreditos[06/31093]{Valéria Campinas Braunstein}{presidenta}
+\CargoNosCreditos[06/149691]{Victória Soares Vidal}{vice-presidenta}
+\CargoNosCreditos[06/148611]{Fabiana Macena Luiz}{secretária}
+\CargoNosCreditos[06/159297]{Genildo Gomes de Sousa}{tesoureiro}
+\end{CreditoInstitucional}
+
+\creditossub{Conselheiras/os efetivas/os}
+\begin{NomesDuasColunas}
+  \NomeNosCreditos{Cláudia Cristina Lofrano}{06/44926}
+  \NomeNosCreditos{Débora Nascimento Santos}{06/144738}
+  \NomeNosCreditos{Fabiana Macena Luiz}{06/148611}
+  \NomeNosCreditos{Gabriel Basílio Barbosa Costa}{06/185699}
+  \NomeNosCreditos{Genildo Gomes de Sousa}{06/159297}
+  \NomeNosCreditos{Luísa Thomazini de Freitas}{06/159754}
+  \NomeNosCreditos{Luke Ribeiro Mazzei França Barros}{06/188231}
+  \NomeNosCreditos{Marilia Capponi}{06/81224}
+  \NomeNosCreditos{Natali de Souza Nascimento}{06/134212}
+  \NomeNosCreditos{Paula Andréia de Carvalho Jonas}{06/62340}
+\end{NomesDuasColunas}
+
+\creditossub{Conselheiras/os suplentes (forma antiga, deprecada)}
+\begin{NomesDuasColunas}
+  \NomeNosCreditos{Beatris Guarita Dotta (CRP~06/143345)}
+  \NomeNosCreditos{Bruna Pessenda (CRP~06/137732)}
+\end{NomesDuasColunas}
+
+\creditosgrupo{Comissões permanentes}
+
+\creditossub{Comissão de Ética (COE)}
+\begin{CreditoInstitucional}
+\CargoNosCreditos{Cláudia Cristina Lofrano}{presidenta}
+\end{CreditoInstitucional}
+
+\clearpage
+% ════════════════════════ segunda página: título oculto no topo,
+% seguido direto de texto, para medir que nada foi empurrado
+\if B\variante\else\if C\variante\else\creditosoculto{Créditos técnico-administrativos}\fi\fi
+\if B\variante\creditosaltvazio{Créditos técnico-administrativos}\fi
+\creditosgrupo{Gerências}
+\begin{CreditoInstitucional}
+\CargoNosCreditos{Vanessa Valente}{gerente de Administração e Tecnologia da Informação}
+\CargoNosCreditos{Lilian Suzuki}{gerente Técnica e Política (interina)}
+\CargoNosCreditos[06/110639]{Maria Carolina Vitalino Pinto Ferraz Cabau}{subcoordenadora}
+\CargoNosCreditos{Adolfo Barros Benevenuto}{coordenador de Tecnologia da Informação e Comunicação}
+\end{CreditoInstitucional}
+
+\end{document}
