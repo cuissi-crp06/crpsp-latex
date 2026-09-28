@@ -2,6 +2,25 @@
 
 Versões conforme `CONVENCAO-VERSIONAMENTO.md`, na raiz do repositório.
 
+## 0.3.0-alfa — 2026-09-28
+
+Sprint 5: jurisprudência (6023, 7.11.3 e 7.11.4). Mudam o `.bbx` e o `.dbx`; o `.cbx`
+segue na 0.2.0-alfa.
+
+- `@jurisdiction` com driver próprio, fora do alias de artigo do upstream: tribunal com o
+  órgão julgador entre parênteses (`Superior Tribunal de Justiça (1. Seção)`), ementa,
+  partes, `Relatora: …, julgado em 29 nov. 2005` e a publicação do `@legislation`, que
+  cobre o diário, o repertório (`Lex`) e a versão online com `local: editora` (Emenda 1).
+- Campos novos no `.dbx`: `orgao`, `partes`, `relator` e `relatortype`; `ementa` e
+  `complementos` passam a valer também para `@jurisdiction`. O tribunal vai em
+  `nameaddon`, como o órgão interno do `@legal`. Contrato no README, "Jurisprudência".
+- `desenvolvimento/corpus/jurisprudencia-6023.bib`: os 5 exemplos da 7.11.3–7.11.4, fora
+  da trilha. Upstream 0/5, 0.3.0 5/5 (linha 26 de `DIVERGENCIAS.md`).
+- `desenvolvimento/casos/`: duas entradas novas, relator sem `relatortype` e julgamento
+  sem relator, e uma chamada.
+- Medida da trilha: 85/107 referências e 27/29 chamadas, arquivo por arquivo iguais às
+  da 0.2.1.
+
 ## 0.2.1-alfa — 2026-09-28
 
 Sprint 3 da trilha do piloto: os quatro defeitos achados ao compor o guia

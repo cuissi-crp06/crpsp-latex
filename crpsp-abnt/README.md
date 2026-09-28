@@ -4,8 +4,8 @@ Estilo biblatex que estende o `biblatex-abnt` para a ABNT NBR 6023:2025 e a
 NBR 10520:2023: documento jurídico (legislação, jurisprudência, ato
 administrativo), citação autor-data acessível e mídia contemporânea.
 
-**Estado:** `0.2.1-alfa`, Sprint 3 da trilha do piloto em curso: os defeitos achados ao
-compor o guia estão corrigidos.
+**Estado:** `0.3.0-alfa`. O Sprint 3 da trilha do piloto segue em curso, com os defeitos
+achados ao compor o guia corrigidos. O Sprint 5 deu driver próprio à jurisprudência.
 O plano, a linha de base medida e as decisões estão em
 [`briefings/briefing-crpsp-abnt.md`](briefings/briefing-crpsp-abnt.md). As divergências
 que faltam fechar estão em
@@ -22,9 +22,9 @@ da árvore do TeX, a pasta precisa estar no `TEXINPUTS`.
 
 | Arquivo | Papel |
 |---|---|
-| `crpsp-abnt.bbx` | carrega o `abnt.bbx`; opções, sigla como entrada, driver de `@legislation` e `@legal`, correções de pontuação e caixa |
+| `crpsp-abnt.bbx` | carrega o `abnt.bbx`; opções, sigla como entrada, drivers de `@legislation`, `@legal` e `@jurisdiction`, correções de pontuação e caixa |
 | `crpsp-abnt.cbx` | carrega o `abnt.cbx`; chamada por título e um link por obra |
-| `crpsp-abnt.dbx` | os campos `ementa` e `complementos`, e o interno `crpspsigla` |
+| `crpsp-abnt.dbx` | os campos `ementa`, `complementos`, `orgao`, `partes`, `relator` e `relatortype`, e o interno `crpspsigla` |
 
 ## Opções fixadas
 
@@ -159,7 +159,44 @@ Escolhas que a norma não fixa:
   dois. Aqui, `Disponível em` fecha a referência, como nos demais documentos
   online. O upstream punha o `addendum` depois da URL.
 
-`@jurisdiction` continua no driver de artigo do upstream até o Sprint 5.
+## Jurisprudência
+
+Na 6023, a seção 7.11.3–7.11.4. `@jurisdiction` tem driver próprio, com a ordem dos
+elementos da norma e as mudanças da Emenda 1 (briefing, 2.5):
+
+> JURISDIÇÃO. Tribunal (órgão julgador). Título. Ementa. Partes. Relator: nome,
+> julgado em data. Publicação. Complementos. Disponível em: URL. Acesso em: data.
+
+```
+BRASIL. Supremo Tribunal Federal (2. Turma). Recurso Extraordinário 313060/SP. […].
+Relatora: Min. Ellen Gracie, julgado em 29 nov. 2005. Brasília, DF: Superior Tribunal
+de Justiça, [2006]. Disponível em: […]. Acesso em: 19 ago. 2011.
+```
+
+| Campo | O que guarda | Exemplo |
+|---|---|---|
+| `author` | jurisdição, entre chaves duplas | `{{Brasil}}` |
+| `nameaddon` | tribunal | `Supremo Tribunal Federal` |
+| `orgao` | órgão julgador; sai entre parênteses | `2. Turma` |
+| `title` | tipo e número do processo, ou da súmula | `Recurso Extraordinário 313060/\mkbibacro{SP}` |
+| `ementa` | ementa | |
+| `partes` | partes do processo, como no documento | `Recorrente: …. Recorrido: …` |
+| `relator` | relator, como no documento | `Min. Ellen Gracie` |
+| `relatortype` | `relatora` troca o rótulo; o padrão é `Relator` | `relatora` |
+| `eventdate` | data do julgamento; sai abreviada, depois de `julgado em` | `2005-11-29` |
+| publicação | a mesma do `@legislation`: diário ou repertório em `journaltitle`, ou `location` e `publisher` | `Lex`, `Diário da Justiça` |
+| `complementos`, `url`, `urldate`, `doi` | como no `@legislation` | |
+
+Escolhas que a norma não fixa:
+
+- **O tribunal em `nameaddon`**, como o órgão interno do `@legal`, e o órgão julgador
+  num campo próprio. O briefing previa o tribunal em `orgao`; a troca mantém os dois
+  tipos de ato com o mesmo contrato na entrada.
+- **`relator` é texto, não lista de nomes.** A norma o transcreve como está no
+  documento, com o tratamento (`Min.`), e não o inverte nem o ordena. O gênero do
+  rótulo não se deduz do nome, e por isso vem em `relatortype`.
+- **Julgamento sem relator** abre frase: `Ementa. Julgado em 2 maio 2019.` A norma não
+  traz exemplo.
 
 ## Desenvolvimento
 

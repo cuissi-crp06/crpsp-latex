@@ -3,7 +3,7 @@
 # - as chamadas;
 # - as referências, uma por linha, na ordem da lista (a página é larga para
 #   cada uma caber numa linha);
-# - o número de links: um por obra citada (10, nas nove chamadas), mais os de
+# - o número de links: um por obra citada (11, nas dez chamadas), mais os de
 #   DOI e URL da lista (3).
 # Com o veraPDF no PATH ou em ~/verapdf, valida também o PDF/UA-2.
 #
