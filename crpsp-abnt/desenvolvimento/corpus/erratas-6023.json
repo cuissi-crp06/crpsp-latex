@@ -1,0 +1,19 @@
+{
+  "_doc": "Erratas 1 (26/08/2020) e 2 (24/09/2020) da ABNT NBR 6023:2018, aplicadas pelo extrair.py sobre o JSON do pipeline, que traz o texto original de 2018 apesar do que diz a ementa. Onde a errata 2 repete um ponto da 1, vale a 2. 'texto' substitui a referência; 'rotulo' substitui só o rótulo (essenciais/complementares). A errata de 8.1.3 muda o parágrafo, não um exemplo, e fica fora daqui.",
+  "exemplos": [
+    {"secao": "7.7.5", "exemplo": "6", "fonte": "Er1",
+     "rotulo": "complementares",
+     "texto": "BAKKER, Mitchekk. Como obter sucesso na era do código aberto. Entrevistadores: Lenny Mendonça; Robert Sutton. HSM Management, São Paulo, ano 12, v. 5, n. 70, p. 102-106, set./out. 2008."},
+    {"secao": "7.13.5", "exemplo": "2", "fonte": "Er2",
+     "texto": "ANTICAST 66: as histórias e teorias das cores. Entrevistada: Luciana Martha Silveira. Entrevistadores: Ivan Mizanzuk, Rafael Ancara e Marcos Beccari. [S. l.]: Braimstorm9, 31 jan. 2013. Podcast. Disponível em: https://soundcloud.com/anticastdesign/anticast-66-as-hist-rias-e/s-OImz9. Acesso em: 22 ago. 2014."},
+    {"secao": "7.15", "exemplo": "2", "fonte": "Er1", "rotulo": "complementares"},
+    {"secao": "7.15", "exemplo": "3", "fonte": "Er1", "rotulo": "complementares"},
+    {"secao": "7.20", "exemplo": "1", "fonte": "Er1",
+     "rotulo": "essenciais",
+     "texto": "APPLE. OS X El Capitan. Versão 10.11.6. [Cupertino]: Apple, c2017. 1 CD-Rom."},
+    {"secao": "8.11", "exemplo": "3", "fonte": "Er2",
+     "texto": "MALAGRINO, W. et al. Estudos preliminares sobre os efeitos de baixas concentrações de detergentes amiônicos na formação do bisso em Branchidontas solisianus. 1985. Trabalho apresentado ao Congresso Brasileiro de Engenharia Sanitária e Ambiental, 13., 1985, Maceió."},
+    {"secao": "9.1", "exemplo": "1", "referencia": "b", "fonte": "Er1",
+     "texto": "BRASIL. Lei nº 12.384, de 3 de março de 1998. Abre crédito extraordinário, em favor do Ministério do Desenvolvimento Agrário, no valor de R$ 210.000.000,00, para o fim que especifica. Diário Oficial: República Federativa do Brasil: seção 1, Brasília, DF, ano 136, n. 42, p. 1, 4 mar. 1998."}
+  ]
+}
