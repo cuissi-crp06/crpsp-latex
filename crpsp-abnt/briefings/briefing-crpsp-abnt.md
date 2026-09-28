@@ -1,6 +1,6 @@
 # Briefing: `crpsp-abnt`, extensão do biblatex-abnt
 
-> **estado:** Sprint 3 da trilha em curso (`0.2.1-alfa`, defeitos achados ao compor o guia corrigidos); falta compor o guia com o `.bib` curado
+> **estado:** Sprint 3 da trilha em curso (`0.2.1-alfa`, defeitos achados ao compor o guia corrigidos); falta compor o guia com o `.bib` curado. Sprint 5 feito (`0.3.0-alfa`, jurisprudência)
 > **escrito em:** 2026-09-28; **revisto em:** 2026-09-28, com a 6023:2025
 > **escopo:** um estilo biblatex que estende o `biblatex-abnt` e o adequa à
 > ABNT NBR 6023:2025 e à NBR 10520:2023, com três frentes: documento
@@ -171,7 +171,7 @@ Versão inicial `0.1.0-alfa`, conforme `CONVENCAO-VERSIONAMENTO.md`.
 | Tipo | Seção da 6023 | Mapeamento |
 |---|---|---|
 | `@legislation` | 7.11.1–7.11.2 | `author` = jurisdição; `nameaddon` = `[Constituição (1988)]`; `title` = epígrafe; `ementa`; publicação oficial com `journaltitle`, `journalsubtitle` (seção), `volume` impresso como **ano**, `number`, `pages`, `date` |
-| `@jurisdiction` | 7.11.3–7.11.4 | `author` = jurisdição; `orgao` = corte, turma/região; `title` = tipo e número do processo; `ementa`; `relator` (nome); `eventdate` = julgamento, impresso como `julgado em` + data abreviada (2025); órgão julgador entre parênteses após a corte; publicação |
+| `@jurisdiction` | 7.11.3–7.11.4 | `author` = jurisdição; `orgao` = corte, turma/região (no Sprint 5: tribunal em `nameaddon`, órgão julgador em `orgao`, `relator` como texto; ver o README); `title` = tipo e número do processo; `ementa`; `relator` (nome); `eventdate` = julgamento, impresso como `julgado em` + data abreviada (2025); órgão julgador entre parênteses após a corte; publicação |
 | `@legal` | 7.11.5–7.11.6 | `author` = entidade; `nameaddon` = órgão interno; `title` = epígrafe; `ementa`; publicação |
 
 Campos novos no `.dbx`: `ementa` (literal), `orgao` (literal), `relator`
@@ -260,7 +260,12 @@ Onde a norma for ambígua, a escolha fica registrada no README com a seção que
 a motiva.
 
 **5. Jurisprudência.** `@jurisdiction`, com `julgado em`, órgão julgador
-entre parênteses e a publicação online com editora (seção 2.5).
+entre parênteses e a publicação online com editora (seção 2.5). Feito em 28/09
+(`0.3.0-alfa`): os 5 exemplos da 7.11.3–7.11.4 saem iguais à norma (upstream: 0),
+medidos em `corpus/jurisprudencia-6023.bib`, fora da trilha. O contrato mudou em
+relação à seção 4.1: o tribunal vai em `nameaddon`, como no `@legal`; `orgao` guarda
+só o órgão julgador; `relator` é texto, com o gênero do rótulo em `relatortype`;
+e as partes do processo ganharam o campo `partes`.
 
 **6. Corpus completo e régua.** O `.bib` das ~290 referências da 6023; testes
 no molde do `verificar.sh` do `crpsp-book`: texto normalizado por entrada

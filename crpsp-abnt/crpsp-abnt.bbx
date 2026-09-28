@@ -1,4 +1,4 @@
-\ProvidesFile{crpsp-abnt.bbx}[2026/09/28 v0.2.1-alfa Extensao do biblatex-abnt para a NBR 6023:2025]%
+\ProvidesFile{crpsp-abnt.bbx}[2026/09/28 v0.3.0-alfa Extensao do biblatex-abnt para a NBR 6023:2025]%
 %
 % Estende o biblatex-abnt: carrega o estilo dele e sobrepõe só o que diverge
 % da ABNT NBR 6023:2025. Plano e medidas: briefings/briefing-crpsp-abnt.md e
@@ -291,7 +291,7 @@
 % publicação oficial ou local: editora, data. páginas. notas. complementos.
 % DOI e acesso online.
 %
-% @jurisdiction continua no alias do upstream até o Sprint 5.
+% @jurisdiction tem driver próprio, em "Jurisprudência", abaixo.
 
 \DeclareFieldFormat{ementa}{#1\isdot}
 \DeclareFieldFormat{complementos}{#1\isdot}
@@ -383,6 +383,90 @@
 }
 
 \DeclareBibliographyAlias{legal}{legislation}
+
+% <<<1
+
+% Jurisprudência (6023, 7.11.3 e 7.11.4) >>>1
+%
+% "BRASIL. Supremo Tribunal Federal (2. Turma). Recurso Extraordinário
+% 313060/SP. Ementa. Recorrente: ... Recorrido: ... Relatora: Min. Ellen
+% Gracie, julgado em 29 nov. 2005. Lex: ..., 2006."
+%
+% A entrada é a jurisdição, e o tribunal vai em nameaddon, como o órgão
+% interno do @legal. O órgão julgador (orgao) sai entre parênteses depois do
+% tribunal, e a data do julgamento (eventdate) sai abreviada, precedida de
+% "julgado em", como a Emenda 1 mudou (briefing, 2.5). A publicação é a do
+% @legislation: diário ou repertório (Lex) em journaltitle, ou "local:
+% editora, data" na versão online (7.11.4).
+
+\NewBibliographyString{crpsprelator,crpsprelatora,crpspjulgado}
+\DefineBibliographyStrings{brazilian}{%
+  crpsprelator = {Relator}, crpsprelatora = {Relatora},%
+  crpspjulgado = {julgado em},%
+}
+\DefineBibliographyStrings{portuguese}{%
+  crpsprelator = {Relator}, crpsprelatora = {Relatora},%
+  crpspjulgado = {julgado em},%
+}
+
+\DeclareFieldFormat{orgao}{\mkbibparens{#1}}
+\DeclareFieldFormat{partes}{#1\isdot}
+% relatortype = {relatora} troca o rótulo; o padrão é "Relator"
+\DeclareFieldFormat{relator}{%
+  \iffieldequalstr{relatortype}{relatora}
+    {\bibstring{crpsprelatora}}
+    {\bibstring{crpsprelator}}%
+  \addcolon\addspace#1}
+
+% Com relator, "Relatora: ..., julgado em ..."; sem ele, "Julgado em ..." abre
+% a frase, depois da ementa.
+\newbibmacro*{crpsp:julgamento}{%
+  \printfield{relator}%
+  \iffieldundef{eventyear}{}{%
+    \iffieldundef{relator}{}{\setunit{\addcomma\addspace}}%
+    \printtext{\bibstring{crpspjulgado}}%
+    \setunit{\addspace}%
+    \printeventdate
+  }%
+}
+
+\DeclareBibliographyDriver{jurisdiction}{%
+  \usebibmacro{bibindex}%
+  \usebibmacro{begentry}%
+  \usebibmacro{author/organization}%
+  \setunit{\addspace}%
+  \printfield{orgao}%
+  \setunit{\labelnamepunct}%
+  \usebibmacro{title}%
+  \newunit\newblock
+  \printfield{ementa}%
+  \newunit\newblock
+  \printfield{partes}%
+  \newunit\newblock
+  \usebibmacro{crpsp:julgamento}%
+  \newunit\newblock
+  \usebibmacro{crpsp:in}%
+  \newunit\newblock
+  \usebibmacro{crpsp:publicacao}%
+  \newunit\newblock
+  \printfield{pagetotal}%
+  \newunit\newblock
+  \printfield{note}%
+  \newunit\newblock
+  \printfield{complementos}%
+  \newunit\newblock
+  \usebibmacro{doi+eprint+url}%
+  \newunit\newblock
+  \usebibmacro{addendum+pubstate}%
+  \setunit{\bibpagerefpunct}\newblock
+  \usebibmacro{pageref}%
+  \newunit\newblock
+  \iftoggle{bbx:related}%
+    {\usebibmacro{related:init}%
+     \usebibmacro{related}}%
+    {}%
+  \usebibmacro{finentry}%
+}
 
 % <<<1
 

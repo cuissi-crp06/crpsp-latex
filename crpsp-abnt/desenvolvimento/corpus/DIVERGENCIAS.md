@@ -31,6 +31,7 @@ python3 medir.py trilha-10520.bib --chamadas chamadas-10520.tsv --estilo crpsp-a
 | 0.1.0-alfa (Sprint 1) | 53/107 | 22/29 | 4 e 5 |
 | 0.2.0-alfa (Sprint 2) | 85/107 | 27/29 | 1, 2, 3, 6, 9, 11, 12 e 21 |
 | 0.2.1-alfa (Sprint 3) | 85/107 | 27/29 | 22, 23, 24 e 25 |
+| 0.3.0-alfa (Sprint 5) | 85/107 | 27/29 | 26 (fora da trilha) |
 
 No Sprint 1, nove referências passaram a sair iguais à norma, e nenhuma das que já
 saíam iguais passou a divergir. As chamadas continuam as do upstream. Nas seções
@@ -48,8 +49,31 @@ nenhum exemplo do corpus passava por elas: as teses traziam `eventdate` como con
 Ele saiu das seis teses, que seguem iguais pelo mapa novo. Os casos das quatro linhas
 estão em `../casos/`.
 
+No Sprint 5, a medida da trilha não muda: `@jurisdiction` não está nas seções do
+guia. A jurisprudência é medida à parte, na seção seguinte.
+
 ⚠️ No Sprint 2, os DOIs de 7.7.6:7 e 7.7.6:8 passaram a ser escritos no corpus como a
 norma os imprime, com o resolvedor. A forma do DOI é do dado (linha 6).
+
+## Jurisprudência (fora da trilha)
+
+As seções 7.11.3 e 7.11.4 não estão no guia e têm corpus próprio,
+`jurisprudencia-6023.bib`, com os 5 exemplos da 6023:2025. Ele entra no corpus
+completo do Sprint 6.
+
+```sh
+python3 medir.py jurisprudencia-6023.bib --estilo abnt > medida-abnt-4.0-jurisprudencia.tsv
+python3 medir.py jurisprudencia-6023.bib --estilo crpsp-abnt > medida-crpsp-abnt-0.3.0-jurisprudencia.tsv
+```
+
+| Versão | Referências iguais |
+|---|---:|
+| upstream 4.0 | 0/5 |
+| 0.3.0-alfa (Sprint 5) | 5/5 |
+
+Como na legislação, o corpus já usa os campos do `crpsp-abnt` (`orgao`, `ementa`,
+`partes`, `relator`), que o upstream descarta. A medida do upstream mostra o que se
+perde, não o que ele faria com um `.bib` escrito para ele.
 
 ## Resultado
 
@@ -97,6 +121,7 @@ tem exemplo no corpus. Os casos de teste dela são nossos, em `../casos/`.
 | 23 | ✅ Página sem data: a chamada leva o ano do acesso | — | a mesma data na chamada e na referência | `(Deaf Services Unlimited, 2026)`, referência sem ano | 3 | sim: 4 páginas sem data |
 | 24 | ✅ Páginas com letra saem em minúscula e sem `p.` | — | `p. E16-E18` | `e16-e18` | 3 | sim: 1 artigo |
 | 25 | ✅ Trabalho acadêmico sem o ano da defesa | — | `– Universidade …, Natal, 2023.` (7.1.2) | `– Universidade …, Natal.` | 3 | sim: 2 trabalhos acadêmicos |
+| 26 | ✅ Jurisprudência sem driver | 5 | `(2. Turma)`, ementa, partes, `Relatora: …, julgado em 29 nov. 2005`, `Brasília, DF: Superior Tribunal de Justiça, [2006]` | driver de artigo: sem órgão julgador, ementa, partes e julgamento; `Brasília, DF, …` | 5 | não |
 
 Os casos de cada linha, por id do corpus:
 
@@ -142,6 +167,8 @@ Os casos de cada linha, por id do corpus:
     não tem saída certa só no estilo: a 6023 pede um ano entre colchetes (8.6.1.3), que é
     do dado. O estilo tira o acesso da chamada, que passa a sair com `s.d.`, e avisa na
     compilação.
+26. 7.11.3:1–2, 7.11.4:1–3, em `jurisprudencia-6023.bib`, fora da trilha. Os casos que a
+    norma não traz (relator sem `relatortype`, julgamento sem relator) estão em `../casos/`.
 
 ## O que não é do estilo
 
@@ -173,3 +200,4 @@ Os casos de cada linha, por id do corpus:
 - **Sprint 3** (piloto), na 0.2.1-alfa: as linhas 22 a 25, que só apareceram ao
   compor o guia.
 - **Depois da entrega:** 13 a 20. Nenhuma aparece no guia.
+- **Sprint 5** (jurisprudência), na 0.3.0-alfa: a linha 26, medida fora da trilha.
