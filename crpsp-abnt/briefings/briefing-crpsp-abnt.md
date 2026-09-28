@@ -1,10 +1,14 @@
 # Briefing: `crpsp-abnt`, extensão do biblatex-abnt
 
-> **estado:** planejado, decisões tomadas; nenhum código ainda
-> **escrito em:** 2026-09-28
+> **estado:** Sprint 0 em andamento (corpus extraído); plano reordenado pelo prazo do piloto
+> **escrito em:** 2026-09-28; **revisto em:** 2026-09-28, com a 6023:2025
 > **escopo:** um estilo biblatex que estende o `biblatex-abnt` e o adequa à
-> ABNT NBR 6023:2018 (com as erratas de 2020) e à NBR 10520:2023, com três
-> frentes: documento jurídico, citação e mídia contemporânea.
+> ABNT NBR 6023:2025 e à NBR 10520:2023, com três frentes: documento
+> jurídico, citação e mídia contemporânea.
+>
+> ⚠️ A primeira versão deste briefing tomou por vigente a 6023:2018. A 3ª
+> edição, de 21/05/2025, "equivale ao conjunto ABNT NBR 6023:2018 e Emenda 1"
+> e cancela a de 2018 (prefácio). O que a emenda mudou está na seção 2.5.
 
 ## 1. Origem
 
@@ -63,10 +67,13 @@ exemplos da própria norma:
 |---|---|---|
 | Lei no DOU (6023, 7.11.1) | `… seção 1, Brasília, DF, v. 139, n. 8 …` | `ano 139` |
 | Constituição online (7.11.2) | `Presidência da República, Brasília, DF, 2016` | `Brasília, DF: Presidência da República, [2016]` |
-| Podcast (7.13.5) | `GUTNER, Christian (Locução de). Podcast LXX…`, chamada (Gutner, 2010) | entrada pelo título: `PODCAST LXX: … [Locução de]: Christian Gutner.` |
+| Podcast (7.13.5, ex. 1) | `GUTNER, Christian (Locução de). Podcast LXX…`, chamada (Gutner, 2010) | entrada pelo título: `PODCAST LXX: … [Locução de]: Christian Gutner.` Com entrevistado, a 2025 muda: a entrada é pelo entrevistado (ex. 2, seção 2.5) |
 | Vídeo no YouTube (7.13.2) | `BOOK. 1 vídeo (3 min). … 2010.` | `BOOK. [S. l.: s. n.], 2010. 1 vídeo (3 min). …` |
 | Chamada por título (10520, 7.1.4) | `(BOOK…, 2010)` | `(Book [...], 2010)` |
 | Sigla como entrada (premissa da seção 1) | chamada `(IBGE, 2025)`, referência começa por `INSTITUTO BRASILEIRO…` | `IBGE — INSTITUTO BRASILEIRO…` |
+
+A sondagem usou exemplos da 2018. Os exemplos da tabela seguem iguais na
+2025, salvo o do podcast. A tabela que vale é a do Sprint 0.
 
 O que funciona: `shortauthor` já alimenta a chamada (`abnt.cbx:35`), e a
 chamada de pessoa física já sai em caixa alta e baixa.
@@ -81,6 +88,52 @@ defeitos:
 - cada chamada vira **dois links** (`Brasil` e `2002`), lidos em separado pelo
   leitor de tela;
 - o negrito de destaque dos títulos não gera `Strong`/`Em`.
+
+### 2.5 O que a Emenda 1 mudou (6023:2025)
+
+Levantado por diff de palavras entre as duas edições. A seção 6 (regras
+gerais) e os modelos de legislação e de ato normativo (7.11.1, 7.11.2 salvo
+um exemplo, 7.11.5, 7.11.6) não mudaram. Mudou:
+
+- **Publicação periódica (7.7.1–7.7.4):** ISSN sai dos elementos essenciais da
+  coleção. Fascículo, volume e número ficam "se houver", e suplemento e edição
+  especial vão depois da data, com o título após dois-pontos:
+  `v. 7, 1983. Suplemento: Mão-de-obra e previdência.` Os exemplos passam a
+  ter entrada pelo título do periódico, não pelo da edição especial.
+- **Abreviatura:** `Supl.` → `Suplemento`, por extenso, em todos os exemplos. O
+  Anexo B tira `Supl.` e acrescenta `ca.` e `serigraf.`.
+- **DOI:** passa a ser rotulado `DOI:`, com dois-pontos. O exemplo novo de
+  7.7.6 (ex. 8) traz o DOI como URL: `DOI: https://doi.org/10.1590/…`.
+- **Local desconhecido em documento online:** alguns exemplos perdem o `[S. l.]`
+  (7.7.6 ex. 5, 7.20 exs. 5 e 9, 8.7.3). O 7.13.5 ex. 1 mantém `[S. l.]: Escriba
+  Café`, e o mesmo exemplo repetido em 8.7.3 o perde. A norma se contradiz;
+  a escolha fica registrada no Sprint 4.
+- **Editora igual ao autor (7.20):** `[Cupertino]: Apple` → `[Cupertino]`;
+  `Roseville: FFG` → `Roseville`. Mas `Curitiba` → `Curitiba: Universidade
+  Federal do Paraná`, no ex. 2, onde o autor é a Biblioteca Central. Local e
+  produtor ficam "se houver" em 7.19 e 7.20.
+- **Evento (7.8):** local é "(cidade, se houver)".
+- **Jurisprudência (7.11.3–7.11.4):** a data de julgamento vem precedida de
+  `julgado em` e abreviada (`julgado em 29 nov. 2005`); o órgão julgador entra
+  entre parênteses após o tribunal (`Superior Tribunal de Justiça (1. Seção)`);
+  a versão online ganha local e editora (`Brasília, DF: Superior Tribunal de
+  Justiça, [2006]`). O ex. 1 passa a ser rotulado complementar.
+- **Documento sonoro e podcast (7.13.3–7.13.5):** responsáveis "conforme consta
+  no documento"; o podcast com entrevistado tem entrada por ele
+  (`SILVEIRA, Luciana Martha. Anticast 66: …`), e o entrevistado sai da lista
+  de responsáveis.
+- **Série e coleção (8.10):** só a primeira palavra em maiúscula
+  (`Coleção filosofia`, `Série bom apetite`).
+- **Exemplos novos:** 7.7.4 ex. 5 (suplemento com ISSN), 7.7.6 ex. 8 (DOI),
+  7.20 ex. 10 (notícia online sem local). Sai 8.4.4 ex. 2.
+- As erratas de 2020 foram incorporadas.
+
+A 8.1.2, que não mudou, admite a entrada da pessoa jurídica "pela forma
+conhecida ou como se destaca no documento, por extenso ou abreviada", e há
+exemplos só com a sigla (`PETROBRAS.`, `IBGE.` em 7.18). A forma
+`SIGLA — NOME POR EXTENSO`, da orientação da especialista, não está na norma:
+é uma combinação das duas formas que ela admite. A decisão 3 continua valendo,
+mas o README do pacote deve dizer isso.
 
 ## 3. Decisões (Angelo, 2026-09-28)
 
@@ -116,7 +169,7 @@ Versão inicial `0.1.0-alfa`, conforme `CONVENCAO-VERSIONAMENTO.md`.
 | Tipo | Seção da 6023 | Mapeamento |
 |---|---|---|
 | `@legislation` | 7.11.1–7.11.2 | `author` = jurisdição; `nameaddon` = `[Constituição (1988)]`; `title` = epígrafe; `ementa`; publicação oficial com `journaltitle`, `journalsubtitle` (seção), `volume` impresso como **ano**, `number`, `pages`, `date` |
-| `@jurisdiction` | 7.11.3–7.11.4 | `author` = jurisdição; `orgao` = corte, turma/região; `title` = tipo e número do processo; `ementa`; `relator` (nome); `eventdate` = julgamento; publicação |
+| `@jurisdiction` | 7.11.3–7.11.4 | `author` = jurisdição; `orgao` = corte, turma/região; `title` = tipo e número do processo; `ementa`; `relator` (nome); `eventdate` = julgamento, impresso como `julgado em` + data abreviada (2025); órgão julgador entre parênteses após a corte; publicação |
 | `@legal` | 7.11.5–7.11.6 | `author` = entidade; `nameaddon` = órgão interno; `title` = epígrafe; `ementa`; publicação |
 
 Campos novos no `.dbx`: `ementa` (literal), `orgao` (literal), `relator`
@@ -142,33 +195,59 @@ bastam para o biber, mas o estilo precisa de um sinal explícito
 
 ## 5. Sprints
 
-**0. Corpus contra a norma.** Extrair de `export/normas/abnt-nbr-6023-2018.json`
-e `abnt-nbr-10520-2023.json` (workbench, saída do pipeline) todos os exemplos
-como pares *entrada `.bib` → texto esperado*, numerados pela seção. Conferir se
-as erratas 1 e 2 de 2020 estão no JSON; se não, aplicar a partir de
-`editorial/apoio/normas/ABNT/`. Confirmar no catálogo ABNT que 6023:2018 e
-10520:2023 seguem vigentes. Rodar o upstream contra o corpus e produzir a
-tabela de divergências por seção — ela, e não a seção 2.3, é o escopo real.
-O script de extração é código e vem para cá; o texto das normas não.
+O guia precisa ser encaminhado em poucos dias (decisão do Angelo,
+28/09/2026, na revisão do briefing). O plano se divide em uma **trilha do
+piloto**, só com o que as ~57 referências do guia usam, e o **restante**,
+depois da entrega.
 
-**1. Documento jurídico.** Os três drivers, o `.dbx`, os testes da 7.11.
+O que o guia usa (lista de `revisao_2/LaTeX/referencias_brutas.txt`): 25
+artigos de periódico, ~20 documentos de pessoa jurídica com sigla, 3
+capítulos, 1 trabalho de evento, 2 trabalhos acadêmicos, 3 atos de
+legislação (Lei 13.146, Decreto 6.949, Lei 10.216) e 2 resoluções do CFP. Não
+há jurisprudência, filme, vídeo, podcast, mapa nem patente.
 
-**2. Citação (10520:2023).** Chamada por título com `[...]`; localizadores
-(`local.`, `slide`, `cap. V, art. 49, inc. I`, `9 min 41 s`); sigla como
-entrada nas duas pontas; chamada como **um** link.
+### Trilha do piloto
 
-**3. Mídia contemporânea.** 7.13 (filme, vídeo, sonoro, podcast) e documento
-online: ordem dos elementos, `[S. l.: s. n.]`, descrição física. Onde a norma
-for ambígua, a escolha fica registrada no README com a seção que a motiva.
+**0. Corpus contra a norma.** Feito em parte. `corpus/extrair.py` lê a
+6023:2025 direto do PDF (sem ingestão no pipeline, para ganhar tempo) e a
+10520:2023 do JSON do pipeline, e grava `corpus/nbr6023.tsv` (289 referências,
+20 fragmentos) e `corpus/nbr10520.tsv`. Falta escrever o `.bib` e medir o
+upstream **só nas seções que o guia usa**: 7.1.1, 7.1.2, 7.2.2, 7.3, 7.4,
+7.7.5, 7.7.6, 7.8.4.1, 7.8.5, 7.11.1, 7.11.2, 7.11.5, 7.11.6, 8.1 (autoria e
+pessoa jurídica), 8.5.4 (sigla como editora); e, na 10520, as chamadas de
+6.1.1–6.1.4, 6.1.7, 6.1.8 e 7.1.3–7.1.4. São cerca de 70 referências.
+O resultado é a tabela de divergências dessas seções.
 
-**4. Régua.** Testes no molde do `verificar.sh` do `crpsp-book`: comparação de
-texto normalizado por entrada (não de pixels), `show-pdf-tags` para a árvore e
-veraPDF UA-2.
+**1. Legislação e ato normativo.** Drivers de `@legislation` e `@legal`, os
+campos do `.dbx` que eles usam (`ementa`, `complementos`) e os testes de
+7.11.1, 7.11.2, 7.11.5 e 7.11.6. `@jurisdiction` fica para depois.
 
-**5. Piloto.** Revisão 2 do guia de apresentações acessíveis, com o `.bib`
-curado (seção 7).
+**2. Sigla e chamada.** Sigla como entrada (`SIGLA — NOME`) nas duas pontas,
+com o sinal de pessoa jurídica decidido aqui; chamada como **um** link;
+chamada por título com `[...]`; os localizadores que o guia usar.
 
-**6. `bibgen` (sem urgência).** No `normativas-pipeline`, gerar entradas
+**3. Piloto.** Revisão 2 do guia, com o `.bib` curado (seção 7). A régua do
+piloto é a tabela do Sprint 0 reduzida, mais o veraPDF UA-2 do PDF do guia.
+
+### Depois da entrega
+
+**4. Mídia contemporânea.** 7.13 (filme, vídeo, sonoro, podcast) e 7.20, já
+com as mudanças da Emenda 1: entrevistado como entrada, `[S. l.]` em
+documento online (a norma se contradiz, seção 2.5), editora igual ao autor.
+Onde a norma for ambígua, a escolha fica registrada no README com a seção que
+a motiva.
+
+**5. Jurisprudência.** `@jurisdiction`, com `julgado em`, órgão julgador
+entre parênteses e a publicação online com editora (seção 2.5).
+
+**6. Corpus completo e régua.** O `.bib` das ~290 referências da 6023; testes
+no molde do `verificar.sh` do `crpsp-book`: texto normalizado por entrada
+(não pixels), `show-pdf-tags` para a árvore e veraPDF UA-2.
+
+**7. Ingestão da 6023:2025 no pipeline.** Trocar a leitura do PDF pelo JSON e
+corrigir no parser os defeitos que `extrair.py` remenda (seção 6).
+
+**8. `bibgen` (sem urgência).** No `normativas-pipeline`, gerar entradas
 `@legislation`/`@legal` do banco (tipo, número, data, ementa, órgão emissor,
 URL), como o `latexgen` faz com o texto. Depende do contrato de campos fixado
 no Sprint 1.
@@ -176,15 +255,32 @@ no Sprint 1.
 ## 6. Riscos
 
 - **Upstream parado ou mudando por baixo.** Última versão em 2024. Sobrepor
-  macros internas do `abnt.bbx` quebra se ele mudar; a régua do Sprint 4 deve
+  macros internas do `abnt.bbx` quebra se ele mudar; a régua do Sprint 6 deve
   rodar depois de todo `tlmgr update`.
 - **Direito autoral das normas.** O repositório é privado e o corpus guarda só
   os exemplos, não o texto normativo. Se o pacote um dia for publicado, o
   corpus precisa ser revisto.
+- **Cópia emprestada da 6023:2025.** A cópia em `editorial/apoio/normas/ABNT/`
+  foi emprestada para uso emergencial e traz a marca de licença de outra
+  instituição: não sai do workbench, e o corpus não carrega nada dela além
+  dos exemplos. Conferir o corpus contra um exemplar licenciado ao CRP SP
+  quando houver.
+- **Corpus lido de PDF.** Fora do pipeline, a extração depende do
+  `pdftotext`: hífen de fim de linha, espaços dentro de URL e palavras
+  coladas por kerning são remendados por regra, não garantidos. Divergência
+  que só aparece numa URL ou num hífen é primeiro suspeita de extração.
+- **Defeitos do parser de normas técnicas do pipeline.** O JSON da 2018 tinha nó
+  novo a cada linha iniciada por número, título de seção e índice grudados no
+  nó anterior, e a ementa anunciava as erratas sem aplicá-las. Valem para
+  toda norma técnica que o pipeline lê; ficam para o Sprint 7.
 - **A norma é ambígua em mídia** (7.13 e documentos online). As escolhas
   precisam de registro, senão viram gosto.
 
 ## 7. Frente paralela: as referências do guia (conteúdo, fica no workbench)
+
+Com o prazo do piloto, esta frente é o caminho crítico: o pacote não corrige
+referência errada, e várias da lista não têm URL nem DOI, que a 6023:2025
+pede para documento online (`DOI: https://doi.org/…`).
 
 A lista recebida não está em ABNT: é um híbrido com a APA (`&` entre autores,
 `(Eds.)`, `et al.` dentro do `In:`), algo típico de lista APA convertida.
