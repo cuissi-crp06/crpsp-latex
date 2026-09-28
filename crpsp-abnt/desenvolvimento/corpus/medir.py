@@ -27,7 +27,9 @@ Uso:
     opções comuns: [--estilo abnt] [--opcao OPÇÃO ...] [--pasta DIR]
 
 --estilo é o style= do biblatex (abnt, o upstream; crpsp-abnt, com a pasta do
-pacote no TEXINPUTS). --pasta guarda o .tex, o .pdf e o log.
+pacote no TEXINPUTS). --pasta guarda o .tex, o .pdf e o log. --tagueado compõe
+com tagging e PDF/UA-2 (\\DocumentMetadata e hyperref), para o veraPDF: o texto
+extraído é o mesmo do PDF sem tags (conferido em 28/09/2026).
 Nada é escrito no repositório.
 """
 import argparse
@@ -43,11 +45,17 @@ from pathlib import Path
 AQUI = Path(__file__).resolve().parent
 RE_CHAVE = re.compile(r"^@\w+\{([^,\s]+),", re.M)
 
-TEX = r"""\documentclass{article}
+TAGS = r"""\DocumentMetadata{lang=pt-BR, pdfstandard=ua-2, tagging=on}
+"""
+HYPERREF = r"""\usepackage{hyperref}
+\hypersetup{pdftitle={Corpus do crpsp-abnt}}
+"""
+
+TEX = r"""%(tags)s\documentclass{article}
 \usepackage[paperwidth=500cm, paperheight=%(altura)dcm, margin=1cm]{geometry}
 \usepackage[brazilian]{babel}
 \usepackage{csquotes}
-\usepackage[style=%(estilo)s, backend=biber, sorting=none%(opcoes)s]{biblatex}
+%(hyperref)s\usepackage[style=%(estilo)s, backend=biber, sorting=none%(opcoes)s]{biblatex}
 \addbibresource{corpus.bib}
 \AtEveryBibitem{\printtext{@@\thefield{entrykey}@@ }}
 \hyphenpenalty=10000 \exhyphenpenalty=10000
@@ -79,10 +87,11 @@ def diff_palavras(a, b):
     return " ".join(saida)
 
 
-def compor(bib, corpo, linhas, estilo, opcoes, pasta):
+def compor(bib, corpo, linhas, estilo, opcoes, pasta, tagueado=False):
     shutil.copy(bib, pasta / "corpus.bib")
     (pasta / "medir.tex").write_text(TEX % {
         "estilo": estilo, "opcoes": "".join(", " + o for o in opcoes),
+        "tags": TAGS if tagueado else "", "hyperref": HYPERREF if tagueado else "",
         "corpo": corpo, "altura": max(30, 2 * linhas + 10)}, encoding="utf-8")
     passos = [["lualatex", "-interaction=nonstopmode", "medir.tex"],
               ["biber", "--quiet", "medir"],
@@ -112,6 +121,8 @@ def main():
     ap.add_argument("--opcao", action="append", default=[],
                     help="opção a mais do biblatex (repetível), ex. slashdaterange")
     ap.add_argument("--pasta", type=Path)
+    ap.add_argument("--tagueado", action="store_true",
+                    help="compõe com tagging e PDF/UA-2, para o veraPDF")
     args = ap.parse_args()
     bib = args.bib.resolve()
 
@@ -129,10 +140,10 @@ def main():
 
     if args.pasta:
         args.pasta.mkdir(parents=True, exist_ok=True)
-        obtido = compor(bib, corpo, len(ids), args.estilo, args.opcao, args.pasta)
+        obtido = compor(bib, corpo, len(ids), args.estilo, args.opcao, args.pasta, args.tagueado)
     else:
         with tempfile.TemporaryDirectory(prefix="crpsp-abnt-medir.") as tmp:
-            obtido = compor(bib, corpo, len(ids), args.estilo, args.opcao, Path(tmp))
+            obtido = compor(bib, corpo, len(ids), args.estilo, args.opcao, Path(tmp), args.tagueado)
 
     conta = {"igual": 0, "difere": 0, "ausente": 0}
     w = csv.writer(sys.stdout, delimiter="\t", lineterminator="\n")
