@@ -1,0 +1,115 @@
+# Divergências do biblatex-abnt 4.0 nas seções da trilha do piloto
+
+> **medido em:** 2026-09-28, TeX Live 2026 (`biblatex-abnt` 4.0, 2024-07-04), opções padrão
+> **corpus:** `trilha-6023.bib` (107 exemplos da 6023:2025) e `chamadas-10520.tsv`
+> (29 chamadas da 10520:2023), nas seções que o guia usa (briefing, seção 5)
+> **medida bruta:** `medida-abnt-4.0.tsv` e `medida-abnt-4.0-chamadas.tsv`
+
+Refazer:
+
+```sh
+python3 medir.py trilha-6023.bib > medida-abnt-4.0.tsv
+python3 medir.py trilha-10520.bib --chamadas chamadas-10520.tsv > medida-abnt-4.0-chamadas.tsv
+```
+
+## Resultado
+
+| Corpus | Igual | Difere |
+|---|---:|---:|
+| Referências (6023) | 44 | 63 |
+| Chamadas (10520) | 22 | 7 |
+
+Uma referência pode ter mais de uma divergência, e por isso a soma da coluna
+"casos" passa de 63. As chamadas de autor, de pessoa jurídica, de sigla
+(`(IBGE, 2011, p. 3)`), de várias obras e com localizador saem certas. O que
+quebra é a chamada por título.
+
+A premissa da sigla como entrada (`IBGE — INSTITUTO…`) não está na norma e não
+tem exemplo no corpus: o caso de teste dela é nosso e entra no Sprint 2.
+
+## Divergências do estilo
+
+"Guia" diz se o tipo de referência aparece nas ~57 do guia (briefing, seção 5).
+
+| # | Divergência | Casos | A norma pede | O upstream produz | Sprint | Guia |
+|---|---|---:|---|---|---|---|
+| 1 | Intervalo de páginas com meia-risca | 20 | `p. 1-74` | `p. 1–74` | 2 | sim: artigos, capítulos |
+| 2 | Reticências de título de evento engolem o ponto | 9 | `Anais [...]. São Paulo` | `Anais [...] São Paulo` | 2 | sim: 1 evento |
+| 3 | Qualificador de pessoa jurídica em caixa alta | 11 | `INSTITUTO NACIONAL DO CÂNCER (Brasil).` | `… (BRASIL).` | 2 | provável |
+| 4 | Legislação e ato sem publicação oficial: `local, editora` | 8 | `Brasília, DF: Presidência da República, [2016]` | `Brasília, DF, Presidência da República, [2016]` | 1 | sim: leis e resoluções online |
+| 5 | Legislação em monografia perde elementos | 3 | edição, `Organizado por`, `In: VADE mecum.` | edição e `In:` somem; editora antes do local e `320 p.` antes da data | 1 | não |
+| 6 | DOI sem o resolvedor | 2 | `DOI: https://doi.org/10.1590/…` | `DOI: 10.1590/…` | 2 | sim: artigos |
+| 7 | Intervalo de meses com meia-risca | 5 | `jul./ago. 2009` | `jul.–ago. 2009` | opção | sim: artigos |
+| 8 | Mais de três autores viram `et al.` | 4 | todos, ou o primeiro e `et al.` (8.1.1.2) | `et al.` | opção | sim: artigos |
+| 9 | Chamada por título | 5 | `(Inglês, 2012)`, `(A flor [...], 1995)` | `(INGLÊS..., 2012)`, `(A..., 1995)` | 2 | sim: 4 entradas pelo título, se ficarem |
+| 10 | Chamada com mais de três autores | 2 | `Maciel, Brum, Del Bianco e Costa (2019)` | `Maciel et al. (2019)` | opção | a ver |
+| 11 | Folhas impressas como páginas | 2 | `82 f.`, `f. 19-20` | `82 p.`, `p. 19–20` | 2 | sim: 2 trabalhos acadêmicos |
+| 12 | `@manual` descarta a editora | 1 | `Rio de Janeiro: ABNT, 2011.` | `Rio de Janeiro, 2011.` | 2 | se houver NBR citada |
+| 13 | Sem editora, insere `[s. n.]` | 1 | `[Florianópolis: UFSC], 2012.` | `[Florianópolis: UFSC]: [s. n.], 2012.` | depois | não |
+| 14 | URL com acento sai codificada | 1 | `…/Relatório-de-Atividades…` | `…/Relat%C3%B3rio-de-Atividades…` | depois | a ver |
+| 15 | Várias editoras em vários locais | 2 | `Rio de Janeiro: UFRJ; São Paulo: CRUESP` | `Rio de Janeiro e São Paulo: UFRJ e CRUESP` | depois | não |
+| 16 | `et al.` some da lista de tradutores | 1 | `Tradução Vera da Costa e Silva et al.` | `Tradução: Vera da Costa e Silva.` | depois | não |
+| 17 | Campos que o estilo não imprime | 2 | `Título original: …`, `Ilustrações de …` | nada | depois | não |
+| 18 | Ordem de elementos complementares | 7 | ordem da norma | dimensão, série, nota, páginas e edição fora do lugar | depois | não |
+| 19 | Separata | 1 | `Separata de:` | `In:` | depois | não |
+| 20 | Mês em inglês em minúscula | 1 | `Nov. 2009` | `nov. 2009` | depois | a ver |
+
+Os casos de cada linha, por id do corpus:
+
+1. 7.3:1–5, 7.7.5:2–8, 7.7.6:7, 7.8.4.1:1–2, 7.8.5:4, 7.11.1:3, 7.11.5:3, 7.11.5:5.
+2. 7.8.4.1:1–3, 7.8.5:1–2, 7.8.5:4, 8.1.3:1.1, 8.1.3:2.1–2.2. Contorno no dado:
+   `Anais [\ldots]\@`. O `.bib` de teste do upstream usa `[\ldots]` e cai no mesmo defeito.
+3. 7.4:1, 7.4:4, 7.11.5:1, 7.11.5:3, 8.1.1.7:1, 8.1.2.1:1, 8.1.2.2:1, 8.1.2.3:1,
+   8.1.2.5:1a–1b, 8.5.4:1. Contorno no dado: `{Instituto Nacional do Câncer \NoCaseChange{(Brasil)}}`.
+   A unidade subordinada em `nameaddon` já sai certa (`BANCO CENTRAL DO BRASIL. Diretoria
+   Colegiada.`); em `bookauthor` não há `nameaddon`, e 7.4:4 fica errada.
+4. 7.11.1:1, 7.11.2:1–3, 7.11.5:6, 7.11.6:1–2, 8.1.2.3:2. É o alias para o driver de artigo
+   (briefing, 2.2). Com publicação oficial (7.11.1:3, 7.11.5:2 e 5:4) sai certa, desde que o
+   ano do diário venha como `volume = {ano 139}`, a convenção do upstream. O contrato de
+   campos do Sprint 1 decide se fica assim.
+5. 7.11.1:1 (edição), 7.11.1:2 (organizador e ordem), 7.11.2:3 (`In:`).
+6. 7.7.6:7–8. A 2025 dá o DOI como URL (briefing, 2.5).
+7. 7.7.5:1, 7.7.5:4, 7.7.5:6, 7.7.6:7, 8.1.1.9:1. A opção `slashdaterange` do upstream
+   resolve os meses; 7.7.5:4 (`Spring/Summer`) ainda sai traduzida, como `primavera/verão`.
+8. 7.7.5:2, 7.7.6:8, 7.8.4.1:2, 8.1.1.2:2. `maxbibnames=99` resolve.
+9. 10520:6.1.1.4:a.1–d.1, 7.1.4:3.
+10. 10520:6.1.2:2 e 6.1.4:2. A 10520 admite as duas formas; `maxcitenames` escolhe uma
+    para o documento todo.
+11. 7.1.2:3b, 8.1.1.6:3 (`bookpagination = {leaf}`; o `.lbx` não tem `leaftotal`), e 7.3:2.
+12. 8.1.2:1.
+13. 8.1.2.4:1.
+14. 8.1.2.4:1.
+15. 7.8.5:2, 8.1.2.1:1.
+16. 8.1.1.6:2.
+17. 7.1.1:2b (`origtitle`), 8.1.1.6:1 (`illustrator`).
+18. 7.1.1:1b, 7.2.2:1b, 7.3:5 (`v. 1.` por `v. 1,`), 7.7.5:5 (`ed. 943`), 7.8.4.1:3,
+    7.8.5:4, 8.1.3:2.1.
+19. 7.3:4.
+20. 7.7.6:5.
+
+## O que não é do estilo
+
+- **Defeitos de extração do PDF da norma** (briefing, seção 6): 7.2.2:1a (`http ://`,
+  `2011..`) e 7.7.6:8 (espaços dentro da URL). O estilo sai certo; o corpus é que está
+  errado.
+- **A norma se contradiz:**
+  - `Tradução:` com dois-pontos em 7.1.1:2b, e `Tradução` sem eles em 7.1.1:3b, 8.1.1.4:3
+    e 8.1.1.6:2. O upstream põe dois-pontos, e a diferença entra na medida como divergência
+    de três casos;
+  - em 8.1.3:2.2 o ano do evento vem seguido de ponto (`2014. Kuala Lumpur`), e em todos os
+    outros eventos, de vírgula.
+- **Fora do modelo de datas:** 7.7.6:6 (`26 Tishrei 5766 = 29 out. 2005`).
+- **Sem campo no biblatex**, e por isso codificado em `titleaddon`: orientador (7.1.2:3b,
+  8.1.1.6:3), entrevistadores (7.7.5:6), psicografia (8.1.1.7:1), adaptação (8.1.1.8:1),
+  entrevista (8.1.1.9:1). Saem certos. Se o `crpsp-abnt` ganhar campos para eles, entram
+  aqui como caso novo.
+
+## Leitura para a trilha
+
+- **Sprint 1** (legislação e ato): as linhas 4 e 5. A 4 é a que pesa, porque as leis e as
+  resoluções do guia são citadas pela versão online.
+- **Sprint 2** (sigla e chamada): as linhas 1, 2, 3, 6, 9, 11 e 12, e o caso da sigla
+  como entrada, que é nosso. A 1 e a 2 são as mais frequentes e as mais baratas.
+- **Opções** (7, 8, 10): o `crpsp-abnt` fixa `slashdaterange` e decide `maxbibnames` e
+  `maxcitenames`. Ficam registradas no README.
+- **Depois da entrega:** 13 a 20. Nenhuma aparece no guia.

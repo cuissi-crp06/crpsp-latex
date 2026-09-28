@@ -1,6 +1,6 @@
 # Briefing: `crpsp-abnt`, extensão do biblatex-abnt
 
-> **estado:** Sprint 0 em andamento (corpus extraído); plano reordenado pelo prazo do piloto
+> **estado:** Sprint 0 da trilha feito (tabela de divergências); próximo, Sprint 1
 > **escrito em:** 2026-09-28; **revisto em:** 2026-09-28, com a 6023:2025
 > **escopo:** um estilo biblatex que estende o `biblatex-abnt` e o adequa à
 > ABNT NBR 6023:2025 e à NBR 10520:2023, com três frentes: documento
@@ -73,7 +73,9 @@ exemplos da própria norma:
 | Sigla como entrada (premissa da seção 1) | chamada `(IBGE, 2025)`, referência começa por `INSTITUTO BRASILEIRO…` | `IBGE — INSTITUTO BRASILEIRO…` |
 
 A sondagem usou exemplos da 2018. Os exemplos da tabela seguem iguais na
-2025, salvo o do podcast. A tabela que vale é a do Sprint 0.
+2025, salvo o do podcast. A tabela que vale é a do Sprint 0, em
+`desenvolvimento/corpus/DIVERGENCIAS.md`: 20 divergências nas seções da
+trilha, 8 delas em tipos de referência que o guia usa.
 
 O que funciona: `shortauthor` já alimenta a chamada (`abnt.cbx:35`), e a
 chamada de pessoa física já sai em caixa alta e baixa.
@@ -208,15 +210,17 @@ há jurisprudência, filme, vídeo, podcast, mapa nem patente.
 
 ### Trilha do piloto
 
-**0. Corpus contra a norma.** Feito em parte. `corpus/extrair.py` lê a
+**0. Corpus contra a norma.** Feito na trilha (28/09). `corpus/extrair.py` lê a
 6023:2025 direto do PDF (sem ingestão no pipeline, para ganhar tempo) e a
 10520:2023 do JSON do pipeline, e grava `corpus/nbr6023.tsv` (289 referências,
 20 fragmentos) e `corpus/nbr10520.tsv`. Falta escrever o `.bib` e medir o
 upstream **só nas seções que o guia usa**: 7.1.1, 7.1.2, 7.2.2, 7.3, 7.4,
 7.7.5, 7.7.6, 7.8.4.1, 7.8.5, 7.11.1, 7.11.2, 7.11.5, 7.11.6, 8.1 (autoria e
 pessoa jurídica), 8.5.4 (sigla como editora); e, na 10520, as chamadas de
-6.1.1–6.1.4, 6.1.7, 6.1.8 e 7.1.3–7.1.4. São cerca de 70 referências.
-O resultado é a tabela de divergências dessas seções.
+6.1.1–6.1.4, 6.1.7, 6.1.8 e 7.1.3–7.1.4. Foram 107 referências e 29
+chamadas: `corpus/trilha-6023.bib`, `corpus/trilha-10520.bib` e
+`corpus/chamadas-10520.tsv`, medidos por `corpus/medir.py`. O upstream acerta
+44 referências e 22 chamadas; a tabela está em `corpus/DIVERGENCIAS.md`.
 
 **1. Legislação e ato normativo.** Drivers de `@legislation` e `@legal`, os
 campos do `.dbx` que eles usam (`ementa`, `complementos`) e os testes de
