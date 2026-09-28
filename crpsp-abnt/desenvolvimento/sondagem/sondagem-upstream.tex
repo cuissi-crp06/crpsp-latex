@@ -1,0 +1,16 @@
+% Sondagem do biblatex-abnt 4.0 (2024-07-04) contra exemplos da ABNT NBR 6023:2018
+% e da NBR 10520:2023. Base das divergencias da secao 2 do briefing-crpsp-abnt.md.
+% Compilar com: lualatex, biber, lualatex, lualatex. Validar: verapdf -f ua2.
+\DocumentMetadata{lang=pt-BR, pdfstandard=ua-2, pdfversion=2.0, tagging=on}
+\documentclass{article}
+\usepackage[brazilian]{babel}
+\usepackage{csquotes}
+\usepackage{hyperref}
+\hypersetup{pdftitle=Sondagem do biblatex-abnt}
+\usepackage[style=abnt, backend=biber]{biblatex}
+\addbibresource{sondagem-upstream.bib}
+\begin{document}
+\cite{lei10406} \cite{cf88} \cite{re313060} \cite{ibge2025} \textcite{ibge2025}
+\cite{podcast} \cite{yt}
+\printbibliography
+\end{document}
