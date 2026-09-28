@@ -26,8 +26,8 @@ Uso:
     python3 medir.py trilha-10520.bib --chamadas chamadas-10520.tsv
     opções comuns: [--estilo abnt] [--opcao OPÇÃO ...] [--pasta DIR]
 
---estilo é o style= do biblatex (abnt, o upstream; crpsp-abnt, quando houver,
-com a pasta do pacote no TEXINPUTS). --pasta guarda o .tex, o .pdf e o log.
+--estilo é o style= do biblatex (abnt, o upstream; crpsp-abnt, com a pasta do
+pacote no TEXINPUTS). --pasta guarda o .tex, o .pdf e o log.
 Nada é escrito no repositório.
 """
 import argparse

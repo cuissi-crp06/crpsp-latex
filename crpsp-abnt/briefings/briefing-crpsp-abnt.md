@@ -1,6 +1,6 @@
 # Briefing: `crpsp-abnt`, extensão do biblatex-abnt
 
-> **estado:** Sprint 0 da trilha feito (tabela de divergências); próximo, Sprint 1
+> **estado:** Sprint 1 da trilha feito (`0.1.0-alfa`, legislação e ato); próximo, Sprint 2
 > **escrito em:** 2026-09-28; **revisto em:** 2026-09-28, com a 6023:2025
 > **escopo:** um estilo biblatex que estende o `biblatex-abnt` e o adequa à
 > ABNT NBR 6023:2025 e à NBR 10520:2023, com três frentes: documento
@@ -224,7 +224,11 @@ chamadas: `corpus/trilha-6023.bib`, `corpus/trilha-10520.bib` e
 
 **1. Legislação e ato normativo.** Drivers de `@legislation` e `@legal`, os
 campos do `.dbx` que eles usam (`ementa`, `complementos`) e os testes de
-7.11.1, 7.11.2, 7.11.5 e 7.11.6. `@jurisdiction` fica para depois.
+7.11.1, 7.11.2, 7.11.5 e 7.11.6. `@jurisdiction` fica para depois. Feito em
+28/09 (`0.1.0-alfa`): os 15 exemplos dessas seções no corpus saem iguais à norma,
+exceto 4, que dependem das linhas 1 e 3 do Sprint 2 (meia-risca e `(Estado)`). O
+contrato de campos está no README. O `.dbx` carrega sozinho com o estilo, e por isso
+a opção `datamodel` da seção 4 não é necessária.
 
 **2. Sigla e chamada.** Sigla como entrada (`SIGLA — NOME`) nas duas pontas,
 com o sinal de pessoa jurídica decidido aqui; chamada como **um** link;
