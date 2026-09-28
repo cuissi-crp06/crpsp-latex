@@ -33,3 +33,4 @@ NewJune*.[oO][tT][fF]
 
 # Conteúdo de publicação fica no Nextcloud, não aqui.
 publicacoes/
+__pycache__/
