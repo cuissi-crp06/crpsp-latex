@@ -2,6 +2,27 @@
 
 Versões conforme `CONVENCAO-VERSIONAMENTO.md`, na raiz do repositório.
 
+## 0.2.1-alfa — 2026-09-28
+
+Sprint 3 da trilha do piloto: os quatro defeitos achados ao compor o guia
+(linhas 22 a 25 de `DIVERGENCIAS.md`). Só o `.bbx` muda; `.cbx` e `.dbx` seguem na
+0.2.0-alfa.
+
+- `@online` com driver próprio: `Local: Editora, data.` antes do endereço, com
+  `organization` no lugar da editora quando não há `publisher`. O driver do
+  `standard.bbx` descartava `location` e `publisher`.
+- A chamada não usa mais a data de acesso: página sem data saía
+  `(Deaf Services Unlimited, 2026)` com a referência sem ano. Agora sai `s.d.`, com
+  aviso na compilação pedindo o ano entre colchetes (6023, 8.6.1.3).
+- Páginas com letra: `p. E16-E18`, não `e16-e18`. O upstream passava o campo por
+  `\MakeLowercase` e só punha `p.` em numeral.
+- Trabalho acadêmico com o ano da defesa no fim (7.1.2): sem `eventdate`, o mapa copia
+  o ano de `date` ou `year`. O corpus tirou o `eventdate` das seis teses, onde era
+  contorno.
+- `desenvolvimento/casos/`: sete entradas novas: uma por defeito, o `eid` e o `@online` só com local.
+- Medida: 85/107 referências e 27/29 chamadas, iguais às da 0.2.0, sem regressão.
+  Nenhum exemplo do corpus passava por esses caminhos.
+
 ## 0.2.0-alfa — 2026-09-28
 
 Sprint 2 da trilha do piloto: sigla como entrada e chamada.

@@ -3,8 +3,8 @@
 # - as chamadas;
 # - as referências, uma por linha, na ordem da lista (a página é larga para
 #   cada uma caber numa linha);
-# - o número de links: um por obra citada (8, nas sete chamadas), mais os de
-#   DOI e URL da lista (1).
+# - o número de links: um por obra citada (10, nas nove chamadas), mais os de
+#   DOI e URL da lista (3).
 # Com o veraPDF no PATH ou em ~/verapdf, valida também o PDF/UA-2.
 #
 #   sh verificar.sh [pasta-de-trabalho]

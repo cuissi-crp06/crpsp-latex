@@ -5,13 +5,22 @@ C4 (INCA, 2011)
 C5 Maciel et al. (2019)
 C6 (A flor [...], 1995, p. 4)
 C7 Andrade (1990)
+C8 (ASAN, [2016?])
+C9 (Deaf Services Unlimited, s.d.)
 A FLOR prometida. São Paulo: Folha, 1995.
 A1, Ana; A2, Ana; A3, Ana; A4, Ana; A5, Ana; A6, Ana; A7, Ana; A8, Ana; A9, Ana; A10, Ana; A11, Ana; A12, Ana; A13, Ana; A14, Ana; A15, Ana; A16, Ana; A17, Ana; A18, Ana; A19, Ana; A20, Ana et al. Artigo coletivo. Revista, v. 1, p. 1-10, 2020. DOI: 10.1590/0000-0000.
 ANDRADE, Mário de. Macunaíma. Belo Horizonte: Itatiaia, 1990.
+ASAN — AUTISTIC SELF ADVOCACY NETWORK. Holding inclusive events. Washington, DC: ASAN, [2016?]. Disponível em: https://autisticadvocacy.org/. Acesso em: 28 set. 2026.
 ASSOCIAÇÃO BRASILEIRA DE NORMAS TÉCNICAS. Guia de normalização. Rio de Janeiro: ABNT, 2011.
+BEZERRA, Esther Nogueira. Capacitismo e anticapacitismo. 2023. Trabalho de Conclusão de Curso (Graduação em Serviço Social) – Universidade Federal do Rio Grande do Norte, Natal, 2023.
 CFP — CONSELHO FEDERAL DE PSICOLOGIA. Resolução CFP nº 10, de 21 de julho de 2005. Aprova o Código de Ética Profissional do Psicólogo. Brasília, DF: CFP, 2005.
+DEAF SERVICES UNLIMITED. Accessible events. Disponível em: https://deafservicesunlimited.com/. Acesso em: 28 set. 2026.
+DUNN, Dana S. Understanding ableism. Washington, DC: American Psychological Association, 15 dez. 2021.
+EUROPEAN DISABILITY FORUM. Strategies for accessible communication. Brussels, 31 out. 2024.
+HOGAN, Andrew J. Social and medical models of disability. Canadian Medical Association Journal, v. 191, n. 1, p. E16-E18, 2019.
 IBGE — INSTITUTO BRASILEIRO DE GEOGRAFIA E ESTATÍSTICA. Censo demográfico 2010: características da população e dos domicílios. Rio de Janeiro: IBGE, 2011.
 IBGE — INSTITUTO BRASILEIRO DE GEOGRAFIA E ESTATÍSTICA. Pesquisa nacional por amostra de domicílios. Rio de Janeiro: IBGE, 2010.
 INCA — INSTITUTO NACIONAL DO CÂNCER (Brasil). A situação do tabagismo no Brasil. Rio de Janeiro: INCA, 2011.
 MACIEL, Maria; BRUM, Beatriz; DEL BIANCO, Diana; COSTA, Carla. Quatro autores. Revista, 2019.
-links: 9
+SILVA, Sara. Artigo com número. Revista da Escola de Enfermagem da USP, v. 52, e03304, 2018.
+links: 13
