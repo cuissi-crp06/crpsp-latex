@@ -1,6 +1,6 @@
 # Briefing: `crpsp-abnt`, extensão do biblatex-abnt
 
-> **estado:** Sprint 1 da trilha feito (`0.1.0-alfa`, legislação e ato); próximo, Sprint 2
+> **estado:** Sprint 2 da trilha feito (`0.2.0-alfa`, sigla e chamada); próximo, Sprint 3 (piloto)
 > **escrito em:** 2026-09-28; **revisto em:** 2026-09-28, com a 6023:2025
 > **escopo:** um estilo biblatex que estende o `biblatex-abnt` e o adequa à
 > ABNT NBR 6023:2025 e à NBR 10520:2023, com três frentes: documento
@@ -191,9 +191,11 @@ Quando a entrada é pessoa jurídica com `shortauthor`:
 - ordenação pela sigla (é por ela que o leitor procura, vindo da chamada);
 - chamada: a sigla, em maiúsculas (10520:2023, 6.1.1.2 recomenda).
 
-Precisa definir como marcar pessoa jurídica: chaves duplas no `author`
-bastam para o biber, mas o estilo precisa de um sinal explícito
-(`authortype = {organization}` ou similar). Decidir no Sprint 2.
+O sinal de pessoa jurídica foi decidido no Sprint 2 (Angelo, 2026-09-28):
+é automático. A entrada precisa ter `shortauthor` e um `author` só, inteiro
+entre chaves duplas. O `authortype = {organization}` desta seção não
+serviria, porque no upstream o `authortype` sai impresso entre parênteses
+depois do nome (`abnt.bbx`, bibmacro `author`).
 
 ## 5. Sprints
 
@@ -232,7 +234,15 @@ a opção `datamodel` da seção 4 não é necessária.
 
 **2. Sigla e chamada.** Sigla como entrada (`SIGLA — NOME`) nas duas pontas,
 com o sinal de pessoa jurídica decidido aqui; chamada como **um** link;
-chamada por título com `[...]`; os localizadores que o guia usar.
+chamada por título com `[...]`; os localizadores que o guia usar. Feito em
+28/09 (`0.2.0-alfa`), e chega a 85/107 referências e 27/29 chamadas. Fecha as
+linhas 1, 2, 3, 6, 9, 11 e 12 da tabela, mais uma achada no caminho: o artigo
+na entrada pelo título, da 8.2.1. As opções de autores ficaram decididas:
+todos os autores na referência, até 20, e na chamada o primeiro e `et al.` a
+partir de quatro. O DOI sai como está no `.bib`, porque a 2025 traz três
+formas. A sigla não tem exemplo na norma e ganhou casos próprios, com contagem
+de links e veraPDF, em `desenvolvimento/casos/`. Os localizadores do upstream
+já saíam certos.
 
 **3. Piloto.** Revisão 2 do guia, com o `.bib` curado (seção 7). A régua do
 piloto é a tabela do Sprint 0 reduzida, mais o veraPDF UA-2 do PDF do guia.

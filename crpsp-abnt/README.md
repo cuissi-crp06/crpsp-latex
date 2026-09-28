@@ -4,7 +4,7 @@ Estilo biblatex que estende o `biblatex-abnt` para a ABNT NBR 6023:2025 e a
 NBR 10520:2023: documento jurídico (legislação, jurisprudência, ato
 administrativo), citação autor-data acessível e mídia contemporânea.
 
-**Estado:** `0.1.0-alfa`, Sprint 1 da trilha do piloto: legislação e ato normativo.
+**Estado:** `0.2.0-alfa`, Sprint 2 da trilha do piloto: sigla como entrada e chamada.
 O plano, a linha de base medida e as decisões estão em
 [`briefings/briefing-crpsp-abnt.md`](briefings/briefing-crpsp-abnt.md). As divergências
 que faltam fechar estão em
@@ -21,9 +21,86 @@ da árvore do TeX, a pasta precisa estar no `TEXINPUTS`.
 
 | Arquivo | Papel |
 |---|---|
-| `crpsp-abnt.bbx` | carrega o `abnt.bbx` e acrescenta o driver de `@legislation` e `@legal` |
-| `crpsp-abnt.cbx` | por ora, só carrega o `abnt.cbx`; a chamada entra no Sprint 2 |
-| `crpsp-abnt.dbx` | os campos `ementa` e `complementos` |
+| `crpsp-abnt.bbx` | carrega o `abnt.bbx`; opções, sigla como entrada, driver de `@legislation` e `@legal`, correções de pontuação e caixa |
+| `crpsp-abnt.cbx` | carrega o `abnt.cbx`; chamada por título e um link por obra |
+| `crpsp-abnt.dbx` | os campos `ementa` e `complementos`, e o interno `crpspsigla` |
+
+## Opções fixadas
+
+O estilo fixa estas opções, e cada uma pode ser trocada no `\usepackage`:
+
+| Opção | Efeito | Motivo |
+|---|---|---|
+| `maxbibnames=20, minbibnames=20` | a referência traz todos os autores, até 20; acima disso, os 20 primeiros e `et al.` | 6023, 8.1.1.2: "convém indicar todos" |
+| `maxcitenames=3, mincitenames=1` | a chamada de quatro ou mais autores é o primeiro e `et al.`: `Maciel et al. (2019)` | 10520, 6.1.4, admite as duas formas; a curta pesa menos para quem ouve pelo leitor de tela |
+| `slashdaterange` | intervalo de meses com barra: `jul./ago. 2009` | 6023, 7.7.5 |
+
+As duas primeiras são decisões do Angelo, de 28/09/2026.
+
+## Sigla como entrada
+
+Pessoa jurídica com sigla entra pela sigla, com travessão e o nome por extenso, e a
+chamada sai com a sigla:
+
+```
+IBGE — INSTITUTO BRASILEIRO DE GEOGRAFIA E ESTATÍSTICA. Censo demográfico 2010 [...]
+(IBGE, 2011, p. 3)
+```
+
+A forma não está na 6023. A 8.1.2 admite a entrada da pessoa jurídica "por extenso ou
+abreviada", e esta forma combina as duas. Ela veio da orientação de uma especialista
+da ABNT, registrada nas notas da revisão 2 do guia de apresentações acessíveis, e é o
+padrão do pacote (decisão 3 do briefing).
+
+O sinal é automático: a entrada vira sigla quando tem `shortauthor` e o `author` é um
+nome só, inteiro entre chaves duplas.
+
+```bibtex
+author      = {{Instituto Brasileiro de Geografia e Estatística}},
+shortauthor = {{IBGE}},
+```
+
+- A lista é ordenada pela sigla, porque é por ela que o leitor procura, vindo da
+  chamada. Um `sortname` na entrada tem precedência.
+- Pessoa física com `shortauthor` não vira sigla, porque tem prenome. Também não vira
+  sigla a entrada com mais de um autor.
+- Sem `shortauthor`, a pessoa jurídica entra por extenso, como no upstream.
+- O qualificador fica em caixa alta e baixa, na sigla e fora dela:
+  `INCA — INSTITUTO NACIONAL DO CÂNCER (Brasil).`
+- No `In:` de capítulo, o `bookauthor` continua por extenso.
+
+## Chamada
+
+- **Um link por obra.** Em `\cite` e `\parencite`, o link cobre `IBGE, 2011`, e o
+  localizador fica fora dele. Em `\textcite`, o link fica no nome. A segunda obra do
+  mesmo autor, comprimida (`IBGE, 2010, 2011`), tem o link no ano. O upstream fazia
+  dois links por chamada, e o leitor de tela lia os dois em separado.
+- **Chamada por título** (10520, 6.1.1.4). Título de uma palavra sai inteiro:
+  `(Inglês, 2012)`. Com mais palavras, sai a primeira e `[...]`: `(Anteprojeto [...],
+  1987)`. Se a primeira é artigo ou monossílabo, saem as duas primeiras:
+  `(A flor [...], 1995)`. O monossílabo é reconhecido por uma lista, que não é
+  exaustiva. Onde a regra errar, o `shorttitle` tem precedência e sai como está
+  escrito, inclusive o `[\ldots]`.
+
+## Correções da referência
+
+| O que | A norma pede | Campo |
+|---|---|---|
+| Intervalo de páginas | `p. 1-74`, com hífen | `pages` |
+| Evento com reticências | `Anais [...]. São Paulo` | `booktitle = {Anais [\ldots]}` |
+| Qualificador | `SÃO PAULO (Estado). Secretaria do Meio Ambiente.` | o nome, entre chaves duplas |
+| Folhas | `82 f.`, `f. 19-20` | `bookpagination = {leaf}` |
+| `@manual` com editora | `Rio de Janeiro: ABNT, 2011.` | `publisher` |
+| Entrada pelo título com artigo | `A FLOR prometida.`, `THE EVIDENCE underlying` | `title` (8.2.1) |
+
+**DOI.** A 6023:2025 não fixa a forma, e os exemplos trazem três: sem resolvedor
+(7.2.2), `http://dx.doi.org/…` (7.7.6, ex. 7) e `https://doi.org/…` (7.7.6, ex. 8, novo
+na 2025). O estilo imprime o `doi` como está no `.bib`, sempre com link. No `.bib` do
+CRP SP, a recomendação é a forma do exemplo 8, com o endereço completo:
+
+```bibtex
+doi = {https://doi.org/10.1590/S1980-220X2017020403304},
+```
 
 ## Legislação e ato normativo
 
@@ -79,7 +156,10 @@ Escolhas que a norma não fixa:
 - `desenvolvimento/corpus/`: os exemplos das duas normas como corpus de teste,
   extraídos por `extrair.py`; o `.bib` das seções da trilha, o medidor
   `medir.py` e a tabela de divergências, `DIVERGENCIAS.md`
-  (`python3 <script> --help`).
+  (`python3 <script> --help`);
+- `desenvolvimento/casos/`: os casos que a norma não traz, como sigla como entrada,
+  ordenação e contagem de links. Rodar com `sh verificar.sh`, que também passa o PDF
+  no veraPDF UA-2.
 
 Medir o estilo, a partir de `desenvolvimento/corpus/`:
 
