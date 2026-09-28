@@ -1,6 +1,6 @@
 # Briefing: `crpsp-abnt`, extensão do biblatex-abnt
 
-> **estado:** Sprint 3 da trilha em curso (`0.2.1-alfa`, defeitos achados ao compor o guia corrigidos); falta compor o guia com o `.bib` curado. Sprint 5 feito (`0.3.0-alfa`, jurisprudência)
+> **estado:** Sprint 3 da trilha em curso (`0.2.1-alfa`, defeitos achados ao compor o guia corrigidos); falta compor o guia com o `.bib` curado. Sprint 5 feito (`0.3.0-alfa`, jurisprudência); Sprint 6 feito (corpus completo e régua, sem versão nova)
 > **escrito em:** 2026-09-28; **revisto em:** 2026-09-28, com a 6023:2025
 > **escopo:** um estilo biblatex que estende o `biblatex-abnt` e o adequa à
 > ABNT NBR 6023:2025 e à NBR 10520:2023, com três frentes: documento
@@ -269,7 +269,14 @@ e as partes do processo ganharam o campo `partes`.
 
 **6. Corpus completo e régua.** O `.bib` das ~290 referências da 6023; testes
 no molde do `verificar.sh` do `crpsp-book`: texto normalizado por entrada
-(não pixels), `show-pdf-tags` para a árvore e veraPDF UA-2.
+(não pixels), `show-pdf-tags` para a árvore e veraPDF UA-2. Feito em 28/09, sem
+versão nova, porque o estilo não muda. `corpus/demais-6023.bib` completa 287 das
+289 referências (as duas que faltam são defeito de extração): o `crpsp-abnt` acerta
+197, e o upstream, 126. Nenhum exemplo que o upstream acertava passou a divergir; as
+divergências novas (linhas 27 a 33 de `DIVERGENCIAS.md`) são todas herdadas dele. A
+régua é `desenvolvimento/verificar.sh`: compara o texto de cada entrada com a
+linha-base da versão, passa os PDFs do corpus (agora tagueados) e dos casos no veraPDF
+e confere o esqueleto da árvore de tags dos casos.
 
 **7. Ingestão da 6023:2025 no pipeline.** Trocar a leitura do PDF pelo JSON e
 corrigir no parser os defeitos que `extrair.py` remenda (seção 6).

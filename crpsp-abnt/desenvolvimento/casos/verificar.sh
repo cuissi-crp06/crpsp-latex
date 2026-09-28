@@ -5,6 +5,9 @@
 #   cada uma caber numa linha);
 # - o número de links: um por obra citada (11, nas dez chamadas), mais os de
 #   DOI e URL da lista (3).
+# - a árvore de tags (show-pdf-tags), reduzida ao esqueleto: um elemento de
+#   estrutura por linha, com o nome mapeado e a profundidade, sem texto nem
+#   número de objeto. Compara com arvore.txt.
 # Com o veraPDF no PATH ou em ~/verapdf, valida também o PDF/UA-2.
 #
 #   sh verificar.sh [pasta-de-trabalho]
@@ -28,6 +31,15 @@ pdftotext -layout casos.pdf - |
        f && NF {print}' > obtido.txt
 echo "links: $(grep -c '/Subtype */Link' casos.pdf)" >> obtido.txt
 if diff -u "$AQUI/esperado.txt" obtido.txt; then echo "casos: igual"; else echo "casos: DIFERE"; st=1; fi
+show-pdf-tags casos.pdf | python3 -c '
+import re, sys
+for linha in sys.stdin:
+    m = re.match(r"^([\s│├└┝━─]*?)[├└]─(.+) \(https?://[^)]*\):$", linha.rstrip())
+    if m:
+        nome = m.group(2).split(" / ")[-1]
+        print("  " * (len(m.group(1)) // 2) + nome)
+' > arvore.txt
+if diff -u "$AQUI/arvore.txt" arvore.txt; then echo "árvore de tags: igual"; else echo "árvore de tags: DIFERE"; st=1; fi
 VERA=$(command -v verapdf || echo "$HOME/verapdf/verapdf")
 if [ -x "$VERA" ]; then
   if "$VERA" --flavour ua2 casos.pdf | grep -q 'isCompliant="true"'; then

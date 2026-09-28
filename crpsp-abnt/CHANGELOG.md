@@ -2,6 +2,24 @@
 
 Versões conforme `CONVENCAO-VERSIONAMENTO.md`, na raiz do repositório.
 
+## Sem versão — 2026-09-28
+
+Sprint 6: corpus completo e régua. O estilo não muda (`.bbx`, `.cbx` e `.dbx` seguem na
+0.3.0-alfa); muda só `desenvolvimento/`.
+
+- `corpus/demais-6023.bib`: os 175 exemplos da 6023:2025 fora da trilha e da
+  jurisprudência. O corpus passa a cobrir 287 das 289 referências; as duas que faltam são
+  defeito de extração. Upstream 82/175, 0.3.0 107/175; nos três corpora, 126 e 197 de 287.
+  As divergências novas estão nas linhas 27 a 33 de `DIVERGENCIAS.md`, todas herdadas do
+  upstream.
+- `verificar.sh`: a régua. Mede os três corpora e as chamadas, compara cada entrada com a
+  linha-base da versão (`corpus/comparar.py`), passa os PDFs no veraPDF UA-2 e roda os
+  casos.
+- `corpus/medir.py --tagueado`: compõe com tagging e PDF/UA-2. O texto extraído é o
+  mesmo, e por isso as medidas antigas servem de linha-base.
+- `casos/verificar.sh` confere também o esqueleto da árvore de tags, contra
+  `casos/arvore.txt`.
+
 ## 0.3.0-alfa — 2026-09-28
 
 Sprint 5: jurisprudência (6023, 7.11.3 e 7.11.4). Mudam o `.bbx` e o `.dbx`; o `.cbx`

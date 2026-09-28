@@ -202,12 +202,23 @@ Escolhas que a norma não fixa:
 
 - `desenvolvimento/sondagem/`: a sondagem que mediu o upstream (exemplos da 2018);
 - `desenvolvimento/corpus/`: os exemplos das duas normas como corpus de teste,
-  extraídos por `extrair.py`; o `.bib` das seções da trilha, o medidor
-  `medir.py` e a tabela de divergências, `DIVERGENCIAS.md`
-  (`python3 <script> --help`);
+  extraídos por `extrair.py`; os `.bib` de 287 das 289 referências da 6023
+  (`trilha-6023.bib`, `jurisprudencia-6023.bib`, `demais-6023.bib`), o medidor
+  `medir.py`, o comparador com a linha-base `comparar.py` e a tabela de divergências,
+  `DIVERGENCIAS.md` (`python3 <script> --help`);
 - `desenvolvimento/casos/`: os casos que a norma não traz, como sigla como entrada,
-  ordenação e contagem de links. Rodar com `sh verificar.sh`, que também passa o PDF
-  no veraPDF UA-2.
+  ordenação e contagem de links. Rodar com `sh verificar.sh`, que também confere a
+  árvore de tags (`arvore.txt`) e passa o PDF no veraPDF UA-2;
+- `desenvolvimento/verificar.sh`: a régua. Mede o corpus e as chamadas com o PDF
+  tagueado, compara cada entrada com a linha-base da versão, passa os PDFs no veraPDF e
+  roda os casos. Rodar depois de mexer no estilo e depois de todo `tlmgr update`:
+
+  ```sh
+  sh desenvolvimento/verificar.sh
+  ```
+
+  Qualquer mudança no texto obtido, mesmo melhora, sai com 1. A linha-base nova se grava
+  com a versão nova (`DIVERGENCIAS.md`, "Régua").
 
 Medir o estilo, a partir de `desenvolvimento/corpus/`:
 
