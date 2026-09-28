@@ -1,0 +1,126 @@
+\ProvidesFile{crpsp-abnt.bbx}[2026/09/28 v0.1.0-alfa Extensao do biblatex-abnt para a NBR 6023:2025]%
+%
+% Estende o biblatex-abnt: carrega o estilo dele e sobrepõe só o que diverge
+% da ABNT NBR 6023:2025. Plano e medidas: briefings/briefing-crpsp-abnt.md e
+% desenvolvimento/corpus/DIVERGENCIAS.md.
+%
+\RequireBibliographyStyle{abnt}
+
+% Strings >>>1
+
+\NewBibliographyString{crpspbyorganizer}
+\DefineBibliographyStrings{brazilian}{crpspbyorganizer = {organizado por}}
+\DefineBibliographyStrings{portuguese}{crpspbyorganizer = {organizado por}}
+\DefineBibliographyStrings{english}{crpspbyorganizer = {organized by}}
+
+% <<<1
+
+% Legislação e ato normativo (6023, 7.11.1, 7.11.2, 7.11.5, 7.11.6) >>>1
+%
+% O upstream manda @legislation, @legal e @jurisdiction para o driver de
+% @article (abnt.bbx, DeclareBibliographyAlias): sem publicação oficial, sai
+% "local, editora" em vez de "local: editora", e edição, organizador e "In:"
+% somem. Aqui @legislation e @legal ganham um driver próprio, o mesmo para os
+% dois: a diferença entre 7.11.1 e 7.11.5 está nos dados (a entrada é a
+% jurisdição ou a entidade), não na ordem dos elementos.
+%
+% Ordem: autoria. título. ementa. edição. organizador. In: obra.
+% publicação oficial ou local: editora, data. páginas. notas. complementos.
+% DOI e acesso online.
+%
+% @jurisdiction continua no alias do upstream até o Sprint 5.
+
+\DeclareFieldFormat{ementa}{#1\isdot}
+\DeclareFieldFormat{complementos}{#1\isdot}
+
+% Organizador de coletânea de leis: "Organizado por Fulano" (7.11.1, ex. 2),
+% não "Organização: Fulano", que é o que o upstream imprime.
+\newbibmacro*{crpsp:byeditor}{%
+  \ifboolexpr{%
+    not test {\ifnameundef{editor}}%
+    and%
+    test {\iffieldequalstr{editortype}{organizer}}%
+  }{%
+    \bibstring{crpspbyorganizer}%
+    \setunit*{\addspace}%
+    \printnames[byeditor]{editor}%
+    \clearname{editor}%
+    \newunit%
+  }{%
+    \usebibmacro{byeditor+others}%
+  }%
+}
+
+% Ato publicado dentro de outra obra: "In: VADE mecum." (7.11.2, ex. 3)
+\newbibmacro*{crpsp:in}{%
+  \ifboolexpr{%
+    test {\iffieldundef{booktitle}}%
+    and%
+    test {\iffieldundef{maintitle}}%
+  }{}{%
+    \usebibmacro{in:}%
+    \usebibmacro{maintitle/booktitle}%
+  }%
+}
+
+% Publicação: no diário oficial, a sequência do driver de @article, que o
+% upstream já acerta (7.11.1, ex. 3); fora dele, "local: editora, data".
+\newbibmacro*{crpsp:publicacao}{%
+  \iffieldundef{journaltitle}{%
+    \usebibmacro{publisher+location+date}%
+  }{%
+    \usebibmacro{journal+section}%
+    \setunit*{\addcomma\addspace}%
+    \printlist{publisher}%
+    \setunit*{\addcomma\addspace}%
+    \printlist{location}%
+    \setunit*{\addcomma\addspace}%
+    \usebibmacro{volume+number+eid}%
+    \setunit{\addcomma\addspace}%
+    \printfield{pages}%
+    \setunit{\addcomma\addspace}%
+    \usebibmacro{issue+date}%
+  }%
+}
+
+\DeclareBibliographyDriver{legislation}{%
+  \usebibmacro{bibindex}%
+  \usebibmacro{begentry}%
+  \usebibmacro{author/organization}%
+  \setunit{\labelnamepunct}%
+  \usebibmacro{title}%
+  \newunit\newblock
+  \printfield{ementa}%
+  \newunit\newblock
+  \usebibmacro{crpsp:byeditor}%
+  \newunit\newblock
+  \printfield{edition}%
+  \newunit\newblock
+  \usebibmacro{crpsp:in}%
+  \newunit\newblock
+  \usebibmacro{crpsp:publicacao}%
+  \newunit\newblock
+  \printfield{pagetotal}%
+  \newunit\newblock
+  \printfield{note}%
+  \newunit\newblock
+  \printfield{complementos}%
+  \newunit\newblock
+  \usebibmacro{doi+eprint+url}%
+  \newunit\newblock
+  \usebibmacro{addendum+pubstate}%
+  \setunit{\bibpagerefpunct}\newblock
+  \usebibmacro{pageref}%
+  \newunit\newblock
+  \iftoggle{bbx:related}%
+    {\usebibmacro{related:init}%
+     \usebibmacro{related}}%
+    {}%
+  \usebibmacro{finentry}%
+}
+
+\DeclareBibliographyAlias{legal}{legislation}
+
+% <<<1
+
+\endinput
