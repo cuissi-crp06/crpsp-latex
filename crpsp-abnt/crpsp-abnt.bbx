@@ -1,4 +1,4 @@
-\ProvidesFile{crpsp-abnt.bbx}[2026/09/28 v0.2.0-alfa Extensao do biblatex-abnt para a NBR 6023:2025]%
+\ProvidesFile{crpsp-abnt.bbx}[2026/09/28 v0.2.1-alfa Extensao do biblatex-abnt para a NBR 6023:2025]%
 %
 % Estende o biblatex-abnt: carrega o estilo dele e sobrepõe só o que diverge
 % da ABNT NBR 6023:2025. Plano e medidas: briefings/briefing-crpsp-abnt.md e
@@ -37,6 +37,36 @@
 % biblatex tomava a unidade por já pontuada. Com o colchete opaco, a pontuação
 % seguinte entra: "[...].", "[2016].", "[S. l.]:".
 \AtBeginBibliography{\sfcode`\]=1000\relax}
+
+% <<<1
+
+% Páginas com prefixo de letra >>>1
+%
+% "p. E16-E18": o upstream passava o campo inteiro por \MakeLowercase, e o
+% \mkpageprefix só põe "p." quando o valor é numeral. Saía "e16-e18". Aqui a
+% caixa do valor fica como está no .bib, e o prefixo entra também quando cada
+% ponta do intervalo é uma ou duas letras seguidas de algarismos. Número de
+% artigo ("e03304", 6023, 7.7.6) vai em eid, que sai sem "p.".
+\ExplSyntaxOn
+\tl_new:N \l__crpsp_paginacao_tl
+\cs_new_protected:Npn \crpsp_pages:n #1
+  {
+    \regex_match:nnTF
+      { \A [A-Za-z]{1,2} \d+ (?: \c{bibrangedash} \s* [A-Za-z]{0,2} \d+ )? \Z }
+      {#1}
+      {
+        \iffieldundef { bookpagination }
+          { \tl_set:Nn \l__crpsp_paginacao_tl { page } }
+          { \tl_set:Ne \l__crpsp_paginacao_tl { \thefield { bookpagination } } }
+        \tl_if_in:nnTF {#1} { \bibrangedash }
+          { \bibstring { \l__crpsp_paginacao_tl s } }
+          { \bibstring { \l__crpsp_paginacao_tl } }
+        \ppspace #1
+      }
+      { \mkpageprefix [bookpagination] {#1} }
+  }
+\DeclareFieldFormat* { pages } { \midsentence \crpsp_pages:n {#1} }
+\ExplSyntaxOff
 
 % <<<1
 
@@ -210,6 +240,17 @@
       \step[fieldsource=shortauthor]%
       \step[fieldset=sortname, origfieldval]%
     }%
+    % trabalho acadêmico: ano da defesa (ver "Trabalho acadêmico", abaixo)
+    \map[overwrite=false]{%
+      \pertype{thesis}%
+      \step[fieldsource=date, match=\regexp{\A(\d{4})}, final]%
+      \step[fieldset=eventdate, fieldvalue={$1}]%
+    }%
+    \map[overwrite=false]{%
+      \pertype{thesis}%
+      \step[fieldsource=year, match=\regexp{\A(\d{4})\Z}, final]%
+      \step[fieldset=eventdate, fieldvalue={$1}]%
+    }%
   }%
 }
 
@@ -342,6 +383,97 @@
 }
 
 \DeclareBibliographyAlias{legal}{legislation}
+
+% <<<1
+
+% Data da chamada >>>1
+%
+% O biblatex, na falta de data, toma a data de acesso para a chamada: a página
+% sem data saía "(Deaf Services Unlimited, 2026)", com a referência sem ano.
+% O acesso não é data do documento. Sem data, a chamada sai com "s.d." e o
+% estilo avisa: a 6023 pede um ano entre colchetes, provável ou aproximado
+% (8.6.1.3), e ele vai no .bib, em year = {[2020?]}.
+\DeclareLabeldate{%
+  \field{date}%
+  \field{year}%
+  \field{eventdate}%
+  \field{origdate}%
+  \literal{nodate}%
+}
+\AtDataInput{%
+  \iffieldequalstr{labeldatesource}{nodate}
+    {\PackageWarning{crpsp-abnt}{%
+       '\thefield{entrykey}' nao tem data. A NBR 6023 pede\MessageBreak
+       um ano entre colchetes (8.6.1.3): year = {[2020?]}}}
+    {}%
+}
+
+% <<<1
+
+% Trabalho acadêmico (6023, 7.1.2) >>>1
+%
+% "2009. Tese (Doutorado em Cardiologia) – Faculdade de Medicina, Universidade
+% de São Paulo, São Paulo, 2009.": o ano volta no fim, como data da defesa. O
+% driver do upstream imprime ali o eventdate, que quase nenhum .bib traz. Sem
+% ele, o mapa copia o ano de date ou de year (o mapa está junto com o da
+% sigla, em "Sigla como entrada": um segundo \DeclareStyleSourcemap apagaria
+% o primeiro).
+
+% <<<1
+
+% Documento online (6023, 7.2.2 e 8.4-8.6) >>>1
+%
+% O driver de @online vem do standard.bbx, que ignora location e publisher:
+% "Holding inclusive events. [2016?]." em vez de "Washington, DC: ASAN,
+% [2016?].". Aqui a publicação entra antes da data, com organization no
+% lugar da editora quando não há publisher. Só sai o que estiver no .bib: o
+% [S. l.] em documento online, em que a 6023:2025 se contradiz, fica para o
+% Sprint 4 (briefing, 2.5).
+%
+% A lista vazia não é chamada: um \printlist sem resultado impede o \setunit*
+% seguinte de trocar a pontuação, e saía "Brussels: 31 out. 2024.".
+\newbibmacro*{crpsp:online:publicacao}{%
+  \printlist{location}%
+  \iflistundef{publisher}
+    {\iflistundef{organization}
+       {}
+       {\setunit*{\addcolon\addspace}\printlist{organization}}}
+    {\setunit*{\addcolon\addspace}\printlist{publisher}}%
+  \setunit*{\addcomma\addspace}%
+  \usebibmacro{date}%
+}
+
+\DeclareBibliographyDriver{online}{%
+  \usebibmacro{bibindex}%
+  \usebibmacro{begentry}%
+  \usebibmacro{author/editor+others/translator+others}%
+  \setunit{\labelnamepunct}\newblock
+  \usebibmacro{title}%
+  \newunit
+  \printlist{language}%
+  \newunit\newblock
+  \usebibmacro{byauthor}%
+  \newunit\newblock
+  \usebibmacro{byeditor+others}%
+  \newunit\newblock
+  \printfield{version}%
+  \newunit
+  \printfield{note}%
+  \newunit\newblock
+  \usebibmacro{crpsp:online:publicacao}%
+  \newunit\newblock
+  \usebibmacro{doi+eprint+url}%
+  \newunit\newblock
+  \usebibmacro{addendum+pubstate}%
+  \setunit{\bibpagerefpunct}\newblock
+  \usebibmacro{pageref}%
+  \newunit\newblock
+  \iftoggle{bbx:related}
+    {\usebibmacro{related:init}%
+     \usebibmacro{related}}
+    {}%
+  \usebibmacro{finentry}%
+}
 
 % <<<1
 

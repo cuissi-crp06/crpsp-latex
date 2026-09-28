@@ -1,6 +1,6 @@
 # Briefing: `crpsp-abnt`, extensão do biblatex-abnt
 
-> **estado:** Sprint 2 da trilha feito (`0.2.0-alfa`, sigla e chamada); próximo, Sprint 3 (piloto)
+> **estado:** Sprint 3 da trilha em curso (`0.2.1-alfa`, defeitos achados ao compor o guia corrigidos); falta compor o guia com o `.bib` curado
 > **escrito em:** 2026-09-28; **revisto em:** 2026-09-28, com a 6023:2025
 > **escopo:** um estilo biblatex que estende o `biblatex-abnt` e o adequa à
 > ABNT NBR 6023:2025 e à NBR 10520:2023, com três frentes: documento
@@ -246,6 +246,10 @@ já saíam certos.
 
 **3. Piloto.** Revisão 2 do guia, com o `.bib` curado (seção 7). A régua do
 piloto é a tabela do Sprint 0 reduzida, mais o veraPDF UA-2 do PDF do guia.
+Em curso. A composição do `.bib` curado achou quatro defeitos do estilo, corrigidos
+na `0.2.1-alfa` (linhas 22 a 25 de `DIVERGENCIAS.md`): `@online` sem local e editora,
+chamada com o ano do acesso, `p. E16-E18` e o ano da defesa no trabalho acadêmico.
+Falta a troca de `[n]` por `\cite` no texto, que espera a revisão da introdução.
 
 ### Depois da entrega
 

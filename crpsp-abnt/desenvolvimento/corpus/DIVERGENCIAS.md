@@ -21,8 +21,8 @@ e refazê-la sobre o corpus atual dá números menores.
 
 ```sh
 export TEXINPUTS="$(cd ../.. && pwd)//:"
-python3 medir.py trilha-6023.bib --estilo crpsp-abnt > medida-crpsp-abnt-0.2.0.tsv
-python3 medir.py trilha-10520.bib --chamadas chamadas-10520.tsv --estilo crpsp-abnt > medida-crpsp-abnt-0.2.0-chamadas.tsv
+python3 medir.py trilha-6023.bib --estilo crpsp-abnt > medida-crpsp-abnt-0.2.1.tsv
+python3 medir.py trilha-10520.bib --chamadas chamadas-10520.tsv --estilo crpsp-abnt > medida-crpsp-abnt-0.2.1-chamadas.tsv
 ```
 
 | Versão | Referências iguais | Chamadas iguais | Linhas fechadas |
@@ -30,6 +30,7 @@ python3 medir.py trilha-10520.bib --chamadas chamadas-10520.tsv --estilo crpsp-a
 | upstream 4.0 | 44/107 | 22/29 | — |
 | 0.1.0-alfa (Sprint 1) | 53/107 | 22/29 | 4 e 5 |
 | 0.2.0-alfa (Sprint 2) | 85/107 | 27/29 | 1, 2, 3, 6, 9, 11, 12 e 21 |
+| 0.2.1-alfa (Sprint 3) | 85/107 | 27/29 | 22, 23, 24 e 25 |
 
 No Sprint 1, nove referências passaram a sair iguais à norma, e nenhuma das que já
 saíam iguais passou a divergir. As chamadas continuam as do upstream. Nas seções
@@ -41,6 +42,11 @@ regressão. Os 15 exemplos das seções 7.11 saem todos iguais. As 22 referênci
 ainda divergem são das linhas 13 a 20, deixadas para depois da entrega, da linha 7
 (`Spring/Summer`) ou de defeito de extração. As duas chamadas que divergem são da
 linha 10, e o `et al.` foi escolhido.
+
+No Sprint 3, a medida não muda. As linhas 22 a 25 vieram da composição do guia, e
+nenhum exemplo do corpus passava por elas: as teses traziam `eventdate` como contorno.
+Ele saiu das seis teses, que seguem iguais pelo mapa novo. Os casos das quatro linhas
+estão em `../casos/`.
 
 ⚠️ No Sprint 2, os DOIs de 7.7.6:7 e 7.7.6:8 passaram a ser escritos no corpus como a
 norma os imprime, com o resolvedor. A forma do DOI é do dado (linha 6).
@@ -87,6 +93,10 @@ tem exemplo no corpus. Os casos de teste dela são nossos, em `../casos/`.
 | 19 | Separata | 1 | `Separata de:` | `In:` | depois | não |
 | 20 | Mês em inglês em minúscula | 1 | `Nov. 2009` | `nov. 2009` | depois | a ver |
 | 21 | ✅ Entrada pelo título com artigo: só o artigo em maiúsculas | — | `A FLOR prometida` (8.2.1) | `A flor prometida` | 2 | sim: `THE EVIDENCE underlying…` |
+| 22 | ✅ `@online` descarta local e editora | — | `Washington, DC: ASAN, [2016?].` | `[2016?].` | 3 | sim: 4 páginas com editora |
+| 23 | ✅ Página sem data: a chamada leva o ano do acesso | — | a mesma data na chamada e na referência | `(Deaf Services Unlimited, 2026)`, referência sem ano | 3 | sim: 4 páginas sem data |
+| 24 | ✅ Páginas com letra saem em minúscula e sem `p.` | — | `p. E16-E18` | `e16-e18` | 3 | sim: 1 artigo |
+| 25 | ✅ Trabalho acadêmico sem o ano da defesa | — | `– Universidade …, Natal, 2023.` (7.1.2) | `– Universidade …, Natal.` | 3 | sim: 2 trabalhos acadêmicos |
 
 Os casos de cada linha, por id do corpus:
 
@@ -126,6 +136,12 @@ Os casos de cada linha, por id do corpus:
     7.8.5:4, 8.1.3:2.1.
 19. 7.3:4.
 20. 7.7.6:5.
+21. Casos próprios (`../casos/`).
+22–25. Achadas ao compor o guia (`checagem_referencias.md`, no workbench) e guardadas
+    em `../casos/`. A 25 aparecia no corpus, mas o `eventdate` das teses a escondia. A 23
+    não tem saída certa só no estilo: a 6023 pede um ano entre colchetes (8.6.1.3), que é
+    do dado. O estilo tira o acesso da chamada, que passa a sair com `s.d.`, e avisa na
+    compilação.
 
 ## O que não é do estilo
 
@@ -154,4 +170,6 @@ Os casos de cada linha, por id do corpus:
   no caso próprio da entrada pelo título. A sigla como entrada tem casos próprios em
   `../casos/`.
 - **Opções** (7, 8, 10): fixadas na 0.2.0-alfa e registradas no README.
+- **Sprint 3** (piloto), na 0.2.1-alfa: as linhas 22 a 25, que só apareceram ao
+  compor o guia.
 - **Depois da entrega:** 13 a 20. Nenhuma aparece no guia.

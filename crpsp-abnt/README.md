@@ -4,7 +4,8 @@ Estilo biblatex que estende o `biblatex-abnt` para a ABNT NBR 6023:2025 e a
 NBR 10520:2023: documento jurídico (legislação, jurisprudência, ato
 administrativo), citação autor-data acessível e mídia contemporânea.
 
-**Estado:** `0.2.0-alfa`, Sprint 2 da trilha do piloto: sigla como entrada e chamada.
+**Estado:** `0.2.1-alfa`, Sprint 3 da trilha do piloto em curso: os defeitos achados ao
+compor o guia estão corrigidos.
 O plano, a linha de base medida e as decisões estão em
 [`briefings/briefing-crpsp-abnt.md`](briefings/briefing-crpsp-abnt.md). As divergências
 que faltam fechar estão em
@@ -92,6 +93,16 @@ shortauthor = {{IBGE}},
 | Folhas | `82 f.`, `f. 19-20` | `bookpagination = {leaf}` |
 | `@manual` com editora | `Rio de Janeiro: ABNT, 2011.` | `publisher` |
 | Entrada pelo título com artigo | `A FLOR prometida.`, `THE EVIDENCE underlying` | `title` (8.2.1) |
+| Documento online com editora | `Washington, DC: ASAN, [2016?].` | `location`, `publisher` ou `organization` |
+| Páginas com letra | `p. E16-E18` | `pages`; número de artigo (`e03304`) vai em `eid` |
+| Trabalho acadêmico | `– Universidade …, Natal, 2023.` (7.1.2) | o ano vem de `date`; `eventdate` só se a defesa for noutro ano |
+
+**Documento sem data.** A data de acesso não é data do documento, e o estilo não a usa
+na chamada: sem data, a chamada sai com `s.d.`, e a compilação avisa. A 6023 pede um ano
+entre colchetes (8.6.1.3), e ele vai no `.bib`: `year = {[2020?]}`, `year = {[20--]}`.
+
+**`@online` sem local ou editora.** Sai só o que está no `.bib`. O `[S. l.]` em documento
+online fica para o Sprint 4, porque a 6023:2025 se contradiz (briefing, 2.5).
 
 **DOI.** A 6023:2025 não fixa a forma, e os exemplos trazem três: sem resolvedor
 (7.2.2), `http://dx.doi.org/…` (7.7.6, ex. 7) e `https://doi.org/…` (7.7.6, ex. 8, novo
