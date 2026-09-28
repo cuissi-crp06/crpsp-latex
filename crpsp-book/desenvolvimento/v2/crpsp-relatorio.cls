@@ -36,7 +36,7 @@
 %% `interno` e `externo` são mutuamente exclusivas: combinadas, erro.
 %%
 \NeedsTeXFormat{LaTeX2e}[2023/11/01]
-\ProvidesClass{crpsp-relatorio}[2026/09/17 v0.2.0-alfa
+\ProvidesClass{crpsp-relatorio}[2026/09/28 v0.3.0-alfa
   Classe de relatorios A4 CRP-SP]
 
 % ──────────────────────────────────────────────
@@ -112,7 +112,10 @@
 %                   de Apresentações Acessíveis, e é incompatível com
 %                   tagging. A capa do `externo` usa shipout marcado como
 %                   artefato (relatorio.sty §10), nunca \includepdf.
-%      multicol/paracol — sem suporte a tagged PDF
+%      multicol/paracol — sem suporte a tagged PDF para texto corrido.
+%                   Exceção: o multicol entra pelo NomesDuasColunas
+%                   dos créditos (relatorio.sty §12), validado para
+%                   uma lista de nomes, um P por pessoa.
 % ──────────────────────────────────────────────
 % A opção `table` do xcolor (que traz \rowcolor) precisa ser passada
 % ANTES de crpsp-base, que é quem carrega o xcolor.

@@ -1,0 +1,47 @@
+%% exemplo-relatorio-rosto.tex
+%% Documento mínimo de teste — linha Relatório A4 CRP-SP, variante
+%% `externo`, SEM arte de capa e COM \relRosto: a capa tipográfica sai
+%% como folha de rosto (relatorio.sty §11), com o título no centro e o
+%% logotipo no pé.
+%%
+%% O logotipo aqui é o `example-image' do pacote mwe, só para teste.
+%% Ele é IMAGEM com alt, não artefato: a árvore de tags tem de ter
+%% exatamente UM <Figure>, com o alt declarado no \relRosto.
+%%
+%% Compilar 2x com: lualatex exemplo-relatorio-rosto.tex
+%% Conferir:
+%%   ~/verapdf/verapdf --format text --flavour ua2 exemplo-relatorio-rosto.pdf
+%%   texlua $(kpsewhich --progname=texlua show-pdf-tags.lua) --tree \
+%%     exemplo-relatorio-rosto.pdf | grep -cE '─Figure \('   # tem de dar 1
+
+\DocumentMetadata{
+  lang        = pt-BR,
+  pdfversion  = 2.0,
+  pdfstandard = ua-2,
+  tagging     = on,
+}
+
+\documentclass[externo]{crpsp-relatorio}
+
+\hypersetup{
+  pdftitle  = {Exemplo de Folha de Rosto CRP-SP},
+  pdfauthor = {Conselho Regional de Psicologia de São Paulo},
+}
+
+\title{Exemplo de Folha de Rosto}
+
+\relRosto{example-image}{Logotipo de teste}
+% A quebra de linha vai no título impresso, não no \title, que
+% alimenta os metadados.
+\renewcommand{\crpspRostoTitulo}{Exemplo de\\ Folha de Rosto}
+
+\begin{document}
+
+\relCapa
+
+\section{Depois do rosto}
+
+A página anterior é a folha de rosto: título centralizado, logotipo no
+pé, sem fio, sem autor e sem data.
+
+\end{document}

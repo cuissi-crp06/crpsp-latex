@@ -7,6 +7,13 @@
 %%   - \relDecoracao, faixas no topo e no pé por \AddToShipoutPictureBG;
 %%   - a marcação de ARTEFATO das três, que é o ponto: nenhuma delas
 %%     pode aparecer na árvore de tags como <Figure>.
+%% E os créditos da relatorio.sty §12, que valem nas duas variantes:
+%%   - página de créditos com título oculto (\creditosoculto), grupos
+%%     com fio, subgrupos, duas colunas e cargos alinhados;
+%%   - ficha técnica com título visível (\creditos).
+%% Conferir nos créditos: um Span por pessoa com registro (12 aqui),
+%% e o H1 "Créditos institucionais" na árvore sem texto pintado.
+%% Os nomes são fictícios.
 %%
 %% ⚠️ A arte é de TESTE, gerada por arte-teste/gerar.sh — não é do
 %% designer e não é conteúdo de publicação. Quando a arte real chegar,
@@ -54,6 +61,36 @@
 
 \relCapa
 
+% Créditos: a página não imprime título, mas o leitor de tela navega
+% por ele. Os grupos, as quebras e a ordem são do documento; as linhas
+% são o que o gerador do normativas-pipeline escreve.
+\creditosoculto{Créditos institucionais}
+\creditosgrupo{Plenário}
+\creditossub{Diretoria}
+\begin{CreditoInstitucional}
+  \CargoNosCreditos[06/00001]{Pessoa de Teste Um}{presidenta}
+  \CargoNosCreditos[06/00002]{Pessoa de Teste Dois, com um nome
+    longo que quebra dentro da própria coluna}{vice-presidente}
+  \CargoNosCreditos[06/00003]{Pessoa de Teste Três}{secretária}
+\end{CreditoInstitucional}
+\creditossub{Conselheiras/os}
+\begin{NomesDuasColunas}
+  \NomeNosCreditos{Pessoa de Teste Quatro}{06/00004}
+  \NomeNosCreditos{Pessoa de Teste Cinco}{06/00005}[licenciada]
+  \NomeNosCreditos{Pessoa de Teste Seis}{06/00006}
+  \NomeNosCreditos{Pessoa de Teste Sete}{06/00007}
+  \NomeNosCreditos{Pessoa de Teste Oito}{06/00008}
+  \NomeNosCreditos{Pessoa de Teste Nove}{06/00009}
+\end{NomesDuasColunas}
+\creditosgrupo{Gerência de Teste}
+\begin{CreditoInstitucional}
+  \CargoNosCreditos[06/00010]{Pessoa de Teste Dez}{gerente}
+  \CargoNosCreditos{Pessoa de Teste Onze}{coordenadora de Tecnologia
+    da Informação e Comunicação}
+  \CargoNosCreditos[06/00012]{Pessoa de Teste Doze}{coordenador de
+    Comunicação}
+\end{CreditoInstitucional}
+
 \section{A decoração}
 
 A capa acima e as faixas no topo e no pé desta página são arte de
@@ -94,5 +131,11 @@ todos os lados, e é essa faixa que a arte ocupa.
 \end{tabular}
 
 Parágrafo final, fechando o documento de teste.
+
+\creditos{Ficha técnica}
+\begin{CreditoInstitucional}
+  \NomeNosCreditos{Pessoa de Teste Treze}{06/00013}
+  Diagramação e revisão de acessibilidade.
+\end{CreditoInstitucional}
 
 \end{document}
