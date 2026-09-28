@@ -1,10 +1,14 @@
 #!/usr/bin/env python3
 """Extrai os exemplos da ABNT NBR 6023:2025 e da NBR 10520:2023 como corpus de teste.
 
-A 6023 é lida direto do PDF (pdftotext), sem passar pelo normativas-pipeline:
-a 3ª edição, de 21/05/2025 (a 2018 com a Emenda 1, que já traz as erratas de
-2020), ainda não foi ingerida. A 10520 vem do JSON que o pipeline grava em
-export/normas/. Sai um TSV por norma, uma linha por referência de exemplo:
+As duas normas vêm do JSON que o normativas-pipeline grava em export/normas/
+(consolidar). Até o Sprint 7, a 6023 era lida direto do PDF, e o JSON da 10520
+tinha remendos aqui, porque o parser de norma técnica do pipeline fazia nó de
+toda linha iniciada por número, colava título de seção e anexos no nó vizinho,
+apagava linha com "uso exclusivo" e religava hífen errado. Esses defeitos foram
+corrigidos no pipeline (normativas-pipeline #69), e os 175 nós da 6023 saem do
+JSON iguais, texto a texto, aos que a leitura do PDF dava. Sai um TSV por
+norma, uma linha por referência de exemplo:
 
     id  secao  exemplo  rotulo  classe  texto  origem
 
@@ -14,40 +18,28 @@ export/normas/. Sai um TSV por norma, uma linha por referência de exemplo:
   6023:8.1.1.3:b.2 (item b da enumeração), 6023:8.1.3:2.1 (segunda série);
 - rotulo: essenciais, complementares ou vazio (a norma nem sempre rotula);
 - classe: referencia, fragmento (8.4.1, 8.6.1.3, 8.7.1, 9.2) ou citacao (10520);
-- origem: pdf ou json.
+- origem: json.
 
 O texto das normas não entra no repositório; os exemplos, sim (ver a seção 6
-do briefing). Na leitura sequencial do PDF, uma linha que começa por número só
-abre seção se o número puder suceder o anterior ("11.262 do município", no
-meio de um exemplo de 7.11.4, fica no texto). O JSON da 10520 tem os defeitos
-do parser do pipeline, remendados aqui:
-
-1. toda linha que começa por número vira nó novo: um nó cujo número não pode
-   suceder o anterior é colado no último nó que termina no meio da frase;
-2. o título de seção de primeiro nível ("8 Notas") cola no fim do nó
-   anterior: cortado;
-3. anexos e índice colam no último nó: cortados.
-
-O que nenhuma regra resolve (uma frase de regra grudada num exemplo) vai em
-ajustes-6023.json, que falha se o trecho a remover deixar de existir.
+do briefing). O que nenhuma regra resolve (uma frase de regra grudada num
+exemplo) vai em ajustes-6023.json, que falha se o trecho a remover deixar de
+existir.
 
 Uso:
-    python3 extrair.py [--pdf-6023 ARQ] [--normas DIR] [--saida DIR]
+    python3 extrair.py [--normas DIR] [--saida DIR]
 
-Padrões: $WORKBENCH/editorial/apoio/normas/ABNT/NBR 6023-2025 - Referências.pdf,
-$WORKBENCH/export/normas (WORKBENCH padrão ~/Documentos/trabalho) e a pasta
-deste script.
+Padrões: $WORKBENCH/export/normas (WORKBENCH padrão ~/Documentos/trabalho) e a
+pasta deste script.
 """
 import argparse
 import json
 import os
 import re
-import subprocess
 import sys
 from pathlib import Path
 
 AQUI = Path(__file__).resolve().parent
-PDF_6023 = "editorial/apoio/normas/ABNT/NBR 6023-2025 - Referências.pdf"
+JSON_6023 = "abnt-nbr-6023-2025.json"
 JSON_10520 = "abnt-nbr-10520-2023.json"
 
 RE_EXEMPLO = re.compile(r"^EXEMPLOS?(?:\s+(\d+))?\s*$")
@@ -55,9 +47,6 @@ RE_ROTULO = re.compile(r"^Elementos\s+(essenciais|complementares)\s*$")
 RE_TRACO = re.compile(r"^[—–-]\s*$")
 RE_NOTA = re.compile(r"^NOTAS?\b")
 RE_ENUM = re.compile(r"^([a-z])\)\s*(.*)$")
-# Título de seção de primeiro nível colado no texto: "9\t Ordenação das referências".
-RE_TITULO_1 = re.compile(r"^\d{1,2}\t")
-RE_ANEXO = re.compile(r"^(Anexo [A-Z]|Índice|Bibliografia)\s*$")
 # Início provável de referência: palavra em caixa alta (sobrenome, entidade,
 # primeira palavra do título) seguida de vírgula, ponto, espaço ou dois-pontos.
 # O artigo de uma letra conta com a palavra seguinte: "O QUE", "A GAME".
@@ -65,122 +54,24 @@ RE_INICIO_REF = re.compile(r"^(?:\d+ )?(?:[AOÀ] )?[A-ZÀ-Ý][A-ZÀ-Ý'’\-]+(?
 LARGURA_CHEIA = 88  # linhas de referência quebram perto de 95-105 caracteres
 
 
-def numero(s):
-    return tuple(int(x) for x in s.split(".")) if re.fullmatch(r"\d+(\.\d+)*", s) else None
-
-
-def sucede(ant, novo):
-    """novo pode vir depois de ant na numeração progressiva? Rejeita o número
-    que volta (7.13.5 → 7.13.3) ou que salta mais de dois (7.11.6 → 11.262).
-    Salto de dois é legítimo: a 6023 não tem nó para a seção 5, só título."""
-    if ant is None or novo is None:
-        return novo is not None
-    if novo <= ant:
-        return False
-    for a, b in zip(ant, novo):
-        if a != b:
-            return b - a <= 2
-    return True  # filho de ant
-
-
-def termina_frase(texto):
-    linhas = [ln for ln in texto.split("\n") if ln.strip()]
-    return not linhas or linhas[-1].rstrip().endswith((".", "]", ")"))
-
-
-# Linhas do PDF que não são texto: marca de licença, cabeçalho, rodapé, fólio.
-RE_RUIDO_PDF = re.compile(r"^(Exemplar (para|gratuito) uso|© ABNT|ABNT NBR \d+:\d{4}$|NORMA BRASILEIRA$|[ivx]+$|\d{1,3}$)")
-RE_SECAO_PDF = re.compile(r"^(\d+(?:\.\d+)+)(?:\s+(.*))?$|^(\d{1,2})\s+(\S.*)$")
-
-
-PREFIXOS_COM_HIFEN = {"pós", "pré", "pró", "ex", "vice", "recém", "sem", "além", "aquém"}
-
-
-def pdftotext(caminho, *opcoes):
-    return subprocess.run(["pdftotext", *opcoes, str(caminho), "-"], capture_output=True,
-                          text=True, check=True).stdout.replace("\f", "\n")
-
-
-def restaurar_hifens(texto, cru):
-    """O modo padrão do pdftotext apaga o hífen do fim da linha ("85-7110-" +
-    "495-6" vira "85-7110495-6"); o -raw o preserva, mas cola palavras de
-    kerning apertado ("SupremoTribunal"). Usa-se o padrão e devolvem-se os
-    hífens que o -raw mostra, mas só os que são do texto: a norma também
-    hifeniza sílabas ("Comuni-" + "dade"), e esse hífen o padrão já tira bem.
-    É do texto o hífen de identificador ou URL, o que precede maiúscula ou
-    dígito, e o de prefixo que sempre o leva (pós-graduação)."""
-    linhas = cru.split("\n")
-    for a, b in zip(linhas, linhas[1:]):
-        a, b = a.rstrip(), b.strip()
-        if not a.endswith("-") or not b:
-            continue
-        antes, depois = a.split()[-1], b.split()[0]
-        if len(antes) < 2:
-            continue
-        identificador = re.search(r"[\d/_=.@]", antes + depois) is not None
-        if identificador or depois[0].isupper() or depois[0].isdigit() or antes[:-1].lower() in PREFIXOS_COM_HIFEN:
-            texto = texto.replace(antes[:-1] + depois, antes + depois)
-    return texto
-
-
-def nos_do_pdf(caminho):
-    """Lê o PDF da norma em sequência e devolve [{numero, texto}] na forma
-    que nos_reparados() devolve para o JSON."""
-    bruto = restaurar_hifens(pdftotext(caminho), pdftotext(caminho, "-raw"))
-    linhas = [ln for ln in bruto.split("\n") if not RE_RUIDO_PDF.match(ln.strip())]
-    inicio = next(k for k, ln in enumerate(linhas) if ln.strip() == "1 Escopo")
+def nos_do_json(dados):
+    """[{numero, texto}] dos itens da norma, na ordem do texto. O glossário
+    (termos da seção 3) fica de fora: não tem exemplos. Inciso e alínea voltam
+    ao texto do item, como "I texto": na 10520 o inciso é o de um exemplo
+    (7.3, EXEMPLO 4), e separado dele levaria os exemplos seguintes junto."""
     nos = []
-    for ln in linhas[inicio:]:
-        s = ln.strip()
-        if RE_ANEXO.match(s) or s.startswith("Anexo A"):
-            break
-        m = RE_SECAO_PDF.match(s)
-        if m:
-            num, resto = (m.group(1), m.group(2)) if m.group(1) else (m.group(3), m.group(4))
-            if sucede(numero(nos[-1]["numero"]) if nos else None, numero(num)):
-                nos.append({"numero": num, "texto": resto or ""})
-                continue
-        if nos:
-            nos[-1]["texto"] += "\n" + ln
-    for n in nos:
-        n["texto"] = n["texto"].lstrip("\n")
-    return nos
-
-
-def nos_reparados(dados):
-    planos = []
 
     def walk(n):
-        planos.append(n)
+        if n["tipo"] in ("inciso", "alinea"):
+            nos[-1]["texto"] += "\n" + n["numero"] + " " + n["texto"]
+        elif n["tipo"] != "termo":
+            nos.append({"numero": n["numero"], "texto": n["texto"]})
         for c in n["filhos"]:
             walk(c)
 
     for n in dados["estrutura"]:
         walk(n)
-
-    saida = []
-    for n in planos:
-        if n["tipo"] == "termo":  # o glossário da seção 3 não tem exemplos
-            continue
-        num = numero(n["numero"])
-        if saida and not sucede(numero(saida[-1]["numero"]), num):
-            # Defeito 1: a linha "<número> resto" era continuação de um nó
-            # anterior. Nem sempre do imediatamente anterior: o "11.262" vem
-            # depois de 7.11.6, mas continua 7.11.4, que termina em "Leis
-            # 10.927/91 e". Vai para o último nó que termina no meio da frase.
-            alvo = next((m for m in reversed(saida) if not termina_frase(m["texto"])), saida[-1])
-            alvo["texto"] += "\n" + n["numero"] + " " + n["texto"]
-            continue
-        saida.append({"numero": n["numero"], "texto": n["texto"]})
-
-    for n in saida:
-        linhas = []
-        for ln in n["texto"].split("\n"):
-            if RE_TITULO_1.match(ln) or RE_ANEXO.match(ln.strip()):
-                break  # defeitos 2 e 3
-            linhas.append(ln)
-        n["texto"] = "\n".join(linhas)
-    return saida
+    return nos
 
 
 def juntar(linhas):
@@ -287,7 +178,7 @@ def extrair_6023(nos, ajustes):
         for k, (rotulo, texto) in enumerate(refs):
             letra = "abcdefghijklmnopqrstuvwxyz"[k] if len(refs) > 1 else ""
             exemplo = f"{serie}.{n_ex}" if serie else n_ex
-            linha = [f"6023:{secao}:{exemplo}{letra}", secao, exemplo, rotulo or "", "", texto, "pdf"]
+            linha = [f"6023:{secao}:{exemplo}{letra}", secao, exemplo, rotulo or "", "", texto, "json"]
             linhas_tsv.append(linha)
 
     aplicar_ajustes(linhas_tsv, ajustes)
@@ -309,7 +200,7 @@ def extrair_10520(dados):
     """Os exemplos da 10520 são trechos de texto com chamadas; saem inteiros.
     Quais chamadas testar, e com que comando, fica no .tex do corpus."""
     linhas_tsv = []
-    for no in nos_reparados(dados):
+    for no in nos_do_json(dados):
         for serie, n_ex, rotulo, corpo in exemplos(no):
             texto = juntar(corpo)
             exemplo = f"{serie}.{n_ex}" if serie else n_ex
@@ -322,14 +213,13 @@ def extrair_10520(dados):
 def main():
     wb = Path(os.environ.get("WORKBENCH", Path.home() / "Documentos/trabalho"))
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
-    ap.add_argument("--pdf-6023", type=Path, default=wb / PDF_6023)
     ap.add_argument("--normas", type=Path, default=wb / "export/normas")
     ap.add_argument("--saida", type=Path, default=AQUI)
     a = ap.parse_args()
 
     ler = lambda p: json.loads(p.read_text(encoding="utf-8"))
     tabelas = {
-        "6023": extrair_6023(nos_do_pdf(a.pdf_6023), ler(AQUI / "ajustes-6023.json")),
+        "6023": extrair_6023(nos_do_json(ler(a.normas / JSON_6023)), ler(AQUI / "ajustes-6023.json")),
         "10520": extrair_10520(ler(a.normas / JSON_10520)),
     }
     for norma, linhas in tabelas.items():

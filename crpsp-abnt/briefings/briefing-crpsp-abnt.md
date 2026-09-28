@@ -279,7 +279,22 @@ linha-base da versão, passa os PDFs do corpus (agora tagueados) e dos casos no 
 e confere o esqueleto da árvore de tags dos casos.
 
 **7. Ingestão da 6023:2025 no pipeline.** Trocar a leitura do PDF pelo JSON e
-corrigir no parser os defeitos que `extrair.py` remenda (seção 6).
+corrigir no parser os defeitos que `extrair.py` remenda (seção 6). Feito em 28/09,
+sem versão nova, porque o estilo não muda. O parser de norma técnica do pipeline
+ganhou um modo próprio (`normativas-pipeline` #69):
+
+- o número fora de sequência não abre nó;
+- o título de primeiro nível vira item;
+- anexos e bibliografia saem do corpo;
+- a marca de licença deixa de apagar texto ("uso exclusivo", da 6.10);
+- o hífen de fim de linha segue a regra do `extrair.py`.
+
+Os 175 nós da 6023:2025 saem do JSON iguais, texto a texto, aos da leitura do PDF.
+O `extrair.py` perdeu a leitura do PDF e os remendos, e a medida da 0.3.0 não mudou.
+A 6023 muda só na coluna `origem`. A 10520 ganha o `10520:8:1`, o exemplo de notas
+que o remendo antigo cortava junto com o título "8 Notas". Por decisão do Angelo
+(28/09), a 2025 entrou no banco pela cópia emprestada e está na release `db-20260928`. A
+6023:2018 ficou no banco, revogada em 21/05/2025.
 
 **8. `bibgen` (sem urgência).** No `normativas-pipeline`, gerar entradas
 `@legislation`/`@legal` do banco (tipo, número, data, ementa, órgão emissor,
@@ -296,17 +311,19 @@ no Sprint 1.
   corpus precisa ser revisto.
 - **Cópia emprestada da 6023:2025.** A cópia em `editorial/apoio/normas/ABNT/`
   foi emprestada para uso emergencial e traz a marca de licença de outra
-  instituição: não sai do workbench, e o corpus não carrega nada dela além
-  dos exemplos. Conferir o corpus contra um exemplar licenciado ao CRP SP
-  quando houver.
-- **Corpus lido de PDF.** Fora do pipeline, a extração depende do
-  `pdftotext`: hífen de fim de linha, espaços dentro de URL e palavras
-  coladas por kerning são remendados por regra, não garantidos. Divergência
-  que só aparece numa URL ou num hífen é primeiro suspeita de extração.
+  instituição. O corpus não carrega nada dela além dos exemplos. Desde o
+  Sprint 7 (decisão do Angelo, 28/09), o texto dela está no banco de
+  normativas e na release, sem a marca. Conferir o banco e o corpus contra um
+  exemplar licenciado ao CRP SP quando houver.
+- **Corpus lido de PDF.** O hífen de fim de linha, os espaços dentro de URL e
+  as palavras coladas por kerning são remendados por regra, não garantidos,
+  agora no pipeline (Sprint 7). Divergência que só aparece numa URL ou num
+  hífen é primeiro suspeita de extração.
 - **Defeitos do parser de normas técnicas do pipeline.** O JSON da 2018 tinha nó
   novo a cada linha iniciada por número, título de seção e índice grudados no
-  nó anterior, e a ementa anunciava as erratas sem aplicá-las. Valem para
-  toda norma técnica que o pipeline lê; ficam para o Sprint 7.
+  nó anterior, e a ementa anunciava as erratas sem aplicá-las. Corrigidos no
+  Sprint 7 para toda norma técnica, e a ementa da 2018 agora diz que as erratas
+  não estão aplicadas. Sobra o OCR da ISO 2108, que perde o título do Anexo A.
 - **A norma é ambígua em mídia** (7.13 e documentos online). As escolhas
   precisam de registro, senão viram gosto.
 
