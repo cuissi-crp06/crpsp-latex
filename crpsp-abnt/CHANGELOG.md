@@ -2,7 +2,20 @@
 
 Versões conforme `CONVENCAO-VERSIONAMENTO.md`, na raiz do repositório.
 
-## Sem versão — 2026-09-28
+## Sem versão — 2026-09-28 (Sprint 7)
+
+Sprint 7: a 6023:2025 no pipeline. O estilo não muda; muda só `desenvolvimento/corpus/`.
+
+- `corpus/extrair.py` lê as duas normas do JSON de `export/normas/` e perde a leitura do
+  PDF e os remendos. Os defeitos foram corrigidos no parser de norma técnica do
+  `normativas-pipeline` (#69), e a 6023:2025 está na release `db-20260928`.
+- `corpus/nbr6023.tsv`: as 309 linhas saem iguais, e muda só a coluna `origem` (`pdf` →
+  `json`).
+- `corpus/nbr10520.tsv`: entra a `10520:8:1`, o exemplo de notas que o remendo antigo
+  cortava junto com o título "8 Notas".
+- A régua (`verificar.sh`) sai igual à linha-base.
+
+## Sem versão — 2026-09-28 (Sprint 6)
 
 Sprint 6: corpus completo e régua. O estilo não muda (`.bbx`, `.cbx` e `.dbx` seguem na
 0.3.0-alfa); muda só `desenvolvimento/`.
