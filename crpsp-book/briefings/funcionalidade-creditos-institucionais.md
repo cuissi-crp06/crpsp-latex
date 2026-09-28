@@ -2,7 +2,8 @@
 tipo: funcionalidade
 dominio: editorial
 projeto: crpsp-book
-estado: a-implementar
+estado: em-implementacao
+atualizado: 2026-09-28
 criado: 2026-09-17
 ---
 
@@ -13,6 +14,42 @@ créditos institucionais — composição do Plenário, da Diretoria e das comis
 envolvidas. Hoje são digitados à mão. **A classe deve recuperá-los e inseri-los
 no lugar certo**, com nominata atualizada por padrão e a possibilidade de pedir
 uma data ("a Diretoria em 15/09/2024", "a Comissão de Ética naquela data").
+
+## Estado em 28/09/2026
+
+**A metade da classe está feita:** `relatorio` 0.3.0-alfa, §12 (ver o `CHANGELOG.md`).
+Veio do `pe26` (`plan-est_2026`), que validou o modelo do Relatório de Gestão em
+PDF/UA-2 nos dias 24 e 25/09.
+
+A interface final, que é o que o gerador escreve:
+
+| Macro | Papel |
+| --- | --- |
+| `\creditosoculto{título}` | nível 1, na árvore de tags e sem impressão; abre página |
+| `\creditosgrupo{grupo}` | nível 2, com fio como artefato |
+| `\creditossub{subgrupo}` | nível 3 |
+| `\creditos{título}` | nível 1 visível, para a ficha técnica |
+| `\NomeNosCreditos{nome}{registro}[nota]` | uma pessoa; registro num `Span` próprio |
+| `\CargoNosCreditos[registro]{nome}{cargo}` | uma pessoa, com o cargo alinhado em coluna |
+| `CreditoInstitucional`, `NomesDuasColunas` | blocos de nomes; uma pessoa não se parte |
+
+- **Registro separado do nome:** feito. A forma de um argumento,
+  `\NomeNosCreditos{nome (CRP~06/nº)}`, continua aceita e emite aviso de
+  deprecação.
+- **Nome do comando:** mantido `\NomeNosCreditos`, por decisão do editor em
+  24/09.
+- **Destino dos `.tex` gerados:** `editorial/creditos/` no workbench, um arquivo
+  por divisão (`Diretoria.tex`, `Plenario.tex`, um por comissão, um por
+  gerência), incluídos por `\input`. Cada arquivo traz o título da divisão e as
+  linhas. A página, os grupos e as quebras continuam sendo da publicação.
+  Decidido na terceira revisão do `pe26`, em 24/09.
+- **O gerador:** Sprint 3 do plano, que é o Sprint 13 do ROTEIRO do
+  `normativas-pipeline`. Formato intermediário JSON, e a regra é falhar alto.
+- **Não feito:** a interface declarativa `\CreditosInstitucionais{...}`
+  (abaixo) e a composição com data. O `\input` por divisão resolve o caso
+  atual sem ela.
+- **Fora do escopo desta rodada:** levar o §12 para a linha `book`, que tem a
+  interface 0.5.1 com o registro dentro do nome.
 
 ## O que já existe
 

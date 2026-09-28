@@ -12,7 +12,7 @@
 %% compilação, não aviso silencioso.
 %%
 \NeedsTeXFormat{LaTeX2e}[2023/11/01]
-\ProvidesPackage{relatorio}[2026/09/17 v0.2.0-alfa Linha relatorio A4 CRP-SP]
+\ProvidesPackage{relatorio}[2026/09/28 v0.3.0-alfa Linha relatorio A4 CRP-SP]
 
 \RequirePackage{etoolbox}
 
@@ -222,6 +222,21 @@
 %
 %     Títulos em \sffamily = NEWJUNE. O contraste com o corpo é de
 %     família, não de gênero: as duas são sem serifa.
+%
+%     ⚠️ REGRA DO NOME PRÓPRIO. Sob tagging, o \@startsection declara
+%     uma instância GLOBAL por NOME de seção
+%     (latex-lab-testphase-sec-template.sty:
+%     \IfInstanceExistsF{heading}{#1-@startsection}). A PRIMEIRA
+%     chamada de \@startsection{section} do documento congela
+%     before-vspace, after-vspace e heading-decls para todas as
+%     seguintes, que passam pelos próprios argumentos e os IGNORAM.
+%     Toda macro de título com estilo próprio tem de usar um nome
+%     próprio no primeiro argumento, ou sequestra o estilo da seção de
+%     verdade. Achado no pe26 (plan-est_2026, quarta revisão,
+%     25/09/2026): o título oculto dos créditos, que abre o documento
+%     em 1 pt, pôs os nove títulos de seção do PDF em 1 pt preto. O
+%     nível (segundo argumento) pode ser o mesmo: a árvore continua
+%     com H1/H2/H3. O template exige um \<nome>mark. Ver §12.
 % ══════════════════════════════════════════════
 
 \setcounter{secnumdepth}{-1}
@@ -630,6 +645,7 @@
   % sai — e ela precisa ser uma capa apresentável, não um remendo.
   % \@title é obrigatório: uma capa sem título não é capa, e o
   % \hypersetup{pdftitle} que o veraPDF exige já obriga a ter um.
+  % Com \relRosto declarado, sai a folha de rosto (abaixo).
   \newcommand{\crpsprel@capatipografica}{%
     \ifdefined\@title\else
       \PackageError{relatorio}{\string\relCapa\space sem \string\title}{%
@@ -639,6 +655,61 @@
       }%
       \gdef\@title{}%
     \fi
+    \ifx\crpsprel@rostologo\@empty
+      \expandafter\crpsprel@capaclassica
+    \else
+      \expandafter\crpsprel@folharosto
+    \fi
+  }
+
+  % Folha de rosto — variante da capa tipográfica, pedida pelo editor
+  % do pe26 (plan-est_2026, quarta revisão, 25/09/2026): título no
+  % centro da página e logotipo no pé. Sem o fio e sem autor/data —
+  % o logotipo já nomeia a instituição, e repetir seria redundância
+  % para quem lê com os olhos e para quem lê com leitor de tela.
+  %
+  %   \relRosto{<arquivo do logotipo>}{<alt>}   liga a variante (preâmbulo)
+  %   \crpspRostoTitulo                         o título impresso; padrão
+  %                                              \@title, redefinível para
+  %                                              quebrar a linha sem mexer
+  %                                              no \title (que alimenta os
+  %                                              metadados)
+  %   \crpspRostoLogoLargura                    comprimento; 0,62 \linewidth
+  %
+  % ⚠️ O logotipo é IMAGEM, não artefato: é ele que identifica quem
+  % publica, e sumiria para o leitor de tela se entrasse como
+  % decoração. Por isso o `alt' é obrigatório (UA-2), e o logotipo não
+  % passa pelo par \crpsprel@artefatoinicio/fim das faixas.
+  \def\crpsprel@rostologo{}
+  \def\crpsprel@rostoalt{}
+  \newcommand{\relRosto}[2]{%
+    \IfBlankT{#2}{%
+      \PackageError{relatorio}{\string\relRosto\space sem texto alternativo}{%
+        O logotipo da folha de rosto identifica quem publica e precisa\MessageBreak
+        de alt: \string\relRosto{arquivo}{Logotipo do ...}.%
+      }%
+    }%
+    \def\crpsprel@rostologo{#1}%
+    \def\crpsprel@rostoalt{#2}%
+  }
+  \newcommand{\crpspRostoTitulo}{\@title}
+  \newlength{\crpspRostoLogoLargura}
+  \AtBeginDocument{\setlength{\crpspRostoLogoLargura}{0.62\linewidth}}
+
+  \newcommand{\crpsprel@folharosto}{%
+    \null
+    \vfill
+    {\centering
+      \sffamily\crpspTituloCapa\bfseries\color{crpsp@cor1}
+      \crpspRostoTitulo\par}%
+    \vfill
+    {\centering
+      \includegraphics[width=\crpspRostoLogoLargura,
+                       alt={\crpsprel@rostoalt}]{\crpsprel@rostologo}\par}%
+    \vskip 2\baselineskip
+  }
+
+  \newcommand{\crpsprel@capaclassica}{%
     \null
     \vskip 4\baselineskip
     {\raggedright
@@ -662,5 +733,239 @@
   }
 
 \fi
+
+% ══════════════════════════════════════════════
+%  12. CRÉDITOS  —  modelo do Relatório de Gestão
+%
+%  Vale para as duas variantes. Veio do comum.tex §5 do pe26
+%  (plan-est_2026, 24–25/09/2026), validado no
+%  mwe/mwe_creditos_titulo_invisivel.tex (veraPDF ua2 PASS; página
+%  idêntica à sem título). As armadilhas estão documentadas lá; aqui
+%  ficam os lembretes. É também a interface que o gerador de créditos
+%  do normativas-pipeline escreve: mudar um nome aqui quebra os .tex
+%  gerados em editorial/creditos/.
+%
+%  Títulos — todos não numerados e fora do sumário:
+%    \creditosoculto{<título>}  nível 1, com tag e SEM impressão; abre
+%                               página nova
+%    \creditosgrupo{<grupo>}    nível 2 (\subsection*), com fio
+%    \creditossub{<subgrupo>}   nível 3, instância própria
+%    \creditos{<título>}        nível 1, visível, sem quebra (ficha
+%                               técnica)
+%
+%  Nomes (interface do book 0.5.1, com o registro separado do nome —
+%  decisão de 17/09/2026):
+%    \NomeNosCreditos{nome}{registro}[nota]   uma pessoa por parágrafo;
+%                                  o registro num Span próprio; a nota
+%                                  ([licenciada]) depois, com travessão
+%    \NomeNosCreditos{nome (CRP~06/nº)}       forma antiga, com aviso
+%    \CargoNosCreditos[registro]{nome}{cargo} cargos alinhados
+%    CreditoInstitucional       bloco, com espaço curto entre pessoas
+%    NomesDuasColunas           duas colunas, registro embaixo
+%
+%  Comprimentos ajustáveis (\setlength depois do \begin{document}):
+%    \crpspCreditosSep       entre pessoas (0,3 \baselineskip) — exceção
+%                            ao \parskip do WCAG numa lista de nomes
+%    \crpspCreditosAposFio   fio do grupo -> título de subgrupo
+%    \crpspCreditosAnteSub   texto -> próximo título de subgrupo
+%    \crpspCreditosNome      coluna do nome no \CargoNosCreditos
+%    \crpspCreditosVao       vão entre nome e cargo
+%
+%  ⚠️ O NomesDuasColunas usa o multicol, que a classe tinha na lista do
+%  que não carregar (crpsp-relatorio.cls §3). O uso daqui foi validado
+%  sob tagging (um P por pessoa, ordem coluna 1 → coluna 2); texto
+%  corrido em colunas continua fora.
+% ══════════════════════════════════════════════
+
+\RequirePackage{needspace}
+\RequirePackage{multicol}
+\RequirePackage{pdfrender}
+
+% ⚠️ \Needspace, e não \needspace: o minúsculo só oferece um ponto de
+% quebra por cola, e o page builder decide depois. Pulado logo depois
+% de outro título (\if@nobreak), onde o \penalty seria um ponto de
+% quebra ENTRE os dois títulos.
+\newcommand{\crpsprel@titulo@antes}[1]{%
+  \if@nobreak\else\Needspace{#1\baselineskip}\fi
+}
+
+% \creditos usa o nome `section' de propósito: é título de seção de
+% verdade (a ficha técnica), e o estilo é o da §4.
+\newcommand{\creditos}[1]{%
+  \crpsprel@titulo@antes{7}%
+  \@startsection{section}{1}{0pt}%
+    {2\baselineskip}{0.5\baselineskip}%
+    {\normalfont\sffamily\Large\bfseries\color{crpsp@cor1}}*{#1}}
+
+% Título invisível: nome próprio (regra da §4), texto em Tr 3 (lido,
+% extraído, não pintado), linha de altura, profundidade e largura
+% zero, e \topskip emulado pelo \prevdepth para o título seguinte cair
+% onde cairia sem ele.
+% ⚠️ A emulação supõe que o próximo é um \creditosgrupo (\large).
+\newcommand{\crpspsecaoocultamark}[1]{}
+\newlength{\crpsprel@bs@grupo}
+\AtBeginDocument{{\large\global\crpsprel@bs@grupo=\baselineskip}}
+\newcommand{\creditosoculto}[1]{%
+  \clearpage
+  \@startsection{crpspsecaooculta}{1}{0pt}{0pt}{1sp}%
+    {\normalfont\fontsize{1pt}{0pt}\selectfont}%
+    *{\texorpdfstring{\smash{\rlap{%
+      \textpdfrender{TextRenderingMode=Invisible}{\normalsize #1}}}}{#1}}%
+  \par
+  \vskip-\topskip
+  \prevdepth=\dimexpr\crpsprel@bs@grupo-\topskip\relax
+}
+
+% Nível 2, com fio. O fio é artefato e vai em modo vertical (\hrule):
+% \rule num parágrafo com o tagging suspenso desbalanceia os hooks.
+% O \vspace{\parskip} devolve o desconto do \@afterheading, que punha
+% o fio acima do título; o desconto é refeito depois do fio.
+% O \crpspCreditosAnteSub só age quando o subgrupo NÃO vem logo depois
+% do fio: ali o \@afterheading já suprimiu o espaço anterior.
+\newlength{\crpspCreditosAposFio}
+\newlength{\crpspCreditosAnteSub}
+\AtBeginDocument{%
+  \setlength{\crpspCreditosAposFio}{0.8\baselineskip}%
+  \setlength{\crpspCreditosAnteSub}{0.9\baselineskip}}
+
+\newcommand{\creditosgrupo}[1]{%
+  \subsection*{#1}%
+  \vspace{\parskip}\vspace{2pt}%
+  \crpsprel@artefatoinicio
+  {\color{crpsp@cor3}\hrule height 1pt\relax}%
+  \crpsprel@artefatofim
+  \vspace{-\parskip}\vspace{\crpspCreditosAposFio}%
+}
+
+% Nome próprio pela regra da §4: as subsubseções dos créditos vêm
+% antes das do corpo, e congelariam os vãos delas.
+\newcommand{\crpspcreditossubmark}[1]{}
+\newcommand{\creditossub}[1]{%
+  \@startsection{crpspcreditossub}{3}{0pt}%
+    {\crpspCreditosAnteSub}{0.25\baselineskip}%
+    {\normalfont\sffamily\normalsize\bfseries\color{crpsp@cor1}}*{#1}}
+
+% multicols logo depois de título: não abre parágrafo e não devolve o
+% \parskip descontado pelo \@afterheading.
+\AddToHook{env/multicols/before}{\if@nobreak\vspace{\parskip}\fi}
+
+\ExplSyntaxOn
+% Registro num Span: fecha o MC do parágrafo, abre o do Span e reabre
+% o do parágrafo (par push/pop do tagpdf).
+\cs_new_protected:Npn \crpsprel_creditos_registro:n #1
+  {
+    \tag_mc_end_push:
+    \tag_struct_begin:n { tag = Span }
+    \tag_mc_begin:n { }
+    #1
+    \tag_mc_end:
+    \tag_struct_end:
+    \tag_mc_begin_pop:n { }
+  }
+\cs_new_eq:NN \crpsprel@registro \crpsprel_creditos_registro:n
+\ExplSyntaxOff
+\newcommand{\crpsprel@registro@sep}{ }
+\newcommand{\crpsprel@registro@fmt}[1]{(CRP~#1)}
+
+% Forma nova e antiga no mesmo nome: se depois do nome vier `{', é a
+% nova. ⚠️ Na antiga, um `{' logo depois seria engolido como registro.
+\ExplSyntaxOn
+\NewDocumentCommand{\NomeNosCreditos}{m}
+  {
+    \peek_catcode_ignore_spaces:NTF \c_group_begin_token
+      { \crpsprel_creditos_nome:nn {#1} }
+      {
+        \msg_warning:nn { relatorio } { nome-antigo }
+        \par\noindent #1 \par
+      }
+  }
+\cs_new_protected:Npn \crpsprel_creditos_nome:nn #1#2
+  {
+    \peek_charcode_ignore_spaces:NTF [
+      { \crpsprel_creditos_nome_nota:nnw {#1} {#2} }
+      { \crpsprel_creditos_nome:nnn {#1} {#2} { } }
+  }
+\cs_new_protected:Npn \crpsprel_creditos_nome_nota:nnw #1#2[#3]
+  { \crpsprel_creditos_nome:nnn {#1} {#2} { ~—~#3 } }
+\cs_new_protected:Npn \crpsprel_creditos_nome:nnn #1#2#3
+  {
+    \par\noindent\hangindent=1em\hangafter=1\relax
+    #1 \crpsprel@registro@sep \crpsprel@registro { \crpsprel@registro@fmt {#2} } #3
+    \par
+  }
+\msg_new:nnn { relatorio } { nome-antigo }
+  {
+    \iow_char:N\\NomeNosCreditos~de~um~argumento~está~deprecado:~use~
+    \iow_char:N\\NomeNosCreditos\{nome\}\{registro\}.
+  }
+\ExplSyntaxOff
+
+% \CargoNosCreditos[registro]{nome}{cargo}: cargos ALINHADOS na
+% vertical. Nome e registro numa \parbox de largura fixa
+% (\crpspCreditosNome), o cargo em outra. Tagging do `paralelos' (§6):
+% a pessoa é um Div, cada \parbox abre o seu P; leitura nome →
+% registro (Span) → cargo. O registro vai sempre na linha de baixo.
+% Validado no MWE (variante E), veraPDF ua2.
+\newlength{\crpspCreditosNome}
+\newlength{\crpspCreditosVao}
+\AtBeginDocument{%
+  \setlength{\crpspCreditosNome}{0.56\linewidth}%
+  \setlength{\crpspCreditosVao}{1em}}
+\newcommand{\crpsprel@cargo@alinhado}[3]{% #1 registro (ou vazio), #2 nome, #3 cargo
+  \par
+  \crpsprel@paraoff
+  \crpsprel@tagbegin{Div}%
+  \noindent
+  \parbox[t]{\crpspCreditosNome}{%
+    \raggedright\hangindent=1em\hangafter=1\relax
+    \crpsprel@paraon
+    \textbf{#2}%
+    \ifx\relax#1\relax\else\newline\crpsprel@registro{\crpsprel@registro@fmt{#1}}\fi
+    \par\crpsprel@paraoff}%
+  \hspace{\crpspCreditosVao}%
+  \parbox[t]{\dimexpr\linewidth-\crpspCreditosNome-\crpspCreditosVao\relax}{%
+    \raggedright
+    \crpsprel@paraon
+    #3\par\crpsprel@paraoff}%
+  \par
+  \crpsprel@tagend
+  \crpsprel@paraon
+}
+\NewDocumentCommand{\CargoNosCreditos}{o m m}{%
+  \IfValueTF{#1}{\crpsprel@cargo@alinhado{#1}}{\crpsprel@cargo@alinhado{}}{#2}{#3}}
+
+% Uma pessoa não se parte entre colunas nem entre páginas (no pe26 o
+% registro de uma pessoa foi parar na página seguinte).
+\newcommand{\crpsprel@creditos@inteiros}{%
+  \interlinepenalty=10000 \clubpenalty=10000 \widowpenalty=10000 }
+
+\newlength{\crpspCreditosSep}
+\AtBeginDocument{\setlength{\crpspCreditosSep}{0.3\baselineskip}}
+% Logo depois de título, o \@afterheading já descontou o \parskip
+% inteiro, e o primeiro parágrafo daqui só devolve o \crpspCreditosSep.
+\newenvironment{CreditoInstitucional}
+  {\par
+   \if@nobreak\vspace{\dimexpr\parskip-\crpspCreditosSep\relax}\fi
+   \begingroup\setlength{\parskip}{\crpspCreditosSep}%
+   \crpsprel@creditos@inteiros}
+  {\par\endgroup}
+
+% O do book (multicols, \\ vira \par), com o registro na linha de baixo
+% e o \multicolsep zerado (punha 17,6 pt entre título e primeiro nome).
+\newenvironment{NomesDuasColunas}{%
+  \par\begingroup
+  \setlength{\multicolsep}{0pt}%
+  \begin{multicols}{2}%
+  \begingroup
+  \raggedright
+  \setlength{\parskip}{\crpspCreditosSep}%
+  \crpsprel@creditos@inteiros
+  \let\\\par
+  \renewcommand{\crpsprel@registro@sep}{\newline}%
+}{%
+  \endgroup
+  \end{multicols}%
+  \endgroup
+}
 
 \endinput

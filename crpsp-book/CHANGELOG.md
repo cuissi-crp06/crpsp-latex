@@ -80,6 +80,50 @@ Camada de legislação acessível. Declarada com `\ProvidesFile`, não
 `\usepackage`. O argumento opcional é o mesmo nos dois comandos. Beta porque o
 mesmo corpo serve o guia de apresentações acessíveis, que circulou.
 
+## Linha `desenvolvimento/v2` — `relatorio` 0.3.0-alfa — 2026/09/28
+
+`crpsp-relatorio` e `relatorio` de `0.2.0-alfa` para `0.3.0-alfa`; o
+`crpsp-base` não mudou. Sprint 2 do plano de créditos do `plan-est_2026`
+(`2.diagramando/plano_creditos_sprints.md` no workbench): o que o `pe26` fez no
+seu `comum.tex` e marcou CANDIDATO À CLASSE vai para a classe, para que o
+gerador de créditos do `normativas-pipeline` escreva contra macros estáveis.
+Continua `-alfa`: não há registro de que o `pe26` tenha circulado, e a
+convenção manda `-alfa` quando não se sabe.
+
+**`relatorio` §12, Créditos (novo).** Veio do `comum.tex` §5 do `pe26`, com os
+internos renomeados de `\crpsp@…` para `\crpsprel@…` e o módulo de mensagem
+para `relatorio`; o comportamento é o mesmo. Títulos `\creditosoculto`
+(nível 1, com tag e sem impressão), `\creditosgrupo` (nível 2, com fio como
+artefato), `\creditossub` e `\creditos` (ficha técnica); nomes
+`\NomeNosCreditos{nome}{registro}[nota]`, com o registro num `Span` e alias
+deprecado para a forma de um argumento, e `\CargoNosCreditos[registro]{nome}{cargo}`,
+com os cargos alinhados; ambientes `CreditoInstitucional` e `NomesDuasColunas`.
+Carrega `needspace`, `multicol` e `pdfrender`. O `multicol` estava na lista do
+que a classe não carrega: a exceção fica registrada na `crpsp-relatorio.cls` §3,
+restrita à lista de nomes.
+
+**`relatorio` §11, folha de rosto (nova variante da capa tipográfica).** Do
+`comum.tex` §6: `\relRosto{logotipo}{alt}` no preâmbulo troca a capa
+tipográfica por título no centro e logotipo no pé, sem fio, autor e data. O
+logotipo é imagem com `alt` obrigatório, não artefato. `\crpspRostoTitulo`
+(padrão `\@title`) deixa o documento quebrar a linha sem mexer nos metadados.
+Sem `\relRosto`, a capa tipográfica é a de antes.
+
+**`relatorio` §4, regra do nome próprio.** Registrada em comentário: sob
+tagging, a primeira chamada de `\@startsection{<nome>}` congela o estilo de
+todas as seguintes com o mesmo nome. Foi o que pôs em 1 pt os títulos do `pe26`
+na quarta revisão (25/09). Título com estilo próprio usa nome próprio.
+
+**Régua.** `linha-base.tsv` regravada: `exemplo-relatorio-externo` de 2 para 3
+páginas e de 80 para 162 objetos (ganhou uma página de créditos e a ficha
+técnica, com 12 `Span`, um por pessoa com registro), e `exemplo-relatorio-rosto`
+é novo, com 2 páginas e 16 objetos (um `Figure`, o logotipo). Os outros
+arquivos saíram idênticos, inclusive o `exemplo-relatorio` interno (3 páginas,
+151 objetos). veraPDF **PASS em ua2** nos dois exemplos.
+`mwe/mwe_creditos_titulo_invisivel.tex` fica como registro do experimento:
+as definições dele colidem com as da classe, e o cabeçalho diz como compilá-lo
+contra a 0.2.0-alfa.
+
 ## Linha `desenvolvimento/v2` — 0.2.0-alfa — 2026/09/17
 
 `crpsp-base`, `crpsp-relatorio` e `relatorio`, todos de `0.1.0-alfa` para

@@ -5,7 +5,27 @@ atravessam mais de uma linha. Para a análise detalhada da linha `book`, ver
 `README.md`; para os contornos de tagging com os MWEs que os reproduzem, ver
 `.agents/skills/latex-dev/references/workarounds.md`.
 
-**Última atualização:** 2026-09-17
+**Última atualização:** 2026-09-28
+
+---
+
+## RODADA 2026-09-28 — `relatorio` 0.3.0-alfa: créditos e folha de rosto na classe
+
+Sprint 2 do plano de créditos do `plan-est_2026`. Detalhe no `CHANGELOG.md`.
+
+- Os macros de créditos e a folha de rosto saíram do `comum.tex` do `pe26` para a
+  `relatorio.sty` (§12 e §11). São a interface que o gerador do
+  `normativas-pipeline` (Sprint 3 do plano, Sprint 13 do ROTEIRO) vai escrever.
+- **Pendente no workbench, depois do merge:** o `pe26` compila contra a cópia da
+  classe em `editorial/arquivo_latex/crpsp-book/desenvolvimento/v2/`, e o
+  `comum.tex` dele ainda define os mesmos macros, o que dá erro de "already defined"
+  contra a 0.3.0-alfa. Os dois passos andam juntos: atualizar a cópia e tirar os
+  §§ 5 e 6 do `comum.tex`. A saída tem de ser igual, com o mesmo texto por página e o
+  mesmo número de `Span`. O editor mexe no `pe26.tex`: conferir o hash antes.
+- Fora do escopo, registrado no briefing dos créditos: levar o módulo para a linha
+  `book`; e os §§ 1–4 e 7 do `comum.tex` (títulos com `\Needspace`, `longtable`
+  depois de título, tabelas, sumário, `\irparaimpar`), que também são candidatos
+  à classe.
 
 ---
 
@@ -310,7 +330,7 @@ Regra dura para as classes novas, que já valia e agora tem a razão registrada:
 | `guia` | `crpsp_acessivel.cls` + `guia-crpsp_acessivel.sty` | A5 | Desenvolvimento |
 | `guia_visual` | `crpsp-guia_visual.cls` + `guia-visual.sty` | 16:9 | Implementada 2026-07-03 |
 | `formulario` | `crpsp-formulario.cls` + `formulario.sty` | A4 AcroForm | Implementada |
-| `relatorio` | `crpsp-relatorio.cls` + `relatorio.sty` | A4 retrato | **0.2.0-alfa (2026-09-17)**, com `interno`/`externo` |
+| `relatorio` | `crpsp-relatorio.cls` + `relatorio.sty` | A4 retrato | **0.3.0-alfa (2026-09-28)**, com `interno`/`externo`, créditos e folha de rosto |
 | `livro` | — | — | Não iniciada |
 
 Infraestrutura comum: `crpsp-base.sty` (verificação de engine, fontspec

@@ -64,6 +64,14 @@
 %%   título, o multicols e o primeiro nome para dentro dele; o tipo `g'
 %%   do ltcmd saiu do kernel.
 %%
+%% ⚠️ HISTÓRICO desde a relatorio 0.3.0-alfa (28/09/2026): o padrão
+%% validado aqui foi para a classe (relatorio.sty §12), e as definições
+%% deste arquivo colidem com as dela. O uso pela classe está em
+%% v2/exemplo-relatorio-externo.tex, que a régua compila. Para refazer
+%% o experimento, compilar contra a classe de antes do porte:
+%%   git worktree add /tmp/v020 1237b61
+%% e apontar o TEXINPUTS abaixo para /tmp/v020/crpsp-book/desenvolvimento/v2.
+%%
 %% Compilar (2 passadas por variante):
 %%   export TEXINPUTS="$HOME/repos/crpsp-latex/crpsp-book/desenvolvimento/v2:"
 %%   for v in A B C E; do for i in 1 2; do lualatex -jobname=mwe_creditos_$v \
