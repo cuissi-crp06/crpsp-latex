@@ -1,8 +1,10 @@
 #!/usr/bin/env python3
-"""Extrai os exemplos da ABNT NBR 6023:2018 e da NBR 10520:2023 como corpus de teste.
+"""Extrai os exemplos da ABNT NBR 6023:2025 e da NBR 10520:2023 como corpus de teste.
 
-Lê os JSON que o normativas-pipeline grava em export/normas/ (no workbench) e
-escreve um TSV por norma, uma linha por referência de exemplo:
+A 6023 é lida direto do PDF (pdftotext), sem passar pelo normativas-pipeline:
+a 3ª edição, de 21/05/2025 (a 2018 com a Emenda 1, que já traz as erratas de
+2020), ainda não foi ingerida. A 10520 vem do JSON que o pipeline grava em
+export/normas/. Sai um TSV por norma, uma linha por referência de exemplo:
 
     id  secao  exemplo  rotulo  classe  texto  origem
 
@@ -12,41 +14,41 @@ escreve um TSV por norma, uma linha por referência de exemplo:
   6023:8.1.1.3:b.2 (item b da enumeração), 6023:8.1.3:2.1 (segunda série);
 - rotulo: essenciais, complementares ou vazio (a norma nem sempre rotula);
 - classe: referencia, fragmento (8.4.1, 8.6.1.3, 8.7.1, 9.2) ou citacao (10520);
-- origem: json, ou Er1/Er2 quando o texto veio de uma errata.
+- origem: pdf ou json.
 
 O texto das normas não entra no repositório; os exemplos, sim (ver a seção 6
-do briefing). O JSON tem quatro defeitos do parser que este script remenda:
+do briefing). Na leitura sequencial do PDF, uma linha que começa por número só
+abre seção se o número puder suceder o anterior ("11.262 do município", no
+meio de um exemplo de 7.11.4, fica no texto). O JSON da 10520 tem os defeitos
+do parser do pipeline, remendados aqui:
 
-1. toda linha que começa por número vira nó novo (o "11.262" no meio de um
-   exemplo de 7.11.4, o segundo "7.13.3" que é o resto de 7.13.5): um nó cujo
-   número não pode suceder o anterior é colado nele;
-2. o título de seção de primeiro nível ("9 Ordenação…", "8 Notas") cola no
-   fim do nó anterior: cortado;
-3. anexos e índice colam no último nó: cortados;
-4. as erratas de 2020 não estão aplicadas, embora a ementa diga que estão:
-   aplicadas a partir de erratas-6023.json.
+1. toda linha que começa por número vira nó novo: um nó cujo número não pode
+   suceder o anterior é colado no último nó que termina no meio da frase;
+2. o título de seção de primeiro nível ("8 Notas") cola no fim do nó
+   anterior: cortado;
+3. anexos e índice colam no último nó: cortados.
 
 O que nenhuma regra resolve (uma frase de regra grudada num exemplo) vai em
 ajustes-6023.json, que falha se o trecho a remover deixar de existir.
 
 Uso:
-    python3 extrair.py [--normas DIR] [--saida DIR]
+    python3 extrair.py [--pdf-6023 ARQ] [--normas DIR] [--saida DIR]
 
-DIR padrão: $WORKBENCH/export/normas (WORKBENCH padrão ~/Documentos/trabalho)
-e a pasta deste script.
+Padrões: $WORKBENCH/editorial/apoio/normas/ABNT/NBR 6023-2025 - Referências.pdf,
+$WORKBENCH/export/normas (WORKBENCH padrão ~/Documentos/trabalho) e a pasta
+deste script.
 """
 import argparse
 import json
 import os
 import re
+import subprocess
 import sys
 from pathlib import Path
 
 AQUI = Path(__file__).resolve().parent
-NORMAS = {
-    "6023": "abnt-nbr-6023-2018.json",
-    "10520": "abnt-nbr-10520-2023.json",
-}
+PDF_6023 = "editorial/apoio/normas/ABNT/NBR 6023-2025 - Referências.pdf"
+JSON_10520 = "abnt-nbr-10520-2023.json"
 
 RE_EXEMPLO = re.compile(r"^EXEMPLOS?(?:\s+(\d+))?\s*$")
 RE_ROTULO = re.compile(r"^Elementos\s+(essenciais|complementares)\s*$")
@@ -84,6 +86,65 @@ def sucede(ant, novo):
 def termina_frase(texto):
     linhas = [ln for ln in texto.split("\n") if ln.strip()]
     return not linhas or linhas[-1].rstrip().endswith((".", "]", ")"))
+
+
+# Linhas do PDF que não são texto: marca de licença, cabeçalho, rodapé, fólio.
+RE_RUIDO_PDF = re.compile(r"^(Exemplar (para|gratuito) uso|© ABNT|ABNT NBR \d+:\d{4}$|NORMA BRASILEIRA$|[ivx]+$|\d{1,3}$)")
+RE_SECAO_PDF = re.compile(r"^(\d+(?:\.\d+)+)(?:\s+(.*))?$|^(\d{1,2})\s+(\S.*)$")
+
+
+PREFIXOS_COM_HIFEN = {"pós", "pré", "pró", "ex", "vice", "recém", "sem", "além", "aquém"}
+
+
+def pdftotext(caminho, *opcoes):
+    return subprocess.run(["pdftotext", *opcoes, str(caminho), "-"], capture_output=True,
+                          text=True, check=True).stdout.replace("\f", "\n")
+
+
+def restaurar_hifens(texto, cru):
+    """O modo padrão do pdftotext apaga o hífen do fim da linha ("85-7110-" +
+    "495-6" vira "85-7110495-6"); o -raw o preserva, mas cola palavras de
+    kerning apertado ("SupremoTribunal"). Usa-se o padrão e devolvem-se os
+    hífens que o -raw mostra, mas só os que são do texto: a norma também
+    hifeniza sílabas ("Comuni-" + "dade"), e esse hífen o padrão já tira bem.
+    É do texto o hífen de identificador ou URL, o que precede maiúscula ou
+    dígito, e o de prefixo que sempre o leva (pós-graduação)."""
+    linhas = cru.split("\n")
+    for a, b in zip(linhas, linhas[1:]):
+        a, b = a.rstrip(), b.strip()
+        if not a.endswith("-") or not b:
+            continue
+        antes, depois = a.split()[-1], b.split()[0]
+        if len(antes) < 2:
+            continue
+        identificador = re.search(r"[\d/_=.@]", antes + depois) is not None
+        if identificador or depois[0].isupper() or depois[0].isdigit() or antes[:-1].lower() in PREFIXOS_COM_HIFEN:
+            texto = texto.replace(antes[:-1] + depois, antes + depois)
+    return texto
+
+
+def nos_do_pdf(caminho):
+    """Lê o PDF da norma em sequência e devolve [{numero, texto}] na forma
+    que nos_reparados() devolve para o JSON."""
+    bruto = restaurar_hifens(pdftotext(caminho), pdftotext(caminho, "-raw"))
+    linhas = [ln for ln in bruto.split("\n") if not RE_RUIDO_PDF.match(ln.strip())]
+    inicio = next(k for k, ln in enumerate(linhas) if ln.strip() == "1 Escopo")
+    nos = []
+    for ln in linhas[inicio:]:
+        s = ln.strip()
+        if RE_ANEXO.match(s) or s.startswith("Anexo A"):
+            break
+        m = RE_SECAO_PDF.match(s)
+        if m:
+            num, resto = (m.group(1), m.group(2)) if m.group(1) else (m.group(3), m.group(4))
+            if sucede(numero(nos[-1]["numero"]) if nos else None, numero(num)):
+                nos.append({"numero": num, "texto": resto or ""})
+                continue
+        if nos:
+            nos[-1]["texto"] += "\n" + ln
+    for n in nos:
+        n["texto"] = n["texto"].lstrip("\n")
+    return nos
 
 
 def nos_reparados(dados):
@@ -214,32 +275,21 @@ def classe(texto):
     return "referencia" if RE_INICIO_REF.match(texto) else "fragmento"
 
 
-def extrair_6023(dados, erratas, ajustes):
+def extrair_6023(nos, ajustes):
     por_exemplo = {}
-    for no in nos_reparados(dados):
+    for no in nos:
         for serie, n_ex, rotulo, corpo in exemplos(no):
             por_exemplo.setdefault((no["numero"], serie, n_ex), []).extend(
                 (rotulo, juntar(r)) for r in separar_referencias(corpo)
             )
-    linhas_tsv, indice = [], {}
+    linhas_tsv = []
     for (secao, serie, n_ex), refs in por_exemplo.items():
         for k, (rotulo, texto) in enumerate(refs):
             letra = "abcdefghijklmnopqrstuvwxyz"[k] if len(refs) > 1 else ""
             exemplo = f"{serie}.{n_ex}" if serie else n_ex
-            linha = [f"6023:{secao}:{exemplo}{letra}", secao, exemplo, rotulo or "", "", texto, "json"]
+            linha = [f"6023:{secao}:{exemplo}{letra}", secao, exemplo, rotulo or "", "", texto, "pdf"]
             linhas_tsv.append(linha)
-            indice[(secao, exemplo, letra)] = linha
 
-    for e in erratas["exemplos"]:
-        chave = (e["secao"], e["exemplo"], e.get("referencia", ""))
-        if chave not in indice:
-            sys.exit(f"errata sem exemplo correspondente: {chave}")
-        alvo = indice[chave]
-        if "rotulo" in e:
-            alvo[3] = e["rotulo"]
-        if "texto" in e:
-            alvo[5] = e["texto"]
-        alvo[6] = e["fonte"]
     aplicar_ajustes(linhas_tsv, ajustes)
     for linha in linhas_tsv:
         linha[4] = classe(linha[5])
@@ -272,14 +322,15 @@ def extrair_10520(dados):
 def main():
     wb = Path(os.environ.get("WORKBENCH", Path.home() / "Documentos/trabalho"))
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
+    ap.add_argument("--pdf-6023", type=Path, default=wb / PDF_6023)
     ap.add_argument("--normas", type=Path, default=wb / "export/normas")
     ap.add_argument("--saida", type=Path, default=AQUI)
     a = ap.parse_args()
 
     ler = lambda p: json.loads(p.read_text(encoding="utf-8"))
     tabelas = {
-        "6023": extrair_6023(ler(a.normas / NORMAS["6023"]), ler(AQUI / "erratas-6023.json"), ler(AQUI / "ajustes-6023.json")),
-        "10520": extrair_10520(ler(a.normas / NORMAS["10520"])),
+        "6023": extrair_6023(nos_do_pdf(a.pdf_6023), ler(AQUI / "ajustes-6023.json")),
+        "10520": extrair_10520(ler(a.normas / JSON_10520)),
     }
     for norma, linhas in tabelas.items():
         destino = a.saida / f"nbr{norma}.tsv"
