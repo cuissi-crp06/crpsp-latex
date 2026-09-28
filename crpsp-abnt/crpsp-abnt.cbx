@@ -1,6 +1,161 @@
-\ProvidesFile{crpsp-abnt.cbx}[2026/09/28 v0.1.0-alfa Citacoes do crpsp-abnt]%
+\ProvidesFile{crpsp-abnt.cbx}[2026/09/28 v0.2.0-alfa Citacoes do crpsp-abnt]%
 %
-% Por ora, a chamada é a do upstream. A chamada por título, o link único e a
-% sigla entram no Sprint 2 (briefing, seção 5).
+% Estende a chamada do biblatex-abnt: chamada por título da 10520:2023 e um
+% link só por obra citada. A sigla na chamada já vem do upstream, que põe o
+% shortauthor no labelname.
 %
 \RequireCitationStyle{abnt}
+
+% Chamada por título (10520, 6.1.1.4; DIVERGENCIAS.md, linha 9) >>>1
+%
+% a) título de uma palavra: a palavra, "(Inglês, 2012)";
+% b) de mais de uma: a primeira e [...], "(Anteprojeto [...], 1987)";
+% c) e d) iniciado por artigo ou monossílabo: as duas primeiras e [...],
+%    "(A flor [...], 1995)", "(Nos canaviais [...], 1995)".
+%
+% O monossílabo é reconhecido por lista, e a lista não é exaustiva. Onde a
+% regra errar, o shorttitle manda e sai como está escrito no .bib, com o
+% "[\ldots]" se for o caso. O upstream punha a primeira palavra em caixa alta
+% com reticências: "(A..., 1995)".
+
+\ExplSyntaxOn
+\clist_const:Nn \c__crpsp_monossilabos_clist
+  {
+    a, o, as, os, um, uma, uns, umas, à, às, ao, aos,
+    de, do, da, dos, das, em, no, na, nos, nas, num, numa,
+    por, pra, com, sem, sob, e, ou, que, se, tu, eu, nós, vós,
+    el, la, los, las, un, una, y, en, del,
+    the, an, of, in, on, le, les, une, des, du
+  }
+\seq_new:N \l__crpsp_palavras_seq
+\tl_new:N \l__crpsp_primeira_tl
+\tl_new:N \l__crpsp_segunda_tl
+\bool_new:N \l__crpsp_monossilabo_bool
+
+\cs_new_protected:Npn \__crpsp_limpar:N #1
+  { \regex_replace_once:nnN { [\,\:\;\.]+ \Z } { } #1 }
+
+\cs_new_protected:Npn \crpsp_chamada_titulo:n #1
+  {
+    \seq_set_split:Nnn \l__crpsp_palavras_seq { ~ } {#1}
+    \seq_remove_all:Nn \l__crpsp_palavras_seq { }
+    \tl_set:Ne \l__crpsp_primeira_tl { \seq_item:Nn \l__crpsp_palavras_seq { 1 } }
+    \tl_set:Ne \l__crpsp_segunda_tl { \seq_item:Nn \l__crpsp_palavras_seq { 2 } }
+    \__crpsp_limpar:N \l__crpsp_primeira_tl
+    \__crpsp_limpar:N \l__crpsp_segunda_tl
+    \bool_set_false:N \l__crpsp_monossilabo_bool
+    \clist_map_inline:Nn \c__crpsp_monossilabos_clist
+      {
+        \str_if_eq:eeT
+          { \text_lowercase:n { \tl_to_str:N \l__crpsp_primeira_tl } }
+          { \tl_to_str:n {##1} }
+          { \bool_set_true:N \l__crpsp_monossilabo_bool \clist_map_break: }
+      }
+    \int_compare:nNnTF { \seq_count:N \l__crpsp_palavras_seq } = { 1 }
+      { \l__crpsp_primeira_tl }
+      {
+        \bool_if:NTF \l__crpsp_monossilabo_bool
+          {
+            \l__crpsp_primeira_tl \nobreakspace \l__crpsp_segunda_tl
+            \int_compare:nNnT { \seq_count:N \l__crpsp_palavras_seq } > { 2 }
+              { \nobreakspace [\ldots] }
+          }
+          { \l__crpsp_primeira_tl \nobreakspace [\ldots] }
+      }
+  }
+\cs_new_eq:NN \crpspchamadatitulo \crpsp_chamada_titulo:n
+\ExplSyntaxOff
+
+\DeclareFieldFormat{crpsp:titulo}{%
+  \normalfont
+  \iffieldundef{shorttitle}%
+    {\crpspchamadatitulo{#1}}%
+    {#1}%
+}
+
+\renewbibmacro*{cite:label}{%
+  \iffieldundef{label}{%
+    \printtext[bibhyperref]{\printfield[crpsp:titulo]{labeltitle}}%
+  }{%
+    \printtext[bibhyperref]{\printfield[uppercasecite]{label}}%
+  }%
+  \global\crpsp@nolinktrue
+}
+
+% <<<1
+
+% Um link por obra (briefing, 2.4) >>>1
+%
+% No upstream, "(Brasil, 2002)" tinha dois links, "Brasil" e "2002", que o
+% leitor de tela lê em separado. Aqui:
+%
+% - \cite e \parencite: um link sobre "Brasil, 2002"; o localizador fica fora;
+% - \textcite: o link fica no nome, "Maciel et al. (2019)", porque o nome é
+%   parte da frase;
+% - a segunda obra do mesmo autor, comprimida ("Silva, 2001, 2003"), continua
+%   com o link no ano, que é o que a identifica.
+%
+% O formato bibhyperref deixa de fazer link enquanto \ifcrpsp@nolink for
+% verdadeiro; cada chave citada começa com ele falso.
+
+\newif\ifcrpsp@nolink
+\AtEveryCitekey{\global\crpsp@nolinkfalse}
+
+\DeclareFieldFormat{bibhyperref}{%
+  \ifcrpsp@nolink
+    \expandafter\@firstoftwo
+  \else
+    \expandafter\@secondoftwo
+  \fi
+  {#1}%
+  {\bibhyperref{#1}}%
+}
+
+\DeclareFieldFormat{crpsp:link}{%
+  \bibhyperref{\global\crpsp@nolinktrue#1}%
+  \global\crpsp@nolinkfalse
+}
+
+\renewbibmacro*{cite}{%
+  \iffieldundef{shorthand}%
+    {\ifthenelse{\ifnameundef{labelname}\OR\iffieldundef{labelyear}}%
+       {\printtext[crpsp:link]{%
+          \usebibmacro{cite:label}%
+          \setunit{\printdelim{nonameyeardelim}}%
+          \usebibmacro{cite:labeldate+extradate}}%
+        \usebibmacro{cite:reinit}}%
+       {\iffieldequals{namehash}{\cbx@lasthash}%
+          {\ifthenelse{\iffieldequals{labelyear}{\cbx@lastyear}\AND%
+                       \(\value{multicitecount}=0\OR\iffieldundef{postnote}\)}%
+             {\setunit{\addcomma}%
+              \usebibmacro{cite:extradate}}%
+             {\setunit{\compcitedelim}%
+              \usebibmacro{cite:labeldate+extradate}%
+              \savefield{labelyear}{\cbx@lastyear}}}%
+          {\printtext[crpsp:link]{%
+             \printnames{labelname}%
+             \setunit{\printdelim{nameyeardelim}}%
+             \usebibmacro{cite:labeldate+extradate}}%
+           \savefield{namehash}{\cbx@lasthash}%
+           \savefield{labelyear}{\cbx@lastyear}}}}%
+    {\usebibmacro{cite:shorthand}%
+     \usebibmacro{cite:reinit}}%
+  \setunit{\multicitedelim}}
+
+\xpatchbibmacro{textcite}
+  {\printtext[bibhyperref]{\printnames[textlabelname]{labelname}}}
+  {\printtext[bibhyperref]{\printnames[textlabelname]{labelname}}%
+   \global\crpsp@nolinktrue}
+  {}
+  {\PackageWarning{crpsp-abnt}{Nao consegui unificar o link de \string\textcite}}
+
+\xpatchbibmacro{textcitestar}
+  {\printtext[bibhyperref]{\printnames[textlabelname]{labelname}}}
+  {\printtext[bibhyperref]{\printnames[textlabelname]{labelname}}%
+   \global\crpsp@nolinktrue}
+  {}
+  {\PackageWarning{crpsp-abnt}{Nao consegui unificar o link de \string\textcite*}}
+
+% <<<1
+
+\endinput

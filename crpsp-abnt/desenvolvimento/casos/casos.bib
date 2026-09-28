@@ -1,0 +1,89 @@
+% Casos do crpsp-abnt que a norma não traz: sigla como entrada e um link por
+% chamada. O esperado está em esperado.txt; verificar.sh compara.
+
+@book{ibge2011,
+  author      = {{Instituto Brasileiro de Geografia e Estatística}},
+  shortauthor = {{IBGE}},
+  title       = {Censo demográfico 2010},
+  subtitle    = {características da população e dos domicílios},
+  location    = {Rio de Janeiro},
+  publisher   = {IBGE},
+  date        = {2011},
+}
+
+@book{ibge2010,
+  author      = {{Instituto Brasileiro de Geografia e Estatística}},
+  shortauthor = {{IBGE}},
+  title       = {Pesquisa nacional por amostra de domicílios},
+  location    = {Rio de Janeiro},
+  publisher   = {IBGE},
+  date        = {2010},
+}
+
+@legal{cfp2005,
+  author      = {{Conselho Federal de Psicologia}},
+  shortauthor = {{CFP}},
+  title       = {Resolução CFP nº 10, de 21 de julho de 2005},
+  ementa      = {Aprova o Código de Ética Profissional do Psicólogo},
+  location    = {Brasília, DF},
+  publisher   = {CFP},
+  date        = {2005},
+}
+
+% Pessoa jurídica sem sigla: entra por extenso, como no upstream.
+@book{abnt2011,
+  author    = {{Associação Brasileira de Normas Técnicas}},
+  title     = {Guia de normalização},
+  location  = {Rio de Janeiro},
+  publisher = {ABNT},
+  date      = {2011},
+}
+
+% Pessoa física com shortauthor: não é sigla, porque tem prenome.
+@book{andrade1990,
+  author      = {Andrade, Mário de},
+  shortauthor = {Andrade},
+  title       = {Macunaíma},
+  location    = {Belo Horizonte},
+  publisher   = {Itatiaia},
+  date        = {1990},
+}
+
+% Com qualificador: a sigla entra, e o qualificador fica em caixa alta e baixa.
+@book{inca2011,
+  author      = {{Instituto Nacional do Câncer (Brasil)}},
+  shortauthor = {{INCA}},
+  title       = {A situação do tabagismo no Brasil},
+  location    = {Rio de Janeiro},
+  publisher   = {INCA},
+  date        = {2011},
+}
+
+% Vinte e um autores: a referência para nos vinte e fecha com et al.
+@article{muitos2020,
+  author  = {A1, Ana and A2, Ana and A3, Ana and A4, Ana and A5, Ana and
+             A6, Ana and A7, Ana and A8, Ana and A9, Ana and A10, Ana and
+             A11, Ana and A12, Ana and A13, Ana and A14, Ana and A15, Ana and
+             A16, Ana and A17, Ana and A18, Ana and A19, Ana and A20, Ana and
+             A21, Ana},
+  title   = {Artigo coletivo},
+  journaltitle = {Revista},
+  volume  = {1},
+  pages   = {1-10},
+  date    = {2020},
+  doi     = {10.1590/0000-0000},
+}
+
+@article{quatro2019,
+  author  = {Maciel, Maria and Brum, Beatriz and Del Bianco, Diana and Costa, Carla},
+  title   = {Quatro autores},
+  journaltitle = {Revista},
+  date    = {2019},
+}
+
+@book{flor1995,
+  title     = {A flor prometida},
+  location  = {São Paulo},
+  publisher = {Folha},
+  date      = {1995},
+}

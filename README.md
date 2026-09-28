@@ -26,9 +26,10 @@ dentro de `crpsp-book/` porque o workbench espelha esta pasta
 
 [crpsp-abnt](/crpsp-abnt/)
 
-Estilo biblatex que estende o `biblatex-abnt` para a NBR 6023:2018 e a
+Estilo biblatex que estende o `biblatex-abnt` para a NBR 6023:2025 e a
 NBR 10520:2023 (documento jurídico, citação acessível, mídia). Em
-planejamento: ver `crpsp-abnt/briefings/briefing-crpsp-abnt.md`.
+desenvolvimento, `0.2.0-alfa`: ver `crpsp-abnt/README.md` e o plano em
+`crpsp-abnt/briefings/briefing-crpsp-abnt.md`.
 
 [crpsp-forms](/crpsp-forms/)
 

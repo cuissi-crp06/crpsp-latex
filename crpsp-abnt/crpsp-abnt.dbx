@@ -1,11 +1,15 @@
-\ProvidesFile{crpsp-abnt.dbx}[2026/09/28 v0.1.0-alfa Modelo de dados do crpsp-abnt]%
+\ProvidesFile{crpsp-abnt.dbx}[2026/09/28 v0.2.0-alfa Modelo de dados do crpsp-abnt]%
 %
 % Campos que o biblatex não tem, para os tipos jurídicos da ABNT NBR 6023:2025
 % (7.11). Contrato de campos: README.md, "Legislação e ato normativo".
 %
 % - ementa: a ementa do ato, ou a atribuída entre colchetes (7.11.5, ex. 1);
 % - complementos: retificações, alterações, revogações, projeto de origem,
-%   assunto do ofício; impressos depois da publicação e antes do acesso online.
+%   assunto do ofício; impressos depois da publicação e antes do acesso online;
+% - crpspsigla: interno, gravado pelo mapa do .bbx quando a entrada é pessoa
+%   jurídica com sigla. Não se escreve no .bib.
 %
 \DeclareDatamodelFields[type=field, datatype=literal]{ementa, complementos}
 \DeclareDatamodelEntryfields[legislation, legal]{ementa, complementos}
+\DeclareDatamodelFields[type=field, datatype=literal]{crpspsigla}
+\DeclareDatamodelEntryfields{crpspsigla}

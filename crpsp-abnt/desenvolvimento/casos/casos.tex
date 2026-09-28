@@ -1,0 +1,34 @@
+\DocumentMetadata{lang=pt-BR, pdfstandard=ua-2, tagging=on}
+\pdfvariable compresslevel=0
+\pdfvariable objcompresslevel=0
+\documentclass{article}
+\usepackage[paperwidth=60cm, paperheight=40cm, margin=1cm]{geometry}
+\usepackage[brazilian]{babel}
+\usepackage{csquotes}
+\usepackage[style=crpsp-abnt, backend=biber]{biblatex}
+\usepackage{hyperref}
+\hypersetup{pdftitle={Casos do crpsp-abnt}}
+\addbibresource{casos.bib}
+\hyphenpenalty=10000 \exhyphenpenalty=10000 \parindent=0pt \raggedright
+\begin{document}
+@@chamadas@@
+
+C1 \parencite[3]{ibge2011}
+
+C2 \parencite{ibge2010,ibge2011}
+
+C3 \parencite{cfp2005}
+
+C4 \parencite{inca2011}
+
+C5 \textcite{quatro2019}
+
+C6 \parencite[4]{flor1995}
+
+C7 \textcite{andrade1990}
+
+\nocite{abnt2011,muitos2020}
+@@fim@@
+
+\printbibliography
+\end{document}
