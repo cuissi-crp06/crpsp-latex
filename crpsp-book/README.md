@@ -266,9 +266,9 @@ Esta seção é atualizada automaticamente pelo script `monitor_ctan.py`.
 - `tagpdf`: **`1.0e`** (2026-08-21) ⚠️ NOVA VERSÃO
 <!-- CTAN-VERSION-END -->
 
-Para executar a verificação manualmente:
+Para executar a verificação manualmente (de `crpsp-book/`):
 ```bash
-python monitor_ctan.py
+python3 monitor_ctan.py
 ```
 
 ---
