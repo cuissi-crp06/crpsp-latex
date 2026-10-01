@@ -5,7 +5,51 @@ atravessam mais de uma linha. Para a análise detalhada da linha `book`, ver
 `README.md`; para os contornos de tagging com os MWEs que os reproduzem, ver
 `.agents/skills/latex-dev/references/workarounds.md`.
 
-**Última atualização:** 2026-09-28
+**Última atualização:** 2026-10-01
+
+---
+
+## RODADA 2026-10-01 — issue #35: o guia de apresentações andou à frente da classe `book`
+
+A revisão 2 do *Guia de boas práticas para apresentações acessíveis*
+(`production/editorial/publicacoes/cartilhas/apresentacoes_acessiveis/revisao_2/LaTeX/`)
+reuniu em 30/09 e 01/10 uma série de soluções que **vivem só no `.tex` da
+publicação**. A cópia da `.sty` que o guia carrega
+(`cartilhas/apresentacoes_acessiveis/LaTeX/livros_crp_acessivel_book.sty`) tem o
+corpo idêntico ao de `book-crpsp_acessivel.sty` 0.5.2-beta (diferença: um
+travessão na linha `\ProvidesPackage`). Nada do que segue está na classe, e a
+próxima publicação `book` não herda.
+
+**Issue aberta:** [#35](https://github.com/cuissi-crp06/crpsp-latex/issues/35) —
+adotar as mudanças como padrão da linha `book` e criar as opções `web` e `print`.
+Detalhe e critérios de aceite estão lá; aqui fica o resumo.
+
+- **A adotar** (decisão do editor, 01/10): corpo em Atkinson com `Path` do
+  kpathsea; `\tracinglostchars=3`; hifenização desligada, inclusive no gancho
+  `para/begin`; órfãs e viúvas proibidas (`\clubpenalty`, `\widowpenalty` e
+  `\@clubpenalty` em 10000); `\raggedbottom` com `\topskip` rígido de 11 pt;
+  `\raggedright` do kernel; `\estrangeirismo` (`Span` com `/Lang`); `tabelaguia`
+  com `colortbl`; capa e fundos como `artifact`; `\iniciotextual`; colofão;
+  `\DocumentMetadata` só com `tagging=on`.
+- **Fora, por decisão do editor:** os ajustes do sumário (`\l@chapter` com
+  `plus 4em`, `\setstretch{1.1}` e `\EditInstance{heading}{chapter}{after-vspace=18pt}`).
+  ⚠️ **Dependência:** o `plus 4em` existe *porque* a hifenização está desligada.
+  Se ela virar padrão da classe, uma entrada longa do sumário volta a bater no
+  número da página; a `.sty` precisa de outra solução.
+- **Opções propostas:** `web` (`openany`, referências sem citação no texto, fundo
+  só `bg-impar`; `oneside` **a confirmar**) e `print` (`openright`, citação
+  autor-data, e o que a gráfica exigir). **Os itens de `print` não existem nem
+  estão especificados:** escala de cinza, marcas de corte, sangria, PDF/X.
+  Perguntas abertas: PDF/UA-2 e PDF/X convivem no mesmo arquivo? A conversão para
+  cinza preserva a árvore de tags? A gráfica quer um PDF ou dois?
+- **Não verificado:** a troca de voz do `\estrangeirismo` em NVDA + Acrobat Reader
+  (o veraPDF não cobra idioma de trecho). A mecânica do `\@clubpenalty` e a
+  necessidade do gancho `para/begin` estão como o `.tex` do guia as descreve; não
+  foram reproduzidas aqui. Vale conferir se o gancho `begindocument/end` da
+  `crpsp-base.sty` (linhas 191–197) tem o mesmo defeito.
+- **Código a rever na `.sty` depois da adoção:** `pdfpages` (linha 193), exemplo com
+  `alt={}` no comentário (linhas 151–157), Lora como fonte principal e
+  `\usepackage[shortcuts]{extdash}` no guia, sem uso no corpo.
 
 ---
 
@@ -378,7 +422,11 @@ mas não a elimina para os workarounds que dependem de módulos nomeados.
       já usa `tagging=on` **e** `testphase={phase-III,table,firstaid}` no mesmo
       `\DocumentMetadata` e compila limpo no podman (0 erros, 670 objetos);
       o `\TOCAcessivel` deixou de ser necessário. Falta rodar no MiKTeX e
-      tirar a chave legada.
+      tirar a chave legada. [2026-10-01] A revisão 2 do guia já saiu da chave
+      legada: o `\DocumentMetadata` dela tem só `tagging=on`, e compila no podman
+      com 0 erro e veraPDF ua2 PASS (LEIA.md da revisão). Falta o MiKTeX e a
+      comparação da árvore de tags; a classe (`.sty`) ainda documenta `testphase`
+      (ver a issue #35).
 - [ ] **Linha `guia`** (`crpsp_acessivel.cls`) — migrar e recompilar
       `guia-exemplo.tex`.
 - [ ] **Linha `guia_visual`** — migrar e recompilar `exemplo-guia-visual.tex`.
