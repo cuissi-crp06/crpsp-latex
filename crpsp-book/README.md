@@ -259,11 +259,11 @@ Essa análise cobre a totalidade do arquivo `book-crpsp_acessivel.sty`, seu con
 Esta seção é atualizada automaticamente pelo script `monitor_ctan.py`.
 
 <!-- CTAN-VERSION-START -->
-**Última verificação CTAN:** 2026-09-17 08:15
+**Última verificação CTAN:** 2026-10-05 08:10
 
-- `latex-base-dev`: **`pre-release 2`** (2026-11-01) ⚠️ NOVA VERSÃO
+- `latex-base-dev`: **`pre-release 2`** (2026-11-01) ✅
 - `latex-lab`: **`2026-06-01a`** () ✅
-- `tagpdf`: **`1.0e`** (2026-08-21) ⚠️ NOVA VERSÃO
+- `tagpdf`: **`1.0g`** (2026-09-23) ⚠️ NOVA VERSÃO
 <!-- CTAN-VERSION-END -->
 
 Para executar a verificação manualmente (de `crpsp-book/`):
