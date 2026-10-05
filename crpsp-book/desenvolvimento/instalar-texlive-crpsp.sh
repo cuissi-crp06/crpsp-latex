@@ -1,5 +1,5 @@
 #!/bin/sh
-# TeX Live enxuto para as classes crpsp-*: infraestrutura + só os pacotes que o
+# TeX Live enxuto para as classes crpsp-*: esquema minimal + só os pacotes que o
 # workspace usa (inventário de 2026-10-05). Sem sudo: instala em $HOME/texlive.
 # Uso: sh instalar-texlive-crpsp.sh   (TL_PREFIX=/outro/caminho para mudar o destino)
 # Pré-requisitos do sistema: curl, perl, tar, xz. Opcionais: inkscape (pacote
@@ -12,7 +12,7 @@ PREFIX="${TL_PREFIX:-$HOME/texlive}"
 TMP="$(mktemp -d)"; trap 'rm -rf "$TMP"' EXIT
 
 curl -fsSL https://mirror.ctan.org/systems/texlive/tlnet/install-tl-unx.tar.gz | tar -xz -C "$TMP" --strip-components=1
-TEXLIVE_INSTALL_PREFIX="$PREFIX" perl "$TMP/install-tl" --scheme=infraonly \
+TEXLIVE_INSTALL_PREFIX="$PREFIX" perl "$TMP/install-tl" --scheme=minimal \
   --no-interaction --no-doc-install --no-src-install
 
 TLBIN="$(echo "$PREFIX"/20*/bin/*)"
