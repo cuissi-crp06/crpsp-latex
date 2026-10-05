@@ -4,9 +4,11 @@
 # Uso: sh instalar-texlive-crpsp.sh   (TL_PREFIX=/outro/caminho para mudar o destino)
 # Pré-requisitos do sistema: curl, perl, tar, xz. Opcionais: inkscape (pacote
 # svg), ghostscript (epstopdf), poppler-utils e veraPDF (verificar.sh).
-# Fora do TeX Live, instalar à parte e expor por fontconfig: NEWJUNE e
-# Atkinson Hyperlegible Next. Sem elas, relatorio/leg param com erro de fonte.
-# Testado em Debian limpo (2026-10-05): ~263 MB; MWEs de book e formulario compilam.
+# Fora do TeX Live fica só a NEWJUNE (proprietária, em editorial/fonts/NewJune/
+# do Nextcloud): exponha por fontconfig ou com OSFONTDIR. Sem ela, relatorio/leg
+# param com erro de fonte, por decisão. A Atkinson vem do pacote `atkinson`.
+# Testado em Debian limpo (2026-10-05): ~263 MB; MWEs de book e formulario compilam;
+# com `atkinson` + NEWJUNE, exemplo-relatorio também (2026-10-05, WSL pessoal).
 set -eu
 PREFIX="${TL_PREFIX:-$HOME/texlive}"
 TMP="$(mktemp -d)"; trap 'rm -rf "$TMP"' EXIT
@@ -28,7 +30,7 @@ tlmgr install \
   ragged2e xhfill framed microtype lastpage standalone luatex85 xellipsis svg catchfile \
   multirow pdfcol ncctools titlesec tikz-bpmn adjustbox pdfpages pdflscape needspace \
   pdfrender tocvsec2 ulem siunitx textpos float fancyvrb epstopdf-pkg csquotes \
-  biblatex biber abntex2 background sectionbreak colophon changes acronym \
+  atkinson biblatex biber abntex2 background sectionbreak colophon changes acronym \
   glossaries-extra fbb gillius flowchart lipsum memoir koma-script tufte-latex xtufte \
   makeindex hypdoc pdftexcmds kvsetkeys kvdefinekeys etexcmds infwarerr ltxcmds
 
