@@ -4,7 +4,7 @@ Estilo biblatex que estende o `biblatex-abnt` para a ABNT NBR 6023:2025 e a
 NBR 10520:2023: documento jurídico (legislação, jurisprudência, ato
 administrativo), citação autor-data acessível e mídia contemporânea.
 
-**Estado:** `0.3.0-alfa`. O Sprint 3 da trilha do piloto segue em curso, com os defeitos
+**Estado:** `0.4.0-alfa`. O Sprint 3 da trilha do piloto segue em curso, com os defeitos
 achados ao compor o guia corrigidos. O Sprint 5 deu driver próprio à jurisprudência.
 O plano, a linha de base medida e as decisões estão em
 [`briefings/briefing-crpsp-abnt.md`](briefings/briefing-crpsp-abnt.md). As divergências
@@ -34,9 +34,28 @@ O estilo fixa estas opções, e cada uma pode ser trocada no `\usepackage`:
 |---|---|---|
 | `maxbibnames=20, minbibnames=20` | a referência traz todos os autores, até 20; acima disso, os 20 primeiros e `et al.` | 6023, 8.1.1.2: "convém indicar todos" |
 | `maxcitenames=3, mincitenames=1` | a chamada de quatro ou mais autores é o primeiro e `et al.`: `Maciel et al. (2019)` | 10520, 6.1.4, admite as duas formas; a curta pesa menos para quem ouve pelo leitor de tela |
+| `sorting=crpsp` | autor, ano, título (ver "Ordenação") | obras do mesmo autor em ordem cronológica |
 | `slashdaterange` | intervalo de meses com barra: `jul./ago. 2009` | 6023, 7.7.5 |
 
 As duas primeiras são decisões do Angelo, de 28/09/2026.
+
+## Ordenação
+
+A lista sai por **autor, ano e título**, em ordem cronológica dentro do mesmo autor
+(modelo `crpsp`, `sorting=crpsp`, fixado pelo estilo). O upstream usa `nty` (autor,
+`nameaddon`, título, ano), e o órgão interno em `nameaddon` passava na frente do ano:
+`BRASIL. Câmara dos Deputados. …` (2000) saía antes de `BRASIL. Lei nº 8.662` (1993).
+
+- A chave de nome é `sortname`, `holder`, `author`, `editor`, `organization`, nessa
+  ordem. A sigla (ver "Sigla como entrada") entra por `sortname`.
+- O `nameaddon` **não pesa** na ordenação. Desempata, depois do ano, só o título.
+- O ano vem de `sortyear`, quando existe, e senão de `year` ou `date`. Ano incerto entre
+  colchetes pede `sortyear`: `year = {[2016?]}`, `sortyear = {2016}`.
+- Exemplo, `BRASIL`: Constituição (1988), Lei 8.662 (1993), Lei 9.394 (1996), PL 3.688
+  (2000), NOB-RH (2006), Lei 12.317 (2010), Lei 13.935 (2019), PL 3.086 (2024),
+  documento do MEC (2025).
+- Mesmo autor e mesmo ano: ordem alfabética do título. A 6023 manda distinguir com
+  letra (`2019a`, `2019b`); isso segue como no upstream.
 
 ## Sigla como entrada
 
@@ -149,6 +168,17 @@ Os dois usam o mesmo driver, porque a ordem dos elementos é a mesma:
 Com `journaltitle`, a publicação sai como no diário oficial
 (`Diário Oficial da União: seção 1, Brasília, DF, ano 139, n. 8, p. 1-74, 11 jan. 2002.`).
 Sem ele, sai `local: editora, data.`
+
+### Órgão subordinado em `nameaddon`
+
+Para obra que não é ato normativo (`@book`, `@report`, `@manual`), o órgão
+subordinado também vai em `nameaddon`, e só a entrada principal sai em caixa alta
+(6023, 8.1.2): `author = {{Brasil}}`, `nameaddon = {Ministério da Educação. Secretaria
+de Educação Básica}` sai `BRASIL. Ministério da Educação. Secretaria de Educação Básica.
+Título. …`, e a chamada é `(Brasil, 2025)` (a chamada de entidade sem sigla sai em caixa alta e baixa, como no briefing). O driver do upstream já imprime o
+`nameaddon` logo depois da autoria nesses tipos, sem ajuste do estilo. Não escreva a
+hierarquia inteira em `author`: ela sairia toda em caixa alta e a chamada seria o
+nome inteiro.
 
 Escolhas que a norma não fixa:
 
