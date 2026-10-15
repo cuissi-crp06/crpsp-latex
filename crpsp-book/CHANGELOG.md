@@ -80,6 +80,40 @@ Camada de legislação acessível. Declarada com `\ProvidesFile`, não
 `\usepackage`. O argumento opcional é o mesmo nos dois comandos. Beta porque o
 mesmo corpo serve o guia de apresentações acessíveis, que circulou.
 
+## Linha `desenvolvimento/v2` — `crpsp-timbrado` 0.1.0-alfa — 2026/10/15
+
+`crpsp-timbrado.cls`, classe nova para documentos sobre o papel timbrado
+(ofícios, memorandos, pareceres), sobre `article` e `crpsp-base`. Data de
+autoria; nenhuma publicação circulou, daí `-alfa`.
+
+- **Origem:** `Papelaria Institucional/2026/papelCartaCRPSP_4x0_A4_sede.docx`
+  (Comunicação, Nextcloud corporativo). Margens e posição do logo vêm dele:
+  corpo a 48 mm do topo, 25 mm à esquerda, logo de 68,6 x 25,8 mm a 12,5 mm da
+  borda. A margem direita é **37 mm, e não os 30 do modelo**: com 30 mm a linha
+  cheia tem 83 caracteres em Atkinson 12 pt, acima do teto de 80 do WCAG 1.4.8
+  (medido por `\crpspMedida`).
+- **Títulos 1 a 5** são `\section` a `\subparagraph`, todos em linha própria
+  (na `article` os dois últimos são embutidos). Saem como H1 a H5 na árvore de
+  tags. Sem numeração por padrão; a opção `numerado` numera os cinco níveis.
+- **Fontes:** corpo em Atkinson Hyperlegible Next, títulos e rodapé em NewJune,
+  as duas declaradas por arquivo e com erro claro se faltarem, como no
+  `relatorio`. ⚠️ O `.docx` não usa NewJune em estilo algum: todos os estilos
+  são Arial. A NewJune só aparece no endereço do rodapé, que no modelo está
+  convertido em curvas.
+- **Rodapé em texto.** No `.docx` o endereço é imagem (PNG + SVG de curvas):
+  não seleciona nem pesquisa. Aqui é texto em NewJune itálica. A sede é o
+  padrão; `\timbradoRodape` troca para uma subsede (os endereços das outras
+  doze versões do papel não foram trazidos).
+- **Cabeçalho e rodapé são artefato** sob `tagging=on`, o que é o tratamento
+  certo para elemento repetido e deixa o logo e o endereço fora da ordem de
+  leitura. O remetente precisa estar no corpo do texto.
+- **A arte não vem no repositório.** `crpsp-timbrado-logo.png` é o
+  `word/media/image2.png` do `.docx` (511 px, 189 ppi); `\timbradoLogo` aponta
+  outro arquivo. Sem ele o cabeçalho cai para o nome do Conselho em texto.
+- Não carrega `fancyhdr` nem `titlesec`: o estilo de página é `\ps@timbrado`.
+- Verificado: PDF/UA-2 sem falha no veraPDF 1.30 (1.727 regras), zero erro de
+  tagging, zero caractere ausente. `exemplo-timbrado.tex` entrou na linha-base.
+
 ## Linha `desenvolvimento/v2` — `relatorio` 0.3.0-alfa — 2026/09/28
 
 `crpsp-relatorio` e `relatorio` de `0.2.0-alfa` para `0.3.0-alfa`; o

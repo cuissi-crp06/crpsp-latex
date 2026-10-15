@@ -20,7 +20,9 @@ Em `desenvolvimento/v2/` mora a linha seguinte, que não é só `book`:
 `relatorio`, `livro` (cartilha/manual) e `formulario`, todas acessíveis; a
 linha `guia_visual` foi cancelada (o 16:9 migra para GitHub Pages) e o `guia`
 não consta do escopo ativo. O `formulario` de lá é o candidato a formulário
-acessível, e não se confunde com os de `crpsp-forms/`, que são `memoir`. Ficou
+acessível, e não se confunde com os de `crpsp-forms/`, que são `memoir`.
+A classe `crpsp-timbrado` (papel timbrado, sobre `article`, `0.1.0-alfa`) mora
+ali também. Ficou
 dentro de `crpsp-book/` porque o workbench espelha esta pasta
 (`editorial/arquivo_latex/crpsp-book/`); mover quebra esse caminho.
 

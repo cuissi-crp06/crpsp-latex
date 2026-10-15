@@ -1,0 +1,96 @@
+% !TeX program = lualatex
+%
+% Exemplo da classe crpsp-timbrado: papel timbrado do CRP SP, com os cinco
+% níveis de título. A arte (crpsp-timbrado-logo.png) não vem no repositório;
+% sem ela o cabeçalho cai para o nome do Conselho em texto.
+%
+\DocumentMetadata{
+  lang        = pt-BR,
+  pdfversion  = 2.0,
+  pdfstandard = ua-2,
+  tagging     = on,
+}
+\documentclass{crpsp-timbrado}
+
+\hypersetup{
+  pdftitle  = {Exemplo de documento em papel timbrado},
+  pdfauthor = {CRP SP},
+}
+
+\begin{document}
+
+\noindent São Paulo, 15 de outubro de 2026.
+
+\bigskip
+\noindent Ofício n.\,º 000/2026
+
+\section{Objeto}
+
+Este exemplo mostra a classe \texttt{crpsp-timbrado} com os cinco níveis de
+título, todos em linha própria, e o texto corrido em Atkinson Hyperlegible Next.
+Títulos e rodapé são compostos em NewJune.
+
+\subsection{Cabeçalho e rodapé}
+
+O logo fica no cabeçalho e o endereço no rodapé. O endereço é texto, e não
+imagem como no modelo do designer: dá para selecionar e pesquisar. Cabeçalho e
+rodapé são artefatos de página e ficam fora da ordem de leitura; por isso o
+remetente deve estar identificado no corpo do texto, na assinatura.
+
+\subsubsection{Páginas seguintes}
+
+A partir da segunda página aparece a indicação “Página X de Y” à direita do
+logo, o que ajuda quem navega sem ver a folha inteira.
+
+\paragraph{Quarto nível}
+
+Texto sob o título de nível 4. Na classe \texttt{article} padrão este título
+ficaria embutido na linha; aqui ele é um título como os outros.
+
+\subparagraph{Quinto nível}
+
+Texto sob o título de nível 5.
+
+\section{Encaminhamentos}
+
+São os seguintes os encaminhamentos:
+
+\begin{enumerate}
+  \item avaliar a minuta do documento;
+  \item solicitar parecer da Gerência Jurídica;
+  \item publicar a versão final em formato acessível.
+\end{enumerate}
+
+\subsection{Prazos}
+
+\begin{tabular}{@{}ll@{}}
+  \textbf{Etapa}  & \textbf{Prazo}    \\
+  Avaliação       & 30 de outubro     \\
+  Parecer         & 13 de novembro    \\
+  Publicação      & 27 de novembro    \\
+\end{tabular}
+
+\section{Texto longo}
+
+Parágrafo de enchimento para forçar uma segunda página e exercitar a indicação
+de número de página no cabeçalho. A psicóloga inscrita no Conselho Regional
+exerce função pública e está sujeita à fiscalização ética; o órgão zela pela
+qualidade técnica, pela justiça e pela inclusão das pessoas.
+
+\count255=0
+\loop\ifnum\count255<12
+  \advance\count255 by 1
+  Três princípios sustentam a atuação: o compromisso com os direitos humanos, a
+  defesa da ciência e a construção coletiva. Não há exercício profissional sem
+  responsabilidade, nem avaliação séria sem informação clara.\par
+\repeat
+
+\bigskip
+\noindent Atenciosamente,
+
+\bigskip\bigskip
+\noindent Nome da pessoa signatária\\
+Cargo\\
+Conselho Regional de Psicologia de São Paulo (CRP SP)
+
+\end{document}
