@@ -2,6 +2,23 @@
 
 Versões conforme `CONVENCAO-VERSIONAMENTO.md`, na raiz do repositório.
 
+## 0.4.0-alfa — 2026-10-14
+
+Ordenação por autor, ano e título. Muda só o `.bbx`; `.cbx` e `.dbx` seguem nas versões
+anteriores.
+
+- Modelo de ordenação próprio, `\DeclareSortingTemplate{crpsp}`, com `sorting=crpsp`
+  fixado no estilo. O upstream ordena por `nty` (autor, `nameaddon`, título, ano), e o
+  órgão em `nameaddon` pesava mais que o ano: na lista de `BRASIL`, o PL 3.688/2000 vinha
+  antes da Lei 8.662/1993. Agora a ordem é autor, ano (`sortyear`, `year`), título; o
+  `nameaddon` não entra. A sigla continua a chave de nome (mapa `crpspsigla`/`sortname`).
+- Documentado no README: ordenação e o órgão subordinado em `nameaddon` em obras que não
+  são ato normativo (`BRASIL. Ministério da Educação. …`); o driver de `@book` do upstream
+  já imprime o `nameaddon`, sem mudança.
+- `desenvolvimento/corpus/medida-crpsp-abnt-0.4.0*.tsv`: cópia das linhas-base da 0.3.0. Os corpora compõem com `sorting=none`, que a opção do `\usepackage` impõe ao `sorting=crpsp` do estilo (conferido), e por isso o texto de cada entrada não muda. A régua (`verificar.sh`) e os casos não foram rodados nesta máquina (sem TeX nativo; `csquotes` ausente nas imagens podman); rodar no Fedora antes de fundir.
+- Efeito no guia de apresentações acessíveis (57 referências): dois pares trocam de lugar
+  (Lei 10.216/2001 antes do Decreto 6.949/2009; IBGE 2023 antes de IBGE 2025).
+
 ## Sem versão — 2026-09-28 (Sprint 7)
 
 Sprint 7: a 6023:2025 no pipeline. O estilo não muda; muda só `desenvolvimento/corpus/`.

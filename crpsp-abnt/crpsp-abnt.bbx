@@ -1,4 +1,4 @@
-\ProvidesFile{crpsp-abnt.bbx}[2026/09/28 v0.3.0-alfa Extensao do biblatex-abnt para a NBR 6023:2025]%
+\ProvidesFile{crpsp-abnt.bbx}[2026/09/28 v0.4.0-alfa Extensao do biblatex-abnt para a NBR 6023:2025]%
 %
 % Estende o biblatex-abnt: carrega o estilo dele e sobrepõe só o que diverge
 % da ABNT NBR 6023:2025. Plano e medidas: briefings/briefing-crpsp-abnt.md e
@@ -22,6 +22,54 @@
   minbibnames=20,%
   maxcitenames=3,%
   mincitenames=1,%
+  sorting=crpsp,%
+}
+
+% <<<1
+
+% Ordenação: autor, ano, título >>>1
+%
+% O upstream ordena por nty: autor, nameaddon, título, ano. Com o órgão interno
+% em nameaddon (Câmara dos Deputados, Ministério da Educação), a lista de
+% BRASIL saía agrupada por órgão e, dentro dele, por título, e a Constituição
+% (nameaddon "[Constituição (1988)]") ficava na frente das leis de 1993 e 1996.
+% Aqui a ordem é autor, ano, título: obras do mesmo autor ficam em ordem
+% cronológica, qualquer que seja o órgão. O nameaddon não pesa na ordenação.
+% O ano vem de sortyear, quando existe ("[2016?]" ordena como 2016), e senão
+% de year. A sigla segue como chave de nome, via sortname (mapa "Sigla como
+% entrada", abaixo). Vale para todas as publicações (decisão de 2026-10-14).
+\DeclareSortingTemplate{crpsp}{%
+  \sort{%
+    \field{presort}%
+  }%
+  \sort[final]{%
+    \field{sortkey}%
+  }%
+  \sort{%
+    \field{sortname}%
+    \field{holder}%
+    \field{author}%
+    \field{editor}%
+    \field{organization}%
+    \field{sorttitle}%
+    \field{issuetitle}%
+    \field{title}%
+    \field{subtitle}%
+  }%
+  \sort{%
+    \field{sortyear}%
+    \field{year}%
+  }%
+  \sort{%
+    \field{sorttitle}%
+    \field{issuetitle}%
+    \field{title}%
+    \field{subtitle}%
+  }%
+  \sort{%
+    \field[padside=left,padwidth=4,padchar=0]{volume}%
+    \literal{0000}%
+  }%
 }
 
 % <<<1
