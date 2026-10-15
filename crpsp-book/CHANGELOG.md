@@ -117,8 +117,9 @@ autoria; nenhuma publicação circulou, daí `-alfa`.
   rasterizado a 300 dpi). `\timbradoLogo[<opções>]{<arquivo>}` aponta outro
   arquivo: sem opções só fixa a largura (serve para o PNG do kit, que é rente
   ao desenho, 1545 px). Sem arquivo algum o cabeçalho cai para o nome do
-  Conselho em texto. Versão anterior desta mesma entrada usava o PNG de 189 ppi
-  extraído do `.docx`.
+  Conselho em texto, com **aviso no log** (uma vez, no início do documento).
+  Versão anterior desta mesma entrada usava o PNG de 189 ppi extraído do
+  `.docx`.
 - Não carrega `fancyhdr` nem `titlesec`: o estilo de página é `\ps@timbrado`.
 - Verificado: PDF/UA-2 sem falha no veraPDF 1.30 (1.727 regras), zero erro de
   tagging, zero caractere ausente. `exemplo-timbrado.tex` entrou na linha-base.

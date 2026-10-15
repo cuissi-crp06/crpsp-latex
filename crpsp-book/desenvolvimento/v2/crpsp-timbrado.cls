@@ -344,6 +344,21 @@
   }%
 }
 
+% Sem o arquivo o cabecalho cai para texto, e isso nao pode passar calado:
+% um oficio sem logo sairia sem ninguem perceber. O aviso e dado UMA vez, no
+% inicio do documento (o cabecalho e recomposto em toda pagina). E aviso, e
+% nao erro, porque o exemplo do repositorio compila sem a arte.
+\AtBeginDocument{%
+  \crpsp@timb@procuralogo
+  \ifcrpsp@timb@temlogo\else
+    \ClassWarning{crpsp-timbrado}{%
+      Logo `\crpsp@timb@logo' (.pdf, .png ou .jpg) nao encontrado; o\MessageBreak
+      cabecalho sai com o nome do Conselho em texto. Copie o PDF do\MessageBreak
+      kit de marca como crpsp-timbrado-logo.pdf, ao lado do documento%
+    }%
+  \fi
+}
+
 \newcommand{\crpsp@timb@cabecalho}{%
   \crpsp@timb@procuralogo
   \ifcrpsp@timb@temlogo
