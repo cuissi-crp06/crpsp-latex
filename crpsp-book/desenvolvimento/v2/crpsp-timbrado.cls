@@ -34,10 +34,19 @@
 %% claro, e nao substitui a face, se alguma faltar.
 %%
 %% Arte do papel timbrado (declarada, nunca embutida):
-%%   \timbradoLogo{<arquivo>}   logo do cabecalho, sem extensao ou com ela.
-%%                              Padrao: crpsp-timbrado-logo. Sem o arquivo,
-%%                              o cabecalho cai para o nome do Conselho em
-%%                              texto e nada falha.
+%%   \timbradoLogo[<opcoes>]{<arquivo>}  logo do cabecalho, sem extensao ou
+%%                              com ela (procura .pdf, .png, .jpg).
+%%                              Padrao: crpsp-timbrado-logo, que se espera ser
+%%                              CRP_LogoPreferencial_Horizontal_Positivo_COR.pdf
+%%                              do kit de marca (editorial/logos/marca-2023/
+%%                              positiva-cor/), copiado com esse nome. O padrao
+%%                              corta a margem de protecao do PDF do kit
+%%                              (trim/clip) e fixa 68,6 mm de largura. Com
+%%                              \timbradoLogo{outro}, sem opcoes, so a largura
+%%                              fica; <opcoes> sao as do \includegraphics e
+%%                              substituem o corte. Sem arquivo algum, o
+%%                              cabecalho cai para o nome do Conselho em texto
+%%                              e nada falha.
 %%   \timbradoRodape{<l1>}{<l2>}  as duas linhas do rodape. Padrao: a sede.
 %%                              Cada subsede tem o seu endereco no papel
 %%                              timbrado do designer; troca-se aqui.
@@ -58,9 +67,8 @@
 %%   O endereco do rodape do .docx e uma IMAGEM (PNG + SVG de curvas, sem
 %%   texto): nao da para selecionar, pesquisar nem copiar. Aqui e texto
 %%   composto, em NEWJUNE. O logo do .docx e um PNG de 259 px no cabecalho
-%%   (96 dpi a 68,6 mm); a arte de 511 px do mesmo arquivo (189 ppi) e a de
-%%   maior resolucao disponivel e a que esta classe espera. Logo vetorial
-%%   do designer substitui sem mudar a classe.
+%%   (96 dpi a 68,6 mm); aqui entra o PDF VETORIAL do kit de marca, que
+%%   imprime nitido em qualquer tamanho.
 %%
 \NeedsTeXFormat{LaTeX2e}[2023/11/01]
 \ProvidesClass{crpsp-timbrado}[2026/10/15 v0.1.0-alfa
@@ -288,7 +296,27 @@
 % ──────────────────────────────────────────────
 \newcommand{\crpsp@timb@logo}{crpsp-timbrado-logo}
 \newcommand{\crpsp@timb@logoalt}{Conselho Regional de Psicologia de São Paulo}
-\newcommand{\timbradoLogo}[1]{\renewcommand{\crpsp@timb@logo}{#1}}
+\newlength{\crpsp@timb@logolargura}
+\setlength{\crpsp@timb@logolargura}{68.6mm}
+
+% O PDF do kit (CRP_LogoPreferencial_Horizontal_Positivo_COR.pdf, pagina de
+% 425,197 x 170,079 pt) traz margem de protecao embutida: o desenho ocupa
+% 87% da largura. O PNG do .docx e rente ao desenho. Para o logo ter os
+% mesmos 68,6 x 25,8 mm visiveis do papel original, o corte tira a folga
+% medida na pagina rasterizada a 144 dpi (esquerda 29 px, embaixo 31, direita
+% 80, em cima 30): trim = esq. baixo dir. cima, em pt. Fica 370,7 x 139,6 pt,
+% proporcao 2,655, igual a do PNG do .docx (2,661).
+\newcommand{\crpsp@timb@logoopts}{%
+  trim=14.5pt 15.5pt 40pt 15pt, clip, width=\crpsp@timb@logolargura}
+\newcommand{\timbradoLogo}[2][]{%
+  \renewcommand{\crpsp@timb@logo}{#2}%
+  \def\crpsp@timb@logoarg{#1}%
+  \ifx\crpsp@timb@logoarg\@empty
+    \renewcommand{\crpsp@timb@logoopts}{width=\crpsp@timb@logolargura}%
+  \else
+    \renewcommand{\crpsp@timb@logoopts}{#1}%
+  \fi
+}
 \newcommand{\timbradoDescricaoLogo}[1]{\renewcommand{\crpsp@timb@logoalt}{#1}}
 
 \newcommand{\crpsp@timb@rodape@um}{}
@@ -301,9 +329,6 @@
   {Conselho Federal de Psicologia · \textbf{Conselho Regional de Psicologia da 6ª Região}}
   {Rua Teodoro Sampaio, 417, Pinheiros, São Paulo, SP.
    CEP 05405-000. Site www.crpsp.org.br}
-
-\newlength{\crpsp@timb@logolargura}
-\setlength{\crpsp@timb@logolargura}{68.6mm}
 
 % O \IfFileExists do LaTeX nao tenta extensao, e o \includegraphics sim.
 % Aqui o nome e testado como veio e depois com .pdf, .png e .jpg, na
@@ -322,7 +347,8 @@
 \newcommand{\crpsp@timb@cabecalho}{%
   \crpsp@timb@procuralogo
   \ifcrpsp@timb@temlogo
-    \includegraphics[width=\crpsp@timb@logolargura,
+    % \expandafter: o keyval nao expande a macro que abre a lista.
+    \expandafter\includegraphics\expandafter[\crpsp@timb@logoopts,
                      alt={\crpsp@timb@logoalt}]{\crpsp@timb@logo}%
   \else
     {\sffamily\bfseries\large\color{crpsp@cor1}\crpsp@timb@logoalt}%

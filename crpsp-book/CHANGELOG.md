@@ -107,9 +107,18 @@ autoria; nenhuma publicação circulou, daí `-alfa`.
 - **Cabeçalho e rodapé são artefato** sob `tagging=on`, o que é o tratamento
   certo para elemento repetido e deixa o logo e o endereço fora da ordem de
   leitura. O remetente precisa estar no corpo do texto.
-- **A arte não vem no repositório.** `crpsp-timbrado-logo.png` é o
-  `word/media/image2.png` do `.docx` (511 px, 189 ppi); `\timbradoLogo` aponta
-  outro arquivo. Sem ele o cabeçalho cai para o nome do Conselho em texto.
+- **A arte não vem no repositório.** O logo esperado é o PDF **vetorial** do
+  kit de marca (`CRP_LogoPreferencial_Horizontal_Positivo_COR.pdf`, em
+  `editorial/logos/marca-2023/positiva-cor/` no workbench), copiado ao lado do
+  documento como `crpsp-timbrado-logo.pdf`. O PDF do kit traz margem de
+  proteção embutida (o desenho ocupa 87% da largura); o padrão a corta com
+  `trim`/`clip` e o logo cai a 25,0 mm da esquerda e 12,7 mm do topo, com
+  68,7 x 25,8 mm, a menos de 0,2 mm do papel original (medido sobre o PDF
+  rasterizado a 300 dpi). `\timbradoLogo[<opções>]{<arquivo>}` aponta outro
+  arquivo: sem opções só fixa a largura (serve para o PNG do kit, que é rente
+  ao desenho, 1545 px). Sem arquivo algum o cabeçalho cai para o nome do
+  Conselho em texto. Versão anterior desta mesma entrada usava o PNG de 189 ppi
+  extraído do `.docx`.
 - Não carrega `fancyhdr` nem `titlesec`: o estilo de página é `\ps@timbrado`.
 - Verificado: PDF/UA-2 sem falha no veraPDF 1.30 (1.727 regras), zero erro de
   tagging, zero caractere ausente. `exemplo-timbrado.tex` entrou na linha-base.
