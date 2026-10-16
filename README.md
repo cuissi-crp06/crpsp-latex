@@ -24,6 +24,34 @@ acessível, e não se confunde com os de `crpsp-forms/`, que são `memoir`. Fico
 dentro de `crpsp-book/` porque o workbench espelha esta pasta
 (`editorial/arquivo_latex/crpsp-book/`); mover quebra esse caminho.
 
+A classe `crpsp-timbrado` (papel timbrado, sobre `article`, `0.1.0-alfa`) mora
+em `desenvolvimento/v2/`, como as demais.
+
+**Preparar e compilar o `crpsp-timbrado`.** A arte do designer não vem no
+repositório (é conteúdo), então um clone novo precisa de dois passos antes de
+compilar:
+
+1. **Logo.** Copiar `CRP_LogoPreferencial_Horizontal_Positivo_COR.pdf`, do kit
+   de marca, para a pasta do documento **com o nome `crpsp-timbrado-logo.pdf`**.
+   No workbench ele está em `editorial/logos/marca-2023/positiva-cor/`; fora
+   dele, na origem do designer, `Comunicacao/_MATERIAL GRÁFICO/2023/Marca e
+   Manual/Marca positiva/` (Nextcloud corporativo). É o PDF vetorial: a classe
+   corta a margem de proteção dele sozinha. Outro arquivo se declara com
+   `\timbradoLogo[<opções>]{<arquivo>}` (ver o cabeçalho da classe).
+2. **Fontes.** NewJune, de `editorial/fonts/NewJune/`, instalada no sistema
+   (a classe dá erro claro se faltar), e a Atkinson pelo TeX Live
+   (`tlmgr install atkinson`).
+
+Compilar com LuaLaTeX, **duas vezes** (o "Página X de Y" do cabeçalho precisa
+da segunda passada), com a classe e o `crpsp-base.sty` no caminho:
+
+    TEXINPUTS=".:$HOME/repos/crpsp-latex/crpsp-book/desenvolvimento/v2//:" \
+      lualatex exemplo-timbrado.tex
+
+Sem o logo a classe **não falha**: o cabeçalho sai com o nome do Conselho em
+texto e o log traz `Class crpsp-timbrado Warning: Logo ... nao encontrado`.
+Conferir esse aviso antes de enviar qualquer documento.
+
 [crpsp-abnt](/crpsp-abnt/)
 
 Estilo biblatex que estende o `biblatex-abnt` para a NBR 6023:2025 e a
