@@ -1,0 +1,30 @@
+% !TeX program = lualatex
+%
+% Exemplo do pacote crpsp-revisao SEM a marca d'água: só o "USO INTERNO" no
+% cabeçalho. Cabe numa página, para conferir que a indicação "Página X de Y"
+% não aparece e o rótulo continua alinhado ao topo do logo.
+%
+\DocumentMetadata{
+  lang        = pt-BR,
+  pdfversion  = 2.0,
+  pdfstandard = ua-2,
+  tagging     = on,
+}
+\documentclass{crpsp-timbrado}
+\usepackage{crpsp-revisao}
+
+\hypersetup{
+  pdftitle  = {Exemplo de documento em revisão, sem marca d'água},
+  pdfauthor = {CRP SP},
+}
+
+\begin{document}
+
+\noindent São Paulo, 19 de outubro de 2026.
+
+\section{Objeto}
+
+Documento de uma página, em revisão, só com o rótulo no cabeçalho. A marca
+d'água é opcional e se liga com \texttt{\textbackslash usepackage[marcadagua]\{crpsp-revisao\}}.
+
+\end{document}

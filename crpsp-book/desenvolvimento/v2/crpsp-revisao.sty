@@ -1,0 +1,184 @@
+%% crpsp-revisao.sty
+%% Marcacao de documento EM REVISAO sobre o papel timbrado do CRP-SP.
+%% Pacote para a classe crpsp-timbrado: acrescenta "USO INTERNO" ao
+%% cabecalho e, opcionalmente, uma marca d'agua "EM REVISAO" atras do
+%% bloco de texto. Serve ao PDF que circula para aprovacao enquanto o
+%% texto ainda muda; a versao final sai sem o pacote.
+%% Engine obrigatoria: LuaLaTeX
+%% Conformidade: PDF/UA-2 via tagging=on
+%%
+%% Uso (\DocumentMetadata ANTES de \documentclass, como no timbrado):
+%%   \DocumentMetadata{lang=pt-BR, pdfversion=2.0, pdfstandard=ua-2,
+%%                     tagging=on}
+%%   \documentclass{crpsp-timbrado}
+%%   \usepackage[marcadagua]{crpsp-revisao}
+%%
+%% Opcoes (chave-valor, \DeclareKeys):
+%%   marcadagua     - liga a marca d'agua. Padrao: DESLIGADA; sem a opcao
+%%                    so o "USO INTERNO" do cabecalho aparece.
+%%   opacidade=<n>  - opacidade da marca d'agua, em porcento (0 a 100).
+%%                    Padrao: 10. Vermelho C00000 a 10% sobre o papel
+%%                    deixa o texto preto a 16,1:1 de contraste.
+%%
+%% Comandos:
+%%   \revisaoRotulo{<texto>}      texto do cabecalho. Padrao: USO INTERNO.
+%%   \revisaoMarcaDagua{<texto>}  texto da marca d'agua. Padrao: EM REVISÃO.
+%%                                O corpo da fonte se ajusta sozinho ao
+%%                                comprimento disponivel na diagonal.
+%%
+%% CABECALHO
+%%   O logo fica a esquerda, como no timbrado. A direita, encostado na
+%%   margem oposta, com o topo alinhado ao texto do logo ("Conselho"), entra
+%%   o rotulo em NEWJUNE negrito e, logo abaixo,
+%%   "Pagina X de Y" (que o timbrado ja traz, e so aparece quando o
+%%   documento tem mais de uma pagina).
+%%
+%% MARCA D'AGUA
+%%   Texto em NEWJUNE negrito, vermelho, girado a 45 graus e centrado no
+%%   BLOCO DE TEXTO (e nao na folha: as margens sao assimetricas). Sai
+%%   atras de tudo, e com transparencia para o texto continuar legivel.
+%%
+%% ACESSIBILIDADE
+%%   Cabecalho e marca d'agua sao ARTEFATO sob tagging=on: ficam fora da
+%%   arvore de estrutura e fora da ordem de leitura. QUEM LE POR
+%%   TECNOLOGIA ASSISTIVA NAO OUVE "USO INTERNO" NEM "EM REVISAO". A
+%%   decisao foi manter so a marcacao visual; o status do documento deve
+%%   constar tambem do nome do arquivo e do e-mail que o encaminha.
+%%   Isto e marcacao, nao protecao: nada impede de remover a marca do PDF.
+%%
+%% Depende do que a classe crpsp-timbrado ja carrega: NEWJUNE, graphicx,
+%% lastpage, as cores crpsp@cor1 e as macros \crpsp@timb@*.
+%%
+\NeedsTeXFormat{LaTeX2e}[2023/11/01]
+\ProvidesPackage{crpsp-revisao}[2026/10/19 v0.1.0-alfa
+  Marcacao de documento em revisao sobre o papel timbrado CRP-SP]
+
+\makeatletter
+
+% ──────────────────────────────────────────────
+% 1. Pre-condicao: so faz sentido sobre a classe crpsp-timbrado
+% ──────────────────────────────────────────────
+\@ifclassloaded{crpsp-timbrado}{}{%
+  \PackageError{crpsp-revisao}{%
+    Este pacote exige a classe crpsp-timbrado%
+  }{%
+    O cabecalho redefinido aqui e o do papel timbrado. Use\MessageBreak
+    \string\documentclass{crpsp-timbrado} antes de\MessageBreak
+    \string\usepackage{crpsp-revisao}.%
+  }%
+}
+
+% ──────────────────────────────────────────────
+% 2. Opcoes
+% ──────────────────────────────────────────────
+\newif\ifcrpsp@rev@marca \crpsp@rev@marcafalse
+
+\DeclareKeys{
+  marcadagua .if       = crpsp@rev@marca,
+  marcadagua .usage    = load,
+  opacidade  .store    = \crpsp@rev@opacidade,
+  opacidade  .initial:n = 10,
+  opacidade  .usage    = load,
+}
+\ProcessKeyOptions\relax
+
+% ──────────────────────────────────────────────
+% 3. Textos
+% ──────────────────────────────────────────────
+\newcommand{\crpsp@rev@rotulo}{USO INTERNO}
+\newcommand{\crpsp@rev@marcatexto}{EM REVISÃO}
+\newcommand{\revisaoRotulo}[1]{\renewcommand{\crpsp@rev@rotulo}{#1}}
+\newcommand{\revisaoMarcaDagua}[1]{\renewcommand{\crpsp@rev@marcatexto}{#1}}
+
+% ──────────────────────────────────────────────
+% 4. Cabecalho: logo a esquerda; rotulo e paginacao empilhados a direita
+%
+%    \ps@timbrado expande \crpsp@timb@cabecalho a cada pagina, entao
+%    redefinir a macro basta. O logo (ou o nome em texto, quando falta o
+%    arquivo) vai para uma caixa, para a coluna da direita saber a altura
+%    dele e alinhar o topo do rotulo ao topo do logo.
+% ──────────────────────────────────────────────
+\newsavebox{\crpsp@rev@logobox}
+% Descida do bloco da direita: o topo das maiusculas do rotulo assenta no topo
+% do texto do logo ("Conselho"), e nao no topo do simbolo. Medido no PDF a
+% 300 dpi: simbolo a 12,7 mm da borda, texto do logo a 17,7 mm.
+\newlength{\crpsp@rev@descida}
+\setlength{\crpsp@rev@descida}{5.1mm}
+
+\renewcommand{\crpsp@timb@cabecalho}{%
+  \crpsp@timb@procuralogo
+  \sbox{\crpsp@rev@logobox}{%
+    \ifcrpsp@timb@temlogo
+      \expandafter\includegraphics\expandafter[\crpsp@timb@logoopts,
+                       alt={\crpsp@timb@logoalt}]{\crpsp@timb@logo}%
+    \else
+      {\sffamily\bfseries\large\color{crpsp@cor1}\crpsp@timb@logoalt}%
+    \fi
+  }%
+  \usebox{\crpsp@rev@logobox}%
+  \hfill
+  \raisebox{\dimexpr\ht\crpsp@rev@logobox-\height-\crpsp@rev@descida\relax}[0pt][0pt]{%
+    \parbox[t]{\dimexpr\textwidth-\crpsp@timb@logolargura\relax}{%
+      \raggedleft\sffamily\color{crpsp@cor1}%
+      {\bfseries\crpsp@rev@rotulo}%
+      \ifnum\getpagerefnumber{LastPage}>1
+        \\[0.4ex]{\small Página~\thepage~de~\pageref*{LastPage}}%
+      \fi
+    }%
+  }%
+}
+
+% ──────────────────────────────────────────────
+% 5. Marca d'agua (opcao `marcadagua`)
+% ──────────────────────────────────────────────
+\ifcrpsp@rev@marca
+  \RequirePackage{eso-pic}
+  \definecolor{crpsp@revisao}{HTML}{C00000}
+
+  % Opacidade em porcento -> byte hexadecimal de dois digitos, o "TT" do
+  % Color=RRGGBBTT do fontspec.
+  \ExplSyntaxOn
+  \cs_new:Npn \crpsp@rev@alfa #1
+    {
+      \int_compare:nT { \fp_eval:n { round( #1 * 255 / 100 ) } < 16 } { 0 }
+      \int_to_Hex:n { \fp_eval:n { round( #1 * 255 / 100 ) } }
+    }
+  \ExplSyntaxOff
+
+  \newlength{\crpsp@rev@alvo}
+  \newsavebox{\crpsp@rev@medida}
+
+  % Corpo ajustado ao comprimento util na diagonal: 80% da diagonal da
+  % largura do bloco (largura x raiz de 2 x 0,8 = 1,13 x largura). Mede o
+  % texto a 100 pt e escala.
+  \newcommand{\crpsp@rev@marcacaixa}{%
+    \sbox{\crpsp@rev@medida}{\sffamily\bfseries\fontsize{100}{100}\selectfont
+      \crpsp@rev@marcatexto}%
+    \setlength{\crpsp@rev@alvo}{1.13\textwidth}%
+    \edef\crpsp@rev@corpo{\fpeval{round(100 * \number\crpsp@rev@alvo
+      / \number\wd\crpsp@rev@medida, 2)}}%
+    \edef\crpsp@rev@cor{C00000\crpsp@rev@alfa{\crpsp@rev@opacidade}}%
+    \rotatebox{45}{%
+      \sffamily\bfseries
+      \fontsize{\crpsp@rev@corpo pt}{\crpsp@rev@corpo pt}\selectfont
+      \addfontfeature{Color=\crpsp@rev@cor}%
+      \crpsp@rev@marcatexto}%
+  }
+
+  % Centro do bloco de texto, a partir do canto inferior esquerdo (origem
+  % do \AddToShipoutPictureBG). Calculado a cada pagina, a partir da
+  % geometria vigente.
+  \AddToShipoutPictureBG{%
+    \ifdefined\tagstop\tagstop\fi
+    \ifdefined\tagmcbegin\tagmcbegin{artifact}\fi
+    \put(\LenToUnit{\dimexpr 1in+\hoffset+\oddsidemargin+.5\textwidth\relax},
+         \LenToUnit{\dimexpr\paperheight-1in-\voffset-\topmargin-\headheight
+                    -\headsep-.5\textheight\relax}){%
+      \makebox(0,0){\crpsp@rev@marcacaixa}}%
+    \ifdefined\tagmcend\tagmcend\fi
+    \ifdefined\tagstart\tagstart\fi
+  }
+\fi
+
+\makeatother
+\endinput

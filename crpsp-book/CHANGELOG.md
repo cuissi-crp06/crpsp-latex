@@ -80,6 +80,42 @@ Camada de legislação acessível. Declarada com `\ProvidesFile`, não
 `\usepackage`. O argumento opcional é o mesmo nos dois comandos. Beta porque o
 mesmo corpo serve o guia de apresentações acessíveis, que circulou.
 
+## Linha `desenvolvimento/v2` — `crpsp-revisao` 0.1.0-alfa — 2026/10/19
+
+`crpsp-revisao.sty`, pacote novo que marca como **em revisão** o documento
+composto na classe `crpsp-timbrado`. Serve ao PDF que circula para aprovação
+enquanto o texto ainda muda (o `docx` para o designer sai por outro caminho); a
+versão final sai sem o pacote. `-alfa`: nenhum documento circulou com ele.
+
+- **Uso:** `\documentclass{crpsp-timbrado}` seguido de
+  `\usepackage{crpsp-revisao}` ou `\usepackage[marcadagua]{crpsp-revisao}`.
+  Exige a classe (erro claro sem ela).
+- **Cabeçalho:** "USO INTERNO" em NewJune negrito, à direita, na margem oposta
+  à do logo e com o topo das maiúsculas alinhado ao de "Conselho", no texto do
+  logo (5,1 mm abaixo do topo do símbolo); o "Página X de Y" do timbrado fica
+  empilhado logo abaixo e continua só aparecendo com mais de uma página.
+  `\revisaoRotulo{<texto>}` troca o rótulo.
+- **Marca d'água, opcional** (`marcadagua`, desligada por padrão): "EM REVISÃO"
+  em NewJune negrito, vermelho `C00000`, girada a 45°, **centrada no bloco de
+  texto** (e não na folha, que tem margens assimétricas) e composta atrás de
+  tudo. O corpo da fonte se ajusta ao texto, então `\revisaoMarcaDagua{<texto>}`
+  também serve. A transparência vem do canal alfa da cor na fonte (fontspec
+  `Color=RRGGBBTT`), sem pacote extra; `opacidade=<0 a 100>`, padrão 10. A 10% o
+  texto preto fica a **16,1:1** do fundo da marca (19,4:1 no papel), medido no
+  PDF rasterizado.
+- **Artefato, como o resto do papel.** Cabeçalho e marca d'água ficam fora da
+  árvore de estrutura (a marca usa o par `\tagstop`/`\tagmcbegin{artifact}` do
+  `relatorio`, com `eso-pic`). ⚠️ **Quem lê por tecnologia assistiva não ouve
+  "USO INTERNO" nem "EM REVISÃO"**; por decisão de 19/10 só há marcação visual,
+  sem aviso no corpo. O status deve constar também do nome do arquivo e do
+  e-mail que encaminha o PDF. É marcação, não proteção: nada impede de
+  remover a marca do PDF.
+- Verificado: PDF/UA-2 sem falha no veraPDF 1.30 (1.727 regras) nos dois
+  exemplos, zero erro de tagging, zero caractere ausente, nenhum `P` nem
+  `Figure` vindo do cabeçalho ou da marca. `exemplo-revisao.tex` (com a marca,
+  3 páginas, 94 objetos) e `exemplo-revisao-simples.tex` (sem a marca, 1 página,
+  11 objetos) entraram na linha-base; `exemplo-timbrado.tex` não mudou (104).
+
 ## Linha `desenvolvimento/v2` — `crpsp-timbrado` 0.1.0-alfa — 2026/10/15
 
 `crpsp-timbrado.cls`, classe nova para documentos sobre o papel timbrado
