@@ -80,6 +80,29 @@ Camada de legislação acessível. Declarada com `\ProvidesFile`, não
 `\usepackage`. O argumento opcional é o mesmo nos dois comandos. Beta porque o
 mesmo corpo serve o guia de apresentações acessíveis, que circulou.
 
+## Linha `desenvolvimento/v2` — `crpsp-base` 0.2.0-beta, `crpsp-timbrado` e `crpsp-revisao` 0.1.0-beta — 2026/10/19
+
+Promoção de fase, sem mudança de número nem de corpo: só a declaração de
+`crpsp-base.sty` (`0.2.0-beta`), `crpsp-timbrado.cls` e `crpsp-revisao.sty`
+(`0.1.0-beta`) passa de `-alfa` a `-beta`; as datas de autoria (2026/09/17,
+2026/10/15 e 2026/10/19) ficam. **Beta** porque o PDF de revisão de
+`resposta_rvnd` (cartilha da Lei nº 13.935/2019), composto na classe com o
+pacote, foi enviado em 2026-10-19 (decisão do Angelo: "podemos considerar o
+`sty` em beta"); `crpsp-base.sty` entra por ser parte do corpo que serviu esse
+PDF (a classe é construída sobre ele). Só o que serviu a publicação sobe:
+`crpsp-relatorio`, `relatorio`, `guia-visual` e `formulario`, que também
+carregam a base, seguem `-alfa`.
+
+O pacote do *Guia de boas práticas para apresentações acessíveis*
+(`livros_crp_acessivel_book`, aqui `book-crpsp_acessivel.sty`) já é `0.5.2-beta`
+desde 2026-09-13 e não muda. A aprovação do guia vale para a publicação, não para
+o projeto editorial como um todo, e por isso a fase continua `-beta`, não estável.
+
+Na mesma data o `embrulho-revisao.tex` do repositório `scripts` (PR #31, #32) fez o
+`##` abrir página nova e igualou o espaço entre esse título e o parágrafo seguinte
+ao espaço entre parágrafos. É ajuste do embrulho (`\patchcmd` no `\subsection`), não da
+classe: o corpo de `crpsp-timbrado.cls` continua o de 2026/10/15.
+
 ## Linha `desenvolvimento/v2` — `crpsp-revisao` 0.1.0-alfa — 2026/10/19
 
 `crpsp-revisao.sty`, pacote novo que marca como **em revisão** o documento
