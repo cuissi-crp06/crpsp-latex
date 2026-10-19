@@ -50,7 +50,7 @@ luaotfload-tool --find NEWJUNE-REGULAR.OTF   # deve responder com o caminho
 usuário (botão direito → *Instalar*), e rodar `luaotfload-tool --update`.
 
 **Podman** — a imagem não vê as fontes do usuário. Montar a pasta e apontar o
-`OSFONTDIR` para ela (ainda não testado com a imagem, que não está no Fedora):
+`OSFONTDIR` para ela (testado em 2026-10-19 no Fedora, com a `crpsp-latex:guia`: `luaotfload-tool --find NEWJUNE-REGULAR.OTF` acha o arquivo em `/fontes/NewJune/`; a imagem não vem de registro, então construa-a antes pelo `Containerfile` desta pasta):
 
 ```sh
 podman --cgroup-manager=cgroupfs run --rm \
