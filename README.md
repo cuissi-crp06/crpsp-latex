@@ -24,7 +24,7 @@ acessível, e não se confunde com os de `crpsp-forms/`, que são `memoir`. Fico
 dentro de `crpsp-book/` porque o workbench espelha esta pasta
 (`editorial/arquivo_latex/crpsp-book/`); mover quebra esse caminho.
 
-A classe `crpsp-timbrado` (papel timbrado, sobre `article`, `0.1.0-alfa`) mora
+A classe `crpsp-timbrado` (papel timbrado, sobre `article`, `0.1.0-beta`) mora
 em `desenvolvimento/v2/`, como as demais.
 
 **Preparar e compilar o `crpsp-timbrado`.** A arte do designer não vem no
@@ -52,7 +52,7 @@ Sem o logo a classe **não falha**: o cabeçalho sai com o nome do Conselho em
 texto e o log traz `Class crpsp-timbrado Warning: Logo ... nao encontrado`.
 Conferir esse aviso antes de enviar qualquer documento.
 
-**Documento em revisão.** O pacote `crpsp-revisao` (`0.1.0-alfa`, também em
+**Documento em revisão.** O pacote `crpsp-revisao` (`0.1.0-beta`, também em
 `desenvolvimento/v2/`) vai sobre a classe `crpsp-timbrado` e marca o PDF que
 circula para aprovação: "USO INTERNO" no cabeçalho, à direita, e, com
 `\usepackage[marcadagua]{crpsp-revisao}`, a marca d'água "EM REVISÃO" em

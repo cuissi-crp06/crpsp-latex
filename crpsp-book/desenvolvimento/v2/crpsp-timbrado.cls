@@ -71,7 +71,7 @@
 %%   imprime nitido em qualquer tamanho.
 %%
 \NeedsTeXFormat{LaTeX2e}[2023/11/01]
-\ProvidesClass{crpsp-timbrado}[2026/10/15 v0.1.0-alfa
+\ProvidesClass{crpsp-timbrado}[2026/10/15 v0.1.0-beta
   Classe de papel timbrado A4 CRP-SP]
 
 % ──────────────────────────────────────────────

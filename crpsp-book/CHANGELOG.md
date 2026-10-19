@@ -80,6 +80,21 @@ Camada de legislação acessível. Declarada com `\ProvidesFile`, não
 `\usepackage`. O argumento opcional é o mesmo nos dois comandos. Beta porque o
 mesmo corpo serve o guia de apresentações acessíveis, que circulou.
 
+## Linha `desenvolvimento/v2` — `crpsp-timbrado` e `crpsp-revisao` 0.1.0-beta — 2026/10/19
+
+Promoção de fase, sem mudança de número nem de corpo: só a declaração de
+`crpsp-timbrado.cls` e `crpsp-revisao.sty` passa de `-alfa` a `-beta`; as datas de
+autoria (2026/10/15 e 2026/10/19) ficam. **Beta** porque o PDF de revisão de
+`resposta_rvnd` (cartilha da Lei nº 13.935/2019), composto na classe com o
+pacote, foi enviado em 2026-10-19 (decisão do Angelo: "podemos considerar o
+`sty` em beta"). `crpsp-base.sty` não foi tocado: é compartilhado por quatro
+linhas e tem fase própria (`0.2.0-alfa`).
+
+Na mesma data o `embrulho-revisao.tex` do repositório `scripts` (PR #31, #32) fez o
+`##` abrir página nova e igualou o espaço entre esse título e o parágrafo seguinte
+ao espaço entre parágrafos. É ajuste do embrulho (`\patchcmd` no `\subsection`), não da
+classe: o corpo de `crpsp-timbrado.cls` continua o de 2026/10/15.
+
 ## Linha `desenvolvimento/v2` — `crpsp-revisao` 0.1.0-alfa — 2026/10/19
 
 `crpsp-revisao.sty`, pacote novo que marca como **em revisão** o documento
