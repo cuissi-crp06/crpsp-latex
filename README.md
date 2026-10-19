@@ -52,6 +52,14 @@ Sem o logo a classe **não falha**: o cabeçalho sai com o nome do Conselho em
 texto e o log traz `Class crpsp-timbrado Warning: Logo ... nao encontrado`.
 Conferir esse aviso antes de enviar qualquer documento.
 
+**Documento em revisão.** O pacote `crpsp-revisao` (`0.1.0-alfa`, também em
+`desenvolvimento/v2/`) vai sobre a classe `crpsp-timbrado` e marca o PDF que
+circula para aprovação: "USO INTERNO" no cabeçalho, à direita, e, com
+`\usepackage[marcadagua]{crpsp-revisao}`, a marca d'água "EM REVISÃO" em
+vermelho, a 45°, atrás do bloco de texto. Compila como o timbrado (mesmo logo e
+mesmas fontes); exemplos em `exemplo-revisao.tex` e `exemplo-revisao-simples.tex`.
+A marcação é visual e artefato de página: leitor de tela não a anuncia.
+
 [crpsp-abnt](/crpsp-abnt/)
 
 Estilo biblatex que estende o `biblatex-abnt` para a NBR 6023:2025 e a

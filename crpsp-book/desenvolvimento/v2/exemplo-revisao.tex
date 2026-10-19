@@ -1,0 +1,84 @@
+% !TeX program = lualatex
+%
+% Exemplo do pacote crpsp-revisao sobre a classe crpsp-timbrado: documento em
+% revisão, com "USO INTERNO" no cabeçalho e a marca d'água "EM REVISÃO" atrás
+% do texto. A arte (crpsp-timbrado-logo.pdf) não vem no repositório; ver o
+% README. Sem a opção `marcadagua` só o cabeçalho muda: exemplo-revisao-simples.tex.
+%
+\DocumentMetadata{
+  lang        = pt-BR,
+  pdfversion  = 2.0,
+  pdfstandard = ua-2,
+  tagging     = on,
+}
+\documentclass{crpsp-timbrado}
+\usepackage[marcadagua]{crpsp-revisao}
+
+\hypersetup{
+  pdftitle  = {Exemplo de documento em revisão},
+  pdfauthor = {CRP SP},
+}
+
+\begin{document}
+
+\noindent São Paulo, 19 de outubro de 2026.
+
+\section{Objeto}
+
+Este exemplo mostra o pacote \texttt{crpsp-revisao} com a marca d'água ligada.
+O texto abaixo repete a estrutura do exemplo do papel timbrado, para conferir a
+legibilidade sobre o fundo vermelho transparente.
+
+\subsection{Cabeçalho}
+
+À direita do logo aparece \textbf{USO INTERNO}, e a indicação de página fica
+logo abaixo, alinhada à margem direita do bloco de texto.
+
+\subsubsection{Marca d'água}
+
+A marca é centrada no bloco de texto, e não na folha, girada em 45 graus e
+composta atrás de todo o conteúdo.
+
+\paragraph{Quarto nível}
+
+Texto sob o título de nível 4, sobre a marca d'água.
+
+\subparagraph{Quinto nível}
+
+Texto sob o título de nível 5.
+
+\section{Encaminhamentos}
+
+São os seguintes os encaminhamentos:
+
+\begin{enumerate}
+  \item avaliar a minuta do documento;
+  \item solicitar parecer da Gerência Jurídica;
+  \item publicar a versão final em formato acessível.
+\end{enumerate}
+
+\subsection{Prazos}
+
+\begin{tabular}{@{}ll@{}}
+  \textbf{Etapa}  & \textbf{Prazo}    \\
+  Avaliação       & 30 de outubro     \\
+  Parecer         & 13 de novembro    \\
+  Publicação      & 27 de novembro    \\
+\end{tabular}
+
+\section{Texto longo}
+
+Parágrafo de enchimento para forçar uma segunda página e exercitar a indicação
+de número de página empilhada sob o rótulo. A psicóloga inscrita no Conselho
+Regional exerce função pública e está sujeita à fiscalização ética; o órgão
+zela pela qualidade técnica, pela justiça e pela inclusão das pessoas.
+
+\count255=0
+\loop\ifnum\count255<12
+  \advance\count255 by 1
+  Três princípios sustentam a atuação: o compromisso com os direitos humanos, a
+  defesa da ciência e a construção coletiva. Não há exercício profissional sem
+  responsabilidade, nem avaliação séria sem informação clara.\par
+\repeat
+
+\end{document}
