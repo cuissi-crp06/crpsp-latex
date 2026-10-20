@@ -5,7 +5,18 @@ atravessam mais de uma linha. Para a análise detalhada da linha `book`, ver
 `README.md`; para os contornos de tagging com os MWEs que os reproduzem, ver
 `.agents/skills/latex-dev/references/workarounds.md`.
 
-**Última atualização:** 2026-10-01
+**Última atualização:** 2026-10-19
+
+---
+
+## RODADA 2026-10-19 — papel timbrado, PDF de revisão e a fase `-beta` na linha `v2`
+
+Detalhe da numeração em `CHANGELOG.md` (entradas de 2026/10/15 e 2026/10/19).
+
+- **Linha nova, em `desenvolvimento/v2/`:** `crpsp-timbrado.cls` (papel timbrado A4 sobre `article`, 2026/10/15) e `crpsp-revisao.sty` (cabeçalho "USO INTERNO" e marca d'água "EM REVISÃO" opcional, PR #45), ambas sobre `crpsp-base.sty`. O PDF de revisão acessível (PDF/UA-2) sai do repositório `scripts`: `md2docx_abnt.sh --pdf-revisao … [--marcadagua]`, com `embrulho-revisao.tex` (o `##` abre página nova e o título fica a um `\parskip` do parágrafo seguinte; o ajuste é do embrulho, não da classe).
+- **Fase `-beta` (PR #46):** o PDF de revisão da cartilha da Lei nº 13.935/2019 foi enviado em 2026-10-19, então `crpsp-timbrado` e `crpsp-revisao` (0.1.0) e `crpsp-base` (0.2.0) passaram de `-alfa` a `-beta`. Só a declaração mudou. Pela convenção, a fase é da publicação: sobe o corpo que a serviu. `crpsp-relatorio`, `relatorio`, `guia-visual` e `formulario` também carregam a base, mas seguem `-alfa`. O pacote do guia de apresentações (`livros_crp_acessivel_book`, 0.5.2-beta) já era beta; a aprovação vale para a publicação, não para o projeto editorial.
+- **Cópias de produção:** `editorial/arquivo_latex/…/v2/` recebeu as declarações novas (conferido por `cmp` contra o repositório).
+- **Pendências:** (1) a cópia de `crpsp-base.sty` em `cartilhas/servicos_online/3.acessivel/` tem outro corpo (base v0.1, 2026/07/03, já absorvida no histórico) e foi deixada como está; (2) a cópia de `crpsp-leg.sty` na pasta do guia de apresentações declara `v0.3.0` sem fase, e o repositório tem `0.3.0-beta` (regra 5 da convenção; pasta de publicação aprovada, não alterada); (3) ainda não há etiquetas `<linha>-v<versão>` para a linha `v2`.
 
 ---
 
