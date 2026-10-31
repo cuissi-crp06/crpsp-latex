@@ -250,6 +250,11 @@ Escolhas que a norma não fixa:
   Qualquer mudança no texto obtido, mesmo melhora, sai com 1. A linha-base nova se grava
   com a versão nova (`DIVERGENCIAS.md`, "Régua").
 
+  Em máquina sem TeX Live nativo, `sh desenvolvimento/verificar-podman.sh` roda a mesma
+  régua na imagem `crpsp-latex:rodada-20261031-abnt` (receita em `desenvolvimento/docker/`;
+  o veraPDF vem de `~/verapdf`). Os corpora compõem com `sorting=none`: a ordenação do
+  estilo só é conferida pelo caso de `IBGE` em `casos/`.
+
 Medir o estilo, a partir de `desenvolvimento/corpus/`:
 
 ```sh
