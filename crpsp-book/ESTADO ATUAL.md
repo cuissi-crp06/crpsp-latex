@@ -5,7 +5,89 @@ atravessam mais de uma linha. Para a análise detalhada da linha `book`, ver
 `README.md`; para os contornos de tagging com os MWEs que os reproduzem, ver
 `.agents/skills/latex-dev/references/workarounds.md`.
 
-**Última atualização:** 2026-10-19
+**Última atualização:** 2026-10-31
+
+---
+
+## RODADA 2026-10-31 — rodada autônoma (régua por podman, crpsp-abnt, formulário, #35 e pendência 4)
+
+Rodada sem o editor presente, no CRP8057, com um PR por tarefa a partir da
+`main`. **Mesclados:** #48, #49 e #50. **Abertos, à espera do Angelo:** #51 e #52.
+
+- **Régua por podman (PR #48).** `desenvolvimento/verificar-podman.sh` roda o
+  `verificar.sh` dentro da imagem fixa `crpsp-latex:rodada-20261031`, com
+  `editorial/fonts` montado só para leitura e o fundo do Manual DH copiado para
+  ext4. A base é `desenvolvimento/linha-base-podman.tsv`: **a `linha-base.tsv`
+  continua sendo a do Fedora e as duas não se misturam.** A imagem traz LaTeX
+  `2026-11-01`, núcleo de teste `dev pre-release-3`, `latex-lab` 80868 e
+  `tagpdf` 1.0h. A régua inteira leva 92 s; duas rodadas deram saída idêntica
+  por `cmp`.
+- **Por que a linha-base do podman difere da do Fedora.** Todas as diferenças
+  vêm do upstream, não de mudança no código: `mwe_book_tagging` 72 → 68
+  objetos; `mwe_tabelas_phase3` 48 → 24 erros de tagging (o WA-08 continua
+  reproduzido, com menos erros); `mwe_acessivel_book` 126 → 125 objetos.
+  ⚠️ `mwe_acessivel` agora é **fatal**: o KOMA novo recusa `\DocumentMetadata`
+  (`Fatal Class scrbook Error: \DocumentMetadata not supported!`).
+- **Fora da comparação ou fatais em qualquer máquina.** `mwe_leg_completo` e
+  `mwe_leg_glossario` precisam de `export/latex/`, que o `verificar-podman.sh`
+  não monta (regra do script, não defeito). ⚠️ `mwe_creditos_titulo_invisivel`
+  falha **em qualquer máquina**: `crpsp-relatorio.cls` está em `v2/`, fora do
+  `TEXINPUTS` da régua. A linha tem 28 arquivos; o `exemplo-formulario-aceite`
+  (PR #49) foi acrescentado a ela depois, pelo PR de documentação.
+- **Formulário (PR #49).** A lista de aceite do `briefing-crpsp-formulario.md`
+  (§10) foi medida: **5 de 7 critérios** passam e 2 ficam abertos (a margem da
+  `\campolinha`, que termina antes da margem direita porque a classe usa
+  `2\campogap` onde o briefing diz 1×; e o preenchimento em leitor de PDF, não
+  verificado). A classe não foi tocada; a régua só ganhou o arquivo novo.
+  Achados: o ramo NewJune do `formulario.sty` é código morto (o nome de
+  família que testa não casa com o das fontes); `\campodata{id}` repetido
+  duplica o `name=` do campo.
+- **Formulário, fase 2** (cópia do `exemplo-formulario.tex` com
+  `\DocumentMetadata{lang=pt-BR, pdfversion=2.0, pdfstandard=ua-2, tagging=on}`,
+  só experimento, fora do PR): compila em 1 página, 0 erro, 47 objetos de
+  estrutura, 20 campos (17 `Tx`, 3 `Btn`), e o veraPDF `ua2` **passa**.
+  ⚠️ **O PASS não prova o que importa:** a árvore de tags tem 0 elemento `Form`
+  e os 20 widgets não têm `/StructParent` nem `/TU`; o veraPDF 1.30.2 não cobra
+  isso, e um leitor de tela pode não anunciar o rótulo de cada campo. **Não
+  testado com NVDA/JAWS.** Com tagging o `/Rect` do widget fica na largura pedida
+  (sem tagging, 2,07 bp mais largo e 4,6 bp mais alto).
+- **`crpsp-abnt` (PR #50).** Imagem derivada `crpsp-latex:rodada-20261031-abnt`
+  (biblatex-abnt, poppler, `show-pdf-tags`). As versões 0.3.0 e 0.4.0 saem
+  iguais à linha-base nos 4 corpora e o veraPDF passa. Só `casos/esperado.txt`
+  foi regravado: IBGE 2010 antes de 2011, efeito pretendido da ordenação. A
+  entrada `BRASIL` passa a sair em ordem cronológica (medido com 9 entradas
+  reconstruídas do README). ⚠️ **Lacuna:** nenhum caso prova que `nameaddon` não
+  pesa; falta um caso BRASIL + órgão.
+- **PR #51 (aberto, Refs #35): `book-crpsp_acessivel.sty` 0.6.0-alfa**, com as
+  opções `web` e `print` (e `crpsp-leg.sty` 0.3.1-alfa). `web`: 17 páginas,
+  `print`: 23 páginas, veraPDF `ua2` PASS nos dois. A régua do podman na branch
+  é a linha-base mais os dois MWEs novos. ⚠️ O `geometry` relê `twoside`, por
+  isso as opções entram por `PassOptionsToPackage`; e os `Lora-*.ttf` ficam,
+  porque as variantes legadas os exigem.
+- **Ensaio do guia de apresentações com o #51**, em cópia ext4 (nada gravado no
+  mount): com a `.sty` nova e a opção `web`, o preâmbulo do `.tex` cai de 286
+  para 135 linhas. O guia dá **66 e 62 páginas antes e depois** na imagem nova,
+  com texto idêntico em todas as páginas (`pdftotext`), 2019 e 1750 objetos
+  iguais, 7 `Span` com `/Lang`, veraPDF `ua2` PASS. As 67 páginas do `LEIA.md`
+  são da imagem antiga (`crpsp-latex:guia`): o upstream novo move uma linha na
+  p. 11 e a variante padrão perde uma página. Diferenças explicadas: o
+  `\raggedright` agora vale desde o início (a folha de rosto sobe 1 pt e
+  `TextAlign Justify` vai de 2 a 0). **Não explicado:** deslocamento de até
+  0,09 pt nas tabelas `tabelaguia`. A proposta de `.tex` enxuto não foi
+  aplicada à publicação.
+- **PR #52 (aberto): pendência 4** (`sec-template`), `book` 0.5.3-alfa. A
+  premissa deste arquivo, **3 chaves** do `\EditInstance`, não se sustentou na
+  medida: **ficam 6** (`after-penalty-vspace` 50 contra 60 pt muda 5 de 11
+  páginas; `number-format`/`text` valem com `secnumdepth` ≥ 0). Régua
+  igual à linha-base; pixel a pixel igual em 8 MWEs. ⚠️ **Escolha de desenho
+  para o Angelo:** o módulo antigo (v0.9b, MiKTeX desatualizado) deixa de ter a
+  identidade visual, porque antes tinha ramo próprio e agora só recebe aviso.
+  Conflito esperado entre #51 e #52 na linha 1 da `.sty` e no topo do `CHANGELOG`.
+- ⚠️ **Sem `\DocumentMetadata`, o `geometry` entra em laço com o pacote `book`.**
+  Já é assim na `main`, não foi introduzido por PR da rodada.
+- **Não verificado nesta rodada:** MiKTeX (nenhuma comparação), NVDA/JAWS (o
+  formulário e a troca de voz do `\estrangeirismo`), e a opção padrão sem `web`
+  nem `print`, que o #51 deixa para decisão do editor.
 
 ---
 
@@ -213,10 +295,14 @@ Pesa nesta linha em particular: o cabeçalho deste arquivo manda ler
 que carrega os workarounds de tagging (WA-01 a WA-10). Num ambiente novo, a
 referência aponta para o vazio e os workarounds precisam ser redescobertos.
 
-- [ ] No corporativo, publicar as seis onde viajem — repositório versionado ou
-      skills sincronizadas da conta — e corrigir os caminhos citados aqui e no
-      `CLAUDE.md`, que hoje descrevem `skills/` e `.agents/skills/`, dois lugares
-      que não existem na árvore sincronizada.
+- [x] No corporativo, publicar as seis onde viajem. **Conferido em 2026-10-31
+      no CRP8057:** estão em `~/repos/claude-memory/skills/` (repositório
+      versionado), com symlink em `~/.claude/skills/` (as seis mais
+      `dossie-subsede`, `goose-recipes` e `rodada-autonoma`); o `CLAUDE.md` do
+      workspace já descreve esse lugar.
+- [ ] Corrigir os caminhos que **este arquivo** ainda cita (`.agents/skills/…`
+      no cabeçalho, na pendência A acima e na seção "Controle de versão"):
+      continuam apontando para um lugar que não existe.
 
 ### Pendência B — o mount de escopo Claude Code não entrega o `CLAUDE.md`
 
@@ -231,7 +317,10 @@ Não é defeito local: a unidade é cópia literal da do host de referência, e 
 vale o mesmo.
 
 - [ ] Acrescentar `--filter "+ /CLAUDE.md"` **antes** do `- **`, nas duas
-      máquinas. Enquanto isso, abrir o agente em `~/nextcloud`.
+      máquinas. Enquanto isso, abrir o agente em `~/nextcloud`. **Aberta,
+      conferida em 2026-10-31 no CRP8057:** o `rclone-crpsp.service` não tem a
+      regra (e ainda libera `skills/`) e `~/crpsp` não lista `CLAUDE.md`. Na
+      outra máquina: não conferido.
 - [ ] Decidir sobre a sobreposição dos dois mounts (`~/nextcloud` completo e
       `~/crpsp` filtrado, mesmo remote), já registrada como pendência conhecida
       no levantamento de 18/08.
@@ -244,8 +333,12 @@ editar e versionar, **não** para rodar `verificar.sh` nem para conferir a régu
 de `linha-base.tsv`: qualquer alteração feita aqui atravessa sem prova de
 compilação.
 
-- [ ] Instalar `podman` e construir a imagem `crpsp-latex:dev`, ou assumir a
-      máquina como somente de edição e sempre compilar no Fedora.
+- [x] Instalar `podman` e construir a imagem `crpsp-latex:dev`, ou assumir a
+      máquina como somente de edição e sempre compilar no Fedora. **Conferido
+      em 2026-10-31 no CRP8057:** `podman` 5.4.2 e `pandoc` instalados, e a
+      régua inteira roda aqui pela imagem `crpsp-latex:rodada-20261031` (ver a
+      rodada de 2026-10-31). **No WSL doméstico: registrado** (o `podman` entrou
+      em 2026-10-01, segundo a memória do projeto), **não conferido** aqui.
 
 ### Fora do escopo deste arquivo
 
@@ -437,7 +530,11 @@ mas não a elimina para os workarounds que dependem de módulos nomeados.
       legada: o `\DocumentMetadata` dela tem só `tagging=on`, e compila no podman
       com 0 erro e veraPDF ua2 PASS (LEIA.md da revisão). Falta o MiKTeX e a
       comparação da árvore de tags; a classe (`.sty`) ainda documenta `testphase`
-      (ver a issue #35).
+      (ver a issue #35). [2026-10-31] O PR #51 (aberto, Refs #35) tira
+      `testphase` da documentação da `.sty` e passa a pedir só `tagging=on`; a
+      régua do podman na branch fecha igual à linha-base (mais os 2 MWEs
+      novos). **Segue pendente o MiKTeX**, e a
+      pendência só fecha para a `book` depois do merge do #51.
 - [ ] **Linha `guia`** (`crpsp_acessivel.cls`) — migrar e recompilar
       `guia-exemplo.tex`.
 - [ ] **Linha `guia_visual`** — migrar e recompilar `exemplo-guia-visual.tex`.
@@ -446,6 +543,11 @@ mas não a elimina para os workarounds que dependem de módulos nomeados.
       mantém.
 - [ ] **Linha `formulario`** — migrar e recompilar `exemplo-formulario.tex`.
       Conferir os campos AcroForm, que interagem com o tagging.
+      [2026-10-31] Fase 2 medida em cópia (`tagging=on`, sem tocar na classe):
+      compila, 20 campos preservados e veraPDF `ua2` PASS, **mas 0 elemento
+      `Form` na árvore e widgets sem `/StructParent` nem `/TU`**; o veraPDF não
+      cobra isso. Falta decidir como declarar cada campo e testar com leitor de
+      tela. Não migrada.
 - [ ] **Documentos de produção** em `production/editorial/publicacoes/*` que
       tragam o bloco antigo.
 - [x] **Linha `relatorio`** — migrada em 2026-07-29 (commit `e9417f9`).
