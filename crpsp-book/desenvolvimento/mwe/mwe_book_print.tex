@@ -1,0 +1,91 @@
+% !TeX program = lualatex
+% ===================================================================
+% mwe_book_print.tex — linha book 0.6.0, opção `print` (issue #35)
+%
+% Impressão: twoside + openright (o \documentclass pede oneside e openany
+% DE PROPÓSITO, para provar que a opção os sobrescreve), fundos ímpar e par;
+% a citação fica a cargo do documento (aqui, \parencite no texto, sem
+% \nocite{*}).
+%
+% Par: mwe_book_web.tex (mesmo conteúdo, em book_comum/corpo.tex).
+% Compilar duas vezes; com crpsp-abnt disponível, intercalar o biber
+% (lualatex, biber, lualatex, lualatex). Sem crpsp-abnt.bbx no caminho
+% de busca (régua verificar.sh), cai para authoryear e a lista sai vazia
+% (o biber não roda na régua): o que a régua mede é paginação e tagging.
+% ===================================================================
+
+\DocumentMetadata{
+    lang        = pt-BR,
+    pdfstandard = ua-2,
+    pdfversion  = 2.0,
+    tagging     = on,
+}
+
+\documentclass[11pt,a5paper,oneside,openany]{book}
+
+\usepackage[print]{livros_crp_acessivel_book}
+
+\IfFileExists{crpsp-abnt.bbx}
+    {\usepackage[style=crpsp-abnt,backend=biber]{biblatex}}
+    {\usepackage[style=authoryear,backend=biber]{biblatex}}
+\addbibresource{book_comum/refs.bib}
+
+\hypersetup{
+    pdftitle  = {MWE — linha book, opção print},
+    pdfauthor = {CRP SP},
+    pdflang   = {pt-BR},
+}
+
+\begin{document}
+
+\frontmatter
+\pagestyle{pretext}
+
+% Capa: arte de página inteira como artefato.
+\FundoArtefato{book_comum/capa.pdf}
+\thispagestyle{empty}
+\null
+\clearpage
+
+% Folha de rosto à mão: \maketitle depois de \clearpage solta uma página em
+% branco (o \newpage do titlepage empurra o \vbox{} que o \clearpage deixa).
+\thispagestyle{empty}
+\vspace*{4\baselineskip}
+{\raggedright\sffamily\bfseries\Huge\color{crp1} MWE — linha book,\\ opção print\par}
+\vspace{2\baselineskip}
+{\sffamily CRP SP\par}
+\clearpage
+
+\begin{CreditoInstitucional}
+    \CreditoInstitucionalUm{Créditos administrativos}
+    \CargoNosCreditos{Gerência de exemplo}{Nome de Exemplo}
+\end{CreditoInstitucional}
+\clearpage
+
+\pagestyle{crpPre}
+\tableofcontents
+\clearpage
+
+% Daqui em diante, texto: fundo das páginas e cabeçalho.
+\pagestyle{crp}
+\FundoTexto{book_comum/fundo-impar.pdf}{book_comum/fundo-par.pdf}
+
+\input{book_comum/corpo}
+
+\printbibliography[heading=bibintoc, title={Referências}]
+
+\clearpage
+\begin{Colofao}
+    \color{crp1}\footnotesize\textbf{MWE — linha book, opção print}\par
+    \color{black}\scriptsize Produzido para testar a linha book 0.6.0.\par
+    \fontebook\scriptsize\color{crp1}Revisão e editoração eletrônica
+    \color{black}CRP SP
+\end{Colofao}
+
+\clearpage
+\ClearShipoutPictureBG
+\FundoArtefato{book_comum/capa.pdf}
+\thispagestyle{empty}
+\null
+
+\end{document}

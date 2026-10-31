@@ -1,0 +1,24 @@
+% gerar-fundos.tex — gera fundo-impar.pdf, fundo-par.pdf e capa.pdf (A5) dos
+% MWEs web e print. Arte provisória: faixas de cor, sem texto.
+% Uso, uma vez por arquivo (o nome do PDF é o do -jobname):
+%   lualatex -jobname=fundo-impar '\def\qual{impar}\input{gerar-fundos}'
+%   lualatex -jobname=fundo-par   '\def\qual{par}\input{gerar-fundos}'
+%   lualatex -jobname=capa        '\def\qual{capa}\input{gerar-fundos}'
+% Os PDFs gerados ficam versionados ao lado (pequenos, vetoriais).
+\documentclass{article}
+\usepackage[paperwidth=148mm,paperheight=210mm,margin=0pt]{geometry}
+\usepackage{xcolor,eso-pic}
+\pagestyle{empty}
+\def\faixa#1#2#3#4#5{\put(#1,#2){\color[RGB]{#5}\rule{#3}{#4}}}
+\begin{document}
+\AddToShipoutPictureBG*{\AtPageLowerLeft{%
+  \expandafter\ifx\csname qual\endcsname\relax\else
+  \def\a{impar}\ifx\qual\a   % faixa na margem externa à direita
+    \faixa{130mm}{0mm}{18mm}{210mm}{217,238,242}\faixa{0mm}{0mm}{148mm}{3mm}{4,88,110}\fi
+  \def\a{par}\ifx\qual\a     % faixa na margem externa à esquerda
+    \faixa{0mm}{0mm}{18mm}{210mm}{217,238,242}\faixa{0mm}{0mm}{148mm}{3mm}{4,88,110}\fi
+  \def\a{capa}\ifx\qual\a
+    \faixa{0mm}{0mm}{148mm}{210mm}{25,159,175}\faixa{0mm}{150mm}{148mm}{20mm}{191,115,171}\fi
+  \fi}}
+\null
+\end{document}

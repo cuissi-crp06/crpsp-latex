@@ -1,7 +1,9 @@
 arquivo	motor	paginas	objetos	erros_tagging	faltantes	fatais	primeiro_erro
 mwe/mwe_acessivel.tex	lualatex	-	-	0	0	3	! Fatal Class scrbook Error: \DocumentMetadata not supported!
 mwe/mwe_acessivel_book.tex	lualatex-dev	11	125	0	0	0	
+mwe/mwe_book_print.tex	lualatex	21	246	0	0	0	
 mwe/mwe_book_tagging.tex	lualatex	9	68	0	0	0	
+mwe/mwe_book_web.tex	lualatex	16	246	0	0	0	
 mwe/mwe_creditos_titulo_invisivel.tex	lualatex	-	-	0	0	3	! LaTeX Error: File `crpsp-relatorio.cls' not found.
 mwe/mwe_fcolorbox_phase3.tex	lualatex	1	42	0	0	0	
 mwe/mwe_fundo_esopic.tex	lualatex-dev	3	13	0	0	0	
