@@ -187,35 +187,88 @@ a assinatura canônica no topo do `.sty`.
 
 Deve compilar com LuaLaTeX (via podman) e exercitar:
 
-- [ ] `\campolinha` preenchendo a linha (com rótulo curto e rótulo longo — a
-      caixa encolhe sozinha)
-- [ ] `camposlinha` com 2 e 3 campos, pesos iguais e diferentes
-- [ ] `\campo*` de largura fixa em prosa
-- [ ] `\campodata` e `\campodataextenso`
-- [ ] `\caixa`/`caixaslista`
-- [ ] `\blocoassinatura`
-- [ ] variante `[timbrado]`
+> **Medição de 2026-10-31** (imagem `crpsp-latex:rodada-20261031`, TeX Live 2026,
+> 2 passadas). Larguras em bp, lidas do `/Rect` dos widgets por
+> `desenvolvimento/medida/campos-acroform.py`; a largura pedida a cada campo
+> sai do `.log` de `v2/exemplo-formulario-aceite.tex`, que traz os casos que o
+> `exemplo-formulario.tex` não cobria (rótulo curto/médio/longo, pesos 2:1 e
+> 3:1:2, campo único, rótulos que não cabem e a variante `timbrado`). O
+> `/Rect` de um campo sem tagging é 2,07 bp mais largo que a largura pedida
+> (a borda do widget); com `tagging=on` fica na pedida (±0,1 bp).
+
+- [x] `\campolinha` preenchendo a linha (com rótulo curto e rótulo longo — a
+      caixa encolhe sozinha). *Medido:* rótulo `Nome:` 450,89 bp; `Nome
+      completo:` 399,25 bp; rótulo de 376 pt 111,39 bp; as três terminam em
+      533,60 bp.
+- [x] `camposlinha` com 2 e 3 campos, pesos iguais e diferentes. *Medido:*
+      pesos 1:1:1 dão 126,19 bp cada; 2:1 dão 273,62 e 137,81 bp (razão pedida
+      2,000); 3:1:2 dão pedidas 172,78 / 57,59 / 115,19 pt (razão 3,00:1:2,00).
+- [x] `\campo*` de largura fixa em prosa. *Medido:* na implementação o nome é
+      `\campofixo{nome}{rótulo}{largura}` (o `\campo*` do §6.3 não existe);
+      `18em` pedido dá 217,19 bp (= 215,19 bp + borda), dentro de parágrafo
+      justificado.
+- [x] `\campodata` e `\campodataextenso`. *Medido:* 20 campos no exemplo, 3 de
+      `\campodata` (25,9 / 25,9 / 37,86 bp) e 4 de `\campodataextenso`.
+- [x] `\caixa`/`caixaslista`. *Medido:* 3 widgets `/FT /Btn`, 12,95 bp de lado
+      (11 pt + borda). O exemplo emite 3 `Underfull \hbox` nas linhas das
+      `\caixaitem`, sem efeito visível medido.
+- [x] `\blocoassinatura`. *Medido:* o texto "Assinatura" sai no PDF; a régua de
+      24em não foi medida em bp.
+- [x] variante `[timbrado]`. *Medido:* ver §10.
 
 Usar `logo-crp.png` (já existe na pasta) ou fallback `\rule` se ausente no
 container.
+
+*Medido:* sem o arquivo na pasta, o fallback `\rule` compila sem erro; com
+`logo-crp.png` na pasta há 1 imagem (1570 × 618 px) na página. O `logo-crp.png`
+mora em `formularios/`, não em `desenvolvimento/v2/`.
 
 ---
 
 ## 10. Critérios de aceitação
 
-- [ ] `crpsp-formulario.cls` carrega `crpsp-base` e compila sem erro no
-      container `crpsp-latex:dev`
-- [ ] Numa `camposlinha`, trocar um rótulo por um mais longo **reduz** a caixa
-      correspondente sem estourar a margem (prova do auto-dimensionamento)
-- [ ] `\campolinha` chega à margem direita independentemente do comprimento do
-      rótulo
-- [ ] Campos `\TextField`/`\CheckBox` continuam preenchíveis no leitor de PDF;
-      `name=` únicos
-- [ ] `[timbrado]` aplica a geometria de margem grande sem logo
-- [ ] Fallback de fonte funciona quando NewJune ausente (container)
-- [ ] Nenhum `titlesec`; nenhuma dependência de `abntex2`
-
----
+- [x] `crpsp-formulario.cls` carrega `crpsp-base` e compila sem erro no
+      container `crpsp-latex:dev`. *Medido na imagem `crpsp-latex:rodada-20261031`
+      (não na `:dev`):* `exemplo-formulario.tex` e `exemplo-formulario-aceite.tex`,
+      1 página, 0 erro fatal, 0 `Missing character`, 0 erro de tagging. O
+      `exemplo-formulario.tex` tem 3 `Underfull \hbox` (as `\caixaitem`).
+- [x] Numa `camposlinha`, trocar um rótulo por um mais longo **reduz** a caixa
+      correspondente sem estourar a margem (prova do auto-dimensionamento).
+      *Medido:* `Banco:`/`Ag.:`/`Conta:` dão 126,19 bp por caixa; trocando `Ag.:`
+      por `Agência bancária completa:` cada caixa cai para 84,13 bp (-42,06 bp).
+      A unidade é comum à linha, então **todas** as caixas encolhem, não só a do
+      rótulo trocado. A borda direita fica em 539,58 bp nos dois casos, 1,0 bp
+      (a borda do widget) além da margem em 538,58 bp.
+- [x] `\campolinha` chega à margem direita independentemente do comprimento do
+      rótulo. *Medido, com ressalva:* nos três rótulos a caixa termina em
+      533,60 bp, constante, mas **4,98 bp (1 `\campogap`) antes** da margem
+      (538,58 bp). A classe subtrai `2\campogap`; o §6.1 acima escreve `1`. Não
+      alterado: o ajuste é decisão do mantenedor (com 1 gap a caixa passaria a
+      terminar a 1 bp além da margem, como na `camposlinha`).
+- [x] Campos `\TextField`/`\CheckBox` continuam preenchíveis no leitor de PDF;
+      `name=` únicos. *Medido por `mutool show`:* `/AcroForm` presente com
+      `/NeedAppearances true`; 17 `/FT /Tx` + 3 `/FT /Btn` no exemplo, nenhum com
+      `/Ff` (nenhum somente-leitura); 0 nome duplicado em `/T` (20 de 20 no
+      exemplo, 17 de 17 no de aceite). **Não verificado:** preenchimento em
+      leitor gráfico. **Risco:** `\campodata{id}` e `\campodataextenso{id}` geram
+      `dia<id>`, `mes<id>`, `ano<id>`; repetir o mesmo `id` duplica o `name=`, e
+      nada na classe avisa.
+- [x] `[timbrado]` aplica a geometria de margem grande sem logo. *Medido:* texto
+      começa em x = 113,39 bp (4 cm; padrão 42,52 bp); o título desce 70,9 bp
+      (2,5 cm = 6 cm - 3,5 cm); `pdfimages` não acha imagem e o rodapé `1/1`
+      some. Margem inferior de 4 cm não medida.
+- [x] Fallback de fonte funciona quando NewJune ausente (container).
+      *Medido:* sem `/fonts` montado o PDF usa `TeXGyreHeros`, 0 aviso e 20
+      campos idênticos aos da compilação com as fontes montadas (mesmo `pdftotext`,
+      mesmos `/Rect`). **Achado:** a ramificação NewJune nunca é tomada aqui:
+      `\IfFontExistsTF{NewJune}` dá falso mesmo com `editorial/fonts` montado,
+      porque as faces do Nextcloud se chamam `NewJuneRegular`, `NewJuneBold`…
+      (arquivos `NEWJUNE-REGULAR.OTF`; `relatorio.sty` carrega por arquivo).
+      Não alterado: mudar de Heros para NewJune muda toda a paginação. O terceiro
+      nível (Computer Modern Sans) não foi exercitado.
+- [x] Nenhum `titlesec`; nenhuma dependência de `abntex2`. *Medido:* 0 ocorrência
+      nos dois `.log`; nos fontes `.cls`/`.sty` as palavras só aparecem em
+      comentário.
 
 ## 11. Sequência de implementação recomendada
 

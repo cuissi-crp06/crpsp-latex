@@ -1,0 +1,61 @@
+%% exemplo-formulario-aceite.tex
+%% Casos de medição da lista de aceite do briefing-crpsp-formulario.md (§10).
+%% Instrumenta \campo@textfield para registrar, no .log, a largura pedida e
+%% \linewidth; as larguras reais dos widgets saem do PDF (/Rect):
+%%   python3 ../medida/campos-acroform.py exemplo-formulario-aceite.pdf
+%% O último bloco (rótulos que não cabem) provoca de propósito o aviso
+%% "camposlinha: rotulos nao cabem" e um Overfull; não é defeito do exemplo.
+%% Compilar 2x com LuaLaTeX. Variante timbrada, sem editar o arquivo:
+%%   lualatex -jobname=exemplo-formulario-aceite-timbrado '\def\AceiteOpt{timbrado}\input{exemplo-formulario-aceite}'
+\providecommand\AceiteOpt{}
+\documentclass[\AceiteOpt]{crpsp-formulario}
+\makeatletter
+\let\aceite@orig\campo@textfield
+\renewcommand{\campo@textfield}[3]{%
+  \aceite@orig{#1}{#2}{#3}%
+  \typeout{ACEITE campo=#1 pedida=\the\campo@thiswd\space linewidth=\the\linewidth\space campogap=\the\campogap}}
+\makeatother
+\hypersetup{allbordercolors=white}
+\begin{document}
+\Form
+\section{Medição}
+
+\typeout{ACEITE textwidth=\the\textwidth\space paperwidth=\the\paperwidth}
+
+% (1) campolinha: rótulo curto, médio e longo
+\campolinha{cl-curto}{Nome:}
+\campolinha{cl-medio}{Nome completo:}
+\campolinha{cl-longo}{Órgão expedidor do documento de identidade e unidade da federação:}
+
+% (2) camposlinha: rótulo trocado por um mais longo (mesmo peso)
+\begin{camposlinha}
+  \campo{a1}{Banco:}
+  \campo{a2}{Ag.:}
+  \campo{a3}{Conta:}
+\end{camposlinha}
+\begin{camposlinha}
+  \campo{b1}{Banco:}
+  \campo{b2}{Agência bancária completa:}
+  \campo{b3}{Conta:}
+\end{camposlinha}
+% 2 campos, pesos 2 e 1; 3 campos, pesos 3, 1 e 2
+\begin{camposlinha}
+  \campo[2]{c1}{Endereço:}
+  \campo[1]{c2}{Nº:}
+\end{camposlinha}
+\begin{camposlinha}
+  \campo[3]{d1}{Logradouro:}
+  \campo[1]{d2}{Nº:}
+  \campo[2]{d3}{Compl.:}
+\end{camposlinha}
+% um único campo
+\begin{camposlinha}
+  \campo{e1}{Sozinho:}
+\end{camposlinha}
+
+% (3) rótulos que não cabem: deve emitir aviso (unidade negativa)
+\begin{camposlinha}
+  \campo{f1}{Rótulo muito muito muito muito longo número um:}
+  \campo{f2}{Rótulo muito muito muito muito longo número dois:}
+\end{camposlinha}
+\end{document}
