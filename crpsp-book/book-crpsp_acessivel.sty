@@ -1,4 +1,4 @@
-\ProvidesPackage{livros_crp_acessivel_book}[2026/08/10 v0.5.2-beta Pacote editorial CRP-SP, variante PDF/UA (book)]
+\ProvidesPackage{livros_crp_acessivel_book}[2026/10/31 v0.6.0-alfa Pacote editorial CRP-SP, variante PDF/UA (book)]
 
 % Diretório deste .sty, capturado ANTES de qualquer \RequirePackage.
 % \CurrentFilePath (ltfilehook, kernel 2020+) vale enquanto ESTE
@@ -39,10 +39,27 @@
 %       lang        = pt-BR,
 %       pdfstandard = ua-2,
 %       pdfversion  = 2.0,
-%       testphase   = {phase-III,table,firstaid},
 %       tagging     = on,
 %   }
 %   \documentclass[11pt,a5paper,twoside,openright]{book}
+%
+% `testphase = {phase-III,...}` é sintaxe legada (issue 1484 do
+% tagging-project, 2026-07-14): trabalho novo usa só `tagging=on`.
+%
+% OPÇÕES DO PACOTE (v0.6.0, issue #35):
+%   \usepackage{livros_crp_acessivel_book}         respeita o \documentclass
+%   \usepackage[web]{livros_crp_acessivel_book}    leitura em tela:
+%       oneside + openany (sem página em branco depois da capa), fundo
+%       de texto só o ímpar (\FundoTexto), e \nocite{*} se o biblatex
+%       estiver carregado (lista completa de referências).
+%   \usepackage[print]{livros_crp_acessivel_book}  impressão:
+%       twoside + openright, fundos ímpar e par; a citação fica a
+%       cargo do documento. Cinza, corte, sangria e PDF/X NÃO são
+%       tratados aqui.
+% As opções forçam \if@twoside e \if@openright logo no início, antes do
+% geometry (que relê as opções do \documentclass e religaria o twoside;
+% ver a seção 0): a .sty só vê o que o \documentclass já decidiu, então
+% repetir as opções no \documentclass é desnecessário (e inofensivo).
 %
 % Estrutura:
 %   1. Tipografia
@@ -57,6 +74,36 @@
 
 
 % ===================================================================
+% 0. OPÇÕES (web, print)
+% ===================================================================
+\newif\ifcrp@web
+\newif\ifcrp@print
+\DeclareOption{web}{\crp@webtrue}
+\DeclareOption{print}{\crp@printtrue}
+\DeclareOption*{\PackageWarning{livros_crp_acessivel_book}%
+    {Opcao desconhecida `\CurrentOption' ignorada}}
+\ProcessOptions\relax
+\ifcrp@web\ifcrp@print
+    \PackageError{livros_crp_acessivel_book}
+        {As opcoes web e print sao excludentes}
+        {Escolha uma delas (ou nenhuma, para respeitar o \string\documentclass).}%
+\fi\fi
+% \@mparswitch acompanha twoside na classe (opção `twoside`).
+% O geometry RELÊ as opções do \documentclass (\ProcessOptionsKV[c]) e,
+% se houver `twoside` entre elas, liga \@twosidetrue de novo; só as
+% opções do próprio pacote ([p], depois das da classe) o vencem. Por
+% isso o twoside também vai por \PassOptionsToPackage (medido: sem
+% isto a opção web com `twoside` no \documentclass seguia em twoside).
+\ifcrp@web
+    \@twosidefalse \@mparswitchfalse \@openrightfalse
+    \PassOptionsToPackage{twoside=false}{geometry}
+\fi
+\ifcrp@print
+    \@twosidetrue \@mparswitchtrue \@openrighttrue
+    \PassOptionsToPackage{twoside=true}{geometry}
+\fi
+
+% ===================================================================
 % 1. TIPOGRAFIA
 % ===================================================================
 
@@ -68,17 +115,36 @@
 % pacote que dependa da seleção de idioma.
 \usepackage[brazilian]{babel}
 
-% --- Fonte principal (serifada) ---
-% NOTA PDF/UA: TTF OpenType com cmap válido produz ToUnicode
-% correto no PDF final. Verificar com veraPDF se necessário.
-\setmainfont{Lora}[
-    Path           = ./,
-    Extension      = .ttf,
-    UprightFont    = Lora-Regular,
-    BoldFont       = Lora-Bold,
-    ItalicFont     = Lora-Italic,
-    BoldItalicFont = Lora-BoldItalic,
+% --- Fonte principal: Atkinson Hyperlegible Next ---
+% Cópia do pacote `atkinson` do TeX Live, resolvida pelo CAMINHO no
+% kpathsea (padrão da relatorio.sty, §2): declarar só o nome deixa o
+% luaotfload escolher entre duas cópias da família e misturar dois
+% builds no mesmo PDF. Sem a fonte, erro (não há substituta). O
+% LuaTeX embute as fontes OpenType (subconjunto), como o PDF/UA exige.
+% ATENÇÃO: esta cópia NÃO tem o glifo U+0060 (crase): nada de `` ''
+% no texto, só aspas Unicode. \tracinglostchars=3 transforma glifo
+% ausente em ERRO no LuaTeX (o aviso comum vira glifo sem ToUnicode).
+\edef\crp@atkinson{%
+    \directlua{
+        local achado = kpse.find_file("AtkinsonHyperlegibleNext-Regular.otf",
+                                      "opentype fonts")
+        if achado then tex.sprint(-2, (achado:gsub("[^/]*$", ""))) end
+    }%
+}
+\ifx\crp@atkinson\@empty
+    \PackageError{livros_crp_acessivel_book}
+        {Atkinson Hyperlegible Next nao encontrada}
+        {Instalar o pacote atkinson do TeX Live (tlmgr install atkinson).}%
+\fi
+\setmainfont{AtkinsonHyperlegibleNext}[
+    Path           = \crp@atkinson,
+    Extension      = .otf,
+    UprightFont    = *-Regular,
+    BoldFont       = *-Bold,
+    ItalicFont     = *-RegularItalic,
+    BoldItalicFont = *-BoldItalic,
 ]
+\tracinglostchars=3
 
 % --- Família sem serifa principal (NEWJUNE Regular) ---
 \setsansfont{NEWJUNE}[
@@ -145,22 +211,23 @@
 %   \AddToShipoutPictureBG*{...}  — aplica só à página atual
 %   \AddToShipoutPictureFG{...}   — foreground, idem acima
 %
-% Exemplo típico no .tex do documento (arte do designer
-% ocupando a página inteira, atrás do texto):
+% Arte de fundo é ARTEFATO: \includegraphics[artifact]{...} (o
+% latex-lab trata `alt={}` como alt ausente, então não serve). Os
+% comandos \FundoArtefato e \FundoTexto (seção 7) já fazem isso;
+% exemplo à mão, arte do designer atrás do texto:
 %
 %   \AddToShipoutPictureBG*{%
 %       \AtPageLowerLeft{%
 %           \includegraphics[
 %               width=\paperwidth,
 %               height=\paperheight,
-%               alt={}% <- vazio: marca como artefato decorativo
+%               artifact
 %           ]{arte_capa.pdf}%
 %       }%
 %   }
 %
-% NOTA PDF/UA: arte puramente decorativa deve receber alt={}
-% (string vazia), que instrui o leitor de tela a ignorar a
-% imagem. Arte informativa precisa de alt={descrição real}.
+% NOTA PDF/UA: arte puramente decorativa é artefato; arte
+% informativa precisa de alt={descrição real} e fica no fluxo.
 \usepackage{eso-pic}
 
 \usepackage[skins, breakable]{tcolorbox}
@@ -172,6 +239,7 @@
 % ===================================================================
 
 \usepackage{array}
+\usepackage{colortbl}   % \rowcolor (tabelaguia); tabularray não serve
 \usepackage{multirow}
 \usepackage{longtable}
 \usepackage{tabularx}
@@ -179,6 +247,10 @@
 \usepackage{enumitem}
 
 \newcolumntype{P}[1]{>{\centering\arraybackslash}p{#1}}
+% L{larg}: coluna p{} alinhada à esquerda. Sem hifenização, a célula
+% justificada de p{} estica os espaços (Underfull); a tabela herda o
+% alinhamento do texto só em parte.
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
 \renewcommand{\tabularxcolumn}[1]{m{#1}}
 \renewcommand{\arraystretch}{1.2}
 
@@ -190,8 +262,6 @@
 \usepackage{multicol}
 \setlength{\columnsep}{1em}
 \raggedcolumns
-\usepackage{pdfpages}
-\usepackage{ragged2e}
 \usepackage{calc}
 \usepackage{lastpage}
 \usepackage{setspace}
@@ -228,6 +298,19 @@
 % entrada transborde para uma página extra. O restante do corpo é
 % idêntico ao book.cls 2025/01/22 v1.4n — atualizar se a classe
 % mudar esta definição.
+%
+% [2026-10-31] Margem direita elástica e tolerância aberta. Com a
+% hifenização desligada (seção 4), a margem rígida do book.cls
+% (\rightskip = \@pnumwidth) deixa a entrada longa sem ponto de quebra
+% viável: o TeX prefere a linha estourada a uma linha curta de
+% elasticidade zero, e o título bate no número da página. Medido em
+% desenvolvimento/medida/sumario-longo.tex (48 entradas de 3 a 18
+% palavras, Atkinson 10,95 pt): rígida, 42 entradas estouram a margem
+% (até 81 pt); com `plus 4em` (solução do guia), 12 (até 40 pt); com
+% `plus 4em` + \tolerance 10000, nenhuma. A elasticidade finita (4em)
+% é menor que a do \hfil antes do número, que continua alinhado à
+% direita; a tolerância só vale dentro do grupo da entrada, e o
+% \hbadness evita o aviso de Underfull nas linhas curtas.
 \makeatletter
 \renewcommand*\l@chapter[2]{%
     \ifnum \c@tocdepth >\m@ne
@@ -235,7 +318,8 @@
         \addvspace{0.5em \@plus\p@}%
         \setlength\@tempdima{1.5em}%
         \begingroup
-            \parindent \z@ \rightskip \@pnumwidth
+            \parindent \z@ \rightskip \@pnumwidth \@plus 4em
+            \tolerance 10000 \hbadness 10000
             \parfillskip -\@pnumwidth
             \leavevmode \bfseries
             \advance\leftskip\@tempdima
@@ -256,8 +340,14 @@
 % Correção adiada para investigação específica — não é bloqueante.
 
 % --- Penalidades tipográficas ---
-\clubpenalty        = 9996
-\widowpenalty       = 9999
+% Órfãs e viúvas proibidas (10000). O \@afterheading do LaTeX
+% reatribui \clubpenalty = \@clubpenalty depois de todo título: sem
+% mexer em \@clubpenalty o ajuste some a cada capítulo.
+\makeatletter
+\@clubpenalty       = 10000
+\makeatother
+\clubpenalty        = 10000
+\widowpenalty       = 10000
 \brokenpenalty      = 4991
 \predisplaypenalty  = 10000
 \postdisplaypenalty = 1549
@@ -267,6 +357,37 @@
 % Equivalente ao \nonzeroparskip do memoir.
 \setlength{\parskip}{0.5\baselineskip plus 2pt}
 \setlength{\parindent}{0pt}
+
+% --- Alinhamento, hifenização e pé de página (issue #35) ---
+% Adotado do guia de apresentações acessíveis (revisão 2, 01/10/2026).
+%
+% SEM HIFENIZAÇÃO: nenhuma palavra se divide entre linhas; o hífen de
+% palavra composta também não é ponto de quebra. Atribuir uma vez
+% antes do texto não bastou (continuou hifenizando em teste de
+% 01/10/2026); por isso o ajuste também entra no início de todo
+% parágrafo (gancho para/begin), onde funcionou. Só a URL da
+% bibliografia ainda quebra (xurl, no hífen e na barra): é endereço.
+\hyphenpenalty=10000
+\exhyphenpenalty=10000
+\AddToHook{para/begin}{%
+    \lefthyphenmin=62 \righthyphenmin=62
+    \hyphenpenalty=10000 \exhyphenpenalty=10000 }
+
+% ALINHAMENTO À ESQUERDA, com o \raggedright do kernel (passa pela
+% instância para/raggedright do latex-lab; o \RaggedRight do ragged2e
+% deixava /TextAlign /Justify na árvore de tags, ver ESTADO ATUAL,
+% rodada de 17/09). Ligado no início do documento para valer também
+% quando o pacote vem antes de qualquer \raggedright do .tex.
+\AtBeginDocument{\raggedright}
+
+% ALINHAMENTO VERTICAL PELO TOPO: \topskip rígido (11 pt = corpo da
+% fonte) e página não esticada até o pé (\raggedbottom). Com
+% \flushbottom e \topskip elástico a folga de cada página ia toda
+% para cima da primeira linha (78 a 158 pt; 78,9 a 84,1 pt depois,
+% medido com pdftotext -bbox-layout em 01/10/2026). Custo: pé de
+% página irregular.
+\raggedbottom
+\setlength{\topskip}{11pt}
 
 % --- Espaçamento entre linhas ---
 % \setasuspacing: indireção que permite trocar o espaçamento
@@ -673,7 +794,7 @@
 \newcommand{\SubTituloUm}[1]{%
     \vspace{-8\baselineskip}%
     \noindent\raggedright\large\itshape #1\par
-    \normalfont\normalsize\color{black}\justifying
+    \normalfont\normalsize\color{black}\raggedright
     \vspace{8\baselineskip}%
 }
 
@@ -699,7 +820,7 @@
         Conselho Regional de Psicologia de São Paulo\\
         #1%
     \end{flushright}
-    \justifying
+    \raggedright
     \setasuspacing{\onehalfspacing}%
 }
 
@@ -808,6 +929,97 @@
     \endgroup
     \end{multicols}%
 }
+
+% ---------------------------------------------------------------
+% Estrangeirismo, tabela de dados, fundos, início do texto, colofão
+% (issue #35; vieram do guia de apresentações acessíveis, rev. 2)
+% ---------------------------------------------------------------
+\makeatletter
+
+% \estrangeirismo{idioma}{termo}: itálico (convenção tipográfica) mais
+% um Span com /Lang, que o leitor de tela usa para trocar de voz
+% (WCAG 3.1.2). \foreignlanguage do babel NÃO serve: sob tagging=on
+% troca a hifenização mas não grava /Lang (MWE de 01/10/2026: 0 Span
+% com idioma contra 3 do tagpdf). Não usar em título: a estrutura não
+% vai para sumário nem marcadores. Não verificado: o resultado em
+% NVDA + Acrobat Reader (o veraPDF não cobre idioma de trecho).
+\NewDocumentCommand{\estrangeirismo}{mm}{%
+    \ifdefined\tagstructbegin
+        \tagstructbegin{tag=Span,lang=#1}\tagmcbegin{tag=Span}%
+        \emph{#2}%
+        \tagmcend\tagstructend
+    \else
+        \emph{#2}%
+    \fi}
+
+% tabelaguia{colunas}: tabela de dados em longtable + \rowcolor
+% (tabularray quebra o tagging). A primeira linha é cabeçalho (TH),
+% repetido quando a tabela quebra de página.
+\NewDocumentEnvironment{tabelaguia}{m}
+    {\par\begingroup\footnotesize
+     \setlength{\LTleft}{0pt}\setlength{\LTright}{0pt}%
+     \renewcommand{\arraystretch}{1.3}%
+     \ifdefined\tagpdfsetup\tagpdfsetup{table/header-rows={1}}\fi
+     \longtable{#1}}
+    {\endlongtable\endgroup\par}
+
+% \FundoArtefato{arte.pdf}: arte de página inteira, só na PRÓXIMA
+% página (capa, quarta capa), como artefato. Não usar pdfpages
+% (\includepdf), incompatível com o tagging.
+\newcommand*{\FundoArtefato}[1]{%
+    \AddToShipoutPictureBG*{%
+        \AtPageLowerLeft{%
+            \includegraphics[width=\paperwidth, height=\paperheight,
+                artifact]{#1}}}}
+
+% \FundoTexto{impar.pdf}{par.pdf}: fundo de TODAS as páginas daqui em
+% diante, como artefato. Em twoside alterna ímpar/par pela página; em
+% oneside (opção web) o cabeçalho é sempre o de página ímpar e a
+% margem externa, larga, fica à direita, então vale só o ímpar (o
+% segundo argumento é ignorado). \ClearShipoutPictureBG remove.
+\newcommand*{\FundoTexto}[2]{%
+    \AddToShipoutPictureBG{%
+        \AtPageLowerLeft{%
+            \if@twoside
+                \ifodd\c@page
+                    \def\crp@fundo{#1}%
+                \else
+                    \def\crp@fundo{#2}%
+                \fi
+            \else
+                \def\crp@fundo{#1}%
+            \fi
+            \includegraphics[width=\paperwidth, height=\paperheight,
+                artifact]{\crp@fundo}}}}
+
+% \iniciotextual: fim do pré-textual (a Introdução pode ficar nele);
+% a numeração árabe começa no primeiro capítulo.
+\newcommand*{\iniciotextual}{%
+    \mainmatter
+    \pagestyle{crp}}
+
+% Colofão: página própria com os créditos técnicos, a licença e, se
+% houver, a ficha catalográfica; vai na última página do miolo.
+% Os créditos administrativos ficam no pré-textual.
+\newenvironment{Colofao}{%
+    \clearpage
+    \thispagestyle{empty}%
+    \vspace*{\fill}%
+    \begin{CreditoInstitucional}%
+    \begin{center}%
+    \singlespacing
+}{%
+    \end{center}%
+    \end{CreditoInstitucional}%
+}
+
+% Opção web: lista completa de referências, sem citação no texto. O
+% biblatex costuma ser carregado DEPOIS desta .sty, então a conferência
+% é no fim do preâmbulo.
+\ifcrp@web
+    \AtEndPreamble{\@ifpackageloaded{biblatex}{\nocite{*}}{}}
+\fi
+\makeatother
 
 % ---------------------------------------------------------------
 % Camada Leg (módulo crpsp-leg.sty) — carga incondicional
