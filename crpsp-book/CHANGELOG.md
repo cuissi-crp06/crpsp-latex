@@ -84,7 +84,9 @@ mesmo corpo serve o guia de apresentações acessíveis, que circulou.
 
 Sem mudança de versão: nem `crpsp-formulario.cls` nem `formulario.sty` foram
 tocados. A lista de aceite do `briefing-crpsp-formulario.md` (§9 e §10) foi
-medida na imagem `crpsp-latex:rodada-20261031` e marcada com os números.
+medida na imagem `crpsp-latex:rodada-20261031` e marcada com os números:
+5 dos 7 critérios do §10 passaram; 2 ficam em aberto (`\campolinha` termina
+antes da margem; preenchimento em leitor gráfico não verificado).
 Acrescentados `v2/exemplo-formulario-aceite.tex` (casos de medição, entra na
 régua) e `medida/campos-acroform.py` (largura, tipo e nome dos campos AcroForm
 a partir do `/Rect`). Achados que ficam para o mantenedor: a caixa do

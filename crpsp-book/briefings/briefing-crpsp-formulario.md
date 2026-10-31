@@ -239,14 +239,15 @@ mora em `formularios/`, não em `desenvolvimento/v2/`.
       A unidade é comum à linha, então **todas** as caixas encolhem, não só a do
       rótulo trocado. A borda direita fica em 539,58 bp nos dois casos, 1,0 bp
       (a borda do widget) além da margem em 538,58 bp.
-- [x] `\campolinha` chega à margem direita independentemente do comprimento do
-      rótulo. *Medido, com ressalva:* nos três rótulos a caixa termina em
+- [ ] `\campolinha` chega à margem direita independentemente do comprimento do
+      rótulo. *Falhou:* nos três rótulos a caixa termina em
       533,60 bp, constante, mas **4,98 bp (1 `\campogap`) antes** da margem
       (538,58 bp). A classe subtrai `2\campogap`; o §6.1 acima escreve `1`. Não
       alterado: o ajuste é decisão do mantenedor (com 1 gap a caixa passaria a
       terminar a 1 bp além da margem, como na `camposlinha`).
-- [x] Campos `\TextField`/`\CheckBox` continuam preenchíveis no leitor de PDF;
-      `name=` únicos. *Medido por `mutool show`:* `/AcroForm` presente com
+- [ ] Campos `\TextField`/`\CheckBox` continuam preenchíveis no leitor de PDF;
+      `name=` únicos. *Parcial: estrutura AcroForm e `name=` únicos medidos;
+      preenchimento em leitor gráfico não verificado.* Medido por `mutool show`: `/AcroForm` presente com
       `/NeedAppearances true`; 17 `/FT /Tx` + 3 `/FT /Btn` no exemplo, nenhum com
       `/Ff` (nenhum somente-leitura); 0 nome duplicado em `/T` (20 de 20 no
       exemplo, 17 de 17 no de aceite). **Não verificado:** preenchimento em
