@@ -24,7 +24,8 @@
 # altura em que esse caminho relativo resolve, com export/ ligado ao workbench.
 set -u
 
-RAIZ=$(git -C "$(dirname "$0")" rev-parse --show-toplevel) || exit 1
+# RAIZ pode vir do ambiente (verificar-podman.sh: no container nao ha .git).
+RAIZ=${RAIZ:-$(git -C "$(dirname "$0")" rev-parse --show-toplevel)} || exit 1
 TEMPO=${TEMPO:-180}
 WORKBENCH=${WORKBENCH:-$HOME/Documentos/trabalho}
 TMP=$(mktemp -d "${TMPDIR:-/tmp}/crpsp-verificar.XXXXXX")

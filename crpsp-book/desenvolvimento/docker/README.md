@@ -59,6 +59,42 @@ podman --cgroup-manager=cgroupfs run --rm \
   lualatex -interaction=nonstopmode arquivo.tex
 ```
 
+## Régua dentro da imagem (`verificar-podman.sh`)
+
+Em máquina sem TeX Live nativo (WSL pessoal, CRP8057) a régua roda dentro da
+imagem, com `sh crpsp-book/desenvolvimento/verificar-podman.sh > rodada.tsv`
+(argumentos e `TEMPO` seguem para o `verificar.sh`; variáveis `IMAGEM`,
+`FONTES`, `MANUAL_DH` e `WORKBENCH` no cabeçalho do script). O fundo do
+Manual DH vai para um workbench mínimo em ext4
+(`~/.cache/crpsp-verificar/workbench`), as fontes entram em `/fonts:ro` e o
+repositório em `/repo:ro`.
+
+`linha-base-podman.tsv` é a linha de base **desta** forma de compilar, gravada em
+2026-10-31 sobre a `main` (96c07ca) com a imagem `crpsp-latex:rodada-20261031`
+(`podman --cgroup-manager=cgroupfs build -t crpsp-latex:rodada-20261031 -f Containerfile .`,
+base `texlive/texlive:latest-small` seguida de `tlmgr update --all`):
+
+| componente | versão |
+|---|---|
+| LuaHBTeX | 1.24.0 (TeX Live 2026) |
+| kernel `lualatex` | LaTeX2e 2026-11-01 (`\fmtversion` 2026-11-01) |
+| kernel `lualatex-dev` | LaTeX2e 2026-11-01 pre-release-3 (develop 2026-10-31) |
+| `latex-lab` | 2026-06-01a (rev. 80868) |
+| `tagpdf` | 1.0h (rev. 80868) |
+| `latex-base-dev` | pre-release 3 (rev. 80703) |
+| `tlmgr` | rev. 80687 (2026-10-18) |
+
+Duas rodadas seguidas saíram byte a byte idênticas (cerca de 92 s cada).
+
+**Fora da comparação nesta máquina:** `mwe_leg_completo` e `mwe_leg_glossario`
+fazem `\input` de `export/latex/` (saída do pipeline de normativas), que não
+existe aqui; terminam com erro fatal "File not found" e ficam na TSV só como
+registro. `mwe_creditos_titulo_invisivel` também sai com erro fatal
+(`crpsp-relatorio.cls` não encontrada) porque o `verificar.sh` não põe
+`v2/` no `TEXINPUTS` dos MWEs; é independente da máquina.
+Compare a rodada com `linha-base-podman.tsv`, **não** com `linha-base.tsv`
+(Fedora, outro `latex-lab`/`tagpdf`): a troca de linha-base é por máquina.
+
 ## Pacote adicional sob demanda
 
 Se um erro apontar pacote faltando:
