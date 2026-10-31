@@ -55,8 +55,26 @@ RUN tlmgr update --self \
       xurl \
       ncctools \
       titlesec \
-      tikz-bpmn
+      tikz-bpmn \
+      csquotes \
+      atkinson \
+      needspace \
+      pdfrender \
+      show-pdf-tags \
+      mwe
+# A tag latest-small da base envelhece (em 31/10/2026 ainda trazia o
+# latex-lab 79404 e o tagpdf 1.0c de junho, com o CTAN em 80868): atualiza
+# tudo para o CTAN do dia do build. Quem precisa de resultado reproduzível
+# fixa a imagem pelo rotulo (ex.: crpsp-latex:rodada-20261031) e registra as
+# versoes de `tlmgr info --only-installed latex-lab tagpdf latex-base-dev`.
+RUN tlmgr update --all
+
 # Notas:
+#  - csquotes, atkinson, needspace e pdfrender (colortbl ja estava) entram
+#    em 2026-10-31 para a rodada autonoma: a imagem local anterior nao
+#    os trazia e as ondas A/B precisam deles (crpsp-abnt, book 0.6.0-alfa).
+#    `show-pdf-tags` traz o show-pdf-tags.lua (arvore de tags do PDF).
+#    `mwe` traz example-image, que exemplo-relatorio-rosto.tex usa.
 #  - de xellipsis a ncctools: exigidos pela linha `book`
 #    (book-crpsp_acessivel.sty + guia_apresentacoes_acessiveis.tex),
 #    confirmados em 2026-08-04. `extdash.sty` NAO e pacote proprio:
