@@ -1,4 +1,4 @@
-\ProvidesPackage{livros_crp_acessivel_book}[2026/08/10 v0.5.2-beta Pacote editorial CRP-SP, variante PDF/UA (book)]
+\ProvidesPackage{livros_crp_acessivel_book}[2026/10/31 v0.5.3-alfa Pacote editorial CRP-SP, variante PDF/UA (book)]
 
 % Diretório deste .sty, capturado ANTES de qualquer \RequirePackage.
 % \CurrentFilePath (ltfilehook, kernel 2020+) vale enquanto ESTE
@@ -385,10 +385,12 @@
 % NUNCA chama \@makechapterhead. Redefinir \@makechapterhead aqui é
 % letra morta.
 %
-% Solução: redeclarar a instância 'chapter' com a identidade visual
-% CRP-SP usando \AddToHook{class/book/after} com label próprio.
-% Nota: mark-cmd usa #1 (não ##1) — dentro de \AddToHook não há
-% dobramento de parâmetro, ao contrário de \newcommand/\def.
+% Solução: EDITAR a instância 'chapter' (\EditInstance), mudando só as
+% chaves em que a identidade visual CRP-SP difere do padrão do
+% latex-lab, dentro de \AddToHook{class/book/after} com label próprio.
+% Não se redeclara mais a instância inteira: repetir chaves que são
+% puro padrão do upstream obrigava o pacote a acompanhar cada
+% renomeação de chave (ver [2026-08-04] abaixo).
 %
 % Por que \color{crp2} em title-decls e não em decls?
 % O headformat/display (sec-template v0.9b, linha ~450) executa:
@@ -406,7 +408,7 @@
 %
 % [2026-08-04] O upstream RENOMEOU as chaves do template heading/
 % display. Na v0.9g (2026-05-25, TeX Live 2026 / imagem podman) o
-% bloco escrito para a v0.9b falha com 4 erros por capítulo:
+% bloco escrito para a v0.9b falhava com 4 erros por capítulo:
 %
 %   ! LaTeX template Error: Unknown template key 'after-penalty-sep'.
 %   ! LaTeX template Error: Unknown template key 'after-sep'.
@@ -420,52 +422,73 @@
 %   decls                → heading-decls
 %   headformat-instance = display → = chapter
 %
-% Com a instância inválida a customização é ignorada por inteiro e
-% os capítulos caem no formato padrão do latex-lab (preto, sem
-% \sffamily) — falha silenciosa do ponto de vista visual.
+% Com a instância inválida a customização era ignorada por inteiro e
+% os capítulos caíam no formato padrão do latex-lab (preto, sem
+% \sffamily) — falha silenciosa do ponto de vista visual. A solução
+% de 2026-08-04 foi manter DOIS blocos de vinte linhas, um por nome
+% de chave, escolhidos por \@ifpackagelater{...}{2026/05/25}.
 %
-% Os dois ramos abaixo existem porque a linha `book` tem dois
-% motores: o podman (TL 2026, v0.9g) e o MiKTeX/Windows histórico,
-% que pode ainda trazer a v0.9b. O limiar 2026/05/25 é a versão em
-% que a renomeação foi OBSERVADA; as versões intermediárias
-% (v0.9c–v0.9f) não foram testadas — se algum motor trouxer uma
-% delas, verificar de que lado do limiar ela cai.
+% [2026-10-31] O ramo duplo foi SUBSTITUÍDO por \EditInstance, que
+% nomeia só as chaves em que o pacote difere do padrão; o resto vem
+% do upstream. Medido na imagem crpsp-latex:rodada-20261031
+% (sec-template v0.9y, 2026-10-27), comparando com o padrão da
+% instância 'chapter', as chaves que ficam são:
+%   - heading-decls, number-decls, title-decls: o visual (\sffamily,
+%     tamanhos, cor);
+%   - after-penalty-vspace: 50pt aqui contra 60pt no upstream;
+%     deixar o padrão desloca a abertura de capítulo (medido por
+%     comparação de pixels), então não é neutro;
+%   - number-format e text: aqui "Capítulo N" vai inteiro em
+%     number-format e text fica vazio; o upstream usa text=\@chapapp
+%     e number-format=\thechapter. Só aparece em documento com
+%     \setcounter{secnumdepth}{...} >= 0 (esta linha usa -1); nesse
+%     caso a página muda, medido.
+% Saíram, por medida sem efeito: column-spanning (false aqui, true no
+% upstream; só vale em twocolumn, que a linha não usa) e
+% contents-extra (\protect\addvspace{10\p@} contra \addvspace{10pt}:
+% mesmo valor, só o texto no .lof/.lot muda). name, level,
+% placement, after-vspace, headformat-instance e mark-cmd já eram o
+% padrão.
+%
+% Três estados, porque EditInstance exige instância e chaves que só
+% existem no módulo atual:
+%   1. módulo presente e >= 2026/05/25 (nomes de chave novos): edita;
+%   2. módulo presente e mais antigo (v0.9b e afins): as chaves têm
+%      outros nomes; avisa e deixa o padrão (antes dava 4 erros por
+%      capítulo, e a customização do ramo antigo se perde);
+%   3. módulo ausente (latex-lab sem o sec-template, ou \DocumentMetadata
+%      sem tagging=on): \@ifpackagelater cai no ramo falso, igual ao
+%      estado 2, e por isso \@ifpackageloaded vem antes. Avisa e deixa o
+%      padrão do book.
+% O limiar 2026/05/25 é a versão em que a renomeação foi OBSERVADA;
+% as intermediárias (v0.9c–v0.9f) não foram testadas.
 \AddToHook{class/book/after}[crp/chapter]{%
-    \@ifpackagelater{latex-lab-testphase-sec-template}{2026/05/25}
-        {\DeclareInstance{heading}{chapter}{display}
-            {%
-                , name                 = chapter
-                , level                = 0
-                , placement            = top
-                , after-penalty-vspace = 50pt
-                , after-vspace         = 40pt
-                , number-format        = \@chapapp\space\thechapter
-                , heading-decls        = \raggedright\parindent0pt\bfseries\sffamily
-                , number-decls         = \huge\color{crp1}
-                , title-decls          = \Huge\color{crp1}
-                , headformat-instance  = chapter
-                , mark-cmd             = \chaptermark {#1}
-                , contents-extra       = \addtocontents{lof}{\protect\addvspace{10\p@}}%
-                                         \addtocontents{lot}{\protect\addvspace{10\p@}}%
-            }%
+    \@ifpackageloaded{latex-lab-testphase-sec-template}
+        {\@ifpackagelater{latex-lab-testphase-sec-template}{2026/05/25}
+            {\EditInstance{heading}{chapter}
+                {%
+                    , after-penalty-vspace = 50pt
+                    , text                 = \NoValue
+                    , number-format        = \@chapapp\space\thechapter
+                    , heading-decls        = \raggedright\parindent0pt\bfseries\sffamily
+                    , number-decls         = \huge\color{crp1}
+                    , title-decls          = \Huge\color{crp1}
+                }%
+            }
+            {\PackageWarning{livros_crp_acessivel_book}%
+                {O modulo latex-lab-testphase-sec-template e anterior a
+                 2026/05/25 (chaves de template com outros nomes).\MessageBreak
+                 Os titulos de capitulo ficam no formato padrao, sem a
+                 identidade visual do CRP-SP.\MessageBreak
+                 Atualize o latex-lab (TeX Live ou MiKTeX)}}%
         }
-        {\DeclareInstance{heading}{chapter}{display}
-            {%
-                , name               = chapter
-                , level              = 0
-                , placement          = top
-                , after-penalty-sep  = 50pt
-                , after-sep          = 40pt
-                , number-format      = \@chapapp\space\thechapter
-                , decls              = \raggedright\parindent0pt\bfseries\sffamily
-                , number-decls       = \huge\color{crp1}
-                , title-decls        = \Huge\color{crp1}
-                , headformat-instance = display
-                , mark-cmd           = \chaptermark {#1}
-                , contents-extra     = \addtocontents{lof}{\protect\addvspace{10\p@}}%
-                                       \addtocontents{lot}{\protect\addvspace{10\p@}}%
-            }%
-        }%
+        {\PackageWarning{livros_crp_acessivel_book}%
+            {O modulo latex-lab-testphase-sec-template nao foi carregado.\MessageBreak
+             Os titulos de capitulo ficam no formato padrao do book, sem a
+             identidade visual do CRP-SP.\MessageBreak
+             Use \string\DocumentMetadata{... tagging=on} antes de
+             \string\documentclass\space e atualize o latex-lab se o
+             aviso persistir}}%
 }
 
 % \TOCAcessivel: substituto de \tableofcontents para contornar

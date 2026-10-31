@@ -24,6 +24,33 @@ com a fase dada pela circulação da publicação:
 As cópias de produção tiveram a declaração corrigida no mesmo dia; os corpos
 não foram tocados.
 
+## 0.5.3-alfa — 2026/10/31
+
+`book-crpsp_acessivel.sty`. Fecha a pendência 4 do `ESTADO ATUAL.md`: o bloco
+dos títulos de capítulo deixa de redeclarar a instância `heading/chapter` do
+`sec-template` (dois ramos de treze chaves, por `\@ifpackagelater`) e passa a
+**editá-la** com `\EditInstance`, nomeando só o que difere do padrão do
+latex-lab, dentro de um `\@ifpackageloaded`.
+
+- **Seis chaves ficam**, medidas contra o `sec-template` v0.9y (imagem
+  `crpsp-latex:rodada-20261031`): `heading-decls`, `number-decls`,
+  `title-decls` e também `after-penalty-vspace` (50pt contra 60pt do upstream;
+  sem ela a abertura de capítulo desloca), `number-format` e `text` (só
+  aparecem com `secnumdepth` >= 0, que a linha desliga; com ele a página
+  muda). O ESTADO dizia "só três diferem"; a medida diz seis.
+- **Duas saem, sem efeito medido**: `column-spanning` (só vale em `twocolumn`)
+  e `contents-extra` (`10\p@` contra `10pt`, mesmo valor; só o texto no
+  `.lof`/`.lot` muda). As outras cinco já eram o padrão.
+- **Três estados**: módulo presente e >= 2026/05/25, edita; presente e mais
+  antigo, `\PackageWarning` e formato padrão (em motor com a v0.9b o ramo de
+  nomes velhos dava a identidade visual; agora só o aviso); ausente, `\PackageWarning` e formato padrão do `book`.
+  Antes, o `\@ifpackagelater` não distinguia "antigo" de "ausente".
+- Sem mudança de aparência nem de árvore de tags nos MWEs que carregam o pacote
+  (comparação de pixels a 100 dpi e `show-pdf-tags --tree`). Falta comparar no
+  MiKTeX, motor de referência histórico da linha.
+- Numeração: PATCH sobre a 0.5.2-beta, fase `alfa` (nenhuma publicação circulou
+  com este corpo). A #35 sobe a série para 0.6.0-alfa, que fica acima.
+
 ## 0.5.2-beta — 2026/08/10
 
 `book-crpsp_acessivel.sty`. Acrescenta o ambiente `NomesDuasColunas`: lista de

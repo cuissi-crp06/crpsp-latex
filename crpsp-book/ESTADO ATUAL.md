@@ -308,6 +308,11 @@ linha-base: mesmo número de objetos, nenhum erro novo.
 
 ## PENDÊNCIA 4 — o ramo do `sec-template` supõe que o módulo existe
 
+**Atualização de 31/10/2026:** tratada no PR `claude/sec-template-editinstance`
+(`book-crpsp_acessivel.sty` 0.5.3-alfa), ainda aberto. A medida na imagem
+contradiz a contagem abaixo: das treze chaves, seis ficam (as três citadas, mais
+`after-penalty-vspace`, `number-format` e `text`). Ver `CHANGELOG.md`.
+
 **Prioridade: baixa**, porque MiKTeX e TeX Live atualizados trazem o módulo.
 Mas um motor sem ele (TeX Live de distribuição, MiKTeX desatualizado) falha com
 erro fatal em vez de cair num padrão. Conferir `\@ifpackageloaded` antes do
