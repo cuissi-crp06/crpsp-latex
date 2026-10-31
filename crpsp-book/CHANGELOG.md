@@ -24,6 +24,60 @@ com a fase dada pela circulação da publicação:
 As cópias de produção tiveram a declaração corrigida no mesmo dia; os corpos
 não foram tocados.
 
+## 0.6.0-alfa — 2026/10/31
+
+`book-crpsp_acessivel.sty` e `crpsp-leg.sty` (0.3.1-alfa). Issue #35: o que o
+*Guia de boas práticas para apresentações acessíveis* (revisão 2, 30/09 e 01/10/2026)
+resolveu só no `.tex` da publicação passa a ser o padrão da linha, mais as opções
+`web` e `print`. `-alfa`: nenhuma publicação circulou com este corpo.
+
+- **Fonte do corpo:** Atkinson Hyperlegible Next pelo `Path` do kpathsea (padrão da
+  `relatorio.sty`), com erro se faltar; saem a Lora e a exigência dos `Lora-*.ttf`.
+  Os oito `Lora-*.ttf` **ficam** em `desenvolvimento/mwe/`: os MWEs `mwe_sty_manual`
+  e `mwe_sty_notitlesec` carregam as variantes de `legado/book-variantes/`, que
+  ainda exigem a Lora (uma primeira versão desta entrada os removeu e quebrou os
+  dois; a régua pegou). `\tracinglostchars=3`: glifo ausente vira erro.
+- **Composição:** sem hifenização (`\hyphenpenalty`, `\exhyphenpenalty`, mais
+  `\lefthyphenmin`/`\righthyphenmin` em 62 no gancho `para/begin`); órfãs e
+  viúvas em 10000, com `\@clubpenalty` (o `\@afterheading` o reatribui depois de
+  todo título); `\raggedright` do kernel ligado no início do documento no lugar do
+  `\justifying` (o `ragged2e` sai: o `\RaggedRight` deixava `/TextAlign /Justify`
+  na árvore); `\raggedbottom` e `\topskip` de 11 pt.
+- **Saem** `pdfpages`, `ragged2e` e o exemplo com `alt={}` no comentário. Entra
+  `colortbl`. O comentário de `\DocumentMetadata` pede só `tagging=on`.
+- **Comandos novos:** `\estrangeirismo`, `tabelaguia` (e a coluna `L{}`),
+  `\FundoArtefato`, `\FundoTexto`, `\iniciotextual`, ambiente `Colofao`.
+- **Opções `web` e `print`.** `web`: `oneside` e `openany`, fundo só o ímpar,
+  `\nocite{*}` se o biblatex estiver carregado. `print`: `twoside` e `openright`,
+  fundos ímpar e par, citação a cargo do documento. Sem opção, respeita o
+  `\documentclass`. Achado: o `geometry` relê as opções do `\documentclass` e religa
+  `\@twosidetrue`; por isso a opção também passa `twoside=` ao `geometry` por
+  `\PassOptionsToPackage` (sem isso, `web` com `twoside` no `\documentclass` seguia
+  em `twoside`: medido). Fora: cinza, corte, sangria e PDF/X.
+- **Sumário sem hifenização.** `\l@chapter` ganha `\rightskip` com `plus 4em` e
+  `\tolerance 10000` no grupo da entrada. `desenvolvimento/medida/sumario-longo.tex`
+  (48 entradas, 3 a 18 palavras): margem rígida, 42 entradas estouram (até 81 pt);
+  só `plus 4em` (guia), 12 (até 40 pt); `plus 4em` e tolerância, 0.
+- **`crpsp-leg.sty` 0.3.1-alfa:** `\LegEmenta` usa `\raggedright` no lugar de
+  `\justifying`, porque o `ragged2e` saiu. Mudança visual: a ementa deixa de ser
+  justificada.
+- **MWEs:** `mwe_book_web.tex` e `mwe_book_print.tex` (mesmo conteúdo em
+  `mwe/book_comum/`; o `\documentclass` de cada um pede o contrário da opção).
+  Com `biber` e `crpsp-abnt`: web 17 páginas, print 23; 0 erro, 0 caractere ausente,
+  veraPDF ua2 PASS nos dois. Diferenças: 0 página em branco na web e 6 na print
+  (páginas 4, 6, 8, 12, 14 e 20); fundo ímpar em todas as páginas de texto da web, e
+  alternado na print; 4 referências na web (uma nunca citada, por `\nocite{*}`) e 3
+  na print. Os dois têm 3 `Span` com `/Lang (en)` e 0 `/Justify` na árvore.
+- **Régua** contra `linha-base-podman.tsv`: os 28 arquivos antigos saem com as mesmas
+  páginas e objetos (por exemplo `mwe_acessivel_book`, 11 páginas e 125 objetos, agora
+  em Atkinson: 4 linhas terminadas em hífen antes, 0 depois). Entram os dois MWEs
+  novos na linha-base (16 e 21 páginas, 246 objetos; a régua não roda o `biber`, daí
+  a lista de referências vazia).
+- **Pendências:** sem conferência no MiKTeX; a troca de voz do `\estrangeirismo` não
+  foi ouvida (NVDA + Acrobat); título de capítulo muito longo estoura o cabeçalho
+  das páginas pares em `twoside` (`\leftmark` não quebra); `\raggedright` global é
+  decisão a confirmar; qual opção é o padrão, também.
+
 ## 0.5.2-beta — 2026/08/10
 
 `book-crpsp_acessivel.sty`. Acrescenta o ambiente `NomesDuasColunas`: lista de

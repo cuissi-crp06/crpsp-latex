@@ -1,4 +1,11 @@
-## Análise de `book-crpsp_acessivel.sty` (v0.4.2)
+> **Atualização de 2026-10-31 (v0.6.0-alfa, issue #35).** O corpo mudou em relação
+> à análise abaixo (escrita na v0.4.2): Atkinson Hyperlegible Next no lugar da Lora,
+> sem hifenização, sem órfãs e viúvas, alinhamento à esquerda e pé irregular, sem
+> `pdfpages` e sem `ragged2e`, `\DocumentMetadata` só com `tagging=on`, opções
+> `web` e `print` e comandos novos (ver a seção 11). As seções 2, 3.1, 3.2, 3.3 e 3.4
+> já estão ajustadas; o resto da análise vale como estava.
+
+## Análise de `book-crpsp_acessivel.sty` (v0.4.2)
 
 ### 1. Contexto e propósito
 
@@ -12,9 +19,11 @@ A decisão arquitetural central foi a **migração de `memoir` para `book`**
 
 O `.tex` principal **deve** conter **antes** do `\documentclass`:
 
-`\DocumentMetadata{     lang        = pt-BR,     pdfstandard = ua-2,     pdfversion  = 2.0,     testphase   = {phase-III,table,firstaid},     tagging     = on, } \documentclass[11pt,a5paper,twoside,openright]{book}`
+`\DocumentMetadata{     lang        = pt-BR,     pdfstandard = ua-2,     pdfversion  = 2.0,     tagging     = on, } \documentclass[11pt,a5paper,twoside,openright]{book}`
 
 Sem isso, os workarounds de tagging não fazem sentido e a identidade visual pode degradar.
+
+A chave `testphase={phase-III,...}`, que a documentação anterior prescrevia, é sintaxe legada ([issue 1484 do tagging-project](https://github.com/latex3/tagging-project/issues/1484), 2026-07-14): trabalho novo usa só `tagging=on`. Os MWEs antigos da régua ainda a declaram; os novos (`mwe_book_web`, `mwe_book_print`) não.
 
 ---
 
@@ -25,26 +34,26 @@ Sem isso, os workarounds de tagging não fazem sentido e a identidade visual pod
 |Aspecto|Implementação|
 |---|---|
 |**Motor**|`fontspec` com opção `[no-math]`|
-|**Fonte serifada**|Lora (TTF, carregada do diretório local via `Path=./`)|
+|**Fonte do corpo**|Atkinson Hyperlegible Next (OTF do pacote `atkinson` do TeX Live), pelo `Path` resolvido no kpathsea; erro se faltar. `\tracinglostchars=3` faz glifo ausente (a Atkinson não tem U+0060) virar erro|
 |**Fonte sans-serif**|NEWJUNE (família completa com 7 pesos: Regular, Bold, Medium, Fine, Light, Book, Ultrabold + itálicos)|
 |**Famílias customizadas**|`\media`, `\fininha`, `\Light`, `\fontebook`, `\serifada`, `\pesada`|
 |**Microtipografia**|`microtype` (protrusion + expansion)|
-|**Hifenização**|`babel[brazilian]` + `hyphenat` + `\hyph` para compostos|
+|**Hifenização**|Desligada (`\hyphenpenalty` e `\exhyphenpenalty` em 10000, mais o mesmo e `\lefthyphenmin`/`\righthyphenmin` em 62 no gancho `para/begin`). `babel[brazilian]` e `hyphenat` seguem carregados; `\hyph` marca ponto de quebra explícito em composto|
 |**Reticências**|`xellipsis[oldmla]` — compatível com leitores de tela|
 |**Espaçamento**|`\frenchspacing`|
 
-**Observação PDF/UA:** A fonte Lora em TTF OpenType com cmap válido garante tabela ToUnicode correta, essencial para acessibilidade.
+**Observação PDF/UA:** o LuaTeX embute a fonte OpenType (subconjunto) com ToUnicode correto, essencial para acessibilidade. A Lora e a exigência dos `Lora-*.ttf` na pasta do documento saíram da `.sty` na 0.6.0; os arquivos continuam em `desenvolvimento/mwe/` só para as variantes de `legado/book-variantes/` que os MWEs `mwe_sty_manual` e `mwe_sty_notitlesec` ainda carregam.
 
 #### 3.2 Cores e gráficos (seção 2)
 
 - **Paleta CRP-SP:** `crp1` (azul escuro `#04586E`), `crp2` (azul médio `#199FAF`), `crp3` (rosa claro `#BF73AB`)
 - **`eso-pic` substituiu `background`:** A API legada do `background` (v2.1 de 2014) injetava um "Draft" como marca d'água que virava conteúdo tagueado indesejado. `eso-pic` é ativamente mantido e integra bem com tagging.
-- **Recomendação para imagens de fundo:** usar `alt={}` (string vazia) para marcar como artefato decorativo.
+- **Imagens de fundo são artefato:** `\includegraphics[artifact]{...}` (o latex-lab trata `alt={}` vazio como alt ausente, então não serve). `\FundoArtefato` (próxima página) e `\FundoTexto` (todas as páginas) já fazem isso.
 
 #### 3.3 Tabelas (seção 3)
 
-Pacotes carregados: `array`, `multirow`, `longtable`, `tabularx`, `booktabs`, `enumitem`.  
-Configurações: coluna `P{<larg>}` (centralizada), `\arraystretch=1.2`.
+Pacotes carregados: `array`, `colortbl`, `multirow`, `longtable`, `tabularx`, `booktabs`, `enumitem`.  
+Configurações: colunas `P{<larg>}` (centralizada) e `L{<larg>}` (à esquerda; sem hifenização, a célula `p{}` justificada estica os espaços), `\arraystretch=1.2`. Para tabela de dados com cabeçalho repetido, ver `tabelaguia` na seção 11.
 
 #### 3.4 Diagramação e layout (seção 4) — **mudanças significativas**
 
@@ -61,11 +70,13 @@ Reproduz manualmente o `\semiisopage` do `memoir` para A5:
 - `\setcounter{tocdepth}{0}` — apenas partes e capítulos
 - `\setcounter{secnumdepth}{-1}` — sem numeração visível (hierarquia via tags)
 
-**Redefinição de `\l@chapter`:** reduz o `\addvspace` de 1.0em para 0.5em para evitar transbordo da última entrada para página extra.
+**Redefinição de `\l@chapter`:** reduz o `\addvspace` de 1.0em para 0.5em para evitar transbordo da última entrada para página extra. Desde a 0.6.0 a margem direita da entrada é elástica (`\rightskip` com `plus 4em`) e a tolerância fica aberta dentro do grupo, porque sem hifenização a entrada longa batia no número da página (medida na seção 11).
 
-**Penalidades tipográficas:** altamente restritivas contra viúvas e órfãs (`widowpenalty=9999`, `clubpenalty=9996`).
+**Penalidades tipográficas:** viúvas e órfãs proibidas (`\widowpenalty`, `\clubpenalty` e `\@clubpenalty` em 10000; o `\@afterheading` reatribui o `\clubpenalty` depois de todo título, então só o `\@clubpenalty` segura o ajuste nos capítulos). Antes eram 9999 e 9996.
 
-**Parskip:** 0.5\baselineskip + 2pt (equivalente ao `\nonzeroparskip` do memoir).
+**Parskip:** 0.5\baselineskip + 2pt (equivalente ao `\nonzeroparskip` do memoir).
+
+**Alinhamento e pé de página (0.6.0):** `\raggedright` do kernel ligado no início do documento (no lugar do `\justifying` do `ragged2e`, que deixava `/TextAlign /Justify` na árvore de tags); `\raggedbottom` e `\topskip` rígido de 11 pt, de modo que a primeira linha de toda página de texto cai à mesma distância do cabeçalho. Custo: pé de página irregular.
 
 **Espaçamento entre linhas:** indireção via `\setasuspacing`, padrão `onehalfspacing`.
 
@@ -139,6 +150,8 @@ O `nameref` captura `\@chapter` antes de `\@makechapterhead` estar dispon�
 |Comando/Ambiente|Função|Status PDF/UA|
 |---|---|---|
 |`\SubTituloUm`|Subtítulo sobrescrito ao título de capítulo|✅|
+|`\estrangeirismo{idioma}{termo}`|Itálico + `Span` com `/Lang` (0.6.0)|✅ no veraPDF; leitor de tela não verificado|
+|`tabelaguia`, `\FundoArtefato`, `\FundoTexto`, `\iniciotextual`, `Colofao`|Ver a seção 11 (0.6.0)|✅|
 |`\Entretitulo`|Intertítulo em `crp1` + `\Light`|✅|
 |`\setetoques`|Filete decorativo|✅ (semântica neutra)|
 |`\assinaapresenta`|Bloco de assinatura institucional|⚠️ (flushright pode gerar warning de ordem de leitura)|
@@ -311,3 +324,68 @@ na forma csname atravessa quebra de página) e
 [`relato-atkinson-u0060.md`](briefings/relato-atkinson-u0060.md) (rascunho de
 e-mail ao mantenedor do pacote CTAN `atkinson`: o `.otf` embarcado não mapeia
 U+0060, e a convenção de aspas do TeX falha em silêncio sob fontspec).
+
+---
+
+## 11. Versão 0.6.0-alfa: opções `web` e `print` e o que veio do guia (issue #35)
+
+A revisão 2 do *Guia de boas práticas para apresentações acessíveis* reuniu em 30/09
+e 01/10/2026 soluções que viviam só no `.tex` da publicação. A 0.6.0-alfa as traz
+para a `.sty`. Detalhe da numeração e das medidas em `CHANGELOG.md`.
+
+### Opções do pacote
+
+| | sem opção | `web` | `print` |
+|---|---|---|---|
+| Faces e abertura de capítulo | as do `\documentclass` | `oneside` + `openany` | `twoside` + `openright` |
+| Fundo de texto (`\FundoTexto`) | ímpar/par se `twoside`, só o ímpar se `oneside` | só o ímpar | ímpar e par |
+| Referências | a cargo do documento | `\nocite{*}` se o biblatex estiver carregado | a cargo do documento |
+
+As opções forçam `\if@twoside` e `\if@openright` no início do pacote, antes do
+`geometry`. O `geometry` relê as opções do `\documentclass` e religaria o `twoside`,
+então a `.sty` também repassa `twoside=false` (ou `true`) a ele por
+`\PassOptionsToPackage`. Por isso a opção vale mesmo quando o `\documentclass`
+pede o contrário (os dois MWEs fazem isso de propósito). **Sem opção** o pacote
+respeita o `\documentclass`, para não quebrar documento existente; a decisão de
+qual deve ser o padrão fica com o mantenedor. Fora do escopo, por decisão: cinza,
+corte, sangria e PDF/X do `print`.
+
+### Comandos e ambientes novos
+
+| Item | Função |
+|---|---|
+| `\estrangeirismo{en}{termo}` | itálico + `Span` com `/Lang` (WCAG 3.1.2); `\foreignlanguage` do babel não grava `/Lang` sob `tagging=on`. Não usar em título |
+| `tabelaguia{colunas}` | `longtable` com a primeira linha como cabeçalho (repetido na quebra), `\footnotesize`, `\arraystretch` 1,3; `\rowcolor` por `colortbl`. Colunas `L{larg}` (à esquerda) |
+| `\FundoArtefato{arte.pdf}` | arte de página inteira, só na próxima página, como artefato (capa e quarta capa) |
+| `\FundoTexto{impar.pdf}{par.pdf}` | fundo de todas as páginas daqui em diante, como artefato; alterna ímpar/par só em `twoside` |
+| `\iniciotextual` | `\mainmatter` + `\pagestyle{crp}`: a Introdução fica no pré-textual e a numeração árabe começa no primeiro capítulo |
+| `Colofao` | página própria com os créditos técnicos, a licença e a ficha catalográfica, se houver |
+
+`\SubTituloUm` e `\assinaapresenta` passaram de `\justifying` a `\raggedright`; o
+`crpsp-leg.sty` (0.3.1-alfa) também, em `\LegEmenta`, porque o `ragged2e` saiu.
+
+### MWEs
+
+`desenvolvimento/mwe/mwe_book_web.tex` e `mwe_book_print.tex` compilam o mesmo
+conteúdo (`mwe/book_comum/corpo.tex`, `refs.bib` e fundos A5 provisórios, gerados por
+`gerar-fundos.tex`) com uma opção e a outra. O `\documentclass` de cada um pede o
+contrário da opção. Sem `crpsp-abnt.bbx` no caminho (régua), caem para `authoryear` e
+a lista sai vazia, porque o biber não roda lá; para a lista real, compilar com
+`lualatex`, `biber`, `lualatex` (duas vezes) e `crpsp-abnt` e `biblatex-abnt` no
+`TEXINPUTS`.
+
+### Sumário sem hifenização
+
+`desenvolvimento/medida/sumario-longo.tex` gera 48 capítulos com títulos de 3 a 18
+palavras e conta os `Overfull` do sumário. Com a margem rígida do `book.cls`, 42
+entradas estouram (até 81 pt); com `plus 4em` (solução do guia), 12 (até 40 pt); com
+`plus 4em` e `\tolerance 10000` dentro do grupo da entrada, nenhuma. É a solução
+adotada em `\l@chapter`; a escolha final é do mantenedor.
+
+### Pendente
+
+- Nenhuma conferência no MiKTeX (a linha `book` foi medida no podman).
+- A troca de voz do `\estrangeirismo` não foi ouvida em NVDA + Acrobat Reader.
+- Título de capítulo muito longo estoura o cabeçalho corrente das páginas pares em
+  `twoside` (`\leftmark` não quebra linha): o aviso do `fancyhdr` sobre
+  `\headheight` aparece no MWE `print`.
