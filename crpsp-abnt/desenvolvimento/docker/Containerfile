@@ -1,0 +1,19 @@
+# Imagem da régua do crpsp-abnt: a imagem fixa da rodada de 31/10/2026 mais o
+# que o verificar.sh e os casos pedem e ela não traz.
+#
+#   cd crpsp-abnt/desenvolvimento/docker
+#   podman --cgroup-manager=cgroupfs build -t crpsp-latex:rodada-20261031-abnt .
+#
+# - biblatex-abnt: o upstream que o crpsp-abnt estende (abnt.bbx).
+# - poppler-utils: pdftotext, com que medir.py e casos/verificar.sh extraem o texto.
+# - show-pdf-tags: o TeX Live instala só o show-pdf-tags.lua; casos/verificar.sh
+#   chama o comando `show-pdf-tags`, então o invólucro vai em /usr/local/bin.
+# O veraPDF não entra na imagem: o verificar-podman.sh monta ~/verapdf (o container
+# traz o Java).
+FROM crpsp-latex:rodada-20261031
+RUN tlmgr install biblatex-abnt \
+ && apt-get update \
+ && apt-get install -y --no-install-recommends poppler-utils \
+ && rm -rf /var/lib/apt/lists/* \
+ && printf '#!/bin/sh\nexec texlua "$(kpsewhich --progname=texlua show-pdf-tags.lua)" "$@"\n' > /usr/local/bin/show-pdf-tags \
+ && chmod +x /usr/local/bin/show-pdf-tags
