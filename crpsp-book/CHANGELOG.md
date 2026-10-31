@@ -32,9 +32,11 @@ resolveu só no `.tex` da publicação passa a ser o padrão da linha, mais as o
 `web` e `print`. `-alfa`: nenhuma publicação circulou com este corpo.
 
 - **Fonte do corpo:** Atkinson Hyperlegible Next pelo `Path` do kpathsea (padrão da
-  `relatorio.sty`), com erro se faltar; saem a Lora e a exigência dos `Lora-*.ttf`
-  (os oito, removidos de `desenvolvimento/mwe/`). `\tracinglostchars=3`: glifo
-  ausente vira erro.
+  `relatorio.sty`), com erro se faltar; saem a Lora e a exigência dos `Lora-*.ttf`.
+  Os oito `Lora-*.ttf` **ficam** em `desenvolvimento/mwe/`: os MWEs `mwe_sty_manual`
+  e `mwe_sty_notitlesec` carregam as variantes de `legado/book-variantes/`, que
+  ainda exigem a Lora (uma primeira versão desta entrada os removeu e quebrou os
+  dois; a régua pegou). `\tracinglostchars=3`: glifo ausente vira erro.
 - **Composição:** sem hifenização (`\hyphenpenalty`, `\exhyphenpenalty`, mais
   `\lefthyphenmin`/`\righthyphenmin` em 62 no gancho `para/begin`); órfãs e
   viúvas em 10000, com `\@clubpenalty` (o `\@afterheading` o reatribui depois de

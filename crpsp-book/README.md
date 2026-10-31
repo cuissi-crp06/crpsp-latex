@@ -42,7 +42,7 @@ A chave `testphase={phase-III,...}`, que a documentação anterior prescrevia, �
 |**Reticências**|`xellipsis[oldmla]` — compatível com leitores de tela|
 |**Espaçamento**|`\frenchspacing`|
 
-**Observação PDF/UA:** o LuaTeX embute a fonte OpenType (subconjunto) com ToUnicode correto, essencial para acessibilidade. A Lora e a exigência dos `Lora-*.ttf` na pasta do documento saíram na 0.6.0.
+**Observação PDF/UA:** o LuaTeX embute a fonte OpenType (subconjunto) com ToUnicode correto, essencial para acessibilidade. A Lora e a exigência dos `Lora-*.ttf` na pasta do documento saíram da `.sty` na 0.6.0; os arquivos continuam em `desenvolvimento/mwe/` só para as variantes de `legado/book-variantes/` que os MWEs `mwe_sty_manual` e `mwe_sty_notitlesec` ainda carregam.
 
 #### 3.2 Cores e gráficos (seção 2)
 
