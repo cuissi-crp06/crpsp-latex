@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
-"""Testes de verificar-coerencia.py e comparar-linha-base.py (só biblioteca padrão).
+"""Testes de verificar-coerencia.py, comparar-linha-base.py e comparar-verapdf.py (só biblioteca padrão).
 
     python3 -m unittest discover -s ferramentas -v
 
 Todo caso sintético nasce numa pasta temporária; nada é escrito no repositório.
 """
 
+import json
 import subprocess
 import sys
 import tempfile
@@ -15,6 +16,7 @@ from pathlib import Path
 AQUI = Path(__file__).resolve().parent
 COERENCIA = AQUI / "verificar-coerencia.py"
 LINHA_BASE = AQUI / "comparar-linha-base.py"
+VERAPDF = AQUI / "comparar-verapdf.py"
 
 
 def sty(nome="pacote", data="2026/10/31", versao="0.5.3-alfa", corpo="\\relax\n"):
@@ -196,6 +198,81 @@ class LinhaBase(unittest.TestCase):
     def test_rodada_vazia_falha(self):
         rc, saida = self.comparar("", "mwe/a.tex\tlualatex\t1\t1\t0\t0\t0\t\n")
         self.assertEqual(rc, 1, saida)
+
+
+class VeraPDF(unittest.TestCase):
+    LISTA = "# comentário\nmwe/a.tex\nv2/b.tex\n"
+
+    def setUp(self):
+        self._tmp = tempfile.TemporaryDirectory()
+        self.pasta = Path(self._tmp.name)
+        self.addCleanup(self._tmp.cleanup)
+
+    @staticmethod
+    def job(nome, regras=(), status="normal"):
+        resumos = [
+            {"ruleStatus": "FAILED", "status": "failed", "clause": c, "testNumber": int(t)}
+            for c, t in (r.split("#") for r in regras)
+        ]
+        return {
+            "itemDetails": {"name": f"/data/{nome}", "size": 1},
+            "validationResult": [
+                {"jobEndStatus": status, "compliant": not resumos, "details": {"ruleSummaries": resumos}}
+            ],
+        }
+
+    def comparar(self, jobs, esperado="", lista=None):
+        (self.pasta / "r.json").write_text(json.dumps({"report": {"jobs": jobs}}), encoding="utf-8")
+        (self.pasta / "e.txt").write_text(esperado, encoding="utf-8")
+        (self.pasta / "l.txt").write_text(self.LISTA if lista is None else lista, encoding="utf-8")
+        return rodar(VERAPDF, self.pasta / "r.json", self.pasta / "e.txt", self.pasta / "l.txt",
+                     "--resumo", self.pasta / "resumo.md")
+
+    def test_tudo_como_esperado_passa(self):
+        rc, saida = self.comparar(
+            [self.job("mwe_a.pdf"), self.job("v2_b.pdf", ["8.11.1#1", "Table 5. P-P#1"])],
+            "v2/b.tex\t8.11.1#1,Table 5. P-P#1\tdc:title\n",
+        )
+        self.assertEqual(rc, 0, saida)
+        self.assertIn("1 PASS, 1 FAIL esperado", saida)
+        self.assertIn("1 PASS", (self.pasta / "resumo.md").read_text(encoding="utf-8"))
+
+    def test_regra_nova_falha(self):
+        rc, saida = self.comparar([self.job("mwe_a.pdf", ["8.2.1#1"]), self.job("v2_b.pdf")])
+        self.assertEqual(rc, 1, saida)
+        self.assertIn("não esperada: 8.2.1#1", saida)
+
+    def test_regra_esperada_que_passou_falha(self):
+        rc, saida = self.comparar(
+            [self.job("mwe_a.pdf"), self.job("v2_b.pdf")], "mwe/a.tex\t8.11.1#1\tmotivo\n"
+        )
+        self.assertEqual(rc, 1, saida)
+        self.assertIn("tire-a de ci-verapdf-esperado.txt", saida)
+
+    def test_pdf_ausente_do_relatorio_falha(self):
+        rc, saida = self.comparar([self.job("mwe_a.pdf")])
+        self.assertEqual(rc, 1, saida)
+        self.assertIn("sem PDF no relatório", saida)
+
+    def test_job_que_nao_terminou_normal_falha(self):
+        rc, saida = self.comparar([self.job("mwe_a.pdf", status="failedParsing"), self.job("v2_b.pdf")])
+        self.assertEqual(rc, 1, saida)
+        self.assertIn("jobEndStatus", saida)
+
+    def test_excecao_fora_da_lista_ou_sem_motivo_falha(self):
+        jobs = [self.job("mwe_a.pdf"), self.job("v2_b.pdf")]
+        rc, saida = self.comparar(jobs, "mwe/x.tex\t8.11.1#1\tmotivo\n")
+        self.assertEqual(rc, 1, saida)
+        rc, saida = self.comparar(jobs, "mwe/a.tex\t8.11.1#1\n")
+        self.assertEqual(rc, 1, saida)
+
+    def test_relatorio_ilegivel_falha(self):
+        (self.pasta / "r.json").write_text("", encoding="utf-8")
+        (self.pasta / "e.txt").write_text("", encoding="utf-8")
+        (self.pasta / "l.txt").write_text(self.LISTA, encoding="utf-8")
+        rc, saida = rodar(VERAPDF, self.pasta / "r.json", self.pasta / "e.txt", self.pasta / "l.txt")
+        self.assertEqual(rc, 1, saida)
+        self.assertIn("ilegível", saida)
 
 
 if __name__ == "__main__":

@@ -2,7 +2,8 @@
 #
 # O CI NÃO substitui a régua local (crpsp-book/desenvolvimento/verificar-podman.sh):
 # ela precisa da NewJune, que é proprietária e não está no repositório, nem no
-# runner. Aqui rodam só as verificações que não dependem de fonte proprietária.
+# runner. Aqui rodam só as verificações que não dependem de fonte proprietária:
+# coerência de versões, compilação dos MWEs e PDF/UA-2 (veraPDF) desses mesmos MWEs.
 # Ver a seção "Integração contínua" do README.md.
 name: CI
 
@@ -23,6 +24,14 @@ env:
   # tag `latest` de 2026-11-01. Para atualizar: trocar o digest, rodar o job e,
   # se a TSV mudar, decidir se é regressão ou nova linha-base.
   IMAGEM_TEXLIVE: docker.io/texlive/texlive@sha256:07e8062637249c4f780ca59f42cc2ed592bc2dc1db4320769406aee3f98aa70e
+
+  # veraPDF 1.30.2 (mesma versão da régua local em ~/verapdf), imagem oficial
+  # fixada pelo digest da tag v1.30.2 (publicada em 2026-06-03, só amd64). Para
+  # trocar: `docker buildx imagetools inspect docker.io/verapdf/cli:vX.Y.Z` (ou
+  # a API do Docker Hub) dá o digest; troque-o aqui e a versão neste comentário,
+  # rode o job e, se mudar o conjunto de regras reprovadas, confira
+  # crpsp-book/desenvolvimento/ci-verapdf-esperado.txt (regressão ou melhoria?).
+  IMAGEM_VERAPDF: docker.io/verapdf/cli@sha256:d5ee329657cf9bc4b2400392dd54c7d0a0ce9980ff6fa2da5590eebeec007cdb
 
 jobs:
   coerencia:
@@ -61,11 +70,14 @@ jobs:
         run: docker pull "$IMAGEM_TEXLIVE"
 
       - name: Compilar (verificar.sh, só a lista ci-sem-fontes.txt)
+        id: compilar
         run: |
           DEV=crpsp-book/desenvolvimento
+          mkdir -p "$RUNNER_TEMP/pdfs"
           docker run --rm \
             -v "$GITHUB_WORKSPACE":/repo:ro \
-            -e RAIZ=/repo -e WORKBENCH=/nonexistent -e TEMPO=180 \
+            -v "$RUNNER_TEMP/pdfs":/saida \
+            -e RAIZ=/repo -e WORKBENCH=/nonexistent -e TEMPO=180 -e SAIDA_PDF=/saida \
             -w /tmp "$IMAGEM_TEXLIVE" \
             sh -c "sh /repo/$DEV/verificar.sh \$(grep -v '^#' /repo/$DEV/ci-sem-fontes.txt)" \
             > "$RUNNER_TEMP/rodada.tsv"
@@ -75,6 +87,46 @@ jobs:
         run: |
           python3 ferramentas/comparar-linha-base.py \
             "$RUNNER_TEMP/rodada.tsv" crpsp-book/desenvolvimento/linha-base-podman.tsv
+
+      # PDF/UA-2 sobre os PDFs que o passo de compilação acabou de gerar. Roda
+      # mesmo que a comparação com a linha-base tenha falhado (informa mais),
+      # mas não se a compilação nem terminou.
+      - name: Baixar a imagem do veraPDF
+        if: ${{ !cancelled() && steps.compilar.outcome == 'success' }}
+        run: docker pull "$IMAGEM_VERAPDF"
+
+      - name: Validar PDF/UA-2 (veraPDF --flavour ua2)
+        if: ${{ !cancelled() && steps.compilar.outcome == 'success' }}
+        run: |
+          DEV=crpsp-book/desenvolvimento
+          mkdir -p "$RUNNER_TEMP/verapdf"
+          # veraPDF sai com 0 (todos conformes) ou 1 (algum PDF reprovou: normal
+          # aqui, quem julga é o comparar-verapdf.py contra ci-verapdf-esperado.txt).
+          # Qualquer outro código é falha da ferramenta e derruba o passo.
+          status=0
+          docker run --rm -v "$RUNNER_TEMP/pdfs":/data:ro "$IMAGEM_VERAPDF" \
+            --flavour ua2 --format json --maxfailuresdisplayed 3 /data \
+            > "$RUNNER_TEMP/verapdf/relatorio.json" || status=$?
+          if [ "$status" -gt 1 ]; then
+            echo "veraPDF terminou com código $status"
+            exit "$status"
+          fi
+          rc=0
+          python3 ferramentas/comparar-verapdf.py \
+            "$RUNNER_TEMP/verapdf/relatorio.json" \
+            "$DEV/ci-verapdf-esperado.txt" "$DEV/ci-sem-fontes.txt" \
+            --resumo "$RUNNER_TEMP/verapdf/resumo.md" || rc=$?
+          [ -f "$RUNNER_TEMP/verapdf/resumo.md" ] && cat "$RUNNER_TEMP/verapdf/resumo.md" >> "$GITHUB_STEP_SUMMARY"
+          exit "$rc"
+
+      - name: Guardar o relatório do veraPDF
+        if: ${{ !cancelled() && steps.compilar.outcome == 'success' }}
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: relatorio-verapdf-sem-fontes
+          path: ${{ runner.temp }}/verapdf/
+          if-no-files-found: ignore
+          retention-days: 14
 
       - name: Guardar a TSV da rodada
         if: always()
