@@ -105,6 +105,36 @@ quebras finais). É o teste antes de trazer qualquer cópia de produção:
 
     python3 ferramentas/comparar-corpo.py ~/Documentos/trabalho --repo .
 
+`verificar-coerencia.py` e `comparar-linha-base.py` são as verificações do CI
+(abaixo); `python3 -m unittest discover -s ferramentas` roda os testes delas.
+
+## Integração contínua
+
+`.github/workflows/ci.yml` roda em todo pull request e em todo push na `main`,
+sem segredos e com `permissions: contents: read`. Dois jobs:
+
+- **Coerência** (`ferramentas/verificar-coerencia.py`, só Python 3): marcadores
+  de conflito de merge; a regra zero da `CONVENCAO-VERSIONAMENTO.md` (mesmo nome
+  declarado com corpos diferentes é erro); no pull request, `--base
+  origin/<base>`: arquivo cujo corpo mudou precisa trocar data **e** versão, sem
+  regredir; versão do CHANGELOG mais recente igual à declarada pelo arquivo
+  principal da linha (data diferente só avisa). Localmente:
+  `python3 ferramentas/verificar-coerencia.py --base origin/main`.
+- **MWEs sem fonte proprietária**: compila, com o `verificar.sh`, os 10
+  documentos de `crpsp-book/desenvolvimento/ci-sem-fontes.txt` na imagem pública
+  `texlive/texlive` (digest fixado no workflow) e compara cada um, coluna a
+  coluna (motor, páginas, objetos, erros de tagging, faltantes, fatais), com
+  `linha-base-podman.tsv`.
+
+**A régua local continua obrigatória antes de mesclar.** O CI não a substitui:
+a `verificar-podman.sh` compila os 28 documentos da régua, e 16 deles precisam
+da NewJune (proprietária, só no Nextcloud, nunca no repositório nem no runner)
+ou do workbench (`export/`, fundo do Manual DH). Esses 16 não são compilados no
+CI (outros 2, `mwe_creditos_titulo_invisivel` e `mwe_list_pagebreak_bug`, têm
+erro fatal esperado na linha-base e ficaram de fora por não dizerem nada), e um PR que mexa em `book-crpsp_acessivel.sty`, `crpsp-leg.sty` ou nas
+classes `v2` passa no CI sem que o essencial tenha sido medido. Verde no CI quer
+dizer só "o que não depende de fonte proprietária continua igual".
+
 [ANALISE-VARIANTES.md](/ANALISE-VARIANTES.md)
 
 Levantamento mecânico de divergências entre variantes `.sty` — evidência
