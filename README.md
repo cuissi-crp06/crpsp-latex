@@ -111,7 +111,8 @@ quebras finais). É o teste antes de trazer qualquer cópia de produção:
 ## Integração contínua
 
 `.github/workflows/ci.yml` roda em todo pull request e em todo push na `main`,
-sem segredos e com `permissions: contents: read`. Dois jobs:
+sem segredos e com `permissions: contents: read`. Dois jobs (o segundo também
+mede PDF/UA-2):
 
 - **Coerência** (`ferramentas/verificar-coerencia.py`, só Python 3): marcadores
   de conflito de merge; a regra zero da `CONVENCAO-VERSIONAMENTO.md` (mesmo nome
@@ -125,6 +126,19 @@ sem segredos e com `permissions: contents: read`. Dois jobs:
   `texlive/texlive` (digest fixado no workflow) e compara cada um, coluna a
   coluna (motor, páginas, objetos, erros de tagging, faltantes, fatais), com
   `linha-base-podman.tsv`.
+  Depois disso, os PDFs que o próprio `verificar.sh` gerou (`SAIDA_PDF`) passam
+  pelo **veraPDF 1.30.2 `--flavour ua2`** (imagem oficial `verapdf/cli`, fixada
+  por digest no `env` do workflow, mesma versão da régua local). Só os mesmos 10
+  documentos: não há medida de PDF/UA no CI para os outros 16 da régua. O
+  veraPDF não tem linha-base própria, então
+  `crpsp-book/desenvolvimento/ci-verapdf-esperado.txt` registra, por documento,
+  as regras que reprovam hoje e por quê (8 dos 10 reprovam: MWEs de diagnóstico
+  sem `dc:title` e documentos v2 sem tagging). O CI compara o conjunto de
+  regras (`ferramentas/comparar-verapdf.py`) e falha nos dois sentidos: regra
+  nova é regressão; regra esperada que passou é melhoria, e a linha precisa sair
+  da lista. Resumo por documento no `$GITHUB_STEP_SUMMARY` e relatório JSON
+  como artefato (14 dias). Para trocar a versão do veraPDF, troque o digest em
+  `IMAGEM_VERAPDF` (o comentário no `ci.yml` diz como obtê-lo).
 
 **A régua local continua obrigatória antes de mesclar.** O CI não a substitui:
 a `verificar-podman.sh` compila os 28 documentos da régua, e 16 deles precisam
@@ -132,8 +146,10 @@ da NewJune (proprietária, só no Nextcloud, nunca no repositório nem no runner
 ou do workbench (`export/`, fundo do Manual DH). Esses 16 não são compilados no
 CI (outros 2, `mwe_creditos_titulo_invisivel` e `mwe_list_pagebreak_bug`, têm
 erro fatal esperado na linha-base e ficaram de fora por não dizerem nada), e um PR que mexa em `book-crpsp_acessivel.sty`, `crpsp-leg.sty` ou nas
-classes `v2` passa no CI sem que o essencial tenha sido medido. Verde no CI quer
-dizer só "o que não depende de fonte proprietária continua igual".
+classes `v2` passa no CI sem que o essencial tenha sido medido. A conferência de PDF/UA nos 16
+documentos restantes e a leitura no MiKTeX/NVDA também continuam locais. Verde
+no CI quer dizer só "o que não depende de fonte proprietária continua igual,
+inclusive as reprovações PDF/UA-2 já conhecidas".
 
 [ANALISE-VARIANTES.md](/ANALISE-VARIANTES.md)
 
