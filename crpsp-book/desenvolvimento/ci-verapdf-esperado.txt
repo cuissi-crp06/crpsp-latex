@@ -1,0 +1,28 @@
+# Reprovações PDF/UA-2 (veraPDF --flavour ua2) que o CI ESPERA, por documento da
+# lista ci-sem-fontes.txt. Medido em 2026-11-12, veraPDF 1.30.2, sobre os PDFs
+# do próprio verificar.sh (imagem texlive/texlive do workflow).
+#
+# Formato: arquivo<TAB>regras<TAB>motivo. Regras = cláusula#teste, separadas por
+# vírgula, como o veraPDF as numera. Documento que não está aqui tem de passar
+# sem nenhuma reprovação (hoje: mwe_book_tagging e v2/exemplo-guia-visual).
+#
+# O CI falha nos dois sentidos: regra nova é regressão; regra daqui que passou
+# é melhoria, e a linha precisa ser corrigida ou removida. Não é lista de
+# silenciamento: cada linha diz por que o documento reprova e o que mudaria isso.
+#
+# Os 5 MWEs com \DocumentMetadata declaram só lang/pdfversion/pdfstandard: sem
+# \hypersetup{pdftitle} o XMP não ganha dc:title (8.11.1#1), exigência do UA-2
+# (ver o comentário "dc:title no XMP" em mwe_leg_*.tex). Nos MWEs de diagnóstico
+# isso é aceito de propósito; nos documentos de produção a classe põe o título.
+mwe/mwe_fcolorbox_phase3.tex	8.11.1#1	MWE de diagnóstico sem pdftitle: falta dc:title no XMP
+mwe/mwe_minimal.tex	8.11.1#1	MWE de diagnóstico sem pdftitle: falta dc:title no XMP
+mwe/mwe_tabelas2_phase3.tex	8.11.1#1	MWE de diagnóstico sem pdftitle: falta dc:title no XMP
+mwe/mwe_tabelas_phase3.tex	8.11.1#1,Table 5. P-P#1,Table 5. P-Part#1	sem pdftitle (dc:title) e <P> aninhado em <P>/<Part> nas variantes A-C de tabela; são os 24 erros_tagging da linha-base, o que o MWE existe para mostrar
+#
+# Os 4 documentos v2 abaixo NÃO são tagueados (sem \DocumentMetadata): saem sem
+# StructTreeRoot, MarkInfo, Lang, Metadata, ViewerPreferences, e com conteúdo
+# sem artefato. Por isso o "objetos" deles na linha-base é "-".
+v2/crpsp-v2-doc.tex	6.2#1,8.2.1#1,8.2.2#1,8.4.4#1,8.8#2,8.9.3.3#1,8.11.1#2,8.11.2#1	manual de uso da v2, declara "este manual não é PDF/UA-2" (sem \DocumentMetadata)
+v2/exemplo-formulario-aceite.tex	6.2#1,8.2.1#1,8.2.2#1,8.4.4#1,8.8#2,8.9.3.3#1,8.11.1#2,8.11.2#1	formulário, fase 1 sem \DocumentMetadata (tagging UA-2 é fase 2; ver TODO em formulario.sty)
+v2/exemplo-formulario.tex	6.2#1,8.2.1#1,8.2.2#1,8.4.4#1,8.8#2,8.9.3.3#1,8.11.1#2,8.11.2#1	formulário, fase 1 sem \DocumentMetadata (tagging UA-2 é fase 2; ver TODO em formulario.sty)
+v2/guia-exemplo.tex	6.2#1,8.2.1#1,8.2.2#1,8.4.4#1,8.8#2,8.11.1#2,8.11.2#1	guia mínimo: \DocumentMetadata só comentado no cabeçalho ("em produção, adicionar"); sem tagging
