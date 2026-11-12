@@ -1,0 +1,86 @@
+# Integração contínua do crpsp-latex.
+#
+# O CI NÃO substitui a régua local (crpsp-book/desenvolvimento/verificar-podman.sh):
+# ela precisa da NewJune, que é proprietária e não está no repositório, nem no
+# runner. Aqui rodam só as verificações que não dependem de fonte proprietária.
+# Ver a seção "Integração contínua" do README.md.
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  # TeX Live 2026 completo, fixado pelo digest do índice multi-arquitetura da
+  # tag `latest` de 2026-11-01. Para atualizar: trocar o digest, rodar o job e,
+  # se a TSV mudar, decidir se é regressão ou nova linha-base.
+  IMAGEM_TEXLIVE: docker.io/texlive/texlive@sha256:07e8062637249c4f780ca59f42cc2ed592bc2dc1db4320769406aee3f98aa70e
+
+jobs:
+  coerencia:
+    name: Coerência (conflitos, versões, CHANGELOG)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0 # a verificação contra a base precisa do histórico
+          persist-credentials: false
+
+      - name: Testes das ferramentas
+        run: python3 -m unittest discover -s ferramentas -v
+
+      - name: Coerência contra a base do pull request
+        if: github.event_name == 'pull_request'
+        env:
+          BASE: origin/${{ github.base_ref }}
+        run: python3 ferramentas/verificar-coerencia.py --base "$BASE"
+
+      - name: Coerência (push)
+        if: github.event_name != 'pull_request'
+        run: python3 ferramentas/verificar-coerencia.py
+
+  mwes:
+    name: Compilação dos MWEs sem fonte proprietária
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Baixar a imagem do TeX Live
+        run: docker pull "$IMAGEM_TEXLIVE"
+
+      - name: Compilar (verificar.sh, só a lista ci-sem-fontes.txt)
+        run: |
+          DEV=crpsp-book/desenvolvimento
+          docker run --rm \
+            -v "$GITHUB_WORKSPACE":/repo:ro \
+            -e RAIZ=/repo -e WORKBENCH=/nonexistent -e TEMPO=180 \
+            -w /tmp "$IMAGEM_TEXLIVE" \
+            sh -c "sh /repo/$DEV/verificar.sh \$(grep -v '^#' /repo/$DEV/ci-sem-fontes.txt)" \
+            > "$RUNNER_TEMP/rodada.tsv"
+          cat "$RUNNER_TEMP/rodada.tsv"
+
+      - name: Comparar com a linha-base
+        run: |
+          python3 ferramentas/comparar-linha-base.py \
+            "$RUNNER_TEMP/rodada.tsv" crpsp-book/desenvolvimento/linha-base-podman.tsv
+
+      - name: Guardar a TSV da rodada
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: rodada-sem-fontes
+          path: ${{ runner.temp }}/rodada.tsv
+          if-no-files-found: ignore
+          retention-days: 14

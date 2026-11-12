@@ -1,0 +1,18 @@
+# Documentos que o CI (.github/workflows/ci.yml) compila: os que NAO dependem
+# das fontes proprietarias (NewJune, em editorial/fonts no Nextcloud) nem do
+# workbench (export/, fundo do Manual DH). Caminhos relativos a
+# crpsp-book/desenvolvimento/, como os argumentos do verificar.sh.
+#
+# Cada um e comparado, nas colunas motor, paginas, objetos, erros_tagging,
+# faltantes e fatais, com a mesma linha de linha-base-podman.tsv. Ao acrescentar
+# um MWE, ele precisa compilar so com TeX Live + Lora (mwe/) + Atkinson (TL).
+mwe/mwe_book_tagging.tex
+mwe/mwe_fcolorbox_phase3.tex
+mwe/mwe_minimal.tex
+mwe/mwe_tabelas2_phase3.tex
+mwe/mwe_tabelas_phase3.tex
+v2/crpsp-v2-doc.tex
+v2/exemplo-formulario-aceite.tex
+v2/exemplo-formulario.tex
+v2/exemplo-guia-visual.tex
+v2/guia-exemplo.tex
