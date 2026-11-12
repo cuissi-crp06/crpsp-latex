@@ -75,7 +75,7 @@ Rodada sem o editor presente, no CRP8057, com um PR por tarefa a partir da
   `TextAlign Justify` vai de 2 a 0). **Não explicado:** deslocamento de até
   0,09 pt nas tabelas `tabelaguia`. A proposta de `.tex` enxuto não foi
   aplicada à publicação.
-- **PR #52 (aberto): pendência 4** (`sec-template`), `book` 0.5.3-alfa. A
+- **PR #52 (mesclado): pendência 4** (`sec-template`), `book` 0.5.3-alfa. A
   premissa deste arquivo, **3 chaves** do `\EditInstance`, não se sustentou na
   medida: **ficam 6** (`after-penalty-vspace` 50 contra 60 pt muda 5 de 11
   páginas; `number-format`/`text` valem com `secnumdepth` ≥ 0). Régua
