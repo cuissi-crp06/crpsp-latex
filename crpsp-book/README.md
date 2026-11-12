@@ -1,4 +1,4 @@
-> **Atualização de 2026-10-31 (v0.6.0-alfa, issue #35).** O corpo mudou em relação
+> **Atualização de 2026-11-12 (v0.6.0-alfa, issue #35).** O corpo mudou em relação
 > à análise abaixo (escrita na v0.4.2): Atkinson Hyperlegible Next no lugar da Lora,
 > sem hifenização, sem órfãs e viúvas, alinhamento à esquerda e pé irregular, sem
 > `pdfpages` e sem `ragged2e`, `\DocumentMetadata` só com `tagging=on`, opções

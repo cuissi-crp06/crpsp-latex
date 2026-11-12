@@ -24,7 +24,7 @@ com a fase dada pela circulação da publicação:
 As cópias de produção tiveram a declaração corrigida no mesmo dia; os corpos
 não foram tocados.
 
-## 0.6.0-alfa — 2026/10/31
+## 0.6.0-alfa — 2026/11/12
 
 `book-crpsp_acessivel.sty` e `crpsp-leg.sty` (0.3.1-alfa). Issue #35: o que o
 *Guia de boas práticas para apresentações acessíveis* (revisão 2, 30/09 e 01/10/2026)
