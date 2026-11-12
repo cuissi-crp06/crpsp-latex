@@ -12,7 +12,8 @@ atravessam mais de uma linha. Para a análise detalhada da linha `book`, ver
 ## RODADA 2026-10-31 — rodada autônoma (régua por podman, crpsp-abnt, formulário, #35 e pendência 4)
 
 Rodada sem o editor presente, no CRP8057, com um PR por tarefa a partir da
-`main`. **Mesclados:** #48, #49 e #50. **Abertos, à espera do Angelo:** #51 e #52.
+`main`. **Mesclados:** #48, #49, #50, #52 e #53; o #51 foi mesclado em 12/11/2026
+(ver o fim desta seção).
 
 - **Régua por podman (PR #48).** `desenvolvimento/verificar-podman.sh` roda o
   `verificar.sh` dentro da imagem fixa `crpsp-latex:rodada-20261031`, com
@@ -58,7 +59,7 @@ Rodada sem o editor presente, no CRP8057, com um PR por tarefa a partir da
   entrada `BRASIL` passa a sair em ordem cronológica (medido com 9 entradas
   reconstruídas do README). ⚠️ **Lacuna:** nenhum caso prova que `nameaddon` não
   pesa; falta um caso BRASIL + órgão.
-- **PR #51 (aberto, Refs #35): `book-crpsp_acessivel.sty` 0.6.0-alfa**, com as
+- **PR #51 (mesclado em 12/11/2026, Refs #35): `book-crpsp_acessivel.sty` 0.6.0-alfa**, com as
   opções `web` e `print` (e `crpsp-leg.sty` 0.3.1-alfa). `web`: 17 páginas,
   `print`: 23 páginas, veraPDF `ua2` PASS nos dois. A régua do podman na branch
   é a linha-base mais os dois MWEs novos. ⚠️ O `geometry` relê `twoside`, por
@@ -82,12 +83,27 @@ Rodada sem o editor presente, no CRP8057, com um PR por tarefa a partir da
   igual à linha-base; pixel a pixel igual em 8 MWEs. ⚠️ **Escolha de desenho
   para o Angelo:** o módulo antigo (v0.9b, MiKTeX desatualizado) deixa de ter a
   identidade visual, porque antes tinha ramo próprio e agora só recebe aviso.
-  Conflito esperado entre #51 e #52 na linha 1 da `.sty` e no topo do `CHANGELOG`.
+  O conflito entre #51 e #52 (linha 1 da `.sty` e topo do `CHANGELOG`) foi
+  resolvido em 12/11/2026 por merge da `main` na branch do #51.
 - ⚠️ **Sem `\DocumentMetadata`, o `geometry` entra em laço com o pacote `book`.**
   Já é assim na `main`, não foi introduzido por PR da rodada.
-- **Não verificado nesta rodada:** MiKTeX (nenhuma comparação), NVDA/JAWS (o
-  formulário e a troca de voz do `\estrangeirismo`), e a opção padrão sem `web`
-  nem `print`, que o #51 deixa para decisão do editor.
+- **Não verificado nesta rodada:** MiKTeX (nenhuma comparação) e NVDA/JAWS (o
+  formulário e a troca de voz do `\estrangeirismo`). A opção padrão, que o #51
+  deixava para o editor, foi decidida em 12/11/2026: **`web`**.
+- **Fechamento do #51 em 12/11/2026 (CRP SP, Fedora).** Decisões do Angelo:
+  padrão `web` (exigiu código: sem opção, o pacote passa a valer `web`),
+  `\raggedright` global e sumário sem hifenização. A 0.6.0-alfa passou a datar
+  de **2026/11/12** (a 0.5.3-alfa do #52 segue em 2026/10/31; a regra zero do
+  versionamento proíbe duas datas iguais). ⚠️ **Pendências:** (a) o padrão
+  `web` muda os MWEs antigos (`mwe_acessivel_book` foi de 11 para 8 páginas na
+  compilação nativa): rodar a régua na imagem `rodada-20261031` e regravar a
+  `linha-base-podman.tsv` ou aceitar a diferença; (b) issue #54, `Unknown
+  template key 'text'` no `\EditInstance` com o TeX Live 2026 nativo (também
+  ocorre na `main` pura); (c) issue #55, `Missing character U+0060` na Atkinson
+  Next (p. 10 de `mwe_book_web` e `mwe_book_print`) no nativo, 0 na imagem do
+  podman; (d) `mwe_book_print` saiu com 3 páginas sem texto no nativo (1, 4 e
+  23), contra 6 em branco na descrição do PR; (e) a régua completa e o
+  veraPDF não foram reexecutados depois do merge da `main`.
 
 ---
 
@@ -535,11 +551,11 @@ mas não a elimina para os workarounds que dependem de módulos nomeados.
       legada: o `\DocumentMetadata` dela tem só `tagging=on`, e compila no podman
       com 0 erro e veraPDF ua2 PASS (LEIA.md da revisão). Falta o MiKTeX e a
       comparação da árvore de tags; a classe (`.sty`) ainda documenta `testphase`
-      (ver a issue #35). [2026-10-31] O PR #51 (aberto, Refs #35) tira
+      (ver a issue #35). [2026-10-31] O PR #51 (mesclado em 12/11/2026, Refs #35) tira
       `testphase` da documentação da `.sty` e passa a pedir só `tagging=on`; a
       régua do podman na branch fecha igual à linha-base (mais os 2 MWEs
-      novos). **Segue pendente o MiKTeX**, e a
-      pendência só fecha para a `book` depois do merge do #51.
+      novos). **Segue pendente o MiKTeX**; o #51
+      já foi mesclado, e a pendência só fecha para a `book` com essa conferência.
 - [ ] **Linha `guia`** (`crpsp_acessivel.cls`) — migrar e recompilar
       `guia-exemplo.tex`.
 - [ ] **Linha `guia_visual`** — migrar e recompilar `exemplo-guia-visual.tex`.
