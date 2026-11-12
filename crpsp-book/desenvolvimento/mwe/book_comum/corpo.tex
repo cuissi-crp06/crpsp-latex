@@ -1,0 +1,120 @@
+% corpo.tex — conteúdo comum dos MWEs web e print (mwe_book_web.tex,
+% mwe_book_print.tex). Do início da Introdução à lista de referências; capa,
+% folha de rosto, sumário e colofão ficam nos .tex principais.
+% Texto sem U+0060 (a Atkinson não tem o glifo) e sem hifenização manual.
+
+\chapter{Introdução}
+
+Este documento exercita a \emph{linha book} acessível (versão 0.6.0): corpo em
+Atkinson Hyperlegible Next, sem hifenização, sem órfãs nem viúvas, alinhamento à
+esquerda e pé de página irregular. O Código de Ética \parencite{cfp2005} e a
+literatura sobre eventos acessíveis \parencite{exemplo2020,exemplo2024} servem de
+pretexto para chamadas de citação no texto: na opção \texttt{print} elas aparecem
+entre parênteses; na opção \texttt{web} a lista de referências traz todas as
+entradas, citadas ou não.
+
+\iniciotextual
+
+\chapter{Deficiência intelectual, deficiência psicossocial e transtorno do espectro autista: orientações para a realização de eventos e apresentações acessíveis}
+
+Este capítulo tem título longo de propósito: ele é a entrada mais comprida do
+sumário e exercita a margem direita das linhas de capítulo, que sem hifenização
+não pode contar com a quebra de palavra para fugir do número da página.
+
+\section{Preparação do ambiente}
+
+Escolha um espaço com boa acústica, iluminação uniforme e sinalização clara.
+Informe com antecedência o roteiro da programação, os intervalos e as pausas. O
+cabeçalho do documento acompanha o capítulo corrente, e a numeração árabe das
+páginas começa neste capítulo.
+
+Palavras longas, como sociodemográfico, inconstitucionalíssimo, otorrinolaringologista
+e psicopedagogicamente, ficam inteiras: a linha termina antes delas. Um traço de
+união como em ético-profissional ou socioeducativo também não é ponto de quebra.
+
+\section{Durante a apresentação}
+
+Fale de frente para o público, com ritmo moderado, e descreva oralmente o que
+estiver nos slides. Evite siglas sem explicação e frases longas demais. Uma
+pessoa com deficiência intelectual lê melhor quando cada parágrafo traz uma só
+ideia, e uma pessoa que usa leitor de tela depende da ordem de leitura correta
+dos títulos, listas e tabelas.
+
+Mais um parágrafo comprido para forçar quebras de página e testar as regras de
+órfãs e viúvas: nenhuma primeira linha de parágrafo fica sozinha no pé da página
+e nenhuma última linha fica sozinha no topo da seguinte. Repetimos a ideia com
+outras palavras para dar volume: a acessibilidade não é um acréscimo no fim do
+processo, é uma decisão de projeto desde o início, que envolve o espaço, o
+conteúdo, a comunicação e as pessoas que participam do evento, de ponta a ponta.
+
+\chapter{Estrangeirismos e termos técnicos}
+
+Termos de outra língua levam o idioma no \emph{Span} da árvore de tags, para o
+leitor de tela trocar de voz. Exemplos: o formato \estrangeirismo{en}{Easy Read}
+para textos em leitura facilitada, a \estrangeirismo{en}{quiet room} para
+pessoas que precisam de um espaço silencioso e a pausa \estrangeirismo{en}{coffee break}
+programada entre as falas.
+
+Um termo já incorporado ao português, como \emph{slide}, leva só o itálico.
+
+\chapter{Tabela de dados}
+
+A tabela abaixo usa o ambiente \texttt{tabelaguia}: a primeira linha é
+cabeçalho (repetido quando a tabela quebra de página) e as linhas alternam o
+fundo por \verb|\rowcolor|.
+
+\begin{tabelaguia}{L{0.26\linewidth}L{0.28\linewidth}L{0.30\linewidth}}
+\rowcolor{crp1!15}\textbf{Barreira} & \textbf{Exemplo} & \textbf{Providência}\\\endhead
+Comunicacional & Falas rápidas, sem descrição das imagens & Descrever oralmente o conteúdo visual\\
+Atitudinal & Tratar a pessoa com infantilização & Dirigir-se à própria pessoa\\
+\rowcolor{crp1!6}Arquitetônica & Degraus na entrada & Rampa e piso tátil\\
+Digital & Documento sem estrutura de títulos & Marcar títulos e ordem de leitura\\
+Metodológica & Atividade com tempo único para todas as pessoas & Prever tempos e formatos alternativos\\
+\rowcolor{crp1!6}Programática & Regra do evento que impede acompanhante & Rever o regulamento\\
+Instrumental & Material só em papel & Oferecer formato digital acessível\\
+\rowcolor{crp1!6}Sensorial & Música alta durante o intervalo & Oferecer espaço silencioso\\
+Comunicacional & Vídeo sem legenda & Legenda e janela de Libras\\
+Atitudinal & Pressa para concluir a fala da pessoa & Respeitar o tempo de cada fala\\
+\rowcolor{crp1!6}Digital & Formulário sem rótulos nos campos & Rotular cada campo\\
+Arquitetônica & Banheiro estreito & Adequar à norma de acessibilidade\\
+Metodológica & Avaliação só escrita & Admitir a resposta oral ou gravada\\
+Programática & Inscrição sem opção de adaptação & Perguntar as necessidades no cadastro\\
+\end{tabelaguia}
+
+\chapter{Texto corrido}
+
+Este capítulo existe para dar volume e provocar quebras de página em lugares
+variados. A psicologia, como ciência e profissão, fundamenta-se no respeito à
+diversidade e na valorização da singularidade de cada pessoa. Por isso as
+práticas de comunicação e de divulgação do conhecimento devem refletir esses
+valores, garantindo que todas as pessoas, sem exceção, possam participar
+plenamente dos espaços de diálogo e de aprendizado promovidos pelo Conselho.
+
+Adotar práticas acessíveis não é só uma questão de conformidade legal, mas um
+ato de respeito e de responsabilidade social. Ao eliminar as barreiras
+comunicacionais, atitudinais, digitais, metodológicas, arquitetônicas, físicas e
+programáticas, contribuímos para um ambiente profissional mais ético,
+acolhedor e verdadeiramente inclusivo, e para a universalização do acesso da
+população ao conhecimento da ciência psicológica.
+
+A leitura em tela e a leitura em papel pedem cuidados distintos. Na tela, o
+documento rola ou passa de página em página, sem encadernação, e a margem externa
+larga, que no livro impresso é a margem do polegar, aqui é só uma faixa de
+respiro. No papel, a página par e a página ímpar se espelham, e o capítulo abre
+sempre à direita, mesmo que isso deixe uma página em branco antes dele.
+
+Uma sequência de parágrafos curtos ajuda a observar o pé irregular da página.
+Primeiro parágrafo curto, de duas linhas, para testar a regra de que um
+parágrafo de duas linhas passa inteiro para a página seguinte quando não cabe.
+
+Segundo parágrafo curto, também de duas linhas, com palavras suficientes para
+quebrar em duas linhas exatas na largura da mancha em A5 de onze pontos.
+
+Terceiro parágrafo curto, igualmente de duas linhas, para fechar a sequência e
+não deixar a página terminar exatamente no fim de um parágrafo.
+
+\chapter{Considerações finais}
+
+Capítulo curto: no \texttt{print}, a página seguinte é aberta à direita, e se
+este capítulo terminar numa página ímpar sobra uma página em branco antes da
+lista de referências.

@@ -1,0 +1,98 @@
+% !TeX program = lualatex
+% ===================================================================
+% sumario-longo.tex — mede o sumário sem hifenização (issue #35, "Fora do
+% escopo"): com a hifenização desligada, a entrada longa de capítulo pode
+% bater no número da página. Gera 3 x 16 capítulos, cada um com um prefixo
+% (de 3 a 18 palavras) de uma frase longa: frase 1 de palavras médias,
+% frase 2 com números, frase 3 só de palavras muito longas. Conta no log
+% os "Overfull \hbox" do sumário: o sumário é a única parte do documento
+% sem parágrafo de corpo, então todo Overfull "in paragraph" antes do
+% primeiro \chapter é entrada que passou da margem.
+%
+% Uso (de uma pasta com livros_crp_acessivel_book.sty e crpsp-leg.sty no
+% caminho; as fontes NEWJUNE por OSFONTDIR):
+%   lualatex '\def\var{R}\input{sumario-longo}'   % R: rígido (até 0.5.x)
+%   lualatex '\def\var{B}\input{sumario-longo}'   % B: plus 4em (o do guia)
+%   lualatex '\def\var{C}\input{sumario-longo}'   % C: plus 4em + \tolerance 10000
+%   lualatex '\def\var{S}\input{sumario-longo}'   % S: o que a .sty define
+% Cada variante só redefine o \l@chapter depois da carga da .sty.
+% ===================================================================
+\DocumentMetadata{lang=pt-BR, pdfstandard=ua-2, pdfversion=2.0, tagging=on}
+\documentclass[11pt,a5paper,twoside,openright]{book}
+\usepackage{livros_crp_acessivel_book}
+\hypersetup{pdftitle={Sumario longo}, pdfauthor={CRP SP}}
+\makeatletter
+\providecommand\var{S}
+\def\crp@vR{R}\def\crp@vB{B}\def\crp@vC{C}
+\def\crp@lchap#1{%  #1 = acréscimo à margem direita (rightskip)
+  \renewcommand*\l@chapter[2]{%
+    \ifnum \c@tocdepth >\m@ne
+        \addpenalty{-\@highpenalty}\addvspace{0.5em \@plus\p@}%
+        \setlength\@tempdima{1.5em}%
+        \begingroup
+            \parindent \z@ \rightskip \@pnumwidth #1
+            \parfillskip -\@pnumwidth
+            \leavevmode \bfseries
+            \advance\leftskip\@tempdima \hskip -\leftskip
+            ##1\nobreak\hfil
+            \nobreak\hb@xt@\@pnumwidth{\hss ##2\kern-\p@\kern\p@}\par
+            \penalty\@highpenalty
+        \endgroup
+    \fi}}
+\ifx\var\crp@vR \crp@lchap{}\fi
+\ifx\var\crp@vB \crp@lchap{\@plus 4em}\fi
+\ifx\var\crp@vC \crp@lchap{\@plus 4em \tolerance=10000 \hbadness=10000 }\fi
+\makeatother
+\begin{document}
+\frontmatter
+\tableofcontents
+\mainmatter
+\chapter{Deficiência psicossocial e}
+\chapter{Deficiência psicossocial e transtorno}
+\chapter{Deficiência psicossocial e transtorno do}
+\chapter{Deficiência psicossocial e transtorno do espectro}
+\chapter{Deficiência psicossocial e transtorno do espectro autista:}
+\chapter{Deficiência psicossocial e transtorno do espectro autista: orientações}
+\chapter{Deficiência psicossocial e transtorno do espectro autista: orientações para}
+\chapter{Deficiência psicossocial e transtorno do espectro autista: orientações para a}
+\chapter{Deficiência psicossocial e transtorno do espectro autista: orientações para a realização}
+\chapter{Deficiência psicossocial e transtorno do espectro autista: orientações para a realização de}
+\chapter{Deficiência psicossocial e transtorno do espectro autista: orientações para a realização de eventos}
+\chapter{Deficiência psicossocial e transtorno do espectro autista: orientações para a realização de eventos e}
+\chapter{Deficiência psicossocial e transtorno do espectro autista: orientações para a realização de eventos e apresentações}
+\chapter{Deficiência psicossocial e transtorno do espectro autista: orientações para a realização de eventos e apresentações acessíveis}
+\chapter{Deficiência psicossocial e transtorno do espectro autista: orientações para a realização de eventos e apresentações acessíveis em}
+\chapter{Deficiência psicossocial e transtorno do espectro autista: orientações para a realização de eventos e apresentações acessíveis em todo}
+\chapter{Comunicação alternativa e}
+\chapter{Comunicação alternativa e aumentativa}
+\chapter{Comunicação alternativa e aumentativa na}
+\chapter{Comunicação alternativa e aumentativa na participação}
+\chapter{Comunicação alternativa e aumentativa na participação social}
+\chapter{Comunicação alternativa e aumentativa na participação social de}
+\chapter{Comunicação alternativa e aumentativa na participação social de pessoas}
+\chapter{Comunicação alternativa e aumentativa na participação social de pessoas com}
+\chapter{Comunicação alternativa e aumentativa na participação social de pessoas com deficiência}
+\chapter{Comunicação alternativa e aumentativa na participação social de pessoas com deficiência intelectual}
+\chapter{Comunicação alternativa e aumentativa na participação social de pessoas com deficiência intelectual em}
+\chapter{Comunicação alternativa e aumentativa na participação social de pessoas com deficiência intelectual em eventos}
+\chapter{Comunicação alternativa e aumentativa na participação social de pessoas com deficiência intelectual em eventos públicos}
+\chapter{Comunicação alternativa e aumentativa na participação social de pessoas com deficiência intelectual em eventos públicos de}
+\chapter{Comunicação alternativa e aumentativa na participação social de pessoas com deficiência intelectual em eventos públicos de grande}
+\chapter{Comunicação alternativa e aumentativa na participação social de pessoas com deficiência intelectual em eventos públicos de grande porte}
+\chapter{Psicopedagogicamente inconstitucionalíssimo otorrinolaringologista}
+\chapter{Psicopedagogicamente inconstitucionalíssimo otorrinolaringologista socioeducativo}
+\chapter{Psicopedagogicamente inconstitucionalíssimo otorrinolaringologista socioeducativo ético-profissional}
+\chapter{Psicopedagogicamente inconstitucionalíssimo otorrinolaringologista socioeducativo ético-profissional sociodemográfico}
+\chapter{Psicopedagogicamente inconstitucionalíssimo otorrinolaringologista socioeducativo ético-profissional sociodemográfico interdisciplinaridade}
+\chapter{Psicopedagogicamente inconstitucionalíssimo otorrinolaringologista socioeducativo ético-profissional sociodemográfico interdisciplinaridade neuropsicológica}
+\chapter{Psicopedagogicamente inconstitucionalíssimo otorrinolaringologista socioeducativo ético-profissional sociodemográfico interdisciplinaridade neuropsicológica avaliação}
+\chapter{Psicopedagogicamente inconstitucionalíssimo otorrinolaringologista socioeducativo ético-profissional sociodemográfico interdisciplinaridade neuropsicológica avaliação}
+\chapter{Psicopedagogicamente inconstitucionalíssimo otorrinolaringologista socioeducativo ético-profissional sociodemográfico interdisciplinaridade neuropsicológica avaliação}
+\chapter{Psicopedagogicamente inconstitucionalíssimo otorrinolaringologista socioeducativo ético-profissional sociodemográfico interdisciplinaridade neuropsicológica avaliação}
+\chapter{Psicopedagogicamente inconstitucionalíssimo otorrinolaringologista socioeducativo ético-profissional sociodemográfico interdisciplinaridade neuropsicológica avaliação}
+\chapter{Psicopedagogicamente inconstitucionalíssimo otorrinolaringologista socioeducativo ético-profissional sociodemográfico interdisciplinaridade neuropsicológica avaliação}
+\chapter{Psicopedagogicamente inconstitucionalíssimo otorrinolaringologista socioeducativo ético-profissional sociodemográfico interdisciplinaridade neuropsicológica avaliação}
+\chapter{Psicopedagogicamente inconstitucionalíssimo otorrinolaringologista socioeducativo ético-profissional sociodemográfico interdisciplinaridade neuropsicológica avaliação}
+\chapter{Psicopedagogicamente inconstitucionalíssimo otorrinolaringologista socioeducativo ético-profissional sociodemográfico interdisciplinaridade neuropsicológica avaliação}
+\chapter{Psicopedagogicamente inconstitucionalíssimo otorrinolaringologista socioeducativo ético-profissional sociodemográfico interdisciplinaridade neuropsicológica avaliação}
+\end{document}
