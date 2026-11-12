@@ -47,7 +47,8 @@
 % tagging-project, 2026-07-14): trabalho novo usa só `tagging=on`.
 %
 % OPÇÕES DO PACOTE (v0.6.0, issue #35):
-%   \usepackage{livros_crp_acessivel_book}         respeita o \documentclass
+%   \usepackage{livros_crp_acessivel_book}         o mesmo que [web] (padrão,
+%       decisão do Angelo, 2026-11-12)
 %   \usepackage[web]{livros_crp_acessivel_book}    leitura em tela:
 %       oneside + openany (sem página em branco depois da capa), fundo
 %       de texto só o ímpar (\FundoTexto), e \nocite{*} se o biblatex
@@ -86,8 +87,10 @@
 \ifcrp@web\ifcrp@print
     \PackageError{livros_crp_acessivel_book}
         {As opcoes web e print sao excludentes}
-        {Escolha uma delas (ou nenhuma, para respeitar o \string\documentclass).}%
+        {Escolha uma delas (ou nenhuma: vale web).}%
 \fi\fi
+% Padrão (decisão do Angelo, 2026-11-12): sem opção vale `web`.
+\ifcrp@print\else\crp@webtrue\fi
 % \@mparswitch acompanha twoside na classe (opção `twoside`).
 % O geometry RELÊ as opções do \documentclass (\ProcessOptionsKV[c]) e,
 % se houver `twoside` entre elas, liga \@twosidetrue de novo; só as

@@ -49,8 +49,8 @@ resolveu só no `.tex` da publicação passa a ser o padrão da linha, mais as o
   `\FundoArtefato`, `\FundoTexto`, `\iniciotextual`, ambiente `Colofao`.
 - **Opções `web` e `print`.** `web`: `oneside` e `openany`, fundo só o ímpar,
   `\nocite{*}` se o biblatex estiver carregado. `print`: `twoside` e `openright`,
-  fundos ímpar e par, citação a cargo do documento. Sem opção, respeita o
-  `\documentclass`. Achado: o `geometry` relê as opções do `\documentclass` e religa
+  fundos ímpar e par, citação a cargo do documento. Sem opção vale `web`
+  (decisão de 2026-11-12, abaixo). Achado: o `geometry` relê as opções do `\documentclass` e religa
   `\@twosidetrue`; por isso a opção também passa `twoside=` ao `geometry` por
   `\PassOptionsToPackage` (sem isso, `web` com `twoside` no `\documentclass` seguia
   em `twoside`: medido). Fora: cinza, corte, sangria e PDF/X.
@@ -73,10 +73,19 @@ resolveu só no `.tex` da publicação passa a ser o padrão da linha, mais as o
   em Atkinson: 4 linhas terminadas em hífen antes, 0 depois). Entram os dois MWEs
   novos na linha-base (16 e 21 páginas, 246 objetos; a régua não roda o `biber`, daí
   a lista de referências vazia).
+- **Decisões do Angelo (2026-11-12):** (1) a opção padrão é **`web`**: sem opção
+  o pacote age como `[web]` (antes respeitava o `\documentclass`); `print` precisa
+  ser pedido. (2) `\raggedright` fica **global**, ligado no início do documento.
+  (3) O sumário **sem hifenização** fica como medido acima (`\rightskip` com
+  `plus 4em` e tolerância aberta no grupo da entrada).
+- **Data:** 2026/11/12, e não 2026/10/31: a regra zero da
+  `CONVENCAO-VERSIONAMENTO.md` proíbe dois corpos do mesmo pacote com a mesma
+  data, e o `\@ifpackagelater` compara só a data; a 0.5.3-alfa continua em 2026/10/31.
+- **Mesclado com a 0.5.3-alfa:** o bloco `\EditInstance` dos títulos de capítulo
+  (pendência 4, PR #52) foi mantido como está; esta versão não o altera.
 - **Pendências:** sem conferência no MiKTeX; a troca de voz do `\estrangeirismo` não
   foi ouvida (NVDA + Acrobat); título de capítulo muito longo estoura o cabeçalho
-  das páginas pares em `twoside` (`\leftmark` não quebra); `\raggedright` global é
-  decisão a confirmar; qual opção é o padrão, também.
+  das páginas pares em `twoside` (`\leftmark` não quebra).
 
 ## 0.5.3-alfa — 2026/10/31
 

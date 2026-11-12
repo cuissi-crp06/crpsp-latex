@@ -335,19 +335,20 @@ para a `.sty`. Detalhe da numeração e das medidas em `CHANGELOG.md`.
 
 ### Opções do pacote
 
-| | sem opção | `web` | `print` |
-|---|---|---|---|
-| Faces e abertura de capítulo | as do `\documentclass` | `oneside` + `openany` | `twoside` + `openright` |
-| Fundo de texto (`\FundoTexto`) | ímpar/par se `twoside`, só o ímpar se `oneside` | só o ímpar | ímpar e par |
-| Referências | a cargo do documento | `\nocite{*}` se o biblatex estiver carregado | a cargo do documento |
+| | `web` (**padrão**: vale também sem opção) | `print` |
+|---|---|---|
+| Faces e abertura de capítulo | `oneside` + `openany` | `twoside` + `openright` |
+| Fundo de texto (`\FundoTexto`) | só o ímpar | ímpar e par |
+| Referências | `\nocite{*}` se o biblatex estiver carregado | a cargo do documento |
 
 As opções forçam `\if@twoside` e `\if@openright` no início do pacote, antes do
 `geometry`. O `geometry` relê as opções do `\documentclass` e religaria o `twoside`,
 então a `.sty` também repassa `twoside=false` (ou `true`) a ele por
 `\PassOptionsToPackage`. Por isso a opção vale mesmo quando o `\documentclass`
-pede o contrário (os dois MWEs fazem isso de propósito). **Sem opção** o pacote
-respeita o `\documentclass`, para não quebrar documento existente; a decisão de
-qual deve ser o padrão fica com o mantenedor. Fora do escopo, por decisão: cinza,
+pede o contrário (os dois MWEs fazem isso de propósito). **Sem opção vale `web`**
+(decisão do Angelo, 2026-11-12): documento que carrega o pacote sem opção passa a
+`oneside` + `openany`, qualquer que seja o `\documentclass`; quem quer `twoside`
+pede `print`. Fora do escopo, por decisão: cinza,
 corte, sangria e PDF/X do `print`.
 
 ### Comandos e ambientes novos
