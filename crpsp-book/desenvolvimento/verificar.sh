@@ -10,6 +10,11 @@
 #   sh crpsp-book/desenvolvimento/verificar.sh                 # MWEs e exemplos v2
 #   sh crpsp-book/desenvolvimento/verificar.sh mwe/mwe_minimal.tex v2/exemplo-relatorio.tex
 #   TEMPO=300 sh crpsp-book/desenvolvimento/verificar.sh > rodada.tsv
+#   SAIDA_PDF=/pasta sh crpsp-book/desenvolvimento/verificar.sh mwe/mwe_minimal.tex
+#
+# SAIDA_PDF (opcional): pasta onde copiar o PDF de cada documento compilado,
+# com o caminho relativo achatado (mwe/mwe_minimal.tex -> mwe_mwe_minimal.pdf).
+# O CI usa isso para passar os PDFs ao veraPDF. Sem a variável, nada é guardado.
 #
 # Os caminhos são relativos a crpsp-book/desenvolvimento/. Compara-se uma
 # rodada com a linha-base (linha-base.tsv) antes e depois de mexer no tagging:
@@ -62,6 +67,10 @@ for rel in "$@"; do
         ( cd "$dir" && timeout "$TEMPO" "$motor" -interaction=nonstopmode "$base.tex" >/dev/null 2>&1 )
         [ $? -eq 124 ] && estado="tempo esgotado (${TEMPO}s) na passada $passada" && break
     done
+    if [ -n "${SAIDA_PDF:-}" ] && [ -f "$dir/$base.pdf" ]; then
+        mkdir -p "$SAIDA_PDF" &&
+            cp "$dir/$base.pdf" "$SAIDA_PDF/$(printf '%s' "${rel%.tex}" | tr / _).pdf"
+    fi
     log="$dir/$base.log"
     pags=$(grep -oE 'Output written on .*\(([0-9]+) pages?' "$log" 2>/dev/null | grep -oE '\(([0-9]+)' | tr -d '(')
     objs=$(grep -oE '[0-9]+ structure objects' "$log" 2>/dev/null | tail -1 | grep -oE '^[0-9]+')
